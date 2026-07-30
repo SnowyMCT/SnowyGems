@@ -16,9 +16,9 @@ taboolib {
         install(BukkitHook)
         install(BukkitUI)
         install(BukkitNMSItemTag)
-        install(Database)
-        install(I18n)
-        install(Kether)
+//        install(Database)
+//        install(I18n)
+//        install(Kether)
         install(Metrics)
     }
     description {

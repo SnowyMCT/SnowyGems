@@ -7,8 +7,11 @@ import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.skill.BuffEngine
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
+import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.info
+import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 
 object SnowyGems : Plugin() {
 
@@ -17,6 +20,7 @@ object SnowyGems : Plugin() {
     override fun onLoad() {
         info("SnowyMC 荣誉出品")
         info("SnowyGems Loading...")
+        Metrics(33021, BukkitPlugin.getInstance().description.version, Platform.BUKKIT)
         info("  ____                                        ____                    ")
         info(" / ___|   _ __     ___   __      __  _   _   / ___|   ___   _ __ ___  ")
         info("  ___ \\  | '_ \\   / _ \\  \\ \\ /\\ / / | | | | | |  _   / _ \\ | '_ ` _ \\ ")
@@ -48,4 +52,5 @@ object SnowyGems : Plugin() {
         MenuRegistry.reload()
         SkillRegistry.reload()
     }
+
 }
