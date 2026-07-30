@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.entity.ProjectileLaunchEvent
+import java.util.UUID
 import org.bukkit.event.player.PlayerAnimationEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -20,14 +22,23 @@ import taboolib.platform.util.sendActionBar
 object SkillTriggerListener {
 
     private val cooldowns = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
+    // 发射物命中时玩家手里通常已经不是原来的弓/三叉戟，保存发射瞬间物品。
+    private val projectileItems = mutableMapOf<UUID, ItemStack>()
 
     @SubscribeEvent
     fun onInteract(e: PlayerInteractEvent) {
         if (e.hand != EquipmentSlot.HAND) return
-        // 只处理右键; 左键/挥臂交给 PlayerAnimationEvent, 更可靠(特别是三叉戟攻击时)
-        if (e.action != Action.RIGHT_CLICK_AIR && e.action != Action.RIGHT_CLICK_BLOCK) return
+        // 右键和潜行左键都属于物品使用类技能。三叉戟没有可靠的 AnimationEvent，
+        // 因此额外监听 LEFT_CLICK，保证 Shift+左键切换类技能可触发。
+        val isRight = e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK
+        val isShiftLeft = e.player.isSneaking && (e.action == Action.LEFT_CLICK_AIR || e.action == Action.LEFT_CLICK_BLOCK)
+        if (!isRight && !isShiftLeft) return
         val item = e.item ?: return
-        val trigger = if (e.player.isSneaking) "onShiftUse" else "onUse"
+        val trigger = when {
+            isShiftLeft -> "onShiftSwing"
+            e.player.isSneaking -> "onShiftUse"
+            else -> "onUse"
+        }
         DebugUtil.log("Skill", "${e.player.name} 右键触发 $trigger, 手持=${item.type}")
         runMatchingSkills(e.player, item, trigger)
     }
@@ -51,10 +62,20 @@ object SkillTriggerListener {
         runMatchingSkills(player, item, "onAttack", victim = e.entity as? LivingEntity)
     }
 
+    
+    @SubscribeEvent
+    fun onProjectileLaunch(e: ProjectileLaunchEvent) {
+        val shooter = e.entity.shooter as? Player ?: return
+        val item = shooter.inventory.itemInMainHand
+        if (item.type != Material.AIR) {
+            projectileItems[e.entity.uniqueId] = item.clone()
+        }
+    }
+
     @SubscribeEvent
     fun onProjectileHit(e: ProjectileHitEvent) {
         val shooter = e.entity.shooter as? Player ?: return
-        val item = shooter.inventory.itemInMainHand
+        val item = projectileItems.remove(e.entity.uniqueId) ?: shooter.inventory.itemInMainHand
         if (item.type == Material.AIR) return
         val typeName = e.entity.type.name
         val hitLoc = e.hitBlock?.location ?: e.hitEntity?.location ?: e.entity.location
@@ -119,7 +140,12 @@ object SkillTriggerListener {
 
     /** 解析 CooldownTip 表达式并渲染. 支持 ActionBar{...} / Chat{...} / Title{...} */
     private fun renderCooldownTip(player: Player, raw: String, remaining: Double, total: Double) {
-        val tip = SkillLineParser.parse(raw)
+        // CooldownTip 本身也是技能表达式，不是普通文本。
+        // 部分配置经过 YAML 转义后会保留外层字符串，需要再次展开。
+        var tip = SkillLineParser.parse(raw)
+        if (tip.args.size == 1 && tip.args.keys.firstOrNull()?.contains("{") == true) {
+            tip = SkillLineParser.parse(tip.args.keys.first())
+        }
         val prefix = ColorUtil.colorize(tip.args["p"] ?: "")
         when (tip.name.lowercase()) {
             "actionbar" -> {

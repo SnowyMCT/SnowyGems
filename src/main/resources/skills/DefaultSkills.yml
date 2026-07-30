@@ -23,7 +23,7 @@
     - Blink{distance=120} ~onHit:EGG @Location
     - Reward{Chat{m=&e跳跃之蛋!}} ~onHit:EGG
 
-旅行者之弓:
+逐日之弓:
   Cooldown: 5.0
   Lore: "逐日之弓"
   CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
@@ -71,6 +71,27 @@
     - RewardSwitch{Enchant{name=RIPTIDE;level=0}}
     - RewardSwitch{Enchant{name=LOYALTY;level=restore}}
     - RewardSwitch{ActionBar{m=&a&l切换为忠诚模式}}
+
+经验修补/无限切换:
+  Lore: §2Shift+左键切换模式(经验修补/无限)
+  Cooldown: 4.0
+  CooldownTip: ActionBar{p=&c切换冷却时间;s=&a%.2fs;empty=&f|;full=&c|;length=75}
+  Skills:
+    - Switch{s=精修;无限} ~onShiftSwing
+
+# 精修模式: 收起无限, 恢复之前的精修等级
+精修:
+  Skills:
+    - RewardSwitch{Enchant{name=Infinity;level=0}}
+    - RewardSwitch{Enchant{name=Mending;level=restore}}
+    - RewardSwitch{ActionBar{m=&b&l切换为精修模式}}
+
+# 无限模式: 收起精修, 恢复之前的无限等级
+无限:
+  Skills:
+    - RewardSwitch{Enchant{name=Mending;level=0}}
+    - RewardSwitch{Enchant{name=Infinity;level=restore}}
+    - RewardSwitch{ActionBar{m=&a&l切换为无限模式}}
 
 禁飞DEBUFF:
   Cooldown: 5.0

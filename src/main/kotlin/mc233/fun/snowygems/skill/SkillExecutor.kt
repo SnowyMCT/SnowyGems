@@ -225,11 +225,20 @@ object SkillExecutor {
 
     private fun switchMode(player: Player, item: ItemStack, line: SkillLine) {
         val modeA = line.args["s"] ?: return
-        val modeB = line.args.keys.firstOrNull { it != "s" } ?: return
-        // 一律以主手真实物品为操作对象; 用 PDC 存状态, 避免 addUnsafeEnchantment 刷掉 TabooLib NBT.
-        val target = player.inventory.itemInMainHand
+        // 兼容 Switch{s=精准;时运} 以及 Switch{s=精准;mode=时运}
+        val modeB = line.args.keys.firstOrNull { it != "s" }
+            ?: line.args.values.firstOrNull { it != modeA }
+            ?: return
+        // 优先使用触发时的物品，避免副手/事件物品与主手不一致导致三叉戟等无法切换。
+        val target = item
         var meta = target.itemMeta ?: return
-        val current = meta.persistentDataContainer.get(ns(SWITCH_KEY), PersistentDataType.STRING)
+        val stored = meta.persistentDataContainer.get(ns(SWITCH_KEY), PersistentDataType.STRING)
+        // 第一次切换不能只依赖 PDC。旧物品/手动添加 Lore 没有状态，需要根据实际附魔判断当前模式。
+        val current = stored ?: when {
+            target.itemMeta?.hasEnchant(org.bukkit.enchantments.Enchantment.LOOTING) == true -> modeB
+            target.itemMeta?.hasEnchant(org.bukkit.enchantments.Enchantment.SILK_TOUCH) == true -> modeA
+            else -> null
+        }
         val next = if (current == modeA) modeB else modeA
         meta.persistentDataContainer.set(ns(SWITCH_KEY), PersistentDataType.STRING, next)
         target.itemMeta = meta
