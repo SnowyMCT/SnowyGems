@@ -23,13 +23,6 @@
     - Blink{distance=120} ~onHit:EGG @Location
     - Reward{Chat{m=&e跳跃之蛋!}} ~onHit:EGG
 
-逐日之弓:
-  Cooldown: 5.0
-  Lore: "逐日之弓"
-  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
-  Skills:
-    - Blink{distance=120} ~onHit:ARROW @Location
-
 精准时运切换:
   Lore: §2Shift+右键切换模式(精准/时运)
   Cooldown: 4.0
