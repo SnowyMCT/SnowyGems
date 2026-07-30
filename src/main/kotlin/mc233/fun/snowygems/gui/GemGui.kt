@@ -4,6 +4,7 @@ import mc233.`fun`.snowygems.config.GemConfig
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -35,7 +36,7 @@ object GemGui {
         DebugUtil.log("GUI", "为 ${player.name} 打开分类浏览面板, 分类数=${categories.size} $categories")
         if (categories.isEmpty()) {
             DebugUtil.log("GUI", "  没有任何分类可展示: GemRegistry 为空, 请检查 gems/ 目录")
-            player.sendMessage(ColorUtil.colorize("&c当前没有加载任何宝石配置"))
+            player.sendMessage(Lang.get("menu.no-gem"))
             return
         }
         val holder = CategoryHolder()
@@ -128,7 +129,7 @@ object GemGui {
             DebugUtil.log("GUI", "  警告: 有 ${appliedIds.size - gems.size} 个已镶嵌ID在当前配置中找不到定义 (配置被删或改名?)")
         }
         if (gems.isEmpty()) {
-            player.sendMessage(ColorUtil.colorize("&7该装备上还没有镶嵌任何宝石"))
+            player.sendMessage(Lang.get("menu.no-embed"))
             return
         }
 

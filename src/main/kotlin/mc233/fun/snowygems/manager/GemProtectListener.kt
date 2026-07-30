@@ -1,6 +1,7 @@
 package mc233.`fun`.snowygems.manager
 
 import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
 import org.bukkit.entity.ItemFrame
@@ -48,6 +49,6 @@ object GemProtectListener {
     }
 
     private fun warn(player: Player) {
-        player.sendMessage(ColorUtil.colorize("&c无法放置宝石..."))
+        player.sendMessage(Lang.get("gem.protect"))
     }
 }

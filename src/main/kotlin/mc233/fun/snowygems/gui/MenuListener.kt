@@ -6,6 +6,7 @@ import mc233.`fun`.snowygems.config.MenuLayout
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
 import org.bukkit.Material
@@ -159,7 +160,7 @@ object MenuListener {
         }
         if (target == null) {
             DebugUtil.log("Menu", "Shift 移入被拒绝: ${moving!!.type} isGem=$isGem 没有匹配的空槽位")
-            player.sendMessage(ColorUtil.colorize("&c没有可以放入该物品的空槽位"))
+            player.sendMessage(Lang.get("menu.no-slot"))
             return
         }
         val one = moving!!.clone()
@@ -329,7 +330,7 @@ object MenuListener {
         }
         if (!attempted) {
             DebugUtil.log("Menu", "applyAllGemSlots: 所有 GEM_SLOT 都是空的, 没有可镶嵌的宝石")
-            player.sendMessage(ColorUtil.colorize("&c请先点起一颗宝石, 再点击这件装备来镶嵌"))
+            player.sendMessage(Lang.get("menu.select-gem"))
         }
         inv.setItem(equipRawSlot, current)
         player.updateInventory()

@@ -6,6 +6,7 @@ import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.skill.BuffEngine
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.info
 
@@ -42,6 +43,7 @@ object SnowyGems : Plugin() {
 
     fun reloadAll() {
         DebugUtil.reload()
+        Lang.reload()
         GemRegistry.reload()
         MenuRegistry.reload()
         SkillRegistry.reload()

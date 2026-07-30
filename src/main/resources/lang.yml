@@ -1,0 +1,19 @@
+# SnowyGems 玩家语言
+# 颜色规范: &c 错误 &7 辅助 &f 主体
+menu:
+  no-slot: "&c没有可以放入该物品的空槽位"
+  select-gem: "&7请先点起一颗宝石 再点击装备镶嵌"
+  no-gem: "&7当前没有加载任何宝石配置"
+  no-embed: "&7该装备上还没有镶嵌任何宝石"
+gem:
+  success: "&f操作成功"
+  fail: "&c操作失败"
+  invalid: "&c该宝石配置不存在"
+  protect: "&c无法放置宝石"
+skill:
+  cooldown: "&c技能冷却中 &7{time}s"
+  switch: "&7已切换模式 &f{mode}"
+command:
+  reload: "&f配置已重新加载 &7({time}ms)"
+  no-player: "&c玩家不在线"
+  no-gem: "&c未知的宝石配置"
