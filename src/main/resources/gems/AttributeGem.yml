@@ -1,0 +1,232 @@
+Version: 1.05
+
+内置-生命宝石:
+  Name: 生命宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l生命宝石&8&l&k||"
+  Tips:
+    - "&c生命宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其最大生命上限+1(上限5)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFhNmE0MTFiODAyYjIyZTUzMjQ3OTVjZTM0ZTNjYWU0YTgzNzk2YTE4ZDkyMzMyNjY2Y2JmMjE0ODhjMCJ9fX0=
+  SuccessTip: "&f你使用了&c&l生命宝石&f, 装备生命上限&c&l+1"
+  Rewards:
+    - Attribute{name=health;operation=0;slot=auto;var=v+1;limit=5}
+
+内置-真生命宝石:
+  Name: 真·生命宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l真·生命宝石&8&l&k||"
+  Tips:
+    - "&c&l真生命宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其最大生命上限+1(上限10)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFhNmE0MTFiODAyYjIyZTUzMjQ3OTVjZTM0ZTNjYWU0YTgzNzk2YTE4ZDkyMzMyNjY2Y2JmMjE0ODhjMCJ9fX0=
+  SuccessTip: "&f你使用了&c&l真·生命宝石&f, 装备生命上限&c&l+1"
+  Rewards:
+    - Attribute{name=health;operation=0;slot=auto;var=v+1;limit=10}
+
+内置-神生命宝石:
+  Name: 神·生命宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l神·生命宝石&8&l&k||"
+  Success: 50
+  Tips:
+    - "&c&l神·生命宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其最大生命上限+2(上限20)"
+    - "&7成功率: &a50%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFhNmE0MTFiODAyYjIyZTUzMjQ3OTVjZTM0ZTNjYWU0YTgzNzk2YTE4ZDkyMzMyNjY2Y2JmMjE0ODhjMCJ9fX0=
+  SuccessTip: "&f你使用了&c&l神·生命宝石&f, 装备生命上限&c&l+2"
+  Rewards:
+    - Attribute{name=health;operation=0;slot=auto;var=v+2;limit=20}
+
+内置-速度宝石:
+  Name: 速度宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&a&l速度宝石&8&l&k||"
+  Tips:
+    - "&a速度宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其速度属性+1%(上限6%)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1OGQwODBiZDYyMTU2ZTVmNmU1ZThkZmZhYTI4OTI2YmQ4MzM5MWRjMjZmZTc4MDY3M2VmNTJmMjZlYjA4YiJ9fX0=
+  SuccessTip: "&f你使用了&a&l速度宝石&f, 装备速度属性&a&l+1%"
+  Rewards:
+    - Attribute{name=move;operation=1;slot=auto;var=v+0.01;limit=0.06}
+
+内置-真速度宝石:
+  Name: 真·速度宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&a&l真·速度宝石&8&l&k||"
+  Tips:
+    - "&a&l真速度宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其速度属性+1%(上限15%)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1OGQwODBiZDYyMTU2ZTVmNmU1ZThkZmZhYTI4OTI2YmQ4MzM5MWRjMjZmZTc4MDY3M2VmNTJmMjZlYjA4YiJ9fX0=
+  SuccessTip: "&f你使用了&a&l真·速度宝石&f, 装备速度属性&a&l+1%"
+  Rewards:
+    - Attribute{name=move;operation=1;slot=auto;var=v+0.01;limit=0.15}
+
+内置-神速度宝石:
+  Name: 神·速度宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&a&l神·速度宝石&8&l&k||"
+  Success: 50
+  Tips:
+    - "&a&l神·速度宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其速度属性+2%(上限30%)"
+    - "&7成功率: &a50%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1OGQwODBiZDYyMTU2ZTVmNmU1ZThkZmZhYTI4OTI2YmQ4MzM5MWRjMjZmZTc4MDY3M2VmNTJmMjZlYjA4YiJ9fX0=
+  SuccessTip: "&f你使用了&a&l神·速度宝石&f, 装备速度属性&a&l+2%"
+  Rewards:
+    - Attribute{name=move;operation=1;slot=auto;var=v+0.02;limit=0.3}
+
+内置-攻击伤害宝石:
+  Name: 攻击伤害宝石
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l攻击伤害宝石&8&l&k||"
+  Tips:
+    - "&c攻击伤害宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其攻击伤害属性+1(上限20)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzODc0ZTgyYmM0NjZhOWM5Zjc5YWFmYmE3MTUxN2UyZWNjMjk0MWM2YmM5Njc5MDYyYTk3YjkxYjJkYWUzOSJ9fX0=
+  SuccessTip: "&f你使用了&c&l攻击伤害宝石&f, 装备攻击伤害属性&c&l+1%"
+  Rewards:
+    - Attribute{name=damage;operation=0;slot=auto;var=v+1;limit=20}
+
+内置-真攻击伤害宝石:
+  Name: 真·攻击伤害宝石
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l真·攻击伤害宝石&8&l&k||"
+  Tips:
+    - "&c&l真·攻击伤害宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其攻击伤害属性+1(上限80)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzODc0ZTgyYmM0NjZhOWM5Zjc5YWFmYmE3MTUxN2UyZWNjMjk0MWM2YmM5Njc5MDYyYTk3YjkxYjJkYWUzOSJ9fX0=
+  SuccessTip: "&f你使用了&c&l真·攻击伤害宝石&f, 装备攻击伤害属性&c&l+1"
+  Rewards:
+    - Attribute{name=damage;operation=0;slot=auto;var=v+1;limit=80}
+
+内置-攻速宝石:
+  Name: 攻速宝石
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l攻速宝石&8&l&k||"
+  Tips:
+    - "&c攻速宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其攻击速度属性+5%(上限80%)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg1YzE5YmVhMWUwYWExYjNmOGY5ODUzYzc1NGI1MzQ2NzcxOGNlMGY5MGRlODg2ZmQ0ZWYyYjQyMDk5NTVjNSJ9fX0=
+  SuccessTip: "&f你使用了&c&l攻速宝石&f, 装备攻击速度属性&c&l+5%"
+  Rewards:
+    - Attribute{name=attack_speed;operation=1;slot=auto;var=v+0.05;limit=0.8}
+
+内置-真攻速宝石:
+  Name: 真·攻速宝石
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l真·攻速宝石&8&l&k||"
+  Tips:
+    - "&c&l真·攻速宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其攻击速度属性+10%(上限300%)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg1YzE5YmVhMWUwYWExYjNmOGY5ODUzYzc1NGI1MzQ2NzcxOGNlMGY5MGRlODg2ZmQ0ZWYyYjQyMDk5NTVjNSJ9fX0=
+  SuccessTip: "&f你使用了&c&l真·攻速宝石&f, 装备攻击速度属性&c&l+10%"
+  Rewards:
+    - Attribute{name=attack_speed;operation=1;slot=auto;var=v+0.1;limit=3}
+
+内置-攻击击退宝石:
+  Name: 攻击击退宝石
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&8&l攻击击退宝石&8&l&k||"
+  Tips:
+    - "&8攻击击退宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其击退属性+1(上限10)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ZjI4MzMyYmNjMzQ5ZjQyMDIzYzI5ZTZlNjQxZjRiMTBhNmIxZTQ4NzE4Y2FlNTU3NDY2ZDUxZWI5MjIifX19
+  SuccessTip: "&f你使用了&8&l攻击击退宝石&f, 武器击退属性&8&l+1"
+  Rewards:
+    - Attribute{name=attack_knockback;operation=0;slot=auto;var=v+1;limit=10}
+
+内置-幸运宝石:
+  Name: 幸运宝石
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+  Display: "&8&l&k||&2&l幸运宝石&8&l&k||"
+  Tips:
+    - "&2幸运宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入装备与此宝石, 点击中间确认"
+    - "&7即可为其幸运属性+1(上限10)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWEwZWYyMDNhM2MzODM3ZmQ0YTEwZTFjM2YxOWNjNDBlNjQ5N2NiOWI5NzgwNzRkNDcyYzY1ZDQ4MmY2YjY3MyJ9fX0=
+  SuccessTip: "&f你使用了&2&l幸运宝石&f, 装备幸运属性&2&l+1"
+  Rewards:
+    - Attribute{name=luck;operation=0;slot=auto;var=v+1;limit=10}
+
+内置-护甲宝石:
+  Name: 护甲宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&7&l护甲宝石&8&l&k||"
+  Tips:
+    - "&7护甲宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其护甲属性+1(上限10)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJkMzFhZDFlOTNmMTY2Zjk3ODU5Y2Q5ZjJiODBkYTUyYTgyOTQ0MDA5N2Y1ZDY3YThjMjEwZDEyMmI5ZDVlNSJ9fX0=
+  SuccessTip: "&f你使用了&7&l护甲宝石&f, 盔甲护甲属性&7&l+1"
+  Rewards:
+    - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=10}
+
+内置-盔甲韧性宝石:
+  Name: 盔甲韧性宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&7&l盔甲韧性宝石&8&l&k||"
+  Tips:
+    - "&7盔甲韧性宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其盔甲韧性属性+1(上限10)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I5MjRiMzdmZTMyOTQyNzNhNzQzODZjODc4Y2EyMTBmYzg5ZjQ3ODcwMjk0M2EwMjcyZTcxMzk1NjMwYmVkYSJ9fX0=
+  SuccessTip: "&f你使用了&7&l盔甲韧性宝石&f, 盔甲盔甲韧性属性&7&l+1"
+  Rewards:
+    - Attribute{name=armor_toughness;operation=0;slot=auto;var=v+1;limit=10}
+
+内置-击退抗性宝石:
+  Name: 击退抗性宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&8&l击退抗性宝石&8&l&k||"
+  Tips:
+    - "&8击退抗性宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其击退抗性属性+1(上限10)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiNzdhOWNlYmUxYzE5NjIxMDUyN2EwNjk4OTNiOGY2Mzk1NGIzNDc1NzIwZjgwNDBmZTEyMzNhYWY4OWYwZiJ9fX0=
+  SuccessTip: "&f你使用了&8&l击退抗性宝石&f, 盔甲击退抗性属性&8&l+1"
+  Rewards:
+    - Attribute{name=knockback_resistance;operation=0;slot=auto;var=v+0.1;limit=1}

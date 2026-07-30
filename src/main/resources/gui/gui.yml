@@ -1,0 +1,80 @@
+default:
+  Locations:
+  Page: 10000
+  Slots:
+    - TTTTITTTT
+    - GGGGGGGGG
+    - GGGGGGGGG
+    - GGGGGGGGG
+    - GGGGGGGGG
+    - PEEEXEEEN
+  Items:
+    T:
+      Type: TIP
+      Material: BLACK_STAINED_GLASS_PANE
+    I:
+      Type: EQUIP_SLOT
+    G:
+      Type: GEM_SLOT
+    P:
+      Type: PAGE_PREV
+      Material: ARROW
+    E:
+      Type: EMPTY
+    N:
+      Type: PAGE_NEXT
+      Material: ARROW
+    X:
+      Type: PAGE_TIP
+      Material: PAPER
+
+符文镶嵌台:
+  Locations:
+  Title: "&8&l&k||&6&l符文镶嵌台&8&l&k||"
+  Page: 1
+  Slots:
+    - LLBTITRKK
+    - LBBMGMRRK
+    - BBMGGGMRR
+    - BBMGGGMRR
+    - LBBMGMRRK
+    - LLBDSDRKK
+  Items:
+    L:
+      Type: TIP
+      Material: BLUE_STAINED_GLASS_PANE
+      Display: "&9在左侧镶嵌蓝色符文"
+    K:
+      Type: TIP
+      Material: RED_STAINED_GLASS_PANE
+      Display: "&c在右侧镶嵌红色符文"
+    M:
+      Type: TIP
+      Material: GREEN_STAINED_GLASS_PANE
+      Display: "&a在中间镶嵌绿色符文"
+    T:
+      Type: TIP
+      Material: BLACK_STAINED_GLASS_PANE
+      Display: "&f&l在中间放置装备"
+    D:
+      Type: TIP
+      Material: YELLOW_STAINED_GLASS_PANE
+      Display: "&e在中间镶嵌技能符文"
+    I:
+      Type: EQUIP_SLOT
+    R:
+      Type: GEM_SLOT
+      Require: 红色符文
+      Amount: 1
+    G:
+      Type: GEM_SLOT
+      Require: 绿色符文
+      Amount: 1
+    B:
+      Type: GEM_SLOT
+      Require: 蓝色符文
+      Amount: 1
+    S:
+      Type: GEM_SLOT
+      Require: 技能符文
+      Amount: 1

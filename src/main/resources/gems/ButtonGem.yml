@@ -1,0 +1,1337 @@
+# 本文件中的宝石全是符文台GUI里的按钮
+# 一般情况下无需拿出来用
+
+内置-符文碎片:
+  Name: 符文碎片
+  Display: "&8&l&k||&a&l符文碎片&8&l&k||"
+  Tips:
+    - "&7破碎符文留下的残片"
+    - "&7可在&6符文合成台&7重铸"
+  Require:
+    - NOTHING
+  Material: EMPTY_MAP
+  Glow: true
+  Rewards:
+    - EMPTY
+
+# (分解台按钮用)
+内置-符文分解券:
+  Name: 符文分解券
+  Require:
+    - LORE:符文等级
+  Display: "&f符文分解券"
+  Material: PAPER
+  Glow: true
+  Rewards:
+    - Conditional{condition="$LORE:符文等级:$==1";roman=true;reward=ItemSet{Gem=符文碎片;Amount=10}}    $ignorable
+    - Conditional{condition="$LORE:符文等级:$==2";roman=true;reward=ItemSet{Gem=符文碎片;Amount=20}}    $ignorable
+    - Conditional{condition="$LORE:符文等级:$==3";roman=true;reward=ItemSet{Gem=符文碎片;Amount=50}}    $ignorable
+    - Conditional{condition="$LORE:符文等级:$==4";roman=true;reward=ItemSet{Gem=符文碎片;Amount=200}}   $ignorable
+    - Conditional{condition="$LORE:符文等级:$==5";roman=true;reward=ItemSet{Gem=符文碎片;Amount=800}}   $ignorable
+  SuccessTip: "none"
+
+内置-合成红色符文强攻1:
+  Name: 合成红色符文强攻1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l强攻 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文强攻1}"
+
+内置-合成红色符文强攻2:
+  Name: 合成红色符文强攻2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l强攻 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文强攻2}"
+
+内置-合成红色符文强攻3:
+  Name: 合成红色符文强攻3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l强攻 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文强攻3}"
+
+内置-合成红色符文强攻4:
+  Name: 合成红色符文强攻4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l强攻 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文强攻4}"
+
+内置-合成红色符文强攻5:
+  Name: 合成红色符文强攻5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l强攻 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文强攻5}"
+
+
+内置-合成红色符文致命1:
+  Name: 合成红色符文致命1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l致命 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文致命1}"
+
+内置-合成红色符文致命2:
+  Name: 合成红色符文致命2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l致命 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文致命2}"
+
+内置-合成红色符文致命3:
+  Name: 合成红色符文致命3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l致命 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文致命3}"
+
+内置-合成红色符文致命4:
+  Name: 合成红色符文致命4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l致命 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文致命4}"
+
+内置-合成红色符文致命5:
+  Name: 合成红色符文致命5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l致命 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文致命5}"
+
+内置-合成红色符文灾祸1:
+  Name: 合成红色符文灾祸1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l灾祸 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文灾祸1}"
+
+内置-合成红色符文灾祸2:
+  Name: 合成红色符文灾祸2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l灾祸 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文灾祸2}"
+
+内置-合成红色符文灾祸3:
+  Name: 合成红色符文灾祸3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l灾祸 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文灾祸3}"
+
+内置-合成红色符文灾祸4:
+  Name: 合成红色符文灾祸4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l灾祸 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文灾祸4}"
+
+内置-合成红色符文灾祸5:
+  Name: 合成红色符文灾祸5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l灾祸 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文灾祸5}"
+
+内置-合成红色符文流光1:
+  Name: 合成红色符文流光1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l流光 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文流光1}"
+
+内置-合成红色符文流光2:
+  Name: 合成红色符文流光2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l流光 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文流光2}"
+
+内置-合成红色符文流光3:
+  Name: 合成红色符文流光3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l流光 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文流光3}"
+
+内置-合成红色符文流光4:
+  Name: 合成红色符文流光4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l流光 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文流光4}"
+
+内置-合成红色符文流光5:
+  Name: 合成红色符文流光5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l流光 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文流光5}"
+
+内置-合成红色符文狂暴1:
+  Name: 合成红色符文狂暴1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l狂暴 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文狂暴1}"
+
+内置-合成红色符文狂暴2:
+  Name: 合成红色符文狂暴2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l狂暴 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文狂暴2}"
+
+内置-合成红色符文狂暴3:
+  Name: 合成红色符文狂暴3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l狂暴 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文狂暴3}"
+
+内置-合成红色符文狂暴4:
+  Name: 合成红色符文狂暴4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l狂暴 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文狂暴4}"
+
+内置-合成红色符文狂暴5:
+  Name: 合成红色符文狂暴5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l狂暴 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文狂暴5}"
+
+内置-合成红色符文烈焰1:
+  Name: 合成红色符文烈焰1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l烈焰 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文烈焰1}"
+
+内置-合成红色符文烈焰2:
+  Name: 合成红色符文烈焰2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l烈焰 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文烈焰2}"
+
+内置-合成红色符文烈焰3:
+  Name: 合成红色符文烈焰3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l烈焰 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文烈焰3}"
+
+内置-合成红色符文烈焰4:
+  Name: 合成红色符文烈焰4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l烈焰 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文烈焰4}"
+
+内置-合成红色符文烈焰5:
+  Name: 合成红色符文烈焰5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l烈焰 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文烈焰5}"
+
+内置-合成红色符文坚守1:
+  Name: 合成红色符文坚守1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l坚守 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文坚守1}"
+
+内置-合成红色符文坚守2:
+  Name: 合成红色符文坚守2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l坚守 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文坚守2}"
+
+内置-合成红色符文坚守3:
+  Name: 合成红色符文坚守3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l坚守 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文坚守3}"
+
+内置-合成红色符文坚守4:
+  Name: 合成红色符文坚守4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l坚守 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文坚守4}"
+
+内置-合成红色符文坚守5:
+  Name: 合成红色符文坚守5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l坚守 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文坚守5}"
+
+内置-合成红色符文重盾1:
+  Name: 合成红色符文重盾1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l重盾 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文重盾1}"
+
+内置-合成红色符文重盾2:
+  Name: 合成红色符文重盾2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l重盾 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文重盾2}"
+
+内置-合成红色符文重盾3:
+  Name: 合成红色符文重盾3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l重盾 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文重盾3}"
+
+内置-合成红色符文重盾4:
+  Name: 合成红色符文重盾4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l重盾 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文重盾4}"
+
+内置-合成红色符文重盾5:
+  Name: 合成红色符文重盾5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l重盾 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文重盾5}"
+
+内置-合成红色符文稳健1:
+  Name: 合成红色符文稳健1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l稳健 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文稳健1}"
+
+内置-合成红色符文稳健2:
+  Name: 合成红色符文稳健2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l稳健 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文稳健2}"
+
+内置-合成红色符文稳健3:
+  Name: 合成红色符文稳健3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l稳健 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文稳健3}"
+
+内置-合成红色符文稳健4:
+  Name: 合成红色符文稳健4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l稳健 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文稳健4}"
+
+内置-合成红色符文稳健5:
+  Name: 合成红色符文稳健5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l稳健 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文稳健5}"
+
+内置-合成红色符文神圣1:
+  Name: 合成红色符文神圣1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l神圣 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=红色符文神圣1}"
+
+内置-合成红色符文神圣2:
+  Name: 合成红色符文神圣2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l神圣 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=红色符文神圣2}"
+
+内置-合成红色符文神圣3:
+  Name: 合成红色符文神圣3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l神圣 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=红色符文神圣3}"
+
+内置-合成红色符文神圣4:
+  Name: 合成红色符文神圣4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l神圣 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=红色符文神圣4}"
+
+内置-合成红色符文神圣5:
+  Name: 合成红色符文神圣5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&c&l神圣 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=红色符文神圣5}"
+
+内置-合成绿色符文锐利1:
+  Name: 合成绿色符文锐利1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l锐利 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文锐利1}"
+
+内置-合成绿色符文锐利2:
+  Name: 合成绿色符文锐利2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l锐利 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文锐利2}"
+
+内置-合成绿色符文锐利3:
+  Name: 合成绿色符文锐利3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l锐利 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文锐利3}"
+
+内置-合成绿色符文锐利4:
+  Name: 合成绿色符文锐利4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l锐利 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文锐利4}"
+
+内置-合成绿色符文锐利5:
+  Name: 合成绿色符文锐利5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l锐利 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文锐利5}"
+
+内置-合成绿色符文看破1:
+  Name: 合成绿色符文看破1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l看破 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文看破1}"
+
+内置-合成绿色符文看破2:
+  Name: 合成绿色符文看破2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l看破 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文看破2}"
+
+内置-合成绿色符文看破3:
+  Name: 合成绿色符文看破3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l看破 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文看破3}"
+
+内置-合成绿色符文看破4:
+  Name: 合成绿色符文看破4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l看破 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文看破4}"
+
+内置-合成绿色符文看破5:
+  Name: 合成绿色符文看破5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l看破 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文看破5}"
+
+内置-合成绿色符文重挫1:
+  Name: 合成绿色符文重挫1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重挫 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文重挫1}"
+
+内置-合成绿色符文重挫2:
+  Name: 合成绿色符文重挫2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重挫 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文重挫2}"
+
+内置-合成绿色符文重挫3:
+  Name: 合成绿色符文重挫3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重挫 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文重挫3}"
+
+内置-合成绿色符文重挫4:
+  Name: 合成绿色符文重挫4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重挫 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文重挫4}"
+
+内置-合成绿色符文重挫5:
+  Name: 合成绿色符文重挫5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重挫 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文重挫5}"
+
+内置-合成绿色符文精准1:
+  Name: 合成绿色符文精准1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l精准 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文精准1}"
+
+内置-合成绿色符文精准2:
+  Name: 合成绿色符文精准2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l精准 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文精准2}"
+
+内置-合成绿色符文精准3:
+  Name: 合成绿色符文精准3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l精准 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文精准3}"
+
+内置-合成绿色符文精准4:
+  Name: 合成绿色符文精准4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l精准 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文精准4}"
+
+内置-合成绿色符文精准5:
+  Name: 合成绿色符文精准5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l精准 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文精准5}"
+
+内置-合成绿色符文重矢1:
+  Name: 合成绿色符文重矢1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重矢 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文重矢1}"
+
+内置-合成绿色符文重矢2:
+  Name: 合成绿色符文重矢2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重矢 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文重矢2}"
+
+内置-合成绿色符文重矢3:
+  Name: 合成绿色符文重矢3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重矢 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文重矢3}"
+
+内置-合成绿色符文重矢4:
+  Name: 合成绿色符文重矢4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重矢 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文重矢4}"
+
+内置-合成绿色符文重矢5:
+  Name: 合成绿色符文重矢5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l重矢 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文重矢5}"
+
+内置-合成绿色符文聪慧1:
+  Name: 合成绿色符文聪慧1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l聪慧 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文聪慧1}"
+
+内置-合成绿色符文聪慧2:
+  Name: 合成绿色符文聪慧2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l聪慧 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文聪慧2}"
+
+内置-合成绿色符文聪慧3:
+  Name: 合成绿色符文聪慧3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l聪慧 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文聪慧3}"
+
+内置-合成绿色符文聪慧4:
+  Name: 合成绿色符文聪慧4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l聪慧 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文聪慧4}"
+
+内置-合成绿色符文聪慧5:
+  Name: 合成绿色符文聪慧5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l聪慧 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文聪慧5}"
+
+内置-合成绿色符文长生1:
+  Name: 合成绿色符文长生1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l长生 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文长生1}"
+
+内置-合成绿色符文长生2:
+  Name: 合成绿色符文长生2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l长生 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文长生2}"
+
+内置-合成绿色符文长生3:
+  Name: 合成绿色符文长生3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l长生 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文长生3}"
+
+内置-合成绿色符文长生4:
+  Name: 合成绿色符文长生4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l长生 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文长生4}"
+
+内置-合成绿色符文长生5:
+  Name: 合成绿色符文长生5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l长生 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文长生5}"
+
+内置-合成绿色符文强健1:
+  Name: 合成绿色符文强健1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l强健 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文强健1}"
+
+内置-合成绿色符文强健2:
+  Name: 合成绿色符文强健2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l强健 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文强健2}"
+
+内置-合成绿色符文强健3:
+  Name: 合成绿色符文强健3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l强健 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文强健3}"
+
+内置-合成绿色符文强健4:
+  Name: 合成绿色符文强健4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l强健 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文强健4}"
+
+内置-合成绿色符文强健5:
+  Name: 合成绿色符文强健5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l强健 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文强健5}"
+
+内置-合成绿色符文圣泉1:
+  Name: 合成绿色符文圣泉1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l圣泉 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=绿色符文圣泉1}"
+
+内置-合成绿色符文圣泉2:
+  Name: 合成绿色符文圣泉2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l圣泉 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=绿色符文圣泉2}"
+
+内置-合成绿色符文圣泉3:
+  Name: 合成绿色符文圣泉3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l圣泉 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=绿色符文圣泉3}"
+
+内置-合成绿色符文圣泉4:
+  Name: 合成绿色符文圣泉4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l圣泉 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=绿色符文圣泉4}"
+
+内置-合成绿色符文圣泉5:
+  Name: 合成绿色符文圣泉5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&a&l圣泉 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=绿色符文圣泉5}"
+
+内置-合成蓝色符文迅捷1:
+  Name: 合成蓝色符文迅捷1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l迅捷 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文迅捷1}"
+
+内置-合成蓝色符文迅捷2:
+  Name: 合成蓝色符文迅捷2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l迅捷 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文迅捷2}"
+
+内置-合成蓝色符文迅捷3:
+  Name: 合成蓝色符文迅捷3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l迅捷 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文迅捷3}"
+
+内置-合成蓝色符文迅捷4:
+  Name: 合成蓝色符文迅捷4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l迅捷 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文迅捷4}"
+
+内置-合成蓝色符文迅捷5:
+  Name: 合成蓝色符文迅捷5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l迅捷 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文迅捷5}"
+
+内置-合成蓝色符文奔腾1:
+  Name: 合成蓝色符文奔腾1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l奔腾 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文奔腾1}"
+
+内置-合成蓝色符文奔腾2:
+  Name: 合成蓝色符文奔腾2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l奔腾 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文奔腾2}"
+
+内置-合成蓝色符文奔腾3:
+  Name: 合成蓝色符文奔腾3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l奔腾 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文奔腾3}"
+
+内置-合成蓝色符文奔腾4:
+  Name: 合成蓝色符文奔腾4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l奔腾 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文奔腾4}"
+
+内置-合成蓝色符文奔腾5:
+  Name: 合成蓝色符文奔腾5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l奔腾 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文奔腾5}"
+
+内置-合成蓝色符文极寒1:
+  Name: 合成蓝色符文极寒1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l极寒 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文极寒1}"
+
+内置-合成蓝色符文极寒2:
+  Name: 合成蓝色符文极寒2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l极寒 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文极寒2}"
+
+内置-合成蓝色符文极寒3:
+  Name: 合成蓝色符文极寒3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l极寒 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文极寒3}"
+
+内置-合成蓝色符文极寒4:
+  Name: 合成蓝色符文极寒4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l极寒 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文极寒4}"
+
+内置-合成蓝色符文极寒5:
+  Name: 合成蓝色符文极寒5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l极寒 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文极寒5}"
+
+内置-合成蓝色符文雷霆1:
+  Name: 合成蓝色符文雷霆1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l雷霆 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文雷霆1}"
+
+内置-合成蓝色符文雷霆2:
+  Name: 合成蓝色符文雷霆2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l雷霆 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文雷霆2}"
+
+内置-合成蓝色符文雷霆3:
+  Name: 合成蓝色符文雷霆3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l雷霆 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文雷霆3}"
+
+内置-合成蓝色符文雷霆4:
+  Name: 合成蓝色符文雷霆4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l雷霆 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文雷霆4}"
+
+内置-合成蓝色符文雷霆5:
+  Name: 合成蓝色符文雷霆5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l雷霆 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文雷霆5}"
+
+内置-合成蓝色符文汲取1:
+  Name: 合成蓝色符文汲取1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l汲取 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文汲取1}"
+
+内置-合成蓝色符文汲取2:
+  Name: 合成蓝色符文汲取2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l汲取 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文汲取2}"
+
+内置-合成蓝色符文汲取3:
+  Name: 合成蓝色符文汲取3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l汲取 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文汲取3}"
+
+内置-合成蓝色符文汲取4:
+  Name: 合成蓝色符文汲取4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l汲取 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文汲取4}"
+
+内置-合成蓝色符文汲取5:
+  Name: 合成蓝色符文汲取5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l汲取 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文汲取5}"
+
+内置-合成蓝色符文穿杨1:
+  Name: 合成蓝色符文穿杨1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l穿杨 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文穿杨1}"
+
+内置-合成蓝色符文穿杨2:
+  Name: 合成蓝色符文穿杨2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l穿杨 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文穿杨2}"
+
+内置-合成蓝色符文穿杨3:
+  Name: 合成蓝色符文穿杨3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l穿杨 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文穿杨3}"
+
+内置-合成蓝色符文穿杨4:
+  Name: 合成蓝色符文穿杨4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l穿杨 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文穿杨4}"
+
+内置-合成蓝色符文穿杨5:
+  Name: 合成蓝色符文穿杨5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l穿杨 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文穿杨5}"
+
+内置-合成蓝色符文毒刺1:
+  Name: 合成蓝色符文毒刺1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l毒刺 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文毒刺1}"
+
+内置-合成蓝色符文毒刺2:
+  Name: 合成蓝色符文毒刺2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l毒刺 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文毒刺2}"
+
+内置-合成蓝色符文毒刺3:
+  Name: 合成蓝色符文毒刺3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l毒刺 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文毒刺3}"
+
+内置-合成蓝色符文毒刺4:
+  Name: 合成蓝色符文毒刺4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l毒刺 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文毒刺4}"
+
+内置-合成蓝色符文毒刺5:
+  Name: 合成蓝色符文毒刺5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l毒刺 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文毒刺5}"
+
+内置-合成蓝色符文幻影1:
+  Name: 合成蓝色符文幻影1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l幻影 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文幻影1}"
+
+内置-合成蓝色符文幻影2:
+  Name: 合成蓝色符文幻影2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l幻影 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文幻影2}"
+
+内置-合成蓝色符文幻影3:
+  Name: 合成蓝色符文幻影3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l幻影 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文幻影3}"
+
+内置-合成蓝色符文幻影4:
+  Name: 合成蓝色符文幻影4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l幻影 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文幻影4}"
+
+内置-合成蓝色符文幻影5:
+  Name: 合成蓝色符文幻影5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l幻影 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文幻影5}"
+
+内置-合成蓝色符文格挡1:
+  Name: 合成蓝色符文格挡1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l格挡 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文格挡1}"
+
+内置-合成蓝色符文格挡2:
+  Name: 合成蓝色符文格挡2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l格挡 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文格挡2}"
+
+内置-合成蓝色符文格挡3:
+  Name: 合成蓝色符文格挡3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l格挡 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文格挡3}"
+
+内置-合成蓝色符文格挡4:
+  Name: 合成蓝色符文格挡4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l格挡 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文格挡4}"
+
+内置-合成蓝色符文格挡5:
+  Name: 合成蓝色符文格挡5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l格挡 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文格挡5}"
+
+内置-合成蓝色符文盾山1:
+  Name: 合成蓝色符文盾山1
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l盾山 I&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=15}"
+    - "ItemGive{gem=蓝色符文盾山1}"
+
+内置-合成蓝色符文盾山2:
+  Name: 合成蓝色符文盾山2
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l盾山 II&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=30}"
+    - "ItemGive{gem=蓝色符文盾山2}"
+
+内置-合成蓝色符文盾山3:
+  Name: 合成蓝色符文盾山3
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l盾山 III&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=80}"
+    - "ItemGive{gem=蓝色符文盾山3}"
+
+内置-合成蓝色符文盾山4:
+  Name: 合成蓝色符文盾山4
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l盾山 IV&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=300}"
+    - "ItemGive{gem=蓝色符文盾山4}"
+
+内置-合成蓝色符文盾山5:
+  Name: 合成蓝色符文盾山5
+  Type: PLAYER_GEM
+  Material: STONE
+  SuccessTip: "&f你合成了&9&l盾山 V&f"
+  Rewards:
+    - "ItemTake{GEM:符文碎片=1200}"
+    - "ItemGive{gem=蓝色符文盾山5}"

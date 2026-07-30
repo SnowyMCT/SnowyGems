@@ -1,0 +1,5 @@
+command-gems-view: '&8[&b&lSGems&8] &f{0} &7的宝石信息: &f暂无'
+command-gems-give-usage: '&8[&b&lSGems&8] &7用法: /sgem give <玩家> <宝石ID> [数量]'
+command-gems-give: '&8[&b&lSGems&8] &7已给予 &f{0} &7宝石 &f{1} x{2}'
+command-gems-apply-usage: '&8[&b&lSGems&8] &7用法: /sgem apply <宝石ID>'
+command-gems-apply: '&8[&b&lSGems&8] &7成功镶嵌宝石 &f{0}'

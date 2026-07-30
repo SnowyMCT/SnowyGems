@@ -1,0 +1,5 @@
+command-gems-view: '&8[&b&lSGems&8] &f{0}&7''s gems: &fNone'
+command-gems-give-usage: '&8[&b&lSGems&8] &7Usage: /sgem give <player> <gem ID> [amount]'
+command-gems-give: '&8[&b&lSGems&8] &7Given &f{1} x{2} &7to &f{0}'
+command-gems-apply-usage: '&8[&b&lSGems&8] &7Usage: /sgem apply <gem ID>'
+command-gems-apply: '&8[&b&lSGems&8] &7Successfully applied gem &f{0}'

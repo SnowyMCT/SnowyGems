@@ -1,0 +1,35 @@
+# SnowyGems 全局设置
+
+# 调试模式: 开启后会把插件全部交互逻辑的执行过程输出到控制台
+#   包括: 菜单打开/渲染/点击, 宝石镶嵌与拆除, 命令执行, 右键使用,
+#         技能触发与执行, BUFF 施加, 奖励函数执行, 配置文件加载
+# 排查问题时打开, 平时建议关闭(日志量较大)
+Debug: false
+
+# 调试输出的 tag 白名单, 留空表示输出全部.
+# 可用 tag:
+#   Registry   - 配置文件加载(宝石/菜单/技能)
+#   Command    - /sgem 各子命令
+#   Menu       - 工作台菜单的点击/拖拽/关闭/镶嵌
+#   Workbench  - 工作台菜单的打开与图标渲染
+#   Embed      - 宝石镶嵌台(/sgem embed)的放入/校验/镶嵌
+#   GUI        - /sgem view 与 /sgem inspect 面板
+#   GemUse     - 右键/食用直接使用宝石
+#   Protect    - 宝石防放置保护(拦截放方块/塞展示框)
+#   GemManager - 镶嵌/拆除/给予的核心逻辑
+#   ItemFactory- 宝石物品构建与 NBT 读写
+#   Reward     - 奖励函数执行
+#   Skill      - 技能触发判定
+#   SkillExec  - 技能函数执行
+#   Buff       - BUFF 定时引擎
+#   Points     - 点券账户
+#   Money      - Vault 经济
+#   PlayerPoints - PlayerPoints 插件对接过程
+# 例: DebugTags: [Menu, GemManager, Reward]  只看镶嵌相关的日志
+DebugTags: []
+
+# 点券系统使用的后端:
+#   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认)
+#   PlayerPoints - 对接 PlayerPoints 插件 (需要服务器已安装 PlayerPoints)
+Points:
+  Provider: Internal

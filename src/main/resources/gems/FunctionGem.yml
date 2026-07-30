@@ -1,0 +1,170 @@
+#
+# 以下宝石演示了内置功能
+Version: 1.05
+
+内置-无限宝石:
+  Name: 无限宝石
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+    - FLINT_AND_STEEL
+  Display: "&8&l&k||&9&l无限宝石&8&l&k||"
+  Tips:
+    - "&9&l无限宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入装备与此宝石, 点击中间确认"
+    - "&7即可为您的装备添加无限耐久"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTExNWRjODhlMzIxNGMzODI0M2Q3ODJkNjNlZGIwYTZlMDYyOTFlYjZkYThlNjAwYzdlMmVhMzZlN2Y2MWIzMSJ9fX0=
+  SuccessTip: "&f你使用了&9&l无限宝石&f, 装备已被设置为&9&l无法破坏"
+  Rewards:
+    - Unbreakable
+
+内置-原版耐久修复石:
+  Name: 修复宝石
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+    - FLINT_AND_STEEL
+  Display: "&8&l&k||&a&l修复宝石&8&l&k||"
+  Tips:
+    - "&c&l修复宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入装备与此宝石, 点击中间确认"
+    - "&7即可使装备耐久恢复1000点"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg5MDFmNzE0MzRkNTM5MjA3NDc2OTRmNjgyZjVlNTNiOGY3NDQ4M2YyNjljMzg0YzY5MzZiN2Q4NjU4MiJ9fX0=
+  SuccessTip: "&f你使用了&a&l修复宝石&f, 装备耐久&a&l+1000"
+  Rewards:
+    - Durability{amount=1000}
+
+内置-失败宝石:
+  Name: 败者宝石
+  Success: 1
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+    - FLINT_AND_STEEL
+  Display: "&8&l&k||&c&l败者宝石&8&l&k||"
+  Tips:
+    - "&c&l败者宝石 &7品质: &a&l励志"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入装备与此宝石, 点击中间确认"
+    - "&7即可以99%的概率感受强化失败的滋味"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTc3NWQzZWM4MmJhNjE5NjQ5YTIzYjg1MDg3NTI3NWY1NTliNjRlNTNjYjgxNmM0NDhiZWVjNzkyYjQ5YzAifX19
+  SuccessTip: "&a你竟然成功了&f, 肯定是服务器出了bug(狗头)"
+  Rewards:
+    - Name{name=&8&l&k||&a&l天命之子&8&l&k||}
+
+内置-精准时运切换宝石:
+  Name: 精准时运切换宝石
+  Require:
+    - PICKAXE
+    - AXE
+    - SHOVEL
+  Display: "&8&l&k||&a&l精准/时运切换宝石&8&l&k||"
+  Tips:
+    - "&a&l精准时运切换宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入镐子/斧头/铲子与此宝石, 点击中间确认"
+    - "&7即可为其加上精准/时运切换功能"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzEyZDJmOTMxMDQ0NDFjYTU2NmY3YjcxOGMzZGQwMzgyY2IzOGY5Njc4YjVjYjE4MWVhMjQ4N2EyZjdmODI2YiJ9fX0=
+  SuccessTip: "&f你使用了&a&l精准/时运切换宝石&f, 工具添加&a&l精准/时运切换功能"
+  Rewards:
+    - LoreAdd{lore=&2Shift+右键切换模式(精准/时运);limit=1}
+
+内置-忠诚激流切换宝石:
+  Name: 忠诚激流切换宝石
+  Require:
+    - TRIDENT
+  Display: "&8&l&k||&a&l忠诚/激流切换宝石&8&l&k||"
+  Tips:
+    - "&a&l忠诚/激流切换宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入三叉戟与此宝石, 点击中间确认"
+    - "&7即可为其加上忠诚/激流切换功能"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzEyZDJmOTMxMDQ0NDFjYTU2NmY3YjcxOGMzZGQwMzgyY2IzOGY5Njc4YjVjYjE4MWVhMjQ4N2EyZjdmODI2YiJ9fX0=
+  SuccessTip: "&f你使用了&a&l忠诚/激流切换宝石&f, 三叉戟添加&a&l忠诚/激流切换功能"
+  Rewards:
+    - LoreAdd{lore=&2Shift+左键切换模式(忠诚/激流);limit=1}
+
+内置-巨无霸汉堡:
+  Name: 巨无霸汉堡
+  Require:
+    - 啥也不能打
+  Display: "&8&l&k||&6&l巨无霸汉堡&8&l&k||"
+  Tips:
+    - "&6&l巨无霸汉堡 &7品质: &a&l传说"
+    - "&7拿在手中或戴在头上"
+    - "&7即可获得饱和效果"
+    - "&6&l[&c&lBUFF&6&l] &b&l饱和"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQxMWNiNTRhYWExZTNkYjU1NWM3ODVmNmI3NWJlMWJmOGU2OGIyOGU1Y2ZjNTljOWE4NzY4OTRmNjFjZGMxNyJ9fX0=
+  Rewards:
+    - Empty
+
+内置-附魔隐藏粉尘:
+  Name: 附魔隐藏粉尘
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+  Display: "&8&l&k||&7&l附魔隐藏粉尘&8&l&k||"
+  Tips:
+    - "&7在镶嵌台上使用/取下此粉尘"
+    - "&7即可隐藏/显示装备的附魔"
+  SuccessTip: "&f你使用了&7&l附魔隐藏粉尘&f, 装备附魔已隐藏"
+  RemoveTip: "&f你取下了&7&l附魔隐藏粉尘&f, 装备附魔已显示"
+  Material: GUNPOWDER
+  Glow: true
+  Embed: 1
+  Rewards:
+    - ItemFlag{HIDE_ENCHANTS}
+
+内置-属性隐藏粉尘:
+  Name: 属性隐藏粉尘
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+  Display: "&8&l&k||&9&l属性隐藏粉尘&8&l&k||"
+  Tips:
+    - "&7在镶嵌台上使用/取下此粉尘"
+    - "&7即可隐藏/显示装备的蓝字/绿字属性"
+  SuccessTip: "&f你使用了&9&l属性隐藏粉尘&f, 装备属性已隐藏"
+  RemoveTip: "&f你取下了&9&l属性隐藏粉尘&f, 装备属性已显示"
+  Material: SUGAR
+  Glow: true
+  Embed: 1
+  Rewards:
+    - ItemFlag{HIDE_ATTRIBUTES}
+
+内置-技能隐藏粉尘:
+  Name: 技能隐藏粉尘
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+  Display: "&8&l&k||&6&l技能隐藏粉尘&8&l&k||"
+  Tips:
+    - "&7在镶嵌台上使用/取下此技能"
+    - "&7即可隐藏/显示装备的药水或技能"
+  SuccessTip: "&f你使用了&6&l技能隐藏粉尘&f, 装备技能已隐藏"
+  RemoveTip: "&f你取下了&6&l技能隐藏粉尘&f, 装备技能已显示"
+  Material: GLOWSTONE_DUST
+  Glow: true
+  Embed: 1
+  Rewards:
+    - SkillToNBT

@@ -1,0 +1,99 @@
+向前闪现:
+  Cooldown: 10.0
+  Lore: "右键即可闪现"
+  CooldownTip: ActionBar{p=&f闪现冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Blink{distance=$LORE:闪现距离?32$} ~onUse @Forward
+
+飞雷神三叉戟:
+  Cooldown: 15.0
+  Lore: "飞雷神三叉戟"
+  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Blink{distance=120} ~onTridentHit @Location
+    - Reward{Title{m=&e飞雷神之术}} ~onTridentHit
+
+跳跃之蛋:
+  Cooldown: 5.0
+  Lore: "扔出此蛋, 你将瞬移到落点"
+  Slot:
+    - mainhand
+  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Blink{distance=120} ~onHit:EGG @Location
+    - Reward{Chat{m=&e跳跃之蛋!}} ~onHit:EGG
+
+旅行者之弓:
+  Cooldown: 5.0
+  Lore: "逐日之弓"
+  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Blink{distance=120} ~onHit:ARROW @Location
+
+精准时运切换:
+  Lore: §2Shift+右键切换模式(精准/时运)
+  Cooldown: 4.0
+  CooldownTip: ActionBar{p=&c切换冷却时间;s=&a%.2fs;empty=&f|;full=&c|;length=75}
+  Skills:
+    - Switch{s=精准;时运} ~onShiftUse
+
+# 精准模式: 收起时运(等级记入物品, 切回时原样恢复), 挂上精准
+精准:
+  Skills:
+    - RewardSwitch{Enchant{name=LOOT_BONUS_BLOCKS;level=0}}
+    - RewardSwitch{Enchant{name=SILK_TOUCH;level=restore}}
+    - RewardSwitch{ActionBar{m=&b&l切换为精准模式}}
+
+# 时运模式: 收起精准, 恢复之前的时运等级
+时运:
+  Skills:
+    - RewardSwitch{Enchant{name=SILK_TOUCH;level=0}}
+    - RewardSwitch{Enchant{name=LOOT_BONUS_BLOCKS;level=restore}}
+    - RewardSwitch{ActionBar{m=&a&l切换为时运模式}}
+
+忠诚/激流切换:
+  Lore: §2Shift+左键切换模式(忠诚/激流)
+  Cooldown: 4.0
+  CooldownTip: ActionBar{p=&c切换冷却时间;s=&a%.2fs;empty=&f|;full=&c|;length=75}
+  Skills:
+    - Switch{s=忠诚;激流} ~onShiftSwing
+
+# 激流模式: 收起忠诚, 恢复之前的激流等级
+激流:
+  Skills:
+    - RewardSwitch{Enchant{name=LOYALTY;level=0}}
+    - RewardSwitch{Enchant{name=RIPTIDE;level=restore}}
+    - RewardSwitch{ActionBar{m=&b&l切换为激流模式}}
+
+# 忠诚模式: 收起激流, 恢复之前的忠诚等级
+忠诚:
+  Skills:
+    - RewardSwitch{Enchant{name=RIPTIDE;level=0}}
+    - RewardSwitch{Enchant{name=LOYALTY;level=restore}}
+    - RewardSwitch{ActionBar{m=&a&l切换为忠诚模式}}
+
+禁飞DEBUFF:
+  Cooldown: 5.0
+  Lore: 禁飞
+  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Debuff{type=fly;duration=5} ~onAttack @Entity
+    - Reward{Chat{m=&c禁飞!}} ~onAttack
+
+定身DEBUFF:
+  Cooldown: 5.0
+  Lore: 定身
+  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Debuff{type=move;duration=2} ~onAttack @Entity
+    - Reward{Chat{m=&c定身!}} ~onAttack
+
+#示例: 旅行者之弓增加失明效果, 展示新 Potion 函数
+逐日之弓:
+  Cooldown: 5.0
+  Lore: "逐日之弓"
+  CooldownTip: ActionBar{p=&a技能冷却时间;s=&a%.2fs;empty=&f|;full=&a|;length=75}
+  Skills:
+    - Blink{distance=120} ~onHit:ARROW @Location
+    - Potion{type=BLINDNESS;duration=3;level=1} ~onHit:ARROW @Entity
+    - Reward{Chat{m=&7箭失明效果已触发}} ~onHit:ARROW

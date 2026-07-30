@@ -1,0 +1,751 @@
+#
+# 以下是升级原版附魔的宝石
+# 你可以在游戏内用mgem enchant查看附魔的名称
+# 支持GoldenEnchant/EcoEnchant的特殊附魔. 你可以自行添加
+Version: 1.05
+
+内置-耐久宝石:
+  Name: 耐久宝石
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+    - FLINT_AND_STEEL
+  Display: "&8&l&k||&b&l耐久宝石&8&l&k||"
+  Tips:
+    - "&b耐久宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入装备与此宝石, 点击中间确认"
+    - "&7即可为其耐久等级+1(上限7级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTExNWRjODhlMzIxNGMzODI0M2Q3ODJkNjNlZGIwYTZlMDYyOTFlYjZkYThlNjAwYzdlMmVhMzZlN2Y2MWIzMSJ9fX0=
+  SuccessTip: "&f你使用了&b&l耐久宝石&f, 物品耐久等级&b&l+1"
+  Rewards:
+    - Enchant{name=DURABILITY;limit=7}
+
+内置-真耐久宝石:
+  Name: 真·耐久宝石
+  Require:
+    - WEAPON
+    - ARMOR
+    - TOOL
+    - SHIELD
+    - FISHING_ROD
+    - FLINT_AND_STEEL
+  Display: "&8&l&k||&b&l真·耐久宝石&8&l&k||"
+  Tips:
+    - "&b&l真·耐久宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入装备与此宝石, 点击中间确认"
+    - "&7即可为其耐久等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTExNWRjODhlMzIxNGMzODI0M2Q3ODJkNjNlZGIwYTZlMDYyOTFlYjZkYThlNjAwYzdlMmVhMzZlN2Y2MWIzMSJ9fX0=
+  SuccessTip: "&f你使用了&b&l真·耐久宝石&f, 物品耐久等级&b&l+1"
+  Rewards:
+    - Enchant{name=DURABILITY;limit=15}
+
+内置-时运宝石:
+  Name: 时运宝石
+  Require:
+    - TOOL
+  Display: "&8&l&k||&d&l时运宝石&8&l&k||"
+  Tips:
+    - "&d时运宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入工具与此宝石, 点击中间确认"
+    - "&7即可为其时运等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=
+  SuccessTip: "&f你使用了&d&l时运宝石&f, 工具时运等级&d&l+1"
+  Rewards:
+    - Enchant{name=LOOT_BONUS_BLOCKS;limit=15}
+
+内置-真时运宝石:
+  Name: 真·时运宝石
+  Require:
+    - TOOL
+  Display: "&8&l&k||&d&l真·时运宝石&8&l&k||"
+  Tips:
+    - "&d&l真·时运宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入工具与此宝石, 点击中间确认"
+    - "&7即可为其时运等级+1(上限40级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=
+  SuccessTip: "&f你使用了&d&l真·时运宝石&f, 工具时运等级&d&l+1"
+  Rewards:
+    - Enchant{name=LOOT_BONUS_BLOCKS;limit=40}
+
+内置-神时运宝石:
+  Name: 神·时运宝石
+  Require:
+    - TOOL
+  Display: "&8&l&k||&d&l神·时运宝石&8&l&k||"
+  Success: 80
+  Tips:
+    - "&d&l神·时运宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入工具与此宝石, 点击中间确认"
+    - "&7即可为其时运等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=
+  SuccessTip: "&f你使用了&d&l神·时运宝石&f, 工具时运等级&d&l+1"
+  Rewards:
+    - Enchant{name=LOOT_BONUS_BLOCKS;limit=512}
+
+内置-锋利宝石:
+  Name: 锋利宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&c&l锋利宝石&8&l&k||"
+  Tips:
+    - "&c锋利宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑/斧与此宝石, 点击中间确认"
+    - "&7即可为其锋利等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIwNTVjODEwYmRkZmQxNjI2NGVjOGQ0MzljNDMyODNlMzViY2E3MWE1MDk4M2UxNWUzNjRjZDhhYjdjNjY4ZiJ9fX0=
+  SuccessTip: "&f你使用了&c&l锋利宝石&f, 剑/斧锋利等级&c&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_ALL;limit=15}
+
+内置-真锋利宝石:
+  Name: 真·锋利宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&c&l真·锋利宝石&8&l&k||"
+  Tips:
+    - "&c&l真·锋利宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑/斧与此宝石, 点击中间确认"
+    - "&7即可为其锋利等级+1(上限40级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIwNTVjODEwYmRkZmQxNjI2NGVjOGQ0MzljNDMyODNlMzViY2E3MWE1MDk4M2UxNWUzNjRjZDhhYjdjNjY4ZiJ9fX0=
+  SuccessTip: "&f你使用了&c&l真·锋利宝石&f, 剑/斧锋利等级&c&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_ALL;limit=40}
+
+内置-神锋利宝石:
+  Name: 神·锋利宝石
+  Require:
+    - _AXE
+    - SWORD
+  Success: 80
+  Display: "&8&l&k||&c&l神·锋利宝石&8&l&k||"
+  Tips:
+    - "&c&l神·锋利宝石 &7品质: &b史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑/斧与此宝石, 点击中间确认"
+    - "&7即可为其锋利等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIwNTVjODEwYmRkZmQxNjI2NGVjOGQ0MzljNDMyODNlMzViY2E3MWE1MDk4M2UxNWUzNjRjZDhhYjdjNjY4ZiJ9fX0=
+  SuccessTip: "&f你使用了&c&l神·锋利宝石&f, 剑/斧锋利等级&c&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_ALL}
+
+内置-抢夺宝石:
+  Name: 抢夺宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&8&l抢夺宝石&8&l&k||"
+  Tips:
+    - "&8抢夺宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑/斧与此宝石, 点击中间确认"
+    - "&7即可为其抢夺等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI0MDcwYzliNjY1OWVkMjViMmNhMTI2OTE1ZjRkODgyMGZhZmNlNDMyNGVkOWE4ZjRiOGE1MDYzNDUzMDdmIn19fQ==
+  SuccessTip: "&f你使用了&8&l抢夺宝石&f, 剑/斧抢夺等级&8&l+1"
+  Rewards:
+    - Enchant{name=LOOT_BONUS_MOBS;limit=15}
+
+内置-真抢夺宝石:
+  Name: 真·抢夺宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&8&l真·抢夺宝石&8&l&k||"
+  Tips:
+    - "&8&l真·抢夺宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其抢夺等级+1(上限30级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI0MDcwYzliNjY1OWVkMjViMmNhMTI2OTE1ZjRkODgyMGZhZmNlNDMyNGVkOWE4ZjRiOGE1MDYzNDUzMDdmIn19fQ==
+  SuccessTip: "&f你使用了&8&l真·抢夺宝石&f, 武器抢夺等级&8&l+1"
+  Rewards:
+    - Enchant{name=LOOT_BONUS_MOBS;limit=30}
+
+内置-神抢夺宝石:
+  Name: 神·抢夺宝石
+  Require:
+    - _AXE
+    - SWORD
+  Success: 80
+  Display: "&8&l&k||&8&l神·抢夺宝石&8&l&k||"
+  Tips:
+    - "&8&l神·抢夺宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其抢夺等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI0MDcwYzliNjY1OWVkMjViMmNhMTI2OTE1ZjRkODgyMGZhZmNlNDMyNGVkOWE4ZjRiOGE1MDYzNDUzMDdmIn19fQ==
+  SuccessTip: "&f你使用了&8&l神·抢夺宝石&f, 武器抢夺等级&8&l+1"
+  Rewards:
+    - Enchant{name=LOOT_BONUS_MOBS}
+
+内置-力量宝石:
+  Name: 力量宝石
+  Require:
+    - BOW
+  Display: "&8&l&k||&e&l力量宝石&8&l&k||"
+  Tips:
+    - "&e力量宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入弓与此宝石, 点击中间确认"
+    - "&7即可为其力量等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIwNzE2MjAzZGEwMzljYWZjYTI0YmJkOWYzZTliZDVjNjk4NWMzYzI1NTI3YmNkNTA2ZDM4OGU5OWJiN2FmZSJ9fX0=
+  SuccessTip: "&f你使用了&e&l力量宝石&f, 弓力量等级&e&l+1"
+  Rewards:
+    - Enchant{name=ARROW_DAMAGE;limit=15}
+
+内置-真力量宝石:
+  Name: 真·力量宝石
+  Require:
+    - BOW
+  Display: "&8&l&k||&e&l真·&l力量宝石&8&l&k||"
+  Tips:
+    - "&e&l真·力量宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入弓与此宝石, 点击中间确认"
+    - "&7即可为其力量等级+1(上限40级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIwNzE2MjAzZGEwMzljYWZjYTI0YmJkOWYzZTliZDVjNjk4NWMzYzI1NTI3YmNkNTA2ZDM4OGU5OWJiN2FmZSJ9fX0=
+  SuccessTip: "&f你使用了&e&l真·力量宝石&f, 弓力量等级&e&l+1"
+  Rewards:
+    - Enchant{name=ARROW_DAMAGE;limit=40}
+
+内置-神力量宝石:
+  Name: 神·力量宝石
+  Require:
+    - BOW
+  Success: 80
+  Display: "&8&l&k||&e&l神·力量宝石&8&l&k||"
+  Tips:
+    - "&e&l神·力量宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入弓与此宝石, 点击中间确认"
+    - "&7即可为其力量等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIwNzE2MjAzZGEwMzljYWZjYTI0YmJkOWYzZTliZDVjNjk4NWMzYzI1NTI3YmNkNTA2ZDM4OGU5OWJiN2FmZSJ9fX0=
+  SuccessTip: "&f你使用了&e&l神·力量宝石&f, 弓力量等级&e&l+1"
+  Rewards:
+    - Enchant{name=ARROW_DAMAGE}
+
+内置-荆棘宝石:
+  Name: 荆棘宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&2&l荆棘宝石&8&l&k||"
+  Tips:
+    - "&2荆棘宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其荆棘等级+1(上限10级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc1N2NmYzdjMTFiMWU2ZjEwMjhiODA0NjJkMWU0MzAyZGNhNWFiODU5MjIyNWVhOGM4Yjc2MzljNzBlNjFmOSJ9fX0=
+  SuccessTip: "&f你使用了&2&l荆棘宝石&f, 盔甲荆棘等级&2&l+1"
+  Rewards:
+    - Enchant{name=THORNS;limit=10}
+
+内置-真荆棘宝石:
+  Name: 真·荆棘宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&2&l真·荆棘宝石&8&l&k||"
+  Tips:
+    - "&2&l真·荆棘宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其荆棘等级+1(上限30级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc1N2NmYzdjMTFiMWU2ZjEwMjhiODA0NjJkMWU0MzAyZGNhNWFiODU5MjIyNWVhOGM4Yjc2MzljNzBlNjFmOSJ9fX0=
+  SuccessTip: "&f你使用了&2&l真·荆棘宝石&f, 盔甲荆棘等级&2&l+1"
+  Rewards:
+    - Enchant{name=THORNS;limit=30}
+
+内置-神荆棘宝石:
+  Name: 神·荆棘宝石
+  Require:
+    - ARMOR
+  Success: 80
+  Display: "&8&l&k||&2&l神·荆棘宝石&8&l&k||"
+  Tips:
+    - "&2&l神·荆棘宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其荆棘等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc1N2NmYzdjMTFiMWU2ZjEwMjhiODA0NjJkMWU0MzAyZGNhNWFiODU5MjIyNWVhOGM4Yjc2MzljNzBlNjFmOSJ9fX0=
+  SuccessTip: "&f你使用了&2&l神·荆棘宝石&f, 盔甲荆棘等级&2&l+1"
+  Rewards:
+    - Enchant{name=THORNS}
+
+内置-激流宝石:
+  Name: 激流宝石
+  Require:
+    - TRIDENT
+  Display: "&8&l&k||&9&l激流宝石&8&l&k||"
+  Tips:
+    - "&9激流宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入三叉戟与此宝石, 点击中间确认"
+    - "&7即可为其激流等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA5NjcxOTAzZDcwZDhhMWQ1ZDliY2Q1ODI0MWQ1ZGMxYTIzZjEzN2QyNTNjMjgyNTYxOTc2YTY4NTEyODMifX19
+  SuccessTip: "&f你使用了&9&l激流宝石&f, 三叉戟激流等级&9&l+1"
+  Rewards:
+    - Enchant{name=RIPTIDE;limit=15}
+
+内置-真激流宝石:
+  Name: 真·激流宝石
+  Require:
+    - TRIDENT
+  Display: "&8&l&k||&9&l真·激流宝石&8&l&k||"
+  Tips:
+    - "&9&l真·激流宝石 &7品质: &a&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入三叉戟与此宝石, 点击中间确认"
+    - "&7即可为其激流等级+1(上限40级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA5NjcxOTAzZDcwZDhhMWQ1ZDliY2Q1ODI0MWQ1ZGMxYTIzZjEzN2QyNTNjMjgyNTYxOTc2YTY4NTEyODMifX19
+  SuccessTip: "&f你使用了&9&l真·激流宝石&f, 三叉戟激流等级&9&l+1"
+  Rewards:
+    - Enchant{name=RIPTIDE;limit=40}
+
+内置-保护宝石:
+  Name: 保护宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&3&l保护宝石&8&l&k||"
+  Tips:
+    - "&3保护宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其保护等级+1(上限10级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzI0ZDIzZjBiYjNlNzUwYWU0ZmUxMGEyYTg0OTBlOGEwMjg4MDZiOGE5NTRjNDU3YmUzNzlkMDJiN2Q0NjUwMiJ9fX0=
+  SuccessTip: "&f你使用了&3&l保护宝石&f, 盔甲保护等级&3&l+1"
+  Rewards:
+    - Enchant{name=PROTECTION_ENVIRONMENTAL;limit=10}
+
+内置-真保护宝石:
+  Name: 真·保护宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&3&l真·保护宝石&8&l&k||"
+  Tips:
+    - "&3&l真·保护宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入盔甲与此宝石, 点击中间确认"
+    - "&7即可为其保护等级+1(上限20级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzI0ZDIzZjBiYjNlNzUwYWU0ZmUxMGEyYTg0OTBlOGEwMjg4MDZiOGE5NTRjNDU3YmUzNzlkMDJiN2Q0NjUwMiJ9fX0=
+  SuccessTip: "&f你使用了&3&l真·保护宝石&f, 盔甲保护等级&3&l+1"
+  Rewards:
+    - Enchant{name=PROTECTION_ENVIRONMENTAL;limit=20}
+
+内置-冰霜行者宝石:
+  Name: 冰霜行者宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&9&l冰霜行者宝石&8&l&k||"
+  Tips:
+    - "&9&l冰霜行者宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其冰霜行者等级+1(上限7级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5ZTBhYmEzNWQ2ODUzZWU1NGM4Njc5OWY3NTRhZTE2NjlkZDM5YTBlMmYzZDY5NzMxZjMzMWFkZWRlIn19fQ==
+  SuccessTip: "&f你使用了&9&l冰霜行者宝石&f, 靴子冰霜行者等级&9&l+1"
+  Rewards:
+    - Enchant{name=FROST_WALKER;limit=7}
+内置-真冰霜行者宝石:
+  Name: 真·冰霜行者宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&9&l真·冰霜行者宝石&8&l&k||"
+  Tips:
+    - "&9&l真·冰霜行者宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其冰霜行者等级+1(上限14级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5ZTBhYmEzNWQ2ODUzZWU1NGM4Njc5OWY3NTRhZTE2NjlkZDM5YTBlMmYzZDY5NzMxZjMzMWFkZWRlIn19fQ==
+  SuccessTip: "&f你使用了&9&l真·冰霜行者宝石&f, 靴子冰霜行者等级&9&l+1"
+  Rewards:
+    - Enchant{name=FROST_WALKER;limit=14}
+
+内置-海之眷顾宝石:
+  Name: 海之眷顾宝石
+  Require:
+    - FISHING_ROD
+  Display: "&8&l&k||&9&l海之眷顾宝石&8&l&k||"
+  Tips:
+    - "&9海之眷顾宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入钓鱼竿与此宝石, 点击中间确认"
+    - "&7即可为其海之眷顾等级+1(上限10级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWY5ZjMwMTZjN2U1NzAzOThkNWIwODVhY2Y2YmMxYjJjMTA5NWVmZTBmNTFhN2I2MDVjODFmOTIwOWZiMzc2NyJ9fX0=
+  SuccessTip: "&f你使用了&9&l海之眷顾宝石&f, 钓竿海之眷顾等级&9&l+1"
+  Rewards:
+    - Enchant{name=LUCK;limit=10}
+
+内置-真海之眷顾宝石:
+  Name: 真·海之眷顾宝石
+  Require:
+    - FISHING_ROD
+  Display: "&8&l&k||&9&l真·海之眷顾宝石&8&l&k||"
+  Tips:
+    - "&9&l真·海之眷顾宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入钓鱼竿与此宝石, 点击中间确认"
+    - "&7即可为其海之眷顾等级+1(上限20级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWY5ZjMwMTZjN2U1NzAzOThkNWIwODVhY2Y2YmMxYjJjMTA5NWVmZTBmNTFhN2I2MDVjODFmOTIwOWZiMzc2NyJ9fX0=
+  SuccessTip: "&f你使用了&9&l真·海之眷顾宝石&f, 钓竿海之眷顾等级&9&l+1"
+  Rewards:
+    - Enchant{name=LUCK;limit=24}
+
+内置-效率宝石:
+  Name: 效率宝石
+  Require:
+    - AXE
+    - SHOVEL
+  Display: "&8&l&k||&a&l效率宝石&8&l&k||"
+  Tips:
+    - "&a&l效率宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入镐/斧/铲与此宝石, 点击中间确认"
+    - "&7即可为其效率等级+1(上限10级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg1YmNmN2Y4MmQzNGRiODlhOTVhZGRmOGU1MzI1M2UyZDk1NTRjNmZkMmYyZTM5ZTI0MzYyZDI0M2EwY2NmNyJ9fX0=
+  SuccessTip: "&f你使用了&a&l效率宝石&f, 工具效率等级&a&l+1"
+  Rewards:
+    - Enchant{name=DIG_SPEED;limit=10}
+
+内置-真效率宝石:
+  Name: 真·效率宝石
+  Require:
+    - AXE
+    - SHOVEL
+  Display: "&8&l&k||&a&l真·效率宝石&8&l&k||"
+  Tips:
+    - "&a&l真·效率宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入镐/斧/铲与此宝石, 点击中间确认"
+    - "&7即可为其效率等级+1(上限33级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg1YmNmN2Y4MmQzNGRiODlhOTVhZGRmOGU1MzI1M2UyZDk1NTRjNmZkMmYyZTM5ZTI0MzYyZDI0M2EwY2NmNyJ9fX0=
+  SuccessTip: "&f你使用了&a&l真·效率宝石&f, 工具效率等级&a&l+1"
+  Rewards:
+    - Enchant{name=DIG_SPEED;limit=33}
+
+内置-火焰附加宝石:
+  Name: 火焰附加宝石
+  Require:
+    - SWORD
+  Display: "&8&l&k||&6&l火焰附加宝石&8&l&k||"
+  Tips:
+    - "&6火焰附加宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑与此宝石, 点击中间确认"
+    - "&7即可为其火焰附加等级+1(上限10级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzBhNDRkNTFlY2M3OWY2OTRjZmQ2MDIyOGM4ODQyODg0OGNhNjE4ZTM2YTY1OWE0MTZlOTI0NmQ4NDFhZWM4In19fQ==
+  SuccessTip: "&f你使用了&6&l火焰附加宝石&f, 剑火焰附加等级&6&l+1"
+  Rewards:
+    - Enchant{name=FIRE_ASPECT;limit=10}
+
+内置-真火焰附加宝石:
+  Name: 真·火焰附加宝石
+  Require:
+    - SWORD
+  Display: "&8&l&k||&6&l真·火焰附加宝石&8&l&k||"
+  Tips:
+    - "&6&l真·火焰附加宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑与此宝石, 点击中间确认"
+    - "&7即可为其火焰附加等级+1(上限25级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzBhNDRkNTFlY2M3OWY2OTRjZmQ2MDIyOGM4ODQyODg0OGNhNjE4ZTM2YTY1OWE0MTZlOTI0NmQ4NDFhZWM4In19fQ==
+  SuccessTip: "&f你使用了&6&l真·火焰附加宝石&f, 剑火焰附加等级&6&l+1"
+  Rewards:
+    - Enchant{name=FIRE_ASPECT;limit=25}
+
+内置-神火焰附加宝石:
+  Name: 神·火焰附加宝石
+  Require:
+    - SWORD
+  Success: 80
+  Display: "&8&l&k||&6&l神·火焰附加宝石&8&l&k||"
+  Tips:
+    - "&6&l神·火焰附加宝石 &7品质: &b史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑与此宝石, 点击中间确认"
+    - "&7即可为其火焰附加等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzBhNDRkNTFlY2M3OWY2OTRjZmQ2MDIyOGM4ODQyODg0OGNhNjE4ZTM2YTY1OWE0MTZlOTI0NmQ4NDFhZWM4In19fQ==
+  SuccessTip: "&f你使用了&6&l神·火焰附加宝石&f, 剑火焰附加等级&6&l+1"
+  Rewards:
+    - Enchant{name=FIRE_ASPECT}
+
+内置-穿刺宝石:
+  Name: 穿刺宝石
+  Require:
+    - TRIDENT
+  Display: "&8&l&k||&3&l穿刺宝石&8&l&k||"
+  Tips:
+    - "&3穿刺宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入三叉戟与此宝石, 点击中间确认"
+    - "&7即可为其穿刺等级+1(上限20级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWVjZDk3MjdlOWQ5ZjJjMDczOTkzNGVmMWU2M2QxZDg5YzkyMzY5NDIxY2FmYmFlYTczM2NjZTM1YzNiNjc2OCJ9fX0=
+  SuccessTip: "&f你使用了&3&l穿刺宝石&f, 三叉戟穿刺等级&3&l+1"
+  Rewards:
+    - Enchant{name=CHANNELING;limit=20}
+
+内置-忠诚宝石:
+  Name: 忠诚宝石
+  Require:
+    - TRIDENT
+  Display: "&8&l&k||&3&l忠诚宝石&8&l&k||"
+  Tips:
+    - "&3忠诚宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入三叉戟与此宝石, 点击中间确认"
+    - "&7即可为其忠诚等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=
+  SuccessTip: "&f你使用了&3&l忠诚宝石&f, 三叉戟忠诚等级&3&l+1"
+  Rewards:
+    - Enchant{name=LOYALTY;limit=15}
+
+内置-击退宝石:
+  Name: 击退宝石
+  Require:
+    - SWORD
+    - _AXE
+  Display: "&8&l&k||&8&l击退宝石&8&l&k||"
+  Tips:
+    - "&8&l击退宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑/斧与此宝石, 点击中间确认"
+    - "&7即可为其击退等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ZjI4MzMyYmNjMzQ5ZjQyMDIzYzI5ZTZlNjQxZjRiMTBhNmIxZTQ4NzE4Y2FlNTU3NDY2ZDUxZWI5MjIifX19
+  SuccessTip: "&f你使用了&8&l击退宝石&f, 剑/斧击退等级&8&l+1"
+  Rewards:
+    - Enchant{name=KNOCKBACK;limit=15}
+
+内置-真击退宝石:
+  Name: 真·击退宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&8&l真·击退宝石&8&l&k||"
+  Tips:
+    - "&8&l真·击退宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑/斧与此宝石, 点击中间确认"
+    - "&7即可为其击退等级+1(上限30级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ZjI4MzMyYmNjMzQ5ZjQyMDIzYzI5ZTZlNjQxZjRiMTBhNmIxZTQ4NzE4Y2FlNTU3NDY2ZDUxZWI5MjIifX19
+  SuccessTip: "&f你使用了&8&l真·击退宝石&f, 剑/斧击退等级&8&l+1"
+  Rewards:
+    - Enchant{name=KNOCKBACK;limit=30}
+
+内置-冲击宝石:
+  Name: 冲击宝石
+  Require:
+    - BOW
+  Display: "&8&l&k||&8&l冲击宝石&8&l&k||"
+  Tips:
+    - "&8&l冲击宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入弓与此宝石, 点击中间确认"
+    - "&7即可为其冲击等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0Nzk1MTA0MjJiMWM1ZGNjNzdmNzVmZGMzMzQ2ZWQ0ZDlkYmJjYzFlODg1YjRhMjk5MmEyNzM3MzM2NDZhOSJ9fX0=
+  SuccessTip: "&f你使用了&8&l冲击宝石&f, 弓冲击等级&8&l+1"
+  Rewards:
+    - Enchant{name=ARROW_KNOCKBACK;limit=15}
+
+内置-真冲击宝石:
+  Name: 真·冲击宝石
+  Require:
+    - BOW
+  Display: "&8&l&k||&8&l真·冲击宝石&8&l&k||"
+  Tips:
+    - "&8&l真·冲击宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入弓与此宝石, 点击中间确认"
+    - "&7即可为其冲击等级+1(上限30级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0Nzk1MTA0MjJiMWM1ZGNjNzdmNzVmZGMzMzQ2ZWQ0ZDlkYmJjYzFlODg1YjRhMjk5MmEyNzM3MzM2NDZhOSJ9fX0=
+  SuccessTip: "&f你使用了&8&l真·冲击宝石&f, 弓冲击等级&8&l+1"
+  Rewards:
+    - Enchant{name=ARROW_KNOCKBACK;limit=30}
+
+内置-水下呼吸宝石:
+  Name: 水下呼吸宝石
+  Require:
+    - HELMET
+  Display: "&8&l&k||&b&l水下呼吸宝石&8&l&k||"
+  Tips:
+    - "&b&l水下呼吸宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入头盔与此宝石, 点击中间确认"
+    - "&7即可为其水下呼吸等级+1(上限6级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwZjFkMGE3NDU5OTFlNjYxNGZmZDdkYzlmODBlMzc0NTU5NmU4MTg5Nzc5NmYyODAyNjJmMTJmMTVlYjRhZCJ9fX0=
+  SuccessTip: "&f你使用了&b&l水下呼吸宝石&f, 头盔水下呼吸等级&b&l+1"
+  Rewards:
+    - Enchant{name=OXYGEN;limit=6}
+
+内置-真水下呼吸宝石:
+  Name: 真·水下呼吸宝石
+  Require:
+    - HELMET
+  Display: "&8&l&k||&b&l真·水下呼吸宝石&8&l&k||"
+  Tips:
+    - "&b&l真·水下呼吸宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入头盔与此宝石, 点击中间确认"
+    - "&7即可为其水下呼吸等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwZjFkMGE3NDU5OTFlNjYxNGZmZDdkYzlmODBlMzc0NTU5NmU4MTg5Nzc5NmYyODAyNjJmMTJmMTVlYjRhZCJ9fX0=
+  SuccessTip: "&f你使用了&b&l真·水下呼吸宝石&f, 头盔水下呼吸等级&b&l+1"
+  Rewards:
+    - Enchant{name=OXYGEN;limit=15}
+
+内置-亡灵杀手宝石:
+  Name: 亡灵杀手宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&7&l亡灵杀手宝石&8&l&k||"
+  Tips:
+    - "&7亡灵杀手宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其亡灵杀手等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRmODVkNmFlNzdlMTJlNTFlZTQzYWRlZjQzYzNjMzI0ZTRlMzc4NDg5OWI5MDM3NjE4MmZlN2Y0N2E1ZSJ9fX0=
+  SuccessTip: "&f你使用了&7&l亡灵杀手宝石&f, 武器亡灵杀手等级&7&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_UNDEAD;limit=15}
+
+内置-真亡灵杀手宝石:
+  Name: 真·亡灵杀手宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&7&l真·亡灵杀手宝石&8&l&k||"
+  Tips:
+    - "&7&l真·亡灵杀手宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其亡灵杀手等级+1(上限40级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRmODVkNmFlNzdlMTJlNTFlZTQzYWRlZjQzYzNjMzI0ZTRlMzc4NDg5OWI5MDM3NjE4MmZlN2Y0N2E1ZSJ9fX0=
+  SuccessTip: "&f你使用了&7&l真·亡灵杀手宝石&f, 武器亡灵杀手等级&7&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_UNDEAD;limit=40}
+
+内置-神亡灵杀手宝石:
+  Name: 神·亡灵杀手宝石
+  Require:
+    - _AXE
+    - SWORD
+  Success: 80
+  Display: "&8&l&k||&7&l神·亡灵杀手宝石&8&l&k||"
+  Tips:
+    - "&7&l神·亡灵杀手宝石 &7品质: &b史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其亡灵杀手等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRmODVkNmFlNzdlMTJlNTFlZTQzYWRlZjQzYzNjMzI0ZTRlMzc4NDg5OWI5MDM3NjE4MmZlN2Y0N2E1ZSJ9fX0=
+  SuccessTip: "&f你使用了&7&l神·亡灵杀手宝石&f, 武器亡灵杀手等级&7&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_UNDEAD}
+
+内置-节肢杀手宝石:
+  Name: 节肢杀手宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&8&l节肢杀手宝石&8&l&k||"
+  Tips:
+    - "&8节肢杀手宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其节肢杀手等级+1(上限15级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhkYWY1NGFjOGMwNjFhODMzMjY5N2ZkMDM4YjlmM2FmOGVjMzhkMTY4NDllNTI3MTI1ZDI5NzNkZTYyZTliIn19fQ==
+  SuccessTip: "&f你使用了&8&l节肢杀手宝石&f, 武器节肢杀手等级&8&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_ARTHROPODS;limit=15}
+
+内置-真节肢杀手宝石:
+  Name: 真·节肢杀手宝石
+  Require:
+    - _AXE
+    - SWORD
+  Display: "&8&l&k||&8&l真·节肢杀手宝石&8&l&k||"
+  Tips:
+    - "&8&l真·节肢杀手宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其节肢杀手等级+1(上限40级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhkYWY1NGFjOGMwNjFhODMzMjY5N2ZkMDM4YjlmM2FmOGVjMzhkMTY4NDllNTI3MTI1ZDI5NzNkZTYyZTliIn19fQ==
+  SuccessTip: "&f你使用了&8&l真·节肢杀手宝石&f, 武器节肢杀手等级&8&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_ARTHROPODS;limit=40}
+
+内置-神节肢杀手宝石:
+  Name: 神·节肢杀手宝石
+  Require:
+    - _AXE
+    - SWORD
+  Success: 80
+  Display: "&8&l&k||&8&l神·节肢杀手宝石&8&l&k||"
+  Tips:
+    - "&8&l神·节肢杀手宝石 &7品质: &b史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入武器与此宝石, 点击中间确认"
+    - "&7即可为其节肢杀手等级+1(无上限)"
+    - "&7成功率: &a80%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhkYWY1NGFjOGMwNjFhODMzMjY5N2ZkMDM4YjlmM2FmOGVjMzhkMTY4NDllNTI3MTI1ZDI5NzNkZTYyZTliIn19fQ==
+  SuccessTip: "&f你使用了&8&l神·节肢杀手宝石&f, 武器节肢杀手等级&8&l+1"
+  Rewards:
+    - Enchant{name=DAMAGE_ARTHROPODS}
+
+内置-横扫之刃宝石:
+  Name: 横扫之刃宝石
+  Require:
+    - SWORD
+  Display: "&8&l&k||&c&l横扫之刃宝石&8&l&k||"
+  Tips:
+    - "&c横扫之刃宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入剑与此宝石, 点击中间确认"
+    - "&7即可为其横扫之刃等级+1(上限10级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTVkNzZkOTBiMzc4MDgzZDE0Nzc1NjgwNTA1ZGRiMWU2YzJjNmRjZjRkZGU3ZjliMWY1ODgwOWJlYzZjNjVjOCJ9fX0=
+  SuccessTip: "&f你使用了&c&l横扫之刃宝石&f, 武器横扫之刃等级&c&l+1"
+  Rewards:
+    - Enchant{name=SWEEPING_EDGE;limit=10}
+
+内置-灵魂疾行宝石:
+  Name: 灵魂疾行宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&3&l灵魂疾行宝石&8&l&k||"
+  Tips:
+    - "&3&l灵魂疾行宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其灵魂疾行等级+1(上限7级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7ImlkIjoiOTM4NDM1M2E0YWUwNGZlNDkzOTcxYjU4N2RmNzdmMTIiLCJ0eXBlIjoiU0tJTiIsInVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCIsInByb2ZpbGVJZCI6IjgwMThhYjAwYjJhZTQ0Y2FhYzliZjYwZWY5MGY0NWU1IiwidGV4dHVyZUlkIjoiOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCJ9fSwiY2FwZSI6bnVsbCwic2tpbiI6eyJpZCI6IjkzODQzNTNhNGFlMDRmZTQ5Mzk3MWI1ODdkZjc3ZjEyIiwidHlwZSI6IlNLSU4iLCJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QiLCJwcm9maWxlSWQiOiI4MDE4YWIwMGIyYWU0NGNhYWM5YmY2MGVmOTBmNDVlNSIsInRleHR1cmVJZCI6Ijk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QifX0=
+  SuccessTip: "&f你使用了&3&l灵魂疾行宝石&f, 靴子灵魂疾行等级&3&l+1"
+  Rewards:
+    - Enchant{name=SOUL_SPEED;limit=10}
+
+内置-真灵魂疾行宝石:
+  Name: 真·灵魂疾行宝石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&3&l真·灵魂疾行宝石&8&l&k||"
+  Tips:
+    - "&3&l真·灵魂疾行宝石 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入靴子与此宝石, 点击中间确认"
+    - "&7即可为其灵魂疾行等级+1(上限30级)"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7ImlkIjoiOTM4NDM1M2E0YWUwNGZlNDkzOTcxYjU4N2RmNzdmMTIiLCJ0eXBlIjoiU0tJTiIsInVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCIsInByb2ZpbGVJZCI6IjgwMThhYjAwYjJhZTQ0Y2FhYzliZjYwZWY5MGY0NWU1IiwidGV4dHVyZUlkIjoiOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCJ9fSwiY2FwZSI6bnVsbCwic2tpbiI6eyJpZCI6IjkzODQzNTNhNGFlMDRmZTQ5Mzk3MWI1ODdkZjc3ZjEyIiwidHlwZSI6IlNLSU4iLCJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QiLCJwcm9maWxlSWQiOiI4MDE4YWIwMGIyYWU0NGNhYWM5YmY2MGVmOTBmNDVlNSIsInRleHR1cmVJZCI6Ijk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QifX0=
+  SuccessTip: "&f你使用了&3&l真·灵魂疾行宝石&f, 靴子灵魂疾行等级&3&l+1"
+  Rewards:
+    - Enchant{name=SOUL_SPEED;limit=30}

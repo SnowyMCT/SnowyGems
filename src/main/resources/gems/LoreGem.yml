@@ -1,0 +1,2836 @@
+Version: 1.05
+# 以下宝石根据一些手游和AttributePlus的部分属性而设计
+
+内置-红色符文强攻1:
+  Name: 红色符文强攻1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l强攻 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c强攻 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 物理伤害 &c+2.0"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l强攻 I&f, 武器物理伤害&c&l+2.0"
+  RemoveTip: "&7你拆下了&c&l强攻 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;format=%.1f;var=v+2;inv=v-2;mode=last}"
+
+内置-红色符文强攻2:
+  Name: 红色符文强攻2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l强攻 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c强攻 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 物理伤害 &c+3.4"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l强攻 II&f, 武器物理伤害&c&l+3.4"
+  RemoveTip: "&7你拆下了&c&l强攻 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;format=%.1f;var=v+3.4;inv=v-3.4;mode=last}"
+
+内置-红色符文强攻3:
+  Name: 红色符文强攻3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l强攻 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c强攻 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 物理伤害 &c+4.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l强攻 III&f, 武器物理伤害&c&l+4.5"
+  RemoveTip: "&7你拆下了&c&l强攻 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;format=%.1f;var=v+4.5;inv=v-4.5;mode=last}"
+
+内置-红色符文强攻4:
+  Name: 红色符文强攻4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l强攻 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c强攻 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 物理伤害 &c+5.4"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l强攻 IV&f, 武器物理伤害&c&l+5.4"
+  RemoveTip: "&7你拆下了&c&l强攻 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;format=%.1f;var=v+5.4;inv=v-5.4;mode=last}"
+
+内置-红色符文强攻5:
+  Name: 红色符文强攻5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l强攻 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c强攻 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 物理伤害 &c+6.0"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l强攻 V&f, 武器物理伤害&c&l+6.0"
+  RemoveTip: "&7你拆下了&c&l强攻 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;format=%.1f;var=v+6;inv=v-6;mode=last}"
+
+内置-红色符文致命1:
+  Name: 红色符文致命1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l致命 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c致命 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 真实伤害 &c+2.0"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l致命 I&f, 武器真实伤害&c&l+2.0"
+  RemoveTip: "&7你拆下了&c&l致命 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 真实伤害: &c&l;format=%.1f;var=v+2;inv=v-2;mode=last}"
+
+内置-红色符文致命2:
+  Name: 红色符文致命2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l致命 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c致命 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 真实伤害 &c+2.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l致命 II&f, 武器真实伤害&c&l+2.8"
+  RemoveTip: "&7你拆下了&c&l致命 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 真实伤害: &c&l;format=%.1f;var=v+2.8;inv=v-2.8;mode=last}"
+
+内置-红色符文致命3:
+  Name: 红色符文致命3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l致命 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c致命 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 真实伤害 &c+3.4"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l致命 III&f, 武器真实伤害&c&l+3.4"
+  RemoveTip: "&7你拆下了&c&l致命 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 真实伤害: &c&l;format=%.1f;var=v+3.4;inv=v-3.4;mode=last}"
+
+内置-红色符文致命4:
+  Name: 红色符文致命4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l致命 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c致命 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 真实伤害 &c+3.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l致命 IV&f, 武器真实伤害&c&l+3.8"
+  RemoveTip: "&7你拆下了&c&l致命 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 真实伤害: &c&l;format=%.1f;var=v+3.8;inv=v-3.8;mode=last}"
+
+内置-红色符文致命5:
+  Name: 红色符文致命5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l致命 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c致命 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 真实伤害 &c+4.0"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l致命 V&f, 武器真实伤害&c&l+4.0"
+  RemoveTip: "&7你拆下了&c&l致命 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 真实伤害: &c&l;format=%.1f;var=v+4;inv=v-4;mode=last}"
+
+内置-红色符文灾祸1:
+  Name: 红色符文灾祸1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l灾祸 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c灾祸 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击几率 &c+1.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l灾祸 I&f, 武器暴击几率&c&l+1.0&f%"
+  RemoveTip: "&7你拆下了&c&l灾祸 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+1;inv=v-1;mode=last}"
+
+内置-红色符文灾祸2:
+  Name: 红色符文灾祸2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l灾祸 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c灾祸 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击几率 &c+1.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l灾祸 II&f, 武器暴击几率&c&l+1.7&f%"
+  RemoveTip: "&7你拆下了&c&l灾祸 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+1.7;inv=v-1.7;mode=last}"
+
+内置-红色符文灾祸3:
+  Name: 红色符文灾祸3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l灾祸 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c灾祸 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击几率 &c+2.2&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l灾祸 III&f, 武器暴击几率&c&l+2.2&f%"
+  RemoveTip: "&7你拆下了&c&l灾祸 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+2.2;inv=v-2.2;mode=last}"
+
+内置-红色符文灾祸4:
+  Name: 红色符文灾祸4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l灾祸 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c灾祸 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击几率 &c+2.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l灾祸 IV&f, 武器暴击几率&c&l+2.7&f%"
+  RemoveTip: "&7你拆下了&c&l灾祸 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+2.7;inv=v-2.7;mode=last}"
+
+内置-红色符文灾祸5:
+  Name: 红色符文灾祸5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l灾祸 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c灾祸 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击几率 &c+3.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l灾祸 V&f, 武器暴击几率&c&l+3.0&f%"
+  RemoveTip: "&7你拆下了&c&l灾祸 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+3;inv=v-3;mode=last}"
+
+内置-红色符文流光1:
+  Name: 红色符文流光1
+  Require:
+    - BOW
+  Display: "&8&l&k||&c&l流光 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c流光 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢速度 &c+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l流光 I&f, 弓的箭矢速度&c&l+2.0&f%"
+  RemoveTip: "&7你拆下了&c&l流光 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢速度: &c&l;format=%.1f&f%%;var=v+2;inv=v-2;mode=last}"
+
+内置-红色符文流光2:
+  Name: 红色符文流光2
+  Require:
+    - BOW
+  Display: "&8&l&k||&c&l流光 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c流光 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢速度 &c+3.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l流光 II&f, 弓的箭矢速度&c&l+3.4&f%"
+  RemoveTip: "&7你拆下了&c&l流光 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢速度: &c&l;format=%.1f&f%%;var=v+3.4;inv=v-3.4;mode=last}"
+
+内置-红色符文流光3:
+  Name: 红色符文流光3
+  Require:
+    - BOW
+  Display: "&8&l&k||&c&l流光 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c流光 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢速度 &c+4.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l流光 III&f, 弓的箭矢速度&c&l+4.5&f%"
+  RemoveTip: "&7你拆下了&c&l流光 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢速度: &c&l;format=%.1f&f%%;var=v+4.5;inv=v-4.5;mode=last}"
+
+内置-红色符文流光4:
+  Name: 红色符文流光4
+  Require:
+    - BOW
+  Display: "&8&l&k||&c&l流光 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c流光 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢速度 &c+5.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l流光 IV&f, 弓的箭矢速度&c&l+5.4&f%"
+  RemoveTip: "&7你拆下了&c&l流光 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢速度: &c&l;format=%.1f&f%%;var=v+5.4;inv=v-5.4;mode=last}"
+
+内置-红色符文流光5:
+  Name: 红色符文流光5
+  Require:
+    - BOW
+  Display: "&8&l&k||&c&l流光 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c流光 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢速度 &c+6.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l流光 V&f, 弓的箭矢速度&c&l+6.0&f%"
+  RemoveTip: "&7你拆下了&c&l流光 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢速度: &c&l;format=%.1f&f%%;var=v+6;inv=v-6;mode=last}"
+
+内置-红色符文狂暴1:
+  Name: 红色符文狂暴1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l狂暴 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c狂暴 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击倍率 &c+2.0&f%"
+    - "&7 - 暴击几率 &c+0.2&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l狂暴 I&f, 武器暴击倍率&c&l+2.0&f%"
+  RemoveTip: "&7你拆下了&c&l狂暴 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击倍率: &c&l;format=%.1f&f%%;var=v+2;inv=v-2;mode=last}"
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+0.2;inv=v-0.2;mode=last}"
+
+内置-红色符文狂暴2:
+  Name: 红色符文狂暴2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l狂暴 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c狂暴 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击倍率 &c+3.5&f%"
+    - "&7 - 暴击几率 &c+0.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l狂暴 II&f, 武器暴击倍率&c&l+3.5&f%"
+  RemoveTip: "&7你拆下了&c&l狂暴 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击倍率: &c&l;format=%.1f&f%%;var=v+3.5;inv=v-3.5;mode=last}"
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+0.4;inv=v-0.4;mode=last}"
+
+内置-红色符文狂暴3:
+  Name: 红色符文狂暴3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l狂暴 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c狂暴 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击倍率 &c+4.2&f%"
+    - "&7 - 暴击几率 &c+0.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l狂暴 III&f, 武器暴击倍率&c&l+4.2&f%"
+  RemoveTip: "&7你拆下了&c&l狂暴 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击倍率: &c&l;format=%.1f&f%%;var=v+4.2;inv=v-4.2;mode=last}"
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+0.6;inv=v-0.6;mode=last}"
+
+内置-红色符文狂暴4:
+  Name: 红色符文狂暴4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l狂暴 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c狂暴 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击倍率 &c+4.7&f%"
+    - "&7 - 暴击几率 &c+0.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l狂暴 IV&f, 武器暴击倍率&c&l+4.7&f%"
+  RemoveTip: "&7你拆下了&c&l狂暴 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击倍率: &c&l;format=%.1f&f%%;var=v+4.7;inv=v-4.7;mode=last}"
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+0.7;inv=v-0.7;mode=last}"
+
+内置-红色符文狂暴5:
+  Name: 红色符文狂暴5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l狂暴 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c狂暴 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 暴击倍率 &c+5.0&f%"
+    - "&7 - 暴击几率 &c+0.8&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l狂暴 IV&f, 武器暴击倍率&c&l+5.0&f%"
+  RemoveTip: "&7你拆下了&c&l狂暴 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击倍率: &c&l;format=%.1f&f%%;var=v+5;inv=v-5;mode=last}"
+    - "LoreVar{lore=&7■ 暴击几率: &c&l;format=%.1f&f%%;var=v+0.8;inv=v-0.8;mode=last}"
+
+内置-红色符文烈焰1:
+  Name: 红色符文烈焰1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l烈焰 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c烈焰 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 燃烧几率 &c+0.8&f%"
+    - "&7 - 燃烧伤害 &c+0.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l烈焰 I&f, 武器燃烧几率&c&l+0.8&f%"
+  RemoveTip: "&7你拆下了&c&l烈焰 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 燃烧几率: &c&l;format=%.1f&f%%;var=v+0.8;inv=v-0.8;mode=last}"
+    - "LoreVar{lore=&7■ 燃烧伤害: &c&l;format=%.1f;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-红色符文烈焰2:
+  Name: 红色符文烈焰2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l烈焰 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c烈焰 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 燃烧几率 &c+2.0&f%"
+    - "&7 - 燃烧伤害 &c+1.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l烈焰 II&f, 武器燃烧几率&c&l+2.0&f%"
+  RemoveTip: "&7你拆下了&c&l烈焰 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 燃烧几率: &c&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+    - "LoreVar{lore=&7■ 燃烧伤害: &c&l;format=%.1f;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-红色符文烈焰3:
+  Name: 红色符文烈焰3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l烈焰 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c烈焰 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 燃烧几率 &c+3.0&f%"
+    - "&7 - 燃烧伤害 &c+2.6"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l烈焰 III&f, 武器燃烧几率&c&l+3.0&f%"
+  RemoveTip: "&7你拆下了&c&l烈焰 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 燃烧几率: &c&l;format=%.1f&f%%;var=v+3.0;inv=v-3.0;mode=last}"
+    - "LoreVar{lore=&7■ 燃烧伤害: &c&l;format=%.1f;var=v+2.6;inv=v-2.6;mode=last}"
+
+内置-红色符文烈焰4:
+  Name: 红色符文烈焰4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l烈焰 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c烈焰 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 燃烧几率 &c+3.6&f%"
+    - "&7 - 燃烧伤害 &c+3.6"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l烈焰 IV&f, 武器燃烧几率&c&l+3.6&f%"
+  RemoveTip: "&7你拆下了&c&l烈焰 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 燃烧几率: &c&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+    - "LoreVar{lore=&7■ 燃烧伤害: &c&l;format=%.1f;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-红色符文烈焰5:
+  Name: 红色符文烈焰5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&c&l烈焰 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c烈焰 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 燃烧几率 &c+4.0&f%"
+    - "&7 - 燃烧伤害 &c+4.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l烈焰 V&f, 武器燃烧几率&c&l+4.0&f%"
+  RemoveTip: "&7你拆下了&c&l烈焰 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 燃烧几率: &c&l;format=%.1f&f%%;var=v+4.0;inv=v-4.0;mode=last}"
+    - "LoreVar{lore=&7■ 燃烧伤害: &c&l;format=%.1f;var=v+4.5;inv=v-4.5;mode=last}"
+
+内置-红色符文坚守1:
+  Name: 红色符文坚守1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l坚守 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c坚守 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 物理防御 &c+0.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l坚守 I&f, 盔甲物理防御&c&l+0.8"
+  RemoveTip: "&7你拆下了&c&l坚守 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理防御: &c&l;format=%.1f;var=v+0.8;inv=v-0.8;mode=last}"
+
+内置-红色符文坚守2:
+  Name: 红色符文坚守2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l坚守 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c坚守 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 物理防御 &c+1.3"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l坚守 II&f, 盔甲物理防御&c&l+1.3"
+  RemoveTip: "&7你拆下了&c&l坚守 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理防御: &c&l;format=%.1f;var=v+1.3;inv=v-1.3;mode=last}"
+
+内置-红色符文坚守3:
+  Name: 红色符文坚守3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l坚守 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c坚守 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 物理防御 &c+1.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l坚守 III&f, 盔甲物理防御&c&l+1.8"
+  RemoveTip: "&7你拆下了&c&l坚守 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理防御: &c&l;format=%.1f;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-红色符文坚守4:
+  Name: 红色符文坚守4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l坚守 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c坚守 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 物理防御 &c+2.2"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l坚守 IV&f, 盔甲物理防御&c&l+2.2"
+  RemoveTip: "&7你拆下了&c&l坚守 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理防御: &c&l;format=%.1f;var=v+2.2;inv=v-2.2;mode=last}"
+
+内置-红色符文坚守5:
+  Name: 红色符文坚守5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l坚守 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c坚守 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 物理防御 &c+2.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l坚守 V&f, 盔甲物理防御&c&l+2.5"
+  RemoveTip: "&7你拆下了&c&l坚守 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 物理防御: &c&l;format=%.1f;var=v+2.5;inv=v-2.5;mode=last}"
+
+内置-红色符文重盾1:
+  Name: 红色符文重盾1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l重盾 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c重盾 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盔甲值 &c+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l重盾 I&f, 盔甲盔甲值&c&l+0.5&f%"
+  RemoveTip: "&7你拆下了&c&l重盾 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 盔甲值: &c&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-红色符文重盾2:
+  Name: 红色符文重盾2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l重盾 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c重盾 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盔甲值 &c+0.9&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l重盾 II&f, 盔甲盔甲值&c&l+0.9&f%"
+  RemoveTip: "&7你拆下了&c&l重盾 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 盔甲值: &c&l;format=%.1f&f%%;var=v+0.9;inv=v-0.9;mode=last}"
+
+内置-红色符文重盾3:
+  Name: 红色符文重盾3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l重盾 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c重盾 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盔甲值 &c+1.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l重盾 III&f, 盔甲盔甲值&c&l+1.3&f%"
+  RemoveTip: "&7你拆下了&c&l重盾 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 盔甲值: &c&l;format=%.1f&f%%;var=v+1.3;inv=v-1.3;mode=last}"
+
+内置-红色符文重盾4:
+  Name: 红色符文重盾4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l重盾 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c重盾 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盔甲值 &c+1.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l重盾 IV&f, 盔甲盔甲值&c&l+1.7&f%"
+  RemoveTip: "&7你拆下了&c&l重盾 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 盔甲值: &c&l;format=%.1f&f%%;var=v+1.7;inv=v-1.7;mode=last}"
+
+内置-红色符文重盾5:
+  Name: 红色符文重盾5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l重盾 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c重盾 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盔甲值 &c+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l重盾 V&f, 盔甲盔甲值&c&l+2.0&f%"
+  RemoveTip: "&7你拆下了&c&l重盾 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 盔甲值: &c&l;format=%.1f&f%%;var=v+2;inv=v-2;mode=last}"
+
+内置-红色符文稳健1:
+  Name: 红色符文稳健1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l稳健 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c稳健 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 暴击抵抗 &c+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l稳健 I&f, 盔甲暴击抵抗&c&l+0.5&f%"
+  RemoveTip: "&7你拆下了&c&l稳健 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击抵抗: &c&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-红色符文稳健2:
+  Name: 红色符文稳健2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l稳健 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c稳健 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 暴击抵抗 &c+0.9&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l稳健 II&f, 盔甲暴击抵抗&c&l+0.9&f%"
+  RemoveTip: "&7你拆下了&c&l稳健 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击抵抗: &c&l;format=%.1f&f%%;var=v+0.9;inv=v-0.9;mode=last}"
+
+内置-红色符文稳健3:
+  Name: 红色符文稳健3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l稳健 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c稳健 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 暴击抵抗 &c+1.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l稳健 III&f, 盔甲暴击抵抗&c&l+1.3&f%"
+  RemoveTip: "&7你拆下了&c&l稳健 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击抵抗: &c&l;format=%.1f&f%%;var=v+1.3;inv=v-1.3;mode=last}"
+
+内置-红色符文稳健4:
+  Name: 红色符文稳健4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l稳健 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c稳健 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 暴击抵抗 &c+1.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l稳健 IV&f, 盔甲暴击抵抗&c&l+1.7&f%"
+  RemoveTip: "&7你拆下了&c&l稳健 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击抵抗: &c&l;format=%.1f&f%%;var=v+1.7;inv=v-1.7;mode=last}"
+
+内置-红色符文稳健5:
+  Name: 红色符文稳健5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l稳健 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c稳健 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 暴击抵抗 &c+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l稳健 V&f, 盔甲暴击抵抗&c&l+2.0&f%"
+  RemoveTip: "&7你拆下了&c&l稳健 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 暴击抵抗: &c&l;format=%.1f&f%%;var=v+2;inv=v-2;mode=last}"
+
+内置-红色符文神圣1:
+  Name: 红色符文神圣1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l神圣 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c神圣 &7符文等级: &cI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 吸血抗性 &c+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l神圣 I&f, 盔甲吸血抗性&c&l+0.5&f%"
+  RemoveTip: "&7你拆下了&c&l神圣 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血抗性: &c&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-红色符文神圣2:
+  Name: 红色符文神圣2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l神圣 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c神圣 &7符文等级: &cII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 吸血抗性 &c+0.9&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l神圣 II&f, 盔甲吸血抗性&c&l+0.9&f%"
+  RemoveTip: "&7你拆下了&c&l神圣 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血抗性: &c&l;format=%.1f&f%%;var=v+0.9;inv=v-0.9;mode=last}"
+
+内置-红色符文神圣3:
+  Name: 红色符文神圣3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l神圣 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c神圣 &7符文等级: &cIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 吸血抗性 &c+1.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l神圣 III&f, 盔甲吸血抗性&c&l+1.3&f%"
+  RemoveTip: "&7你拆下了&c&l神圣 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血抗性: &c&l;format=%.1f&f%%;var=v+1.3;inv=v-1.3;mode=last}"
+
+内置-红色符文神圣4:
+  Name: 红色符文神圣4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l神圣 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c神圣 &7符文等级: &cIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 吸血抗性 &c+1.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l神圣 IV&f, 盔甲吸血抗性&c&l+1.7&f%"
+  RemoveTip: "&7你拆下了&c&l神圣 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血抗性: &c&l;format=%.1f&f%%;var=v+1.7;inv=v-1.7;mode=last}"
+
+内置-红色符文神圣5:
+  Name: 红色符文神圣5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l神圣 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&c神圣 &7符文等级: &c&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 吸血抗性 &c+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU3MTdiNDg1ZDk1YjNiZDE0ZGIxMzUwYzU1YTI5ZGE5OWVlMWQzMTk1YzA1MDYxNzA4OGE5Njc3YWM0MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&c&l神圣 V&f, 盔甲吸血抗性&c&l+2.0&f%"
+  RemoveTip: "&7你拆下了&c&l神圣 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血抗性: &c&l;format=%.1f&f%%;var=v+2;inv=v-2;mode=last}"
+
+内置-绿色符文锐利1:
+  Name: 绿色符文锐利1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l锐利 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a锐利 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 护甲穿透 &a+1.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l锐利 I&f, 武器护甲穿透&a&l+1&f%"
+  RemoveTip: "&7你拆下了&a&l锐利 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 护甲穿透: &a&l;format=%.1f&f%%;var=v+1;inv=v-1;mode=last}"
+
+内置-绿色符文锐利2:
+  Name: 绿色符文锐利2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l锐利 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a锐利 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 护甲穿透 &a+1.7&f%"
+    - "&7 - 物理伤害 &c+1.0"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l锐利 II&f, 武器护甲穿透&a&l+1.7&f%"
+  RemoveTip: "&7你拆下了&a&l锐利 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 护甲穿透: &a&l;var=v+1.7;format=%.1f&f%%;inv=v-1.7;mode=last}"
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;var=v+1;inv=v-1;mode=last}"
+
+内置-绿色符文锐利3:
+  Name: 绿色符文锐利3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l锐利 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a锐利 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 护甲穿透 &a+2.2&f%"
+    - "&7 - 物理伤害 &c+1.4"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l锐利 III&f, 武器护甲穿透&a&l+2.2&f%"
+  RemoveTip: "&7你拆下了&a&l锐利 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 护甲穿透: &a&l;format=%.1f&f%%;var=v+2.2;inv=v-2.2;mode=last}"
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;var=v+1.4;inv=v-1.4;mode=last}"
+
+内置-绿色符文锐利4:
+  Name: 绿色符文锐利4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l锐利 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a锐利 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 护甲穿透 &a+2.7&f%"
+    - "&7 - 物理伤害 &c+1.6"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l锐利 IV&f, 武器护甲穿透&a&l+2.7&f%"
+  RemoveTip: "&7你拆下了&a&l锐利 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 护甲穿透: &a&l;format=%.1f&f%%;var=v+2.7;inv=v-2.7;mode=last}"
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;var=v+1.6;inv=v-1.6;mode=last}"
+
+内置-绿色符文锐利5:
+  Name: 绿色符文锐利5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l锐利 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a锐利 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 护甲穿透 &a+3.0&f%"
+    - "&7 - 物理伤害 &c+1.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l锐利 V&f, 武器护甲穿透&a&l+3&f%"
+  RemoveTip: "&7你拆下了&a&l锐利 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 护甲穿透: &a&l;format=%.1f&f%%;var=v+3.0;inv=v-3.0;mode=last}"
+    - "LoreVar{lore=&7■ 物理伤害: &c&l;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-绿色符文看破1:
+  Name: 绿色符文看破1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l看破 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a看破 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破甲几率 &a+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l看破 I&f, 武器破甲几率&a&l+1.5&f%"
+  RemoveTip: "&7你拆下了&a&l看破 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 破甲几率: &a&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-绿色符文看破2:
+  Name: 绿色符文看破2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l看破 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a看破 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破甲几率 &a+2.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l看破 II&f, 武器破甲几率&a&l+2.7&f%"
+  RemoveTip: "&7你拆下了&a&l看破 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 破甲几率: &a&l;var=v+2.7;format=%.1f&f%%;inv=v-2.7;mode=last}"
+
+内置-绿色符文看破3:
+  Name: 绿色符文看破3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l看破 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a看破 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破甲几率 &a+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l看破 III&f, 武器破甲几率&a&l+3.6&f%"
+  RemoveTip: "&7你拆下了&a&l看破 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 破甲几率: &a&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-绿色符文看破4:
+  Name: 绿色符文看破4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l看破 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a看破 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破甲几率 &a+4.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l看破 IV&f, 武器破甲几率&a&l+4.3&f%"
+  RemoveTip: "&7你拆下了&a&l看破 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 破甲几率: &a&l;format=%.1f&f%%;var=v+4.3;inv=v-4.3;mode=last}"
+
+内置-绿色符文看破5:
+  Name: 绿色符文看破5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l看破 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a看破 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破甲几率 &a+5.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l看破 V&f, 武器破甲几率&a&l+5.0&f%"
+  RemoveTip: "&7你拆下了&a&l看破 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 破甲几率: &a&l;format=%.1f&f%%;var=v+5.0;inv=v-5.0;mode=last}"
+
+内置-绿色符文重挫1:
+  Name: 绿色符文重挫1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l重挫 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重挫 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破盾几率 &a+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重挫 I&f, 武器破盾几率&a&l+1.5&f%"
+  RemoveTip: "&7你拆下了&a&l重挫 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 破盾几率: &a&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-绿色符文重挫2:
+  Name: 绿色符文重挫2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l重挫 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重挫 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破盾几率 &a+2.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重挫 II&f, 武器破盾几率&a&l+2.7&f%"
+  RemoveTip: "&7你拆下了&a&l重挫 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 破盾几率: &a&l;var=v+2.7;format=%.1f&f%%;inv=v-2.7;mode=last}"
+
+内置-绿色符文重挫3:
+  Name: 绿色符文重挫3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l重挫 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重挫 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破盾几率 &a+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重挫 III&f, 武器破盾几率&a&l+3.6&f%"
+  RemoveTip: "&7你拆下了&a&l重挫 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 破盾几率: &a&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-绿色符文重挫4:
+  Name: 绿色符文重挫4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l重挫 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重挫 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破盾几率 &a+4.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重挫 IV&f, 武器破盾几率&a&l+4.3&f%"
+  RemoveTip: "&7你拆下了&a&l重挫 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 破盾几率: &a&l;format=%.1f&f%%;var=v+4.3;inv=v-4.3;mode=last}"
+
+内置-绿色符文重挫5:
+  Name: 绿色符文重挫5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l重挫 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重挫 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 破盾几率 &a+5.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重挫 V&f, 武器破盾几率&a&l+5.0&f%"
+  RemoveTip: "&7你拆下了&a&l重挫 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 破盾几率: &a&l;format=%.1f&f%%;var=v+5.0;inv=v-5.0;mode=last}"
+
+内置-绿色符文精准1:
+  Name: 绿色符文精准1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l精准 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a精准 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 命中几率 &a+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l精准 I&f, 武器命中几率&a&l+1.5&f%"
+  RemoveTip: "&7你拆下了&a&l精准 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 命中几率: &a&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-绿色符文精准2:
+  Name: 绿色符文精准2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l精准 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a精准 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 命中几率 &a+2.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l精准 II&f, 武器命中几率&a&l+2.7&f%"
+  RemoveTip: "&7你拆下了&a&l精准 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 命中几率: &a&l;var=v+2.7;format=%.1f&f%%;inv=v-2.7;mode=last}"
+
+内置-绿色符文精准3:
+  Name: 绿色符文精准3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l精准 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a精准 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 命中几率 &a+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l精准 III&f, 武器命中几率&a&l+3.6&f%"
+  RemoveTip: "&7你拆下了&a&l精准 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 命中几率: &a&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-绿色符文精准4:
+  Name: 绿色符文精准4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l精准 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a精准 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 命中几率 &a+4.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l精准 IV&f, 武器命中几率&a&l+4.3&f%"
+  RemoveTip: "&7你拆下了&a&l精准 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 命中几率: &a&l;format=%.1f&f%%;var=v+4.3;inv=v-4.3;mode=last}"
+
+内置-绿色符文精准5:
+  Name: 绿色符文精准5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l精准 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a精准 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 命中几率 &a+5.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l精准 V&f, 武器命中几率&a&l+5.0&f%"
+  RemoveTip: "&7你拆下了&a&l精准 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 命中几率: &a&l;format=%.1f&f%%;var=v+5.0;inv=v-5.0;mode=last}"
+
+内置-绿色符文重矢1:
+  Name: 绿色符文重矢1
+  Require:
+    - BOW
+  Display: "&8&l&k||&a&l重矢 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重矢 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢穿透率 &a+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重矢 I&f, 弓的箭矢穿透率&a&l+1.5&f%"
+  RemoveTip: "&7你拆下了&a&l重矢 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢穿透率: &a&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-绿色符文重矢2:
+  Name: 绿色符文重矢2
+  Require:
+    - BOW
+  Display: "&8&l&k||&a&l重矢 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重矢 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢穿透率 &a+2.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重矢 II&f, 弓的箭矢穿透率&a&l+2.7&f%"
+  RemoveTip: "&7你拆下了&a&l重矢 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢穿透率: &a&l;var=v+2.7;format=%.1f&f%%;inv=v-2.7;mode=last}"
+
+内置-绿色符文重矢3:
+  Name: 绿色符文重矢3
+  Require:
+    - BOW
+  Display: "&8&l&k||&a&l重矢 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重矢 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢穿透率 &a+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重矢 III&f, 弓的箭矢穿透率&a&l+3.6&f%"
+  RemoveTip: "&7你拆下了&a&l重矢 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢穿透率: &a&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-绿色符文重矢4:
+  Name: 绿色符文重矢4
+  Require:
+    - BOW
+  Display: "&8&l&k||&a&l重矢 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重矢 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢穿透率 &a+4.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重矢 IV&f, 弓的箭矢穿透率&a&l+4.3&f%"
+  RemoveTip: "&7你拆下了&a&l重矢 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢穿透率: &a&l;format=%.1f&f%%;var=v+4.3;inv=v-4.3;mode=last}"
+
+内置-绿色符文重矢5:
+  Name: 绿色符文重矢5
+  Require:
+    - BOW
+  Display: "&8&l&k||&a&l重矢 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a重矢 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭矢穿透率 &a+5.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l重矢 V&f, 弓的箭矢穿透率&a&l+5.0&f%"
+  RemoveTip: "&7你拆下了&a&l重矢 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭矢穿透率: &a&l;format=%.1f&f%%;var=v+5.0;inv=v-5.0;mode=last}"
+
+内置-绿色符文聪慧1:
+  Name: 绿色符文聪慧1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l聪慧 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a聪慧 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 经验加成 &a+3.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l聪慧 I&f, 武器经验加成&a&l+3.0&f%"
+  RemoveTip: "&7你拆下了&a&l聪慧 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 经验加成: &a&l;format=%.1f&f%%;var=v+3.0;inv=v-3.0;mode=last}"
+
+内置-绿色符文聪慧2:
+  Name: 绿色符文聪慧2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l聪慧 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a聪慧 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 经验加成 &a+5.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l聪慧 II&f, 武器经验加成&a&l+5.4&f%"
+  RemoveTip: "&7你拆下了&a&l聪慧 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 经验加成: &a&l;var=v+5.4;format=%.1f&f%%;inv=v-5.4;mode=last}"
+
+内置-绿色符文聪慧3:
+  Name: 绿色符文聪慧3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l聪慧 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a聪慧 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 经验加成 &a+7.2&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l聪慧 III&f, 武器经验加成&a&l+7.2&f%"
+  RemoveTip: "&7你拆下了&a&l聪慧 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 经验加成: &a&l;format=%.1f&f%%;var=v+7.2;inv=v-7.2;mode=last}"
+
+内置-绿色符文聪慧4:
+  Name: 绿色符文聪慧4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l聪慧 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a聪慧 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 经验加成 &a+8.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l聪慧 IV&f, 武器经验加成&a&l+8.6&f%"
+  RemoveTip: "&7你拆下了&a&l聪慧 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 经验加成: &a&l;format=%.1f&f%%;var=v+8.6;inv=v-8.6;mode=last}"
+
+内置-绿色符文聪慧5:
+  Name: 绿色符文聪慧5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&a&l聪慧 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a聪慧 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 经验加成 &a+10.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l聪慧 V&f, 武器经验加成&a&l+5.0&f%"
+  RemoveTip: "&7你拆下了&a&l聪慧 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 经验加成: &a&l;format=%.1f&f%%;var=v+10.0;inv=v-10.0;mode=last}"
+
+内置-绿色符文长生1:
+  Name: 绿色符文长生1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l长生 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a长生 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命力 &a+0.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l长生 I&f, 盔甲生命力&a&l+0.8"
+  RemoveTip: "&7你拆下了&a&l长生 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命力: &a&l;format=%.1f;var=v+0.8;inv=v-0.8;mode=last}"
+
+内置-绿色符文长生2:
+  Name: 绿色符文长生2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l长生 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a长生 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命力 &a+1.2"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l长生 II&f, 盔甲生命力&a&l+1.2"
+  RemoveTip: "&7你拆下了&a&l长生 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命力: &a&l;format=%.1f;var=v+1.2;inv=v-1.2;mode=last}"
+
+内置-绿色符文长生3:
+  Name: 绿色符文长生3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l长生 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a长生 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命力 &a+1.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l长生 III&f, 盔甲生命力&a&l+1.5"
+  RemoveTip: "&7你拆下了&a&l长生 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命力: &a&l;format=%.1f;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-绿色符文长生4:
+  Name: 绿色符文长生4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l长生 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a长生 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命力 &a+1.8"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l长生 IV&f, 盔甲生命力&a&l+1.8"
+  RemoveTip: "&7你拆下了&a&l长生 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命力: &a&l;format=%.1f;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-绿色符文长生5:
+  Name: 绿色符文长生5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l长生 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a长生 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命力 &a+2.0"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l长生 V&f, 盔甲生命力&a&l+2.0"
+  RemoveTip: "&7你拆下了&a&l长生 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命力: &a&l;format=%.1f;var=v+2.0;inv=v-2.0;mode=last}"
+
+内置-绿色符文强健1:
+  Name: 绿色符文强健1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l强健 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a强健 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命恢复 &a+0.1"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l强健 I&f, 盔甲生命恢复&a&l+0.1"
+  RemoveTip: "&7你拆下了&a&l强健 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命恢复: &a&l;format=%.1f;var=v+0.1;inv=v-0.1;mode=last}"
+
+内置-绿色符文强健2:
+  Name: 绿色符文强健2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l强健 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a强健 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命恢复 &a+0.2"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l强健 II&f, 盔甲生命恢复&a&l+0.2"
+  RemoveTip: "&7你拆下了&a&l强健 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命恢复: &a&l;format=%.1f;var=v+0.2;inv=v-0.2;mode=last}"
+
+内置-绿色符文强健3:
+  Name: 绿色符文强健3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l强健 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a强健 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命恢复 &a+0.3"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l强健 III&f, 盔甲生命恢复&a&l+0.3"
+  RemoveTip: "&7你拆下了&a&l强健 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命恢复: &a&l;format=%.1f;var=v+0.3;inv=v-0.3;mode=last}"
+
+内置-绿色符文强健4:
+  Name: 绿色符文强健4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l强健 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a强健 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命恢复 &a+0.4"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l强健 IV&f, 盔甲生命恢复&a&l+0.4"
+  RemoveTip: "&7你拆下了&a&l强健 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命恢复: &a&l;format=%.1f;var=v+0.4;inv=v-0.4;mode=last}"
+
+内置-绿色符文强健5:
+  Name: 绿色符文强健5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l强健 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a强健 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 生命恢复 &a+0.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l强健 V&f, 盔甲生命恢复&a&l+0.5"
+  RemoveTip: "&7你拆下了&a&l强健 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 生命恢复: &a&l;format=%.1f;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-绿色符文圣泉1:
+  Name: 绿色符文圣泉1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l圣泉 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a圣泉 &7符文等级: &aI"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 百分比回复 &a+0.1&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l圣泉 I&f, 盔甲百分比回复&a&l+0.1&f%"
+  RemoveTip: "&7你拆下了&a&l圣泉 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 百分比回复: &a&l;format=%.1f&f%%;var=v+0.1;inv=v-0.1;mode=last}"
+
+内置-绿色符文圣泉2:
+  Name: 绿色符文圣泉2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l圣泉 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a圣泉 &7符文等级: &aII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 百分比回复 &a+0.15&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l圣泉 II&f, 盔甲百分比回复&a&l+0.15&f%"
+  RemoveTip: "&7你拆下了&a&l圣泉 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 百分比回复: &a&l;format=%.1f&f%%;var=v+0.15;inv=v-0.15;mode=last}"
+
+内置-绿色符文圣泉3:
+  Name: 绿色符文圣泉3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l圣泉 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a圣泉 &7符文等级: &aIII"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 百分比回复 &a+0.2&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l圣泉 III&f, 盔甲百分比回复&a&l+0.2&f%"
+  RemoveTip: "&7你拆下了&a&l圣泉 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 百分比回复: &a&l;format=%.1f&f%%;var=v+0.2;inv=v-0.2;mode=last}"
+
+内置-绿色符文圣泉4:
+  Name: 绿色符文圣泉4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l圣泉 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a圣泉 &7符文等级: &aIV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 百分比回复 &a+0.25&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l圣泉 IV&f, 盔甲百分比回复&a&l+0.25&f%"
+  RemoveTip: "&7你拆下了&a&l圣泉 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 百分比回复: &a&l;format=%.1f&f%%;var=v+0.25;inv=v-0.25;mode=last}"
+
+内置-绿色符文圣泉5:
+  Name: 绿色符文圣泉5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&a&l圣泉 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&a圣泉 &7符文等级: &a&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 百分比回复 &a+0.3&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhOTg1YzMxYWQ0NjFlMzIyYjM5YzQzM2VhZTc5ZmY0NmZiNjQ4MDBjZGVjYWRmMmY2ZDBmOTcyNzI1MiJ9fX0=
+  SuccessTip: "&f你镶嵌了&a&l圣泉 V&f, 盔甲百分比回复&a&l+0.3&f%"
+  RemoveTip: "&7你拆下了&a&l圣泉 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 百分比回复: &a&l;format=%.1f&f%%;var=v+0.3;inv=v-0.3;mode=last}"
+
+内置-蓝色符文迅捷1:
+  Name: 蓝色符文迅捷1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l迅捷 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9迅捷 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 移速加成 &9+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l迅捷 I&f, 武器移速加成&9&l+0.5&f%"
+  RemoveTip: "&7你拆下了&9&l迅捷 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文迅捷2:
+  Name: 蓝色符文迅捷2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l迅捷 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9迅捷 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 移速加成 &9+0.9&f%"
+    - "&7 - 闪避几率 &9+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l迅捷 II&f, 武器移速加成&9&l+0.9&f%"
+  RemoveTip: "&7你拆下了&9&l迅捷 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+0.9;inv=v-0.9;mode=last}"
+    - "LoreVar{lore=&7■ 闪避几率: &a&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文迅捷3:
+  Name: 蓝色符文迅捷3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l迅捷 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9迅捷 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 移速加成 &9+1.2&f%"
+    - "&7 - 闪避几率 &9+0.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l迅捷 III&f, 武器移速加成&9&l+1.2&f%"
+  RemoveTip: "&7你拆下了&9&l迅捷 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+1.2;inv=v-1.2;mode=last}"
+    - "LoreVar{lore=&7■ 闪避几率: &a&l;format=%.1f&f%%;var=v+0.6;inv=v-0.6;mode=last}"
+
+内置-蓝色符文迅捷4:
+  Name: 蓝色符文迅捷4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l迅捷 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9迅捷 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 移速加成 &9+1.4&f%"
+    - "&7 - 闪避几率 &9+0.9&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l迅捷 IV&f, 武器移速加成&9&l+1.4&f%"
+  RemoveTip: "&7你拆下了&9&l迅捷 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+1.4;inv=v-1.4;mode=last}"
+    - "LoreVar{lore=&7■ 闪避几率: &a&l;format=%.1f&f%%;var=v+0.9;inv=v-0.9;mode=last}"
+
+内置-蓝色符文迅捷5:
+  Name: 蓝色符文迅捷5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l迅捷 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9迅捷 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 移速加成 &9+1.6&f%"
+    - "&7 - 闪避几率 &9+1.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l迅捷 V&f, 武器移速加成&9&l+1.6&f%"
+  RemoveTip: "&7你拆下了&9&l迅捷 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+1.6;inv=v-1.6;mode=last}"
+    - "LoreVar{lore=&7■ 闪避几率: &a&l;format=%.1f&f%%;var=v+1.0;inv=v-1.0;mode=last}"
+
+内置-蓝色符文奔腾1:
+  Name: 蓝色符文奔腾1
+  Require:
+    - WEAPON
+    - BOOTS
+  Display: "&8&l&k||&9&l奔腾 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9奔腾 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器/靴子, 属性:"
+    - "&7 - 移速加成 &9+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l奔腾 I&f, 武器移速加成&9&l+1.5&f%"
+  RemoveTip: "&7你拆下了&9&l奔腾 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-蓝色符文奔腾2:
+  Name: 蓝色符文奔腾2
+  Require:
+    - WEAPON
+    - BOOTS
+  Display: "&8&l&k||&9&l奔腾 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9奔腾 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器/靴子, 属性:"
+    - "&7 - 移速加成 &9+2.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l奔腾 II&f, 武器移速加成&9&l+2.7&f%"
+  RemoveTip: "&7你拆下了&9&l奔腾 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+2.7;inv=v-2.7;mode=last}"
+
+内置-蓝色符文奔腾3:
+  Name: 蓝色符文奔腾3
+  Require:
+    - WEAPON
+    - BOOTS
+  Display: "&8&l&k||&9&l奔腾 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9奔腾 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器/靴子, 属性:"
+    - "&7 - 移速加成 &9+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l奔腾 III&f, 武器移速加成&9&l+3.6&f%"
+  RemoveTip: "&7你拆下了&9&l奔腾 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-蓝色符文奔腾4:
+  Name: 蓝色符文奔腾4
+  Require:
+    - WEAPON
+    - BOOTS
+  Display: "&8&l&k||&9&l奔腾 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9奔腾 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器/靴子, 属性:"
+    - "&7 - 移速加成 &9+4.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l奔腾 IV&f, 武器移速加成&9&l+4.5&f%"
+  RemoveTip: "&7你拆下了&9&l奔腾 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+4.5;inv=v-4.5;mode=last}"
+
+内置-蓝色符文奔腾5:
+  Name: 蓝色符文奔腾5
+  Require:
+    - WEAPON
+    - BOOTS
+  Display: "&8&l&k||&9&l奔腾 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9奔腾 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器/靴子, 属性:"
+    - "&7 - 移速加成 &9+5.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l奔腾 V&f, 武器移速加成&9&l+5.0&f%"
+  RemoveTip: "&7你拆下了&9&l奔腾 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 移速加成: &9&l;format=%.1f&f%%;var=v+5.0;inv=v-5.0;mode=last}"
+
+内置-蓝色符文极寒1:
+  Name: 蓝色符文极寒1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l极寒 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9极寒 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 冰冻几率 &9+0.8&f%"
+    - "&7 - 冰冻强度 &9+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l极寒 I&f, 武器冰冻几率&9&l+0.8&f%"
+  RemoveTip: "&7你拆下了&9&l极寒 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 冰冻几率: &9&l;format=%.1f&f%%;var=v+0.8;inv=v-0.8;mode=last}"
+    - "LoreVar{lore=&7■ 冰冻强度: &9&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-蓝色符文极寒2:
+  Name: 蓝色符文极寒2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l极寒 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9极寒 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 冰冻几率 &9+2.0&f%"
+    - "&7 - 冰冻强度 &9+2.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l极寒 II&f, 武器冰冻几率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l极寒 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 冰冻几率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+    - "LoreVar{lore=&7■ 冰冻强度: &9&l;format=%.1f&f%%;var=v+2.5;inv=v-2.5;mode=last}"
+
+内置-蓝色符文极寒3:
+  Name: 蓝色符文极寒3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l极寒 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9极寒 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 冰冻几率 &9+3.2&f%"
+    - "&7 - 冰冻强度 &9+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l极寒 III&f, 武器冰冻几率&9&l+3.2&f%"
+  RemoveTip: "&7你拆下了&9&l极寒 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 冰冻几率: &9&l;format=%.1f&f%%;var=v+3.2;inv=v-3.2;mode=last}"
+    - "LoreVar{lore=&7■ 冰冻强度: &9&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-蓝色符文极寒4:
+  Name: 蓝色符文极寒4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l极寒 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9极寒 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 冰冻几率 &9+4.2&f%"
+    - "&7 - 冰冻强度 &9+4.9&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l极寒 IV&f, 武器冰冻几率&9&l+4.2&f%"
+  RemoveTip: "&7你拆下了&9&l极寒 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 冰冻几率: &9&l;format=%.1f&f%%;var=v+4.2;inv=v-4.2;mode=last}"
+    - "LoreVar{lore=&7■ 冰冻强度: &9&l;format=%.1f&f%%;var=v+4.9;inv=v-4.9;mode=last}"
+
+内置-蓝色符文极寒5:
+  Name: 蓝色符文极寒5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l极寒 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9极寒 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 冰冻几率 &9+5.0&f%"
+    - "&7 - 冰冻强度 &9+6.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l极寒 V&f, 武器冰冻几率&9&l+5.0&f%"
+  RemoveTip: "&7你拆下了&9&l极寒 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 冰冻几率: &9&l;format=%.1f&f%%;var=v+5.0;inv=v-5.0;mode=last}"
+    - "LoreVar{lore=&7■ 冰冻强度: &9&l;format=%.1f&f%%;var=v+6.0;inv=v-6.0;mode=last}"
+
+内置-蓝色符文雷霆1:
+  Name: 蓝色符文雷霆1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l雷霆 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9雷霆 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 雷击几率 &9+0.8&f%"
+    - "&7 - 雷击伤害 &9+0.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l雷霆 I&f, 武器雷击几率&9&l+0.8&f%"
+  RemoveTip: "&7你拆下了&9&l雷霆 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 雷击几率: &9&l;format=%.1f&f%%;var=v+0.8;inv=v-0.8;mode=last}"
+    - "LoreVar{lore=&7■ 雷击伤害: &9&l;format=%.1f;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文雷霆2:
+  Name: 蓝色符文雷霆2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l雷霆 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9雷霆 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 雷击几率 &9+2.0&f%"
+    - "&7 - 雷击伤害 &9+1.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l雷霆 II&f, 武器雷击几率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l雷霆 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 雷击几率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+    - "LoreVar{lore=&7■ 雷击伤害: &9&l;format=%.1f;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-蓝色符文雷霆3:
+  Name: 蓝色符文雷霆3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l雷霆 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9雷霆 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 雷击几率 &9+3.0&f%"
+    - "&7 - 雷击伤害 &9+2.6"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l雷霆 III&f, 武器雷击几率&9&l+3.0&f%"
+  RemoveTip: "&7你拆下了&9&l雷霆 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 雷击几率: &9&l;format=%.1f&f%%;var=v+3.0;inv=v-3.0;mode=last}"
+    - "LoreVar{lore=&7■ 雷击伤害: &9&l;format=%.1f;var=v+2.6;inv=v-2.6;mode=last}"
+
+内置-蓝色符文雷霆4:
+  Name: 蓝色符文雷霆4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l雷霆 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9雷霆 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 雷击几率 &9+3.6&f%"
+    - "&7 - 雷击伤害 &9+3.6"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l雷霆 IV&f, 武器雷击几率&9&l+3.6&f%"
+  RemoveTip: "&7你拆下了&9&l雷霆 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 雷击几率: &9&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+    - "LoreVar{lore=&7■ 雷击伤害: &9&l;format=%.1f;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-蓝色符文雷霆5:
+  Name: 蓝色符文雷霆5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l雷霆 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9雷霆 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 雷击几率 &9+4.0&f%"
+    - "&7 - 雷击伤害 &9+4.5"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l雷霆 V&f, 武器雷击几率&9&l+4.0&f%"
+  RemoveTip: "&7你拆下了&9&l雷霆 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 雷击几率: &9&l;format=%.1f&f%%;var=v+4.0;inv=v-4.0;mode=last}"
+    - "LoreVar{lore=&7■ 雷击伤害: &9&l;format=%.1f;var=v+4.5;inv=v-4.5;mode=last}"
+
+内置-蓝色符文汲取1:
+  Name: 蓝色符文汲取1
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l汲取 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9汲取 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 吸血几率 &9+0.8&f%"
+    - "&7 - 吸血抵抗 &9+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l汲取 I&f, 武器吸血几率&9&l+0.8&f%"
+  RemoveTip: "&7你拆下了&9&l汲取 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血几率: &9&l;format=%.1f&f%%;var=v+0.8;inv=v-0.8;mode=last}"
+    - "LoreVar{lore=&7■ 吸血抵抗: &9&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文汲取2:
+  Name: 蓝色符文汲取2
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l汲取 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9汲取 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 吸血几率 &9+2.0&f%"
+    - "&7 - 吸血抵抗 &9+1.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l汲取 II&f, 武器吸血几率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l汲取 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血几率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+    - "LoreVar{lore=&7■ 吸血抵抗: &9&l;format=%.1f&f%%;var=v+1.5;inv=v-1.5;mode=last}"
+
+内置-蓝色符文汲取3:
+  Name: 蓝色符文汲取3
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l汲取 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9汲取 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 吸血几率 &9+3.0&f%"
+    - "&7 - 吸血抵抗 &9+2.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l汲取 III&f, 武器吸血几率&9&l+3.0&f%"
+  RemoveTip: "&7你拆下了&9&l汲取 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血几率: &9&l;format=%.1f&f%%;var=v+3.0;inv=v-3.0;mode=last}"
+    - "LoreVar{lore=&7■ 吸血抵抗: &9&l;format=%.1f&f%%;var=v+2.6;inv=v-2.6;mode=last}"
+
+内置-蓝色符文汲取4:
+  Name: 蓝色符文汲取4
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l汲取 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9汲取 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 吸血几率 &9+3.6&f%"
+    - "&7 - 吸血抵抗 &9+3.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l汲取 IV&f, 武器吸血几率&9&l+3.6&f%"
+  RemoveTip: "&7你拆下了&9&l汲取 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血几率: &9&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+    - "LoreVar{lore=&7■ 吸血抵抗: &9&l;format=%.1f&f%%;var=v+3.6;inv=v-3.6;mode=last}"
+
+内置-蓝色符文汲取5:
+  Name: 蓝色符文汲取5
+  Require:
+    - WEAPON
+  Display: "&8&l&k||&9&l汲取 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9汲取 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 武器, 属性:"
+    - "&7 - 吸血几率 &9+4.0&f%"
+    - "&7 - 吸血抵抗 &9+4.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l汲取 V&f, 武器吸血几率&9&l+4.0&f%"
+  RemoveTip: "&7你拆下了&9&l汲取 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 吸血几率: &9&l;format=%.1f&f%%;var=v+4.0;inv=v-4.0;mode=last}"
+    - "LoreVar{lore=&7■ 吸血抵抗: &9&l;format=%.1f&f%%;var=v+4.5;inv=v-4.5;mode=last}"
+
+内置-蓝色符文穿杨1:
+  Name: 蓝色符文穿杨1
+  Require:
+    - BOW
+  Display: "&8&l&k||&9&l穿杨 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9穿杨 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭术精准 &9+2.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l穿杨 I&f, 弓箭术精准&9&l+2.5&f%"
+  RemoveTip: "&7你拆下了&9&l穿杨 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭术精准: &9&l;format=%.1f&f%%;var=v+2.5;inv=v-2.5;mode=last}"
+
+内置-蓝色符文穿杨2:
+  Name: 蓝色符文穿杨2
+  Require:
+    - BOW
+  Display: "&8&l&k||&9&l穿杨 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9穿杨 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭术精准 &9+3.7&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l穿杨 II&f, 弓箭术精准&9&l+3.7&f%"
+  RemoveTip: "&7你拆下了&9&l穿杨 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭术精准: &9&l;format=%.1f&f%%;var=v+3.7;inv=v-3.7;mode=last}"
+
+内置-蓝色符文穿杨3:
+  Name: 蓝色符文穿杨3
+  Require:
+    - BOW
+  Display: "&8&l&k||&9&l穿杨 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9穿杨 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭术精准 &9+4.6&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l穿杨 III&f, 弓箭术精准&9&l+4.6&f%"
+  RemoveTip: "&7你拆下了&9&l穿杨 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭术精准: &9&l;format=%.1f&f%%;var=v+4.6;inv=v-4.6;mode=last}"
+
+内置-蓝色符文穿杨4:
+  Name: 蓝色符文穿杨4
+  Require:
+    - BOW
+  Display: "&8&l&k||&9&l穿杨 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9穿杨 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭术精准 &9+5.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l穿杨 IV&f, 弓箭术精准&9&l+5.4&f%"
+  RemoveTip: "&7你拆下了&9&l穿杨 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭术精准: &9&l;format=%.1f&f%%;var=v+5.4;inv=v-5.4;mode=last}"
+
+内置-蓝色符文穿杨5:
+  Name: 蓝色符文穿杨5
+  Require:
+    - BOW
+  Display: "&8&l&k||&9&l穿杨 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9穿杨 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 弓, 属性:"
+    - "&7 - 箭术精准 &9+6.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l穿杨 V&f, 弓箭术精准&9&l+6.0&f%"
+  RemoveTip: "&7你拆下了&9&l穿杨 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭术精准: &9&l;format=%.1f&f%%;var=v+6.0;inv=v-6.0;mode=last}"
+
+内置-蓝色符文毒刺1:
+  Name: 蓝色符文毒刺1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l毒刺 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9毒刺 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 反弹几率 &9+0.5&f%"
+    - "&7 - 反弹伤害 &9+0.8&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l毒刺 I&f, 盔甲反弹几率&9&l+0.5&f%"
+  RemoveTip: "&7你拆下了&9&l毒刺 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 反弹几率: &9&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+    - "LoreVar{lore=&7■ 反弹伤害: &9&l;format=%.1f&f%%;var=v+0.8;inv=v-0.8;mode=last}"
+
+内置-蓝色符文毒刺2:
+  Name: 蓝色符文毒刺2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l毒刺 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9毒刺 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 反弹几率 &9+1.0&f%"
+    - "&7 - 反弹伤害 &9+1.2&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l毒刺 II&f, 盔甲反弹几率&9&l+1.0&f%"
+  RemoveTip: "&7你拆下了&9&l毒刺 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 反弹几率: &9&l;format=%.1f&f%%;var=v+1.0;inv=v-1.0;mode=last}"
+    - "LoreVar{lore=&7■ 反弹伤害: &9&l;format=%.1f&f%%;var=v+1.2;inv=v-1.2;mode=last}"
+
+内置-蓝色符文毒刺3:
+  Name: 蓝色符文毒刺3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l毒刺 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9毒刺 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 反弹几率 &9+1.4&f%"
+    - "&7 - 反弹伤害 &9+1.8&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l毒刺 III&f, 盔甲反弹几率&9&l+1.4&f%"
+  RemoveTip: "&7你拆下了&9&l毒刺 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 反弹几率: &9&l;format=%.1f&f%%;var=v+1.4;inv=v-1.4;mode=last}"
+    - "LoreVar{lore=&7■ 反弹伤害: &9&l;format=%.1f&f%%;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-蓝色符文毒刺4:
+  Name: 蓝色符文毒刺4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l毒刺 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9毒刺 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 反弹几率 &9+1.8&f%"
+    - "&7 - 反弹伤害 &9+2.1&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l毒刺 IV&f, 盔甲反弹几率&9&l+1.8&f%"
+  RemoveTip: "&7你拆下了&9&l毒刺 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 反弹几率: &9&l;format=%.1f&f%%;var=v+1.8;inv=v-1.8;mode=last}"
+    - "LoreVar{lore=&7■ 反弹伤害: &9&l;format=%.1f&f%%;var=v+2.1;inv=v-2.1;mode=last}"
+
+内置-蓝色符文毒刺5:
+  Name: 蓝色符文毒刺5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l毒刺 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9毒刺 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 反弹几率 &9+2.0&f%"
+    - "&7 - 反弹伤害 &9+2.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l毒刺 V&f, 盔甲反弹几率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l毒刺 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 反弹几率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+    - "LoreVar{lore=&7■ 反弹伤害: &9&l;format=%.1f&f%%;var=v+2.5;inv=v-2.5;mode=last}"
+
+内置-蓝色符文幻影1:
+  Name: 蓝色符文幻影1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l幻影 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9幻影 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 闪避几率 &9+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l幻影 I&f, 盔甲闪避几率&9&l+0.5&f%"
+  RemoveTip: "&7你拆下了&9&l幻影 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 闪避几率: &9&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文幻影2:
+  Name: 蓝色符文幻影2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l幻影 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9幻影 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 闪避几率 &9+1.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l幻影 II&f, 盔甲闪避几率&9&l+1.0&f%"
+  RemoveTip: "&7你拆下了&9&l幻影 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 闪避几率: &9&l;format=%.1f&f%%;var=v+1.0;inv=v-1.0;mode=last}"
+
+内置-蓝色符文幻影3:
+  Name: 蓝色符文幻影3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l幻影 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9幻影 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 闪避几率 &9+1.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l幻影 III&f, 盔甲闪避几率&9&l+1.4&f%"
+  RemoveTip: "&7你拆下了&9&l幻影 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 闪避几率: &9&l;format=%.1f&f%%;var=v+1.4;inv=v-1.4;mode=last}"
+
+内置-蓝色符文幻影4:
+  Name: 蓝色符文幻影4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l幻影 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9幻影 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 闪避几率 &9+1.8&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l幻影 IV&f, 盔甲闪避几率&9&l+1.8&f%"
+  RemoveTip: "&7你拆下了&9&l幻影 IV"
+  Rewards:
+    - "LoreVar{lore=&7■ 闪避几率: &9&l;format=%.1f&f%%;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-蓝色符文幻影5:
+  Name: 蓝色符文幻影5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l幻影 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9幻影 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 闪避几率 &9+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l幻影 V&f, 盔甲闪避几率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l幻影 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 闪避几率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+
+内置-蓝色符文格挡1:
+  Name: 蓝色符文格挡1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l格挡 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9格挡 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盾牌格挡率 &9+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l格挡 I&f, 盔甲盾牌格挡率&9&l+0.5&f%"
+  RemoveTip: "&7你拆下了&9&l格挡 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 盾牌格挡率: &9&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文格挡2:
+  Name: 蓝色符文格挡2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l格挡 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9格挡 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盾牌格挡率 &9+1.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l格挡 II&f, 盔甲盾牌格挡率&9&l+1.0&f%"
+  RemoveTip: "&7你拆下了&9&l格挡 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 盾牌格挡率: &9&l;format=%.1f&f%%;var=v+1.0;inv=v-1.0;mode=last}"
+
+内置-蓝色符文格挡3:
+  Name: 蓝色符文格挡3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l格挡 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9格挡 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盾牌格挡率 &9+1.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l格挡 III&f, 盔甲盾牌格挡率&9&l+1.4&f%"
+  RemoveTip: "&7你拆下了&9&l格挡 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 盾牌格挡率: &9&l;format=%.1f&f%%;var=v+1.4;inv=v-1.4;mode=last}"
+
+内置-蓝色符文格挡4:
+  Name: 蓝色符文格挡4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l格挡 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9格挡 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盾牌格挡率 &9+1.8&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l格挡 IV&f, 盔甲盾牌格挡率&9&l+1.8&f%"
+  Rewards:
+    - "LoreVar{lore=&7■ 盾牌格挡率: &9&l;format=%.1f&f%%;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-蓝色符文格挡5:
+  Name: 蓝色符文格挡5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l格挡 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9格挡 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 盾牌格挡率 &9+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l格挡 V&f, 盔甲盾牌格挡率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l格挡 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 盾牌格挡率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"
+
+内置-蓝色符文盾山1:
+  Name: 蓝色符文盾山1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l盾山 I&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9盾山 &7符文等级: &9I"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 箭伤免疫率 &9+0.5&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l盾山 I&f, 盔甲箭伤免疫率&9&l+0.5&f%"
+  RemoveTip: "&7你拆下了&9&l盾山 I"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭伤免疫率: &9&l;format=%.1f&f%%;var=v+0.5;inv=v-0.5;mode=last}"
+
+内置-蓝色符文盾山2:
+  Name: 蓝色符文盾山2
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l盾山 II&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9盾山 &7符文等级: &9II"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 箭伤免疫率 &9+1.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l盾山 II&f, 盔甲箭伤免疫率&9&l+1.0&f%"
+  RemoveTip: "&7你拆下了&9&l盾山 II"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭伤免疫率: &9&l;format=%.1f&f%%;var=v+1.0;inv=v-1.0;mode=last}"
+
+内置-蓝色符文盾山3:
+  Name: 蓝色符文盾山3
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l盾山 III&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9盾山 &7符文等级: &9III"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 箭伤免疫率 &9+1.4&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l盾山 III&f, 盔甲箭伤免疫率&9&l+1.4&f%"
+  RemoveTip: "&7你拆下了&9&l盾山 III"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭伤免疫率: &9&l;format=%.1f&f%%;var=v+1.4;inv=v-1.4;mode=last}"
+
+内置-蓝色符文盾山4:
+  Name: 蓝色符文盾山4
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l盾山 IV&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9盾山 &7符文等级: &9IV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 箭伤免疫率 &9+1.8&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l盾山 IV&f, 盔甲箭伤免疫率&9&l+1.8&f%"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭伤免疫率: &9&l;format=%.1f&f%%;var=v+1.8;inv=v-1.8;mode=last}"
+
+内置-蓝色符文盾山5:
+  Name: 蓝色符文盾山5
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&9&l盾山 V&8&l&k||"
+  Embed: 10
+  Gui:
+    - 符文镶嵌台
+  Tips:
+    - "&9盾山 &7符文等级: &9&lV"
+    - "&7在符文镶嵌台内使用"
+    - "&7装备: 盔甲, 属性:"
+    - "&7 - 箭伤免疫率 &9+2.0&f%"
+  Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJiZTQxYmYyM2MzY2RmZTNkZGVkNDIyZjQ4NDQ1MzExNDgxM2UxMmY3YjZmODU1OTM1NTJhNTVjMDgwM2MifX19
+  SuccessTip: "&f你镶嵌了&9&l盾山 V&f, 盔甲箭伤免疫率&9&l+2.0&f%"
+  RemoveTip: "&7你拆下了&9&l盾山 V"
+  Rewards:
+    - "LoreVar{lore=&7■ 箭伤免疫率: &9&l;format=%.1f&f%%;var=v+2.0;inv=v-2.0;mode=last}"

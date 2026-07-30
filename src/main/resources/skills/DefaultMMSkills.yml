@@ -1,0 +1,220 @@
+depend: MythicMobs
+刀:
+  Skills:
+    - effect:particles{p=witchMagic;a=1} @origin
+斩:
+  Skills:
+    - effect:sound{s=block.fire.ambient;v=5;p=1} @Self
+    - damage{amount=70;ia=true;i=false}
+    - effect:particles{p=largeexplode;a=100} @Target
+刀斩:
+  Cooldown: 5
+  Skills:
+    - missile{ot=刀;oh=斩;v=5;i=0.01;hR=0.5;vR=0.5;}
+拔刀:
+  Skills:
+    - effect:particles{p=sweepAttack;a=2;hs=0.2;vs=0.2;speed=2} @origin
+拔刀2:
+  Skills:
+    - effect:particles{particle=dragonbreath;amount=30;hS=0.05;vS=0.05;speed=0.2} @origin
+    - damage{amount=75;i=false}
+    - effect:explosion
+拔刀斩:
+  Cooldown: 10
+  Skills:
+    - message{m="&8[&e技能提示&8]&f玩家 &6<mob.name> &f发动了技能 &c拔刀斩 &f!"} @PlayersInRadius{r=20;targetself=true}
+    - delay 30
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+拔刀斩2:
+  Cooldown: 5
+  Skills:
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+    - missile{ot=拔刀;oh=拔刀2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 9
+范围切割斩:
+  Cooldown: 10
+  Skills:
+    - message{m="&8[&e技能提示&8]&f玩家 &6<mob.name> &f发动了技能 &c切割斩 &f!"} @PlayersInRadius{r=20;targetself=true}
+    - effect:particletornado{p=totem;mr=2;h=1;i=1;d=60;rs=1;sh=1;cs=0;ca=1;chs=1;cvs=1;cps=0.3;cyo=0.2} @Self
+    - message{m="&8[&e技能提示&8]&f你爆发了&b&l特殊能力 &c&n狂热 可以快速回血 &f!"} @Self
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - heal{amount=15} @Self
+    - delay 1
+    - throw{v=15;velocityY=3} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - leap{velocity=430} @target
+    - jump{velocity=0.5} @Self
+    - effect:particletornado{p=witchMagic;mr=1;h=1;i=1;d=3;rs=1;sh=1;cs=0;ca=1;chs=1;cvs=1;cps=0.3;cyo=0.2} @LivingEntitiesInRadius{r=10}
+    - effect:particletornado{p=flame;mr=2;h=1;i=1;d=8;rs=1;sh=1;cs=0;ca=1;chs=1;cvs=1;cps=0.3;cyo=0.2} @LivingEntitiesInRadius{r=10}
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - effect:explosion @PlayersInRadius @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=cloud;a=35;hS=0.5;vS=0.5} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - damage{a=1000} @LivingEntitiesInRadius{r=10}
+范围切割斩2:
+  Cooldown: 30
+  Skills:
+    - effect:particletornado{p=totem;mr=1;h=1;i=1;d=40;rs=1;sh=1;cs=0;ca=1;chs=1;cvs=1;cps=0.3;cyo=0.2} @Self
+    - message{m="&8[&e技能提示&8]&f你爆发了&b&l特殊能力 &c&n狂热 可以快速回血 &f!"} @Self
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - heal{amount=1500} @Self
+    - delay 1
+    - throw{v=15;velocityY=3} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - leap{velocity=430} @target
+    - jump{velocity=0.5} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - effect:explosion @PlayersInRadius @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=cloud;a=35;hS=0.5;vS=0.5} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - damage{a=300000} @LivingEntitiesInRadius{r=10}
+剑意:
+  Skills:
+    - effect:particles{p=sweepAttack;a=2;hs=0.2;vs=0.2;speed=2} @origin
+劈中:
+  Skills:
+    - effect:particles{particle=dragonbreath;amount=30;hS=0.05;vS=0.05;speed=0.2} @origin
+    - damage{amount=1550;i=false}
+    - effect:explosion
+剑意2:
+  Skills:
+    - effect:particles{p=sweepAttack;a=2;hs=0.2;vs=0.2;speed=2} @origin
+劈中2:
+  Skills:
+    - effect:particles{particle=dragonbreath;amount=30;hS=0.05;vS=0.05;speed=0.2} @origin
+    - damage{amount=1550;i=false}
+    - effect:explosion
+终焉剑意:
+  Cooldown: 15
+  Skills:
+    - message{m="&8[&e技能提示&8]&f&6<mob.name> &f发动了技能 &b终焉剑意 &f!"} @PlayersInRadius{r=20;targetself=true}
+    - delay 30
+    - message{m="&8[&e技能提示&8]&b&l斩 &f!"} @Self
+    - missile{ot=剑意2;oh=劈中2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 5
+    - missile{ot=剑意2;oh=劈中2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 5
+    - missile{ot=剑意2;oh=劈中2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 5
+    - missile{ot=剑意2;oh=劈中2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 5
+    - missile{ot=剑意2;oh=劈中2;v=15;i=1;hR=0.5;vR=0.5;}
+    - delay 5
+    - message{m="&8[&e技能提示&8]&b&l划刀斩 &f!"} @Self
+    - effect:particletornado{p=totem;mr=2;h=1;i=1;d=60;rs=1;sh=1;cs=0;ca=1;chs=1;cvs=1;cps=0.3;cyo=0.2} @Self
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - heal{amount=150} @Self
+    - delay 1
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - leap{velocity=430} @target
+    - jump{velocity=0.5} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - effect:explosion @PlayersInRadius @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=cloud;a=35;hS=0.5;vS=0.5} @Self
+    - sound{s=block.fire.ambient;v=2;p=1} @Self
+    - damage{a=10000} @LivingEntitiesInRadius{r=10}
+    - delay 35
+    - message{m="&8[&e技能提示&8]&b&l湮灭斩 &f!"} @Self
+    - effect:particles{p=largeexplode;a=100} @Target
+    - damage{a=10000} @LivingEntitiesInRadius{r=10}
+    - throw{v=15;velocityY=15} @LivingEntitiesInRadius{r=10}
+    - delay 35
+    - sendtitle{title="&8[&7&l>&8&f &6<mob.name>&7&l<&8]";subtitle="&0&l&k2&e&l终焉剑意&8&l·&b圣剑奥义!&0&l&k2";d=50;fi=7;fo=10} @PlayersInRadius{r=50;targetself=true}
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - delay 20
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - delay 20
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - delay 20
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - delay 20
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - delay 20
+    - damage{amount=1500;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+    - delay 20
+    - damage{amount=15000;i=false} @LivingEntitiesInRadius{r=10}
+    - effect:particles{p=flame;a=15;hS=0.2;vS=0.2;y=1.0;s=2.5;s=0.5} @LivingEntitiesInRadius{r=10}
+    - effect:sound{s=entity.generic.explode;v=1.2;p=1.5} @LivingEntitiesInRadius{r=10}
+
+测试MM技能:
+  Lore: "[技能] 终焉剑意"
+  Cooldown: 60.0
+  Skills:
+    - skill{s=终焉剑意} ~onUse
+

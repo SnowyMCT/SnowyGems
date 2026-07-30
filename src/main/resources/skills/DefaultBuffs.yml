@@ -1,0 +1,149 @@
+# 不写nbt时, 技能名将作为默认的nbt识别名
+# 如果一个技能同时还有匹配的NBT技能, 则两者能够用宝石互相转换
+发光:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l发光"
+  Skills:
+    - PotionBuff{type=GLOWING} ~onTimer @Self $example-world:1
+
+缓降:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l缓降"
+  Skills:
+    - PotionBuff{type=SLOW_FALLING} ~onTimer
+
+潮涌能量:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l潮涌能量"
+  Skills:
+    - PotionBuff{type=CONDUIT_POWER} ~onTimer
+夜视:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l夜视"
+  Skills:
+    - PotionBuff{type=NIGHT_VISION;duration=9} ~onTimer
+
+饱和:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l饱和"
+  Skills:
+    - PotionBuff{type=SATURATION} ~onTimer
+
+隐身:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l隐身"
+  Skills:
+    - PotionBuff{type=INVISIBILITY} ~onTimer
+
+防火:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l防火"
+  Skills:
+    - PotionBuff{type=FIRE_RESISTANCE} ~onTimer
+
+不详之兆:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l不祥之兆"
+  Skills:
+    - PotionBuff{type=BAD_OMEN} ~onTimer
+
+伤害吸收:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l伤害吸收 "
+  Skills:
+    - PotionBuff{type=ABSORPTION;duration=9;level=$LORE:[BUFF] 伤害吸收?1$} ~onTimer
+
+抗性提升:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l抗性提升 "
+  Skills:
+    - PotionBuff{type=DAMAGE_RESISTANCE;level=$LORE:[BUFF] 抗性提升?1$} ~onTimer
+
+海豚的恩惠:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠 "
+  Skills:
+    - PotionBuff{type=DOLPHINS_GRACE;level=$LORE:[BUFF] 海豚的恩惠?1$} ~onTimer
+
+急迫:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l急迫 "
+  Skills:
+    - PotionBuff{type=FAST_DIGGING;level=$LORE:[BUFF] 急迫?1$} ~onTimer
+
+生命提升:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l生命提升 "
+  Skills:
+    - PotionBuff{type=HEALTH_BOOST;level=$LORE:[BUFF] 生命提升?1$;duration=9} ~onTimer
+
+村庄英雄:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l村庄英雄 "
+  Skills:
+    - PotionBuff{type=HERO_OF_THE_VILLAGE;level=$LORE:[BUFF] 村庄英雄?1$} ~onTimer
+
+力量:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l力量 "
+  Skills:
+    - PotionBuff{type=INCREASE_DAMAGE;level=$LORE:[BUFF] 力量?1$} ~onTimer
+
+跳跃提升:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l跳跃提升 "
+  Skills:
+    - PotionBuff{type=JUMP;level=$LORE:[BUFF] 跳跃提升?1$} ~onTimer
+
+幸运:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l幸运 "
+  Skills:
+    - PotionBuff{type=LUCK;level=$LORE:[BUFF] 幸运?1$} ~onTimer
+
+
+生命恢复:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l生命恢复 "
+  Skills:
+    - PotionBuff{type=REGENERATION;level=$LORE:[BUFF] 生命恢复?1$} ~onTimer
+
+速度:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l速度 "
+  Skills:
+    - PotionBuff{type=SPEED;level=$LORE:[BUFF] 速度?1$} ~onTimer
+
+水下呼吸:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l水下呼吸 "
+  Skills:
+    - PotionBuff{type=WATER_BREATHING;level=$LORE:[BUFF] 水下呼吸?1$} ~onTimer
+
+NBT伤害吸收:
+  Skills:
+    - PotionBuff{type=ABSORPTION;duration=9;level=$NBT:伤害吸收?1$} ~onTimer
+
+NBT抗性提升:
+  Skills:
+    - PotionBuff{type=DAMAGE_RESISTANCE;level=$NBT:抗性提升?1$} ~onTimer
+
+NBT海豚的恩惠:
+  Skills:
+    - PotionBuff{type=DOLPHINS_GRACE;level=$NBT:海豚的恩惠?1$} ~onTimer
+
+NBT急迫:
+  Skills:
+    - PotionBuff{type=FAST_DIGGING;level=$NBT:急迫?1$} ~onTimer
+
+NBT生命提升:
+  Skills:
+    - PotionBuff{type=HEALTH_BOOST;level=$NBT:生命提升?1$;duration=9} ~onTimer
+
+NBT村庄英雄:
+  Skills:
+    - PotionBuff{type=HERO_OF_THE_VILLAGE;level=$NBT:村庄英雄?1$} ~onTimer
+
+NBT力量:
+  Skills:
+    - PotionBuff{type=INCREASE_DAMAGE;level=$NBT:力量?1$} ~onTimer
+
+NBT跳跃提升:
+  Skills:
+    - PotionBuff{type=JUMP;level=$NBT:跳跃提升?1$} ~onTimer
+
+NBT幸运:
+  Skills:
+    - PotionBuff{type=LUCK;level=$NBT:幸运?1$} ~onTimer
+
+NBT生命恢复:
+  Skills:
+    - PotionBuff{type=REGENERATION;level=$NBT:生命恢复?1$} ~onTimer
+
+NBT速度:
+  Skills:
+    - PotionBuff{type=SPEED;level=$NBT:速度?1$} ~onTimer
+
+NBT水下呼吸:
+  Skills:
+    - PotionBuff{type=WATER_BREATHING;level=$NBT:水下呼吸?1$} ~onTimer
