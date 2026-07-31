@@ -66,7 +66,6 @@ object GemManager {
         return true
     }
 
-    /** 玩家在工作台/镶嵌台中, 手持 gemStack 点击 targetStack 触发的核心应用逻辑 */
     fun applyToItem(player: Player, gemStack: ItemStack, targetStack: ItemStack): ApplyResult {
         val gemId = ItemFactory.getGemId(gemStack)
         DebugUtil.log("GemManager", "applyToItem: 手持物品读取到的 GemId=$gemId (材质=${gemStack.type})")

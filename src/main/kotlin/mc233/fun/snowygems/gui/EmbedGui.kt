@@ -42,16 +42,12 @@ import taboolib.platform.util.giveItem
  */
 object EmbedGui {
 
-    /** 装备槽: 放要被强化/镶嵌的那件装备 */
     const val EQUIP_SLOT = 20
 
-    /** 宝石槽: 放要消耗掉的宝石 */
     const val GEM_SLOT = 24
 
-    /** 确认按钮 */
     const val CONFIRM_SLOT = 22
 
-    /** 本界面的名字, 用于和宝石配置里的 `Gui:` 字段比对 */
     const val GUI_NAME = "宝石镶嵌台"
 
     private val ROWS = 6
@@ -122,7 +118,6 @@ object EmbedGui {
         return null
     }
 
-    /** 按当前槽位状态重画确认按钮 */
     private fun refreshConfirm(inv: Inventory) {
         val equip = inv.getItem(EQUIP_SLOT)
         val gem = inv.getItem(GEM_SLOT)

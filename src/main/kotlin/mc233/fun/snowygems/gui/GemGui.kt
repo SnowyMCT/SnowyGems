@@ -30,7 +30,6 @@ object GemGui {
         override fun getInventory(): Inventory = inv
     }
 
-    /** 打开分类选择菜单 */
     fun open(player: Player) {
         val categories = GemRegistry.categories()
         DebugUtil.log("GUI", "为 ${player.name} 打开分类浏览面板, 分类数=${categories.size} $categories")

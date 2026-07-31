@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 
 /**
- * 物品操作类技能函数: 附魔增删、形态切换、耐久。
+ * 物品操作类技能函数: 附魔增删、形态切换、耐久
  *
  * ## Switch 的通用化
  *
@@ -27,20 +27,18 @@ import org.bukkit.persistence.PersistentDataType
  *   - 切换时关掉当前形态的附魔, 打开目标形态的附魔
  *
  * 老实现判断"当前处于哪个形态"时硬编码了两个附魔常量, 所以只有第一组能正确判断首次
- * 切换方向, 其它组第一次点会切反。
+ * 切换方向, 其它组第一次点会切反
  *
  * 现在改成**从配置反推**: 读取两个形态各自声明的特征附魔, 谁的附魔在物品上就说明当前
- * 处于谁的形态。服主新写任何一组切换都自动正确, 引擎不需要知道具体附魔名。
+ * 处于谁的形态服主新写任何一组切换都自动正确, 引擎不需要知道具体附魔名
  */
 object ItemFunctions {
 
     private const val SWITCH_KEY = "switch_mode"
     private const val ENCH_PREFIX = "ench_"
 
-    /** 形态名的第一个参数可能用这几个键名 */
     private val MODE_KEYS = setOf("s", "a", "mode1")
 
-    /** 这些嵌套函数自己会给玩家发提示, 命中时不再叠加语言文件的兜底提示 */
     private val TIP_FUNCTIONS = setOf("chat", "actionbar", "title", "message", "msg", "消息", "动作栏", "标题")
 
     private fun key(path: String) = NamespacedKey(SnowyGems.plugin, path)
@@ -212,17 +210,10 @@ object ItemFunctions {
             ?: line.args.values.firstOrNull { it != modeA }
 
     /**
-     * 从配置反推物品当前处于哪个形态 —— 通用化的关键。
+     * 从配置反推物品当前处于哪个形态 —— 通用化的关键
      *
-     * 做法: 分别取出两个形态声明「要设为有效等级」的附魔, 看物品上实际带着谁的。
+     * 做法: 分别取出两个形态声明「要设为有效等级」的附魔, 看物品上实际带着谁的
      *
-     * 举例(服主写的精修/无限):
-     *   精修: RewardSwitch{Enchant{name=Infinity;level=0}}       关掉无限
-     *         RewardSwitch{Enchant{name=Mending;level=restore}}   打开精修
-     *   无限: RewardSwitch{Enchant{name=Mending;level=0}}
-     *         RewardSwitch{Enchant{name=Infinity;level=restore}}
-     * 于是精修的特征附魔=Mending, 无限的特征附魔=Infinity。物品上有 Mending 就说明
-     * 当前是精修形态, 下一次该切到无限。
      */
     private fun inferCurrentMode(ctx: SkillContext, item: ItemStack, modeA: String, modeB: String): String? {
         val meta = item.itemMeta
@@ -243,8 +234,8 @@ object ItemFunctions {
     }
 
     /**
-     * 取某个形态的特征附魔: RewardSwitch 里 level=restore 或 level>0 的那些。
-     * level=0 表示"关掉", 不算特征。
+     * 取某个形态的特征附魔: RewardSwitch 里 level=restore 或 level>0 的那些
+     * level=0 表示"关掉", 不算特征
      */
     private fun signatureEnchants(mode: String): List<Enchantment> =
         rewardSwitchesOf(mode).mapNotNull { nested ->

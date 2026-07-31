@@ -15,7 +15,6 @@ import taboolib.platform.util.buildItem
 
 object WorkbenchMenu {
 
-    /** 打开一个由 gui.yml/rune.yml 定义的菜单 */
     fun open(player: Player, menuName: String) {
         val layout = MenuRegistry.get(menuName)
         if (layout == null) {

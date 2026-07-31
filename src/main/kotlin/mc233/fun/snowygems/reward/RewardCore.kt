@@ -19,11 +19,9 @@ class RewardContext(
 )
 
 interface Reward {
-    /** 返回是否成功生效 (Conditional/ignorable 语义依赖这个返回值) */
     fun apply(ctx: RewardContext): Boolean
 }
 
-/** 一条被解析后的奖励: 函数调用 + 触发标记 ($onSuccess / $onRemove / $ignorable) */
 class ParsedReward(val call: FunctionCall, val flags: Set<String>) {
 
     fun matchesPhase(phase: RewardPhase): Boolean {
@@ -37,7 +35,6 @@ class ParsedReward(val call: FunctionCall, val flags: Set<String>) {
     val ignorable get() = flags.contains("ignorable")
 }
 
-/** 一次函数式调用, 例如 Attribute{name=health;operation=0;var=v+1} */
 class FunctionCall(val name: String, val args: LinkedHashMap<String, String>) {
     fun arg(key: String, def: String = ""): String = args[key] ?: def
     fun argOrNull(key: String): String? = args[key]
@@ -45,7 +42,6 @@ class FunctionCall(val name: String, val args: LinkedHashMap<String, String>) {
 
 object RewardTokenParser {
 
-    /** 解析一整行 Rewards 配置字符串 */
     fun parseLine(raw: String): ParsedReward {
         var s = raw.trim()
         // 去除整行包裹的引号 "xxx"
@@ -95,7 +91,6 @@ object RewardTokenParser {
         return -1
     }
 
-    /** 按顶层 ';' 切分参数, 忽略嵌套 {} 与 "" 内部的 ';' */
     private fun parseArgs(argsStr: String): LinkedHashMap<String, String> {
         val result = LinkedHashMap<String, String>()
         if (argsStr.isBlank()) return result

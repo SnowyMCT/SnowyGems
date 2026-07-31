@@ -3,11 +3,11 @@
 # ============================================================
 #  这个文件演示 1.20.5 → 26.x 期间 Mojang 新加的东西怎么写成宝石:
 #    新属性(体型/交互距离/水下挖掘/重力…)、新附魔(密度/穿透/风爆)、
-#    新药水效果(渗浆/盘丝/寄生/蓄风)、新物品(矛/铜装备/锤)。
+#    新药水效果(渗浆/盘丝/寄生/蓄风)、新物品(矛/铜装备/锤)
 #
 #  ⚠️ 低版本服务端上, 这里的高版本条目会**自动跳过**并在控制台说明,
-#     其余宝石照常工作 —— 不需要删掉本文件, 也不需要改配置。
-#     用 /sgem compat 查看当前服务端到底支持哪些。
+#     其余宝石照常工作 —— 不需要删掉本文件, 也不需要改配置
+#     用 /sgem compat 查看当前服务端到底支持哪些
 #
 #  ── 宝石配置字段速查 ────────────────────────────────────
 #    Name         宝石内部名(给玩家看的用 Display)
@@ -51,7 +51,7 @@
 #  ── Rewards 标记 ────────────────────────────────────────
 #    $onSuccess   仅镶嵌成功时执行(默认)
 #    $onRemove    仅拆卸时执行(常用来收取拆卸费)
-#    $ignorable   这一条失败不影响整次镶嵌
+#      这一条失败不影响整次镶嵌
 #
 #  ── Attribute 的 operation ──────────────────────────────
 #    0  直接加数值      (+1 生命)
@@ -73,8 +73,8 @@
 # ════════════════════════════════════════════════════════════
 
 # ── scale 体型 (1.20.5+) ──────────────────────────────────
-# 基础值 1.0。这里每次 -0.1 让玩家变小, 最多缩到 0.7 倍。
-# 注意: var 是负数时 limit 也要写负数(limit 是"能加到的极限值")。
+# 基础值 1.0这里每次 -0.1 让玩家变小, 最多缩到 0.7 倍
+# 注意: var 是负数时 limit 也要写负数(limit 是"能加到的极限值")
 缩小宝石:
   Name: 缩小宝石
   Require:
@@ -107,7 +107,7 @@
     - Attribute{name=scale;operation=0;slot=any;var=v+0.1;limit=0.5}
 
 # ── block_interaction_range 方块交互距离 (1.20.5+) ────────
-# 原版默认 4.5 格。这颗宝石让你能放/挖更远的方块。
+# 原版默认 4.5 格这颗宝石让你能放/挖更远的方块
 延伸之瞳:
   Name: 延伸之瞳
   Require:
@@ -126,7 +126,7 @@
     - Attribute{name=block_interaction_range;operation=0;slot=hand;var=v+1;limit=3}
 
 # ── entity_interaction_range 实体交互距离 (1.20.5+) ───────
-# 也就是"攻击距离", 别名 attack_reach 同样可用。
+# 也就是"攻击距离", 别名 attack_reach 同样可用
 猎手之瞳:
   Name: 猎手之瞳
   Require:
@@ -145,8 +145,8 @@
     - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+0.5;limit=2}
 
 # ── submerged_mining_speed 水下挖掘速度 (1.21.2+) ─────────
-# 原版水下挖掘速度是陆地的 1/5(值为 0.2)。加到 1.0 就等于不受水影响,
-# 效果类似"水下速掘"附魔但可叠加。
+# 原版水下挖掘速度是陆地的 1/5(值为 0.2)加到 1.0 就等于不受水影响,
+# 效果类似"水下速掘"附魔但可叠加
 深海矿工宝石:
   Name: 深海矿工宝石
   Require:
@@ -164,7 +164,7 @@
     - Attribute{name=submerged_mining_speed;operation=0;slot=hand;var=v+0.2;limit=0.8}
 
 # ── mining_efficiency 挖掘效率 (1.21.2+) ──────────────────
-# 与"效率"附魔叠加计算, 是纯数值加成。
+# 与"效率"附魔叠加计算, 是纯数值加成
 迅掘宝石:
   Name: 迅掘宝石
   Require:
@@ -183,7 +183,7 @@
     - Attribute{name=mining_efficiency;operation=0;slot=hand;var=v+1;limit=5}
 
 # ── gravity 重力 (1.20.5+) ────────────────────────────────
-# 默认 0.08。调低后下落变慢、跳得更高, 像在月球上。
+# 默认 0.08调低后下落变慢、跳得更高, 像在月球上
 月步靴石:
   Name: 月步靴石
   Require:
@@ -247,7 +247,7 @@
     - Attribute{name=absorption;operation=0;slot=armor;var=v+2;limit=10}
 
 # ── burning_time 燃烧时长 (1.21.2+) ───────────────────────
-# 默认 1.0, 降低后着火持续时间变短。
+# 默认 1.0, 降低后着火持续时间变短
 阻燃宝石:
   Name: 阻燃宝石
   Require:
@@ -293,7 +293,7 @@
     - Attribute{name=sweeping;operation=0;slot=hand;var=v+0.1;limit=1}
 
 # ── 26.x 路径点属性 ──────────────────────────────────────
-# 这两个属性只有 26.x 才有, 低版本会跳过。
+# 这两个属性只有 26.x 才有, 低版本会跳过
 信标宝石:
   Name: 信标宝石
   Require:
@@ -314,7 +314,7 @@
 #  二、新附魔宝石 (1.21+ 锤专属)
 # ════════════════════════════════════════════════════════════
 #  密度(density) / 穿透(breach) / 风爆(wind_burst) 只能附在锤(MACE)上,
-#  Require 写 MACE 即可 —— 低版本没有锤, 这几颗宝石会被自动跳过。
+#  Require 写 MACE 即可 —— 低版本没有锤, 这几颗宝石会被自动跳过
 
 密度宝石:
   Name: 密度宝石
@@ -369,12 +369,12 @@
 #  三、新药水效果 BUFF 宝石 (1.21+ 试炼密室)
 # ════════════════════════════════════════════════════════════
 #  BUFF 宝石的原理: 往装备 lore 里写一行标记, BUFF 引擎每秒扫描装备,
-#  命中标记就施加对应效果。
+#  命中标记就施加对应效果
 #
 #  ⚠️ 两边必须配对:
 #     这里的 LoreAdd{lore=...} 写什么, skills/ModernBuffs.yml 里对应定义的
-#     Lore: 就必须写一样的文本, 否则镶嵌上了却没有任何效果。
-#  本文件的四颗宝石已在 skills/ModernBuffs.yml 里配好, 可直接用。
+#     Lore: 就必须写一样的文本, 否则镶嵌上了却没有任何效果
+#  本文件的四颗宝石已在 skills/ModernBuffs.yml 里配好, 可直接用
 
 渗浆药水:
   Name: 渗浆药水
@@ -458,9 +458,9 @@
     - Point{amount=-1000} $onRemove
 
 # ── 可叠加等级的 BUFF: 用 LoreVar 而不是 LoreAdd ──────────
-# LoreVar 会在 lore 上写"标记 + 数字", 重复镶嵌时数字递增。
-# BUFF 定义那边用 $LORE:标记?默认值$ 把这个数字读回来当等级。
-# limit=v<=2 表示"当前值 ≤2 时才允许继续镶嵌"。
+# LoreVar 会在 lore 上写"标记 + 数字", 重复镶嵌时数字递增
+# BUFF 定义那边用 $LORE:标记?默认值$ 把这个数字读回来当等级
+# limit=v<=2 表示"当前值 ≤2 时才允许继续镶嵌"
 蓄风药水强化:
   Name: 蓄风药水·强化
   Embed: 1
@@ -483,8 +483,8 @@
 # ════════════════════════════════════════════════════════════
 
 # ── 矛(SPEAR, 1.21.11+) ──────────────────────────────────
-# 矛既是近战武器也能投掷, 因此同时落在 WEAPON / MELEE / RANGED / SPEAR 分类里。
-# 配套技能见 skills/ExampleSkills.yml 的「穿云长矛」。
+# 矛既是近战武器也能投掷, 因此同时落在 WEAPON / MELEE / RANGED / SPEAR 分类里
+# 配套技能见 skills/ExampleSkills.yml 的「穿云长矛」
 长矛精通宝石:
   Name: 长矛精通宝石
   Require:
@@ -499,12 +499,12 @@
   SuccessTip: "&f你使用了&f&l长矛精通宝石&f, 矛已强化"
   Rewards:
     - Attribute{name=damage;operation=0;slot=hand;var=v+2;limit=10}
-    - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+1;limit=3} $ignorable
-    - Enchant{name=impaling;limit=5} $ignorable
+    - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+1;limit=3}
+    - Enchant{name=impaling;limit=5}
 
 # ── 铜装备 (1.21.9+) ─────────────────────────────────────
-# 用 COPPER_* 通配匹配整套铜装, 不必逐个列出。
-# 铜装备耐久低, 这颗宝石专门补它的短板。
+# 用 COPPER_* 通配匹配整套铜装, 不必逐个列出
+# 铜装备耐久低, 这颗宝石专门补它的短板
 铜匠宝石:
   Name: 铜匠宝石
   Require:
@@ -518,10 +518,10 @@
   SuccessTip: "&f你使用了&6&l铜匠宝石&f, 铜装备已强化"
   Rewards:
     - Enchant{name=unbreaking;limit=5}
-    - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=4} $ignorable
+    - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=4}
 
 # ── 锤(MACE, 1.21+) ──────────────────────────────────────
-# 锤的伤害随下落高度增长, 这颗宝石强化它的落地生存能力。
+# 锤的伤害随下落高度增长, 这颗宝石强化它的落地生存能力
 战锤大师宝石:
   Name: 战锤大师宝石
   Require:
@@ -539,9 +539,9 @@
   FailTip: "&c&l战锤大师宝石&f镶嵌失败了..."
   Rewards:
     - Enchant{name=density;limit=5}
-    - Enchant{name=breach;limit=4} $ignorable
-    - Enchant{name=wind_burst;limit=3} $ignorable
-    - Attribute{name=safe_fall;operation=0;slot=hand;var=v+3;limit=9} $ignorable
+    - Enchant{name=breach;limit=4}
+    - Enchant{name=wind_burst;limit=3}
+    - Attribute{name=safe_fall;operation=0;slot=hand;var=v+3;limit=9}
 
 
 # ════════════════════════════════════════════════════════════
@@ -549,7 +549,7 @@
 # ════════════════════════════════════════════════════════════
 
 # 体型永久变化的药剂. PlayerGem 类型不能用 Attribute(它作用于物品),
-# 只能用 MaxHealth / ExpLevel / Point / Money 这类作用于玩家的奖励。
+# 只能用 MaxHealth / ExpLevel / Point / Money 这类作用于玩家的奖励
 巨人药剂:
   Name: 巨人药剂
   Type: PlayerGem
@@ -569,8 +569,8 @@
 # ════════════════════════════════════════════════════════════
 #  六、开箱抽奖 (RandomGem)
 # ════════════════════════════════════════════════════════════
-#  Gems: 下面写"子宝石ID: 权重", 右键后按权重抽一个当场生效。
-#  权重是相对值, 不需要凑成 100。
+#  Gems: 下面写"子宝石ID: 权重", 右键后按权重抽一个当场生效
+#  权重是相对值, 不需要凑成 100
 
 新版宝石礼包:
   Name: 新版宝石礼包

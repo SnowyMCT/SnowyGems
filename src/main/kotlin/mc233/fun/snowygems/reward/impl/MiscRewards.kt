@@ -81,8 +81,8 @@ class EnchantReward(private val name: String, private val level: Int?, private v
          *   - 1.13 之前的旧 Bukkit 常量名(DURABILITY / DAMAGE_ALL …, 见 EnchantAliases)
          *   - 服主用数据包自定义的附魔(它们同样在注册表里)
          *
-         * 多版本要点: 不写死任何附魔清单。1.21 的锤附魔(密度/穿透/风爆)、以及后续版本
-         * 新增的附魔, 只要服务端注册表里有就能用; 老版本上写了新附魔会跳过并提示, 不会连锁失败。
+         * 多版本要点: 不写死任何附魔清单1.21 的锤附魔(密度/穿透/风爆)、以及后续版本
+         * 新增的附魔, 只要服务端注册表里有就能用; 老版本上写了新附魔会跳过并提示, 不会连锁失败
          */
         fun resolveEnchant(name: String): Enchantment? = Registries.enchantment(name)
     }

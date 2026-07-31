@@ -7,10 +7,8 @@ import taboolib.platform.BukkitPlugin
 /**
  * 插件主类.
  *
- * 这里刻意保持"空壳"——不写 onLoad / onEnable / onDisable。
- * 生命周期全部由 [Bootstrap] 用 TabooLib 的自唤醒(@Awake + LifeCycle)声明,
- * 各功能模块(BuffEngine / DebugUtil / Lang)也各自用 @Awake / @Schedule / @Config 自启,
- * 主类因此不需要 import 一堆模块再逐个 start(), 新增模块时这个文件零改动。
+ * 生命周期全部由 [Bootstrap] 用 TabooLib 的自唤醒(@Awake + LifeCycle)声明
+ *
  */
 object SnowyGems : Plugin() {
 

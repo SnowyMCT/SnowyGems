@@ -26,6 +26,7 @@ Debug: false
 #   Points     - 点券账户
 #   Money      - Vault 经济
 #   PlayerPoints - PlayerPoints 插件对接过程
+#   Update     - 版本更新检测与公告拉取
 # 例: DebugTags: [Menu, GemManager, Reward]  只看镶嵌相关的日志
 DebugTags: []
 
@@ -36,15 +37,49 @@ Points:
   Provider: Internal
 
 # ============================================================
+#  版本更新检测 & 公告
+# ============================================================
+#  服务器完全启动后(控制台出现 Done 之后)会静默联网检测一次:
+#    - 从 VersionUrl 读取最新版本号, 与当前插件版本比较, 有新版本就在控制台提示
+#    - 从 AnnouncementUrl 读取公告文本, 逐行打印到控制台
+#  拥有管理员权限(AdminPermission)或 OP 的玩家上线时, 也会单独收到同样的提示
+#
+#  联网走 JDK 自带 HTTP, 会自动遵循服务端启动参数里的系统代理(-Dhttp.proxyHost 等),
+#  插件不写死任何代理检测失败(超时/无网络)只在开启 Debug 时记一条日志, 不影响启动
+# ============================================================
+UpdateChecker:
+
+  # 是否开启版本更新检测(关闭后不再联网查版本)
+  Enabled: true
+
+  # 是否开启公告(关闭后不再联网拉取公告)
+  Announcement: true
+
+  # 谁能在上线时收到提示: 拥有此权限节点或 OP 的玩家
+  AdminPermission: snowygems.admin
+
+  # 管理员上线时是否推送提示(关闭后只在控制台提示, 不打扰任何玩家)
+  NotifyAdminOnJoin: true
+
+  # 版本文件地址(纯文本, 内含 version: 与 date: 两行)
+  VersionUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/version.txt"
+
+  # 公告文件地址(纯文本, 每行作为一条公告, 支持 &颜色码)
+  AnnouncementUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/ann.txt"
+
+  # 单次网络请求超时秒数(连接与读取各自的上限)
+  Timeout: 8
+
+# ============================================================
 #  多版本兼容
 # ============================================================
-#  本插件支持 1.21.4 起的全部版本(含 26.x)。
+#  本插件支持 1.21.4 起的全部版本(含 26.x)
 #
-#  启动时读取服务端的注册表, 有什么就支持什么。
+#  启动时读取服务端的注册表, 有什么就支持什么
 #  因此新版本加入的物品(矛/铜盔甲)、属性(scale/交互距离/水下挖掘速度)、附魔(密度/穿透/风爆)、
-#  药水效果(渗浆/寄生/盘丝/蓄风), 都会自动可用, 不需要更新插件。
+#  药水效果(渗浆/寄生/盘丝/蓄风), 都会自动可用, 不需要更新插件
 #
-#  用 /sgem compat 可以查看当前服务端到底支持哪些能力。
+#  用 /sgem compat 可以查看当前服务端到底支持哪些能力
 # ============================================================
 Compat:
 

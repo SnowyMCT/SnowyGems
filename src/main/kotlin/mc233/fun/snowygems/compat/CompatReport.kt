@@ -9,19 +9,19 @@ import taboolib.common.platform.function.info
 import taboolib.common.platform.function.warning
 
 /**
- * 版本能力报告 —— 启动时把"这个服务端到底支持什么"讲清楚。
+ * 版本能力报告 —— 启动时把"这个服务端到底支持什么"讲清楚
  *
  * 目的是让服主在**配置写错之前**就知道自己的版本有什么、没有什么, 而不是等游戏里
- * 某颗宝石没反应再去翻日志。
+ * 某颗宝石没反应再去翻日志
  *
  * 探测的东西全部来自服务端注册表, 不含任何版本号硬编码, 因此在 1.21.4 → 26.2
- * 乃至更新的版本上都能给出正确结果。
+ * 乃至更新的版本上都能给出正确结果
  */
 object CompatReport {
 
     /**
-     * 本插件会用到、且在不同版本间有增删的能力点。
-     * 这张表只用于**报告**, 不参与任何功能判定 —— 功能一律现场查注册表。
+     * 本插件会用到、且在不同版本间有增删的能力点
+     * 这张表只用于**报告**, 不参与任何功能判定 —— 功能一律现场查注册表
      *
      * 三元组: 显示名 / 探测方式 / 引入版本(仅供服主参考)
      */
@@ -78,7 +78,7 @@ object CompatReport {
     /**
      * 启动时打印一份简报.
      *
-     * 用 ACTIVE 阶段: 注册表要等服务端完全启动才是最终状态(数据包附魔也要这时候才注册完)。
+     * 用 ACTIVE 阶段: 注册表要等服务端完全启动才是最终状态(数据包附魔也要这时候才注册完)
      */
     @Awake(LifeCycle.ACTIVE)
     fun report() {
@@ -106,10 +106,28 @@ object CompatReport {
         }
     }
 
+    /** 配置自检部分: 写错的条目总是列出, 版本跳过只在 verbose 下列 */
+    private fun checkLines(verbose: Boolean): List<String> = buildList {
+        val mistakes = ConfigValidator.mistakes()
+        val skips = ConfigValidator.versionSkips()
+        if (mistakes.isEmpty() && skips.isEmpty()) {
+            add(Lang.get("compat.check-clean"))
+            return@buildList
+        }
+        if (mistakes.isNotEmpty()) {
+            add(Lang.get("compat.check-mistakes", "count" to mistakes.size))
+            mistakes.forEach { add(Lang.get("compat.check-entry", "text" to it.line)) }
+        }
+        if (skips.isNotEmpty()) {
+            add(Lang.get("compat.check-skips", "count" to skips.size))
+            if (verbose) skips.forEach { add(Lang.get("compat.check-skip-entry", "text" to it.line)) }
+        }
+    }
+
     /**
      * 生成给玩家/控制台看的多行报告(供 /sgem compat 使用).
      *
-     * 每一行的文案都来自 lang.yml 的 compat.* 节点, 代码只负责填数据。
+     * 每一行的文案都来自 lang.yml 的 compat.* 节点, 代码只负责填数据
      * @param verbose 是否列出每一项能力的明细
      */
     fun lines(verbose: Boolean): List<String> = buildList {
@@ -158,6 +176,9 @@ object CompatReport {
                 "bad" to SkillFunctions.unavailable().size
             )
         )
+        // 配置自检结果 —— ConfigValidator 的日志提示服主"用 /sgem compat all 查看明细",
+        // 所以这里必须真的展示, 否则那句提示是空头承诺
+        addAll(checkLines(verbose))
         add(Lang.get("compat.divider"))
     }
 }

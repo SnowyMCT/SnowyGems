@@ -3,7 +3,7 @@
 发光:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l发光"
   Skills:
-    - PotionBuff{type=GLOWING} ~onTimer @Self $example-world:1
+    - PotionBuff{type=GLOWING} ~onTimer @Self
 
 缓降:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l缓降"

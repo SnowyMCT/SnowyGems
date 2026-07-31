@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffect
 import taboolib.common.platform.function.submit
 
 /**
- * 药水效果类技能函数。
+ * 药水效果类技能函数
  *
  * 多版本要点: 效果名一律经 [Registries.effect] 解析, 因此
  *   - 1.20.5+ 的注册表化改名(DAMAGE_RESISTANCE -> resistance)自动兼容
@@ -19,7 +19,6 @@ import taboolib.common.platform.function.submit
  */
 object PotionFunctions {
 
-    /** BUFF 引擎每秒续期, 时长至少 2 秒, 否则会在两次刷新之间闪断 */
     private const val MIN_TICKS = 40
 
     fun registerAll() {
@@ -48,8 +47,8 @@ object PotionFunctions {
     /**
      * 施加一个药水效果.
      *
-     * duration 单位是秒(配置里习惯这么写), 内部换算成 tick。
-     * level 是"第几级"(1 起), 而 PotionEffect 的 amplifier 从 0 起, 所以要 -1。
+     * duration 单位是秒(配置里习惯这么写), 内部换算成 tick
+     * level 是"第几级"(1 起), 而 PotionEffect 的 amplifier 从 0 起, 所以要 -1
      */
     private fun applyPotion(ctx: SkillContext): Boolean {
         val type = ctx.potionEffect("type", "t", "name") ?: return false
@@ -63,7 +62,7 @@ object PotionFunctions {
 
     /**
      * 负面效果. move/fly 是两个语义化的特殊值, 其余一律按效果名解析,
-     * 因此服主可以写 Debuff{type=weaving;duration=5} 这种新版本效果。
+     * 因此服主可以写 Debuff{type=weaving;duration=5} 这种新版本效果
      */
     private fun applyDebuff(ctx: SkillContext): Boolean {
         val typeName = ctx.str("type", "t") ?: return false
@@ -114,7 +113,6 @@ object PotionFunctions {
         return true
     }
 
-    /** ambient=true 让粒子更淡, particles=false 不显示粒子 —— 装备常驻 BUFF 不该糊满屏 */
     private fun effect(type: org.bukkit.potion.PotionEffectType, seconds: Int, level: Int) =
         PotionEffect(type, (seconds * 20).coerceAtLeast(MIN_TICKS), level - 1, true, false)
 }

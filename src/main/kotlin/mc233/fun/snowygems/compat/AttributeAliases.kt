@@ -8,9 +8,9 @@ package mc233.`fun`.snowygems.compat
  *   2. 1.20.5 之前的 Bukkit 常量名 —— GENERIC_MAX_HEALTH
  *   3. 现代注册表键 —— max_health / scale / block_interaction_range
  *
- * 值是**候选键列表**: 同一个简写在不同版本对应的键可能不同, 按顺序取第一个服务端真有的。
+ * 值是**候选键列表**: 同一个简写在不同版本对应的键可能不同, 按顺序取第一个服务端真有的
  * 新版本才有的属性(scale / 交互距离 / 水下挖掘速度…)在老版本上查不到, 会被上层跳过并提示,
- * 不会导致整条 Rewards 失败。
+ * 不会导致整条 Rewards 失败
  */
 object AttributeAliases {
 

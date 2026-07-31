@@ -10,17 +10,17 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.potion.PotionEffectType
 
 /**
- * 统一的注册表查询层 —— 多版本兼容的核心。
+ * 统一的注册表查询层 —— 多版本兼容的核心
  *
- * 设计原则: **不猜版本, 只问服务端**。
+ * 设计原则: **不猜版本, 只问服务端**
  *
  * 1.21.4 → 26.2 之间, Mojang 持续新增属性(scale / block_interaction_range /
- * submerged_mining_speed…)、物品(矛 SPEAR、铜盔甲、锤 MACE)、附魔和药水效果。
+ * submerged_mining_speed…)、物品(矛 SPEAR、铜盔甲、锤 MACE)、附魔和药水效果
  * 如果用 `if (version >= X) 支持Y` 的写法, 每出一个新版本都要改代码, 而且一旦版本号
- * 解析方式变了(比如 26.1 这种新命名)判断就全错。
+ * 解析方式变了(比如 26.1 这种新命名)判断就全错
  *
- * 这里改成: 启动时把服务端**当前实际存在**的注册表内容读成快照, 之后所有查询都基于它。
- * 服务端有就能用, 没有就优雅降级并给出可读日志, 不抛异常、不影响别的宝石。
+ * 这里改成: 启动时把服务端**当前实际存在**的注册表内容读成快照, 之后所有查询都基于它
+ * 服务端有就能用, 没有就优雅降级并给出可读日志, 不抛异常、不影响别的宝石
  *
  * 好处:
  *   - 新版本加了什么, 插件自动就支持, 无需改代码
@@ -31,16 +31,12 @@ object Registries {
 
     // ── 注册表快照 ──────────────────────────────────────────
 
-    /** key(小写, 无命名空间) -> Attribute. 例: max_health / scale / block_interaction_range */
     val attributes: Map<String, Attribute> by lazy { snapshot("属性") { Registry.ATTRIBUTE } }
 
-    /** key -> Enchantment. 例: sharpness / density / breach / wind_burst */
     val enchantments: Map<String, Enchantment> by lazy { snapshot("附魔") { Registry.ENCHANTMENT } }
 
-    /** key -> PotionEffectType. 例: speed / oozing / infested / weaving / wind_charged */
     val effects: Map<String, PotionEffectType> by lazy { snapshot("药水效果") { Registry.EFFECT } }
 
-    /** 当前服务端存在的所有 Material 名(大写). 用于判断 SPEAR / COPPER_HELMET / MACE 是否可用 */
     val materials: Set<String> by lazy {
         runCatching { Material.entries.mapTo(HashSet()) { it.name } }
             .onFailure { DebugUtil.err("Compat", "读取 Material 列表失败", it) }
@@ -49,27 +45,15 @@ object Registries {
 
     // ── 查询入口 ────────────────────────────────────────────
 
-    /**
-     * 按名字找属性. 依次尝试:
-     *   1. 项目内的友好简写(health / move / scale …, 见 [AttributeAliases])
-     *   2. 现代命名空间键(max_health / minecraft:scale)
-     *   3. 老版本的静态字段名(GENERIC_MAX_HEALTH), 剥掉前缀后当键查
-     *
-     * 命中的键若归属于被 config.yml 停用的模块, 视为"不存在"并记一条日志 —— 混服场景下
-     * 服主可以在低版本子服关掉高版本模块, 不必改配置。
-     */
     fun attribute(name: String): Attribute? =
         lookup(name, attributes, "属性", AttributeAliases::candidatesOf, FeatureModules::blockedAttribute)
 
-    /** 按名字找附魔, 支持现代键 / 旧 Bukkit 常量名(见 [EnchantAliases]) */
     fun enchantment(name: String): Enchantment? =
         lookup(name, enchantments, "附魔", { EnchantAliases.keyOf(it)?.let(::listOf) }, FeatureModules::blockedEnchantment)
 
-    /** 按名字找药水效果, 支持现代键 / 旧常量名(见 [EffectAliases]) */
     fun effect(name: String): PotionEffectType? =
         lookup(name, effects, "药水效果", { EffectAliases.keyOf(it)?.let(::listOf) }, FeatureModules::blockedEffect)
 
-    /** 该物品在当前版本是否存在且未被模块停用(如 1.21.11 才有的 SPEAR) */
     fun hasMaterial(name: String): Boolean {
         val key = name.trim().uppercase()
         if (key !in materials) return false
@@ -78,7 +62,6 @@ object Registries {
         return false
     }
 
-    /** 取 Material, 当前版本不存在或被模块停用则返回 null(不抛 IllegalArgumentException) */
     fun material(name: String): Material? {
         val key = name.trim().uppercase()
         if (!hasMaterial(key)) return null
@@ -87,7 +70,7 @@ object Registries {
 
     // ── 不经模块门禁的原始查询 ──────────────────────────────
     // [FeatureModules] 要靠这些判断"服务端到底支不支持某模块", 若再走门禁就成了循环依赖;
-    // [CompatReport] 也用它们报告服务端的真实能力(而非门禁后的结果)。
+    // [CompatReport] 也用它们报告服务端的真实能力(而非门禁后的结果)
 
     fun hasAttributeRaw(key: String): Boolean = key in attributes
 
@@ -114,14 +97,6 @@ object Registries {
 
     // ── 内部实现 ────────────────────────────────────────────
 
-    /**
-     * 三种注册表的查询逻辑完全一致, 收在这里:
-     * 先按别名表给出的候选键查, 再把用户写的名字本身当键查(顺带剥掉 GENERIC_ 之类的老前缀),
-     * 命中后过一遍模块门禁。
-     *
-     * @param aliases 别名表: 用户写法 -> 候选注册表键
-     * @param blocker 门禁: 注册表键 -> 挡下它的模块名(null 表示放行)
-     */
     private inline fun <T> lookup(
         name: String,
         table: Map<String, T>,
@@ -140,12 +115,6 @@ object Registries {
         return null
     }
 
-    /**
-     * 由用户写的名字派生出所有可能的注册表键:
-     *   "GENERIC_MAX_HEALTH" -> generic_max_health, max_health
-     *   "minecraft:scale"    -> scale
-     *   "Scale"              -> scale
-     */
     private fun keyCandidates(raw: String): List<String> {
         val noNamespace = raw.lowercase().substringAfter(':')
         return buildList {
@@ -159,11 +128,6 @@ object Registries {
 
     private val LEGACY_PREFIXES = listOf("generic_", "player_", "zombie_", "horse_")
 
-    /**
-     * 把一个 Bukkit 注册表读成 key -> 值 的快照.
-     * 注册表在某些服务端实现/版本上可能不存在或不可迭代, 因此整个过程包在 runCatching 里,
-     * 失败时返回空表并记一条错误日志, 而不是让插件启动失败。
-     */
     private fun <T : Keyed> snapshot(label: String, supplier: () -> Registry<T>): Map<String, T> =
         runCatching {
             supplier().associateByKey().also { DebugUtil.log("Compat", "$label 注册表快照: ${it.size} 项") }

@@ -67,13 +67,6 @@ object MenuListener {
         }
     }
 
-    /**
-     * 光标上拿着宝石, 点击槽内的装备 -> 执行镶嵌.
-     * 返回 true 表示本次点击已被当作"镶嵌操作"处理完毕, 调用方不要再走后面的放入/取出逻辑.
-     *
-     * 只有"光标是宝石 + 槽内有物品 + 槽内物品不是宝石"这一种组合才算镶嵌意图;
-     * 其余组合(光标空/光标是装备/槽内也是宝石)一律返回 false, 交回原来的槽位逻辑.
-     */
     private fun tryEmbedWithCursor(e: InventoryClickEvent, player: Player): Boolean {
         val cursor = e.cursor
         val target = e.currentItem
@@ -110,7 +103,7 @@ object MenuListener {
 
     /**
      * 关闭菜单时, 把玩家放进 EQUIP_SLOT / GEM_SLOT 里还没被消耗掉的物品还给玩家,
-     * 避免物品凭空消失。背包放不下时直接掉落在玩家脚下。
+     * 避免物品凭空消失背包放不下时直接掉落在玩家脚下
      */
     @SubscribeEvent
     fun onClose(e: InventoryCloseEvent) {

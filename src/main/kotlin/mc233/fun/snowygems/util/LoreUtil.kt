@@ -18,11 +18,6 @@ object LoreUtil {
         return lore.count { it.contains(needle) }
     }
 
-    /**
-     * LoreAdd: 在 locator 附近插入一整行 [line], 或在 mode=line 时把 [line] 拼接到
-     * locator 所在行末尾. 会遵守 limit(该内容已出现次数上限) 与 force(是否忽略 limit 强制插入).
-     * 返回是否真正发生了修改.
-     */
     fun add(lore: MutableList<String>, line: String, locator: String?, mode: String?, limit: Int, force: Boolean): Boolean {
         if (!force && limit in 0..countAppended(lore, line, locator)) return false
         return when (mode) {
@@ -53,11 +48,6 @@ object LoreUtil {
         else lore.count { it.contains(line) }
     }
 
-    /**
-     * LoreReplace: 在 (可选) locator 之后的第一处出现 [old] 的地方, 替换为 [new].
-     * 若 locator 为空, 则在整个 lore 中查找第一处出现 [old] 的整行或子串进行替换.
-     * 若某行恰好等于 old, 则整行替换为 new; 否则做子串替换.
-     */
     fun replace(lore: MutableList<String>, old: String, new: String, locator: String?): Boolean {
         val startIdx = if (locator.isNullOrEmpty()) 0 else {
             val i = indexOfContains(lore, locator)

@@ -8,13 +8,13 @@ import taboolib.common.platform.function.submit
 import taboolib.common.util.random
 
 /**
- * 控制流类技能函数 —— 让服主能写出有条件、有组合的技能, 而不只是一串平铺的效果。
+ * 控制流类技能函数 —— 让服主能写出有条件、有组合的技能, 而不只是一串平铺的效果
  *
  * 这一层是"技能引擎足够聪明"的关键: 有了条件判断和组合执行, 服主可以自己拼出
  * "血量低于 30% 时才触发""每 3 次攻击触发一次""同时放三个效果"这类逻辑,
- * 不需要我为每种玩法单独写一个函数。
+ * 不需要我为每种玩法单独写一个函数
  *
- * 嵌套执行统一走 [SkillExecutor.runNested], 因此嵌套里也能再套控制流。
+ * 嵌套执行统一走 [SkillExecutor.runNested], 因此嵌套里也能再套控制流
  */
 object ControlFunctions {
 
@@ -102,18 +102,15 @@ object ControlFunctions {
         })
     }
 
-    /** 取出这一行里的嵌套函数并交给 [body]; 没写嵌套就记一条日志返回 false */
     private inline fun withNested(ctx: SkillContext, body: (String) -> Boolean): Boolean {
         val nested = ctx.nested() ?: return ctx.miss("嵌套函数")
         return body(nested)
     }
 
-    /** 延迟/循环执行时玩家可能已下线, 先确认再跑 */
     private fun runIfOnline(ctx: SkillContext, nested: String) {
         if (ctx.player.isOnline) SkillExecutor.runNested(ctx, nested)
     }
 
-    /** 统一的"少写了什么"日志 */
     private fun SkillContext.miss(what: String): Boolean {
         log("缺少 $what")
         return false

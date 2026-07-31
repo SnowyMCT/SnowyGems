@@ -45,10 +45,6 @@ object Banner {
         line()
     }
 
-    /**
-     * 服务器完全启动后的加载汇总.
-     * 放在 ACTIVE 阶段打印, 数字才是最终值(ENABLE 时其它插件可能还没就位).
-     */
     fun printSummary(gems: Int, menus: Int, skills: Int, points: String) {
         info("加载完成: 宝石 $gems 个 · 菜单 $menus 个 · 技能 $skills 个 · 点券后端 $points")
         if (DebugUtil.enabled) {

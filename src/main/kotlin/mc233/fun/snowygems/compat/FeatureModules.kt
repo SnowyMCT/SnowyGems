@@ -5,7 +5,7 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 
 /**
- * 按版本自动启停的功能模块。
+ * 按版本自动启停的功能模块
  *
  * config.yml 的 `Compat.Modules` 下每个模块可以取三种值:
  *   auto  —— 由服务端注册表决定: 该模块的代表性内容存在就启用, 不存在就停用(默认)
@@ -13,9 +13,9 @@ import taboolib.module.configuration.Configuration
  *   false —— 强制停用: 即使服务端支持也不启用, 相关配置一律跳过
  *
  * 模块停用的实际效果: 归属该模块的属性/附魔/效果/物品分类, 在 [Registries] 查询时
- * 一律返回"不存在", 于是上层按既有的"跳过并提示"路径处理。
+ * 一律返回"不存在", 于是上层按既有的"跳过并提示"路径处理
  * 这样服主在混服(同一份配置发到不同版本的子服)时, 可以在低版本子服手动关掉高版本模块,
- * 避免控制台被"这个属性不存在"刷屏。
+ * 避免控制台被"这个属性不存在"刷屏
  */
 object FeatureModules {
 
@@ -105,13 +105,6 @@ object FeatureModules {
     var reportOnStartup: Boolean = true
         private set
 
-    /**
-     * 计算各模块的启停状态.
-     *
-     * 刻意**不用** @Awake: 门禁状态必须在任何 Registries 查询之前就位, 而同一生命周期内
-     * 多个 @Awake 方法的执行顺序不保证 —— 万一晚于配置加载, 前半段配置就会按"全模块启用"
-     * 解析, 与后半段不一致。因此由 [mc233.fun.snowygems.Bootstrap.reloadAll] 第一步显式调用。
-     */
     fun resolve() {
         if (!::conf.isInitialized) {
             DebugUtil.log("Compat", "config.yml 尚未注入, 全部模块按 auto 处理")
@@ -185,7 +178,7 @@ object FeatureModules {
 
     // ── 归属查询(不看启停, 只看"这东西是不是某个版本模块管的") ──
     // 配置自检要靠这些区分两种失败: "写了个高版本才有的东西"(正常, 跳过就行)
-    // 与"名字拼错了"(真错误, 必须提醒服主)。
+    // 与"名字拼错了"(真错误, 必须提醒服主)
 
     /** 该物品名是否为某个版本模块管辖(如 SPEAR 属于 Spear 模块), 返回模块名 */
     fun moduleOfMaterial(name: String): String? = materialOwner[name.trim().uppercase()]

@@ -18,12 +18,12 @@ import taboolib.module.nms.getItemTag
  * Attribute{name=health;operation=0;slot=auto;var=v+1;limit=5}
  *
  * 语义: 从 NBT 读出该属性已叠加的数值 v, 用 [varExpr] 算出新值(不超过 limit), 再用一个
- * 固定标识的 AttributeModifier 替换旧的 —— 于是数值可重复叠加也可回退。
+ * 固定标识的 AttributeModifier 替换旧的 —— 于是数值可重复叠加也可回退
  *
  * 多版本: 属性名解析走 [Registries.attribute], 直接问服务端注册表, 因此 1.20.5+ 的
  * scale / block_interaction_range、1.21.2+ 的 submerged_mining_speed 以及后续版本
- * 新增的属性都无需改代码; 老版本上写了新属性只跳过这一条并提示。
- * 修饰符的创建与清理走 [AttributeCompat], 兼容新旧两套构造函数。
+ * 新增的属性都无需改代码; 老版本上写了新属性只跳过这一条并提示
+ * 修饰符的创建与清理走 [AttributeCompat], 兼容新旧两套构造函数
  */
 class AttributeReward(
     private val attrName: String,
@@ -34,7 +34,6 @@ class AttributeReward(
 ) : Reward {
 
     companion object {
-        /** 解析属性名, 兼容简写 / 现代键 / 旧常量名 */
         fun resolve(key: String): Attribute? = Registries.attribute(key)
     }
 
@@ -83,7 +82,6 @@ class AttributeReward(
         return false
     }
 
-    /** 属性解析失败: 区分"名字压根不认识"与"认识但当前版本没有", 提示完全不同 */
     private fun failResolve(): Boolean = fail(
         AttributeAliases.candidatesOf(attrName)?.let { keys ->
             "属性(键=${keys.joinToString("/")}) 在当前版本 ${ServerVersion.minecraftVersion} 的注册表中不存在, " +

@@ -3,10 +3,10 @@ package mc233.`fun`.snowygems.skill
 import mc233.`fun`.snowygems.util.DebugUtil
 
 /**
- * 技能函数注册中心 —— 技能引擎的"可扩展"来源。
+ * 技能函数注册中心 —— 技能引擎的"可扩展"来源
  *
  * 老实现是 SkillExecutor 里一个巨大的 `when (name)`, 每加一个技能函数就要改那个 when,
- * 而且服主只能用我预先写好的那十来个函数。
+ * 而且服主只能用我预先写好的那十来个函数
  *
  * 改成注册表后:
  *   - 每个函数是一个独立的 [SkillFunction], 自带名字、别名、说明、需要的版本能力
@@ -31,22 +31,14 @@ object SkillFunctions {
         }
     }
 
-    /** 按名字查函数, 找不到返回 null */
     fun find(name: String): SkillFunction? = byName[name.trim().lowercase()]
 
-    /** 全部已注册函数(去重, 按注册顺序) */
     fun all(): List<SkillFunction> = byName.values.distinct()
 
-    /** 当前版本实际可用的函数 */
     fun available(): List<SkillFunction> = all().filter { it.isAvailable() }
 
-    /** 因版本原因不可用的函数 */
     fun unavailable(): List<SkillFunction> = all().filterNot { it.isAvailable() }
 
-    /**
-     * 给写错名字的服主一点提示: 找出编辑距离最近的几个函数名。
-     * 配置里写 `Blnk{...}` 这种拼写错误, 老实现只会说"未实现的技能函数", 服主无从下手。
-     */
     fun suggest(name: String, limit: Int = 3): List<String> {
         val target = name.trim().lowercase()
         return all()
@@ -76,6 +68,5 @@ object SkillFunctions {
         return prev[b.length]
     }
 
-    /** 清空注册表(重载时调用, 保证不残留上一次的注册) */
     fun clear() = byName.clear()
 }

@@ -13,11 +13,11 @@ import org.bukkit.Sound
 import taboolib.platform.util.sendActionBar
 
 /**
- * 基础技能函数: 位移 / 伤害 / 治疗 / 音效 / 粒子 / 命令 / 消息。
+ * 基础技能函数: 位移 / 伤害 / 治疗 / 音效 / 粒子 / 命令 / 消息
  *
  * 多版本要点: Sound 和 Particle 在各版本间增删频繁(1.21 加了风弹音效, 26.x 又有新粒子),
- * 且 Sound 在 1.21.3 前后从枚举变成了接口+注册表。因此全部走"按名字查, 查不到就跳过并
- * 提示"的模式, 绝不硬编码可用清单。
+ * 且 Sound 在 1.21.3 前后从枚举变成了接口+注册表因此全部走"按名字查, 查不到就跳过并
+ * 提示"的模式, 绝不硬编码可用清单
  */
 object BasicFunctions {
 
@@ -75,7 +75,6 @@ object BasicFunctions {
         })
     }
 
-    /** 沿视线逐格前进, 撞到非空气就停在前一格 —— 避免把玩家塞进墙里 */
     private fun lineOfSight(ctx: SkillContext, distance: Double): Location {
         val from = ctx.player.location.clone()
         val dir = from.direction.normalize()
@@ -275,10 +274,10 @@ object BasicFunctions {
 
     /**
      * 音效解析. Sound 在 1.21.3 前后从枚举变成了接口 + 注册表, 两种形态都要能查:
-     * 先试注册表(新版本), 再试枚举 valueOf(老版本), 全失败才算不支持。
+     * 先试注册表(新版本), 再试枚举 valueOf(老版本), 全失败才算不支持
      *
      * 注册表用反射取: 编译目标上 Registry.SOUNDS 的类型随版本变化, 静态引用会在
-     * 另一个版本上编译不过。
+     * 另一个版本上编译不过
      */
     private fun resolveSound(name: String): Sound? {
         val raw = name.trim()

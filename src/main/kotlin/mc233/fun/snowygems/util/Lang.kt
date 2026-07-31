@@ -35,14 +35,9 @@ object Lang {
         if (::conf.isInitialized) conf.reload()
     }
 
-    /**
-     * 取一条文本. 找不到节点时返回节点名本身, 方便一眼看出是哪个 key 漏配了.
-     * @param args 具名占位符, 如 "gem" to cfg.id  会替换文本里的 {gem}
-     */
     fun get(key: String, vararg args: Pair<String, Any?>): String =
         render(raw(key) ?: key, args)
 
-    /** 取一条文本, 节点不存在时返回 null(用于"配置了才发"的可选提示) */
     fun getOrNull(key: String, vararg args: Pair<String, Any?>): String? =
         raw(key)?.let { render(it, args) }
 
@@ -52,12 +47,10 @@ object Lang {
         return conf.getStringList(key).map { render(it, args) }
     }
 
-    /** 发送给玩家/控制台, 自动解析 actionbar: / title: / none: 前缀 */
     fun send(sender: CommandSender, key: String, vararg args: Pair<String, Any?>) {
         sendText(sender, raw(key) ?: key, args)
     }
 
-    /** 命令回执: 在消息前自动加上 prefix 节点 */
     fun sendCommand(sender: CommandSender, key: String, vararg args: Pair<String, Any?>) {
         val text = raw(key) ?: key
         // 前缀只对聊天栏消息有意义, actionbar/title 不加
@@ -68,7 +61,6 @@ object Lang {
         sendText(sender, (raw("prefix") ?: "") + text, args)
     }
 
-    /** 直接发一段已经组装好的文本(用于宝石配置里自定义的 SuccessTip 等) */
     fun sendRaw(sender: CommandSender, text: String) {
         sendText(sender, text, emptyArray())
     }

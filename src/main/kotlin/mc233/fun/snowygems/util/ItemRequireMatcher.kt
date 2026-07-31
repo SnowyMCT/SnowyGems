@@ -5,12 +5,12 @@ import mc233.`fun`.snowygems.compat.Registries
 import org.bukkit.inventory.ItemStack
 
 /**
- * Require 匹配 —— 判断一件物品是否落在某个宝石的适用范围内。
+ * Require 匹配 —— 判断一件物品是否落在某个宝石的适用范围内
  *
  * 多版本要点: 分类关键字(WEAPON / TOOL / ARMOR / SWORD …)的判定不再靠本文件里硬编码的
- * 正则和物品清单, 而是转交给 [ItemCategories] —— 它在启动时读服务端注册表建索引。
+ * 正则和物品清单, 而是转交给 [ItemCategories] —— 它在启动时读服务端注册表建索引
  * 这样 1.21.11 的矛(SPEAR)、铜盔甲(COPPER_*)、以及未来新增的材质/形态, 都会自动落入
- * 正确的分类, 服主不需要改配置, 我也不需要改代码。
+ * 正确的分类, 服主不需要改配置, 我也不需要改代码
  *
  * 支持的写法(OR 语义, 命中任意一条即通过):
  *   NOTHING            —— 无条件通过
@@ -57,10 +57,6 @@ object ItemRequireMatcher {
         }
     }
 
-    /**
-     * 校验一条 Require 写法在当前版本是否有意义, 供配置加载时给出可读警告。
-     * @return null 表示没问题, 否则返回警告文本
-     */
     fun validate(entry: String): String? {
         val e = entry.trim()
         if (e.isEmpty()) return "空的 Require 条目"
@@ -72,7 +68,6 @@ object ItemRequireMatcher {
             "(可用分类: ${ItemCategories.knownCategories.joinToString("/")})"
     }
 
-    /** 根据物品类型推断 auto 槽位: 盔甲对应部位, 其余默认主手 */
     fun autoSlot(item: ItemStack?): String {
         val name = item?.type?.name ?: return "hand"
         val cats = ItemCategories.categoriesOf(name)
@@ -85,12 +80,4 @@ object ItemRequireMatcher {
             else -> "hand"
         }
     }
-
-    // ── 兼容旧调用点 ────────────────────────────────────────
-
-    fun isWeapon(name: String) = ItemCategories.matches(name, "WEAPON")
-
-    fun isTool(name: String) = ItemCategories.matches(name, "TOOL")
-
-    fun isArmor(name: String) = ItemCategories.matches(name, "ARMOR")
 }

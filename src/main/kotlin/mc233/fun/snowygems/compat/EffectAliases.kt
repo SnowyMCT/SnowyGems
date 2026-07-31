@@ -4,10 +4,10 @@ package mc233.`fun`.snowygems.compat
  * 药水效果名别名表: 1.20.5 之前的 Bukkit 常量名 -> 现代注册表键.
  *
  * 1.20.5 起 PotionEffectType 也改成注册表, DAMAGE_RESISTANCE / JUMP / CONFUSION
- * 这些旧名被移除。老配置(SnowyGems 早期的 PotionGem.yml)大量使用旧名, 必须映射。
+ * 这些旧名被移除老配置(SnowyGems 早期的 PotionGem.yml)大量使用旧名, 必须映射
  *
  * 1.21 新增的 oozing / infested / weaving / wind_charged 是现代键, 无需登记,
- * 在支持它们的版本上自动可用, 老版本上查不到会被跳过并提示。
+ * 在支持它们的版本上自动可用, 老版本上查不到会被跳过并提示
  */
 object EffectAliases {
 

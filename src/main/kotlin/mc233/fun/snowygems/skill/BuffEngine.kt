@@ -11,13 +11,13 @@ import taboolib.common.platform.Schedule
 
 /**
  * BUFF 引擎: 每秒扫描在线玩家的装备/手持物品, 若其 Lore 命中某个技能/BUFF 定义的 Lore 标记,
- * 就执行该定义中带 ~onTimer 标记的技能行。
+ * 就执行该定义中带 ~onTimer 标记的技能行
  *
- * 与老实现的区别: 不再自己实现 PotionBuff 和药水名解析, 而是把技能行交给 [SkillExecutor]。
+ * 与老实现的区别: 不再自己实现 PotionBuff 和药水名解析, 而是把技能行交给 [SkillExecutor]
  * 好处是常驻 BUFF 和主动技能共享同一套函数表 —— 服主在 onTimer 上可以用 Potion、也可以用
- * If / Chance / All 组合出"血量低于一半时才给抗性"这类条件 BUFF, 无需引擎额外支持。
+ * If / Chance / All 组合出"血量低于一半时才给抗性"这类条件 BUFF, 无需引擎额外支持
  *
- * 定时任务用 [Schedule] 注解声明, 服务器调度器就绪后自动开始, 主类不需要调 start()。
+ * 定时任务用 [Schedule] 注解声明, 服务器调度器就绪后自动开始, 主类不需要调 start()
  */
 object BuffEngine {
 
@@ -34,7 +34,6 @@ object BuffEngine {
         }
     }
 
-    /** 参与 BUFF 判定的物品: 主手 / 副手 / 四件盔甲 */
     private fun equipmentOf(player: Player): List<ItemStack> {
         val list = ArrayList<ItemStack>()
         list.add(player.inventory.itemInMainHand)

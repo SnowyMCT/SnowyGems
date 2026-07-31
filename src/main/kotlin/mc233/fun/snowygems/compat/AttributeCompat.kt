@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta
 import java.util.UUID
 
 /**
- * AttributeModifier 的跨版本封装 —— 全项目唯一真正需要按版本分支的地方。
+ * AttributeModifier 的跨版本封装 —— 全项目唯一真正需要按版本分支的地方
  *
  * API 变迁:
  *   1.20.4 及以前: AttributeModifier(UUID, String name, double, Operation, EquipmentSlot)
@@ -18,14 +18,14 @@ import java.util.UUID
  *                  旧构造被标记 @Deprecated, 但仍保留
  *   1.21.9 前后:   部分服务端实现开始移除旧构造 / 旧的 uniqueId 访问器
  *
- * 处理方式: **优先新 API, 反射探测可用性, 一次性缓存结果**。
+ * 处理方式: **优先新 API, 反射探测可用性, 一次性缓存结果**
  * 编译期只静态引用新 API(编译目标是 1.21.4, 新 API 已存在), 旧 API 全部走反射,
- * 这样既能在 1.20.5+ 全系列正常工作, 也不会因为旧构造被移除而在高版本上 NoSuchMethodError。
+ * 这样既能在 1.20.5+ 全系列正常工作, 也不会因为旧构造被移除而在高版本上 NoSuchMethodError
  *
  * 修饰符的身份标识:
  *   新 API 用 NamespacedKey("snowygems", "attr_<属性名>")
  *   旧 API 用由同一字符串派生的确定性 UUID
- * 两者都能保证"同一个宝石属性重复镶嵌时替换而不是叠加无数条"。
+ * 两者都能保证"同一个宝石属性重复镶嵌时替换而不是叠加无数条"
  */
 object AttributeCompat {
 
@@ -73,7 +73,7 @@ object AttributeCompat {
      * 移除本插件之前为该属性写入的修饰符.
      *
      * 新旧两种身份都要清: 玩家的装备可能是在插件用旧 API 的版本上镶嵌的,
-     * 服务器升级后如果只按新 key 清理, 旧的 UUID 修饰符会永久残留并持续叠加。
+     * 服务器升级后如果只按新 key 清理, 旧的 UUID 修饰符会永久残留并持续叠加
      */
     fun removeOwn(meta: ItemMeta, attribute: Attribute, attrName: String): Int {
         val existing = meta.getAttributeModifiers(attribute) ?: return 0
@@ -95,7 +95,7 @@ object AttributeCompat {
     }
 
     /**
-     * 创建一个修饰符. 新版本走 EquipmentSlotGroup, 老版本走 EquipmentSlot。
+     * 创建一个修饰符. 新版本走 EquipmentSlotGroup, 老版本走 EquipmentSlot
      * @param slotName 槽位名(head/chest/legs/feet/hand/off_hand/any/armor)
      * @return 失败返回 null, 由调用方按"未生效"处理
      */
@@ -121,7 +121,7 @@ object AttributeCompat {
     /**
      * 槽位名 -> EquipmentSlotGroup (1.20.5+).
      * 相比旧的 EquipmentSlot, Group 多了 ANY / ARMOR / HAND 这类"一组槽位"的语义,
-     * 让"任意手持生效"和"任意盔甲位生效"这种配置成为可能。
+     * 让"任意手持生效"和"任意盔甲位生效"这种配置成为可能
      */
     fun slotGroupOf(name: String): EquipmentSlotGroup = when (name.trim().lowercase()) {
         "head", "helmet" -> EquipmentSlotGroup.HEAD

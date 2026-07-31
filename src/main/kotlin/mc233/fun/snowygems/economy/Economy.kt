@@ -14,8 +14,8 @@ import java.io.File
 import java.util.UUID
 
 /**
- * 通过反射对接 PlayerPoints 插件, 避免在编译期强制依赖它的 jar。
- * 服务器未安装 PlayerPoints 时 [available] 为 false, 会自动回退到内置点券系统。
+ * 通过反射对接 PlayerPoints 插件, 避免在编译期强制依赖它的 jar
+ * 服务器未安装 PlayerPoints 时 [available] 为 false, 会自动回退到内置点券系统
  */
 object PlayerPointsBridge {
 
@@ -67,7 +67,7 @@ object PlayerPointsBridge {
  * 点券账户系统, 支持两种后端(由 config.yml 中 Points.Provider 决定):
  *  - Internal:      内置的 data/points.yml 简易账户系统(默认)
  *  - PlayerPoints:  对接已安装的 PlayerPoints 插件
- * 若配置为 PlayerPoints 但插件未安装/不可用, 会自动回退到 Internal 并输出一次警告。
+ * 若配置为 PlayerPoints 但插件未安装/不可用, 会自动回退到 Internal 并输出一次警告
  */
 object PointsEconomy {
 

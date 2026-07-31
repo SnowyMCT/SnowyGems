@@ -4,10 +4,10 @@ package mc233.`fun`.snowygems.compat
  * 附魔名别名表: 1.13 之前的 Bukkit 常量名 -> 现代注册表键.
  *
  * 1.20.5 起 org.bukkit.enchantments.Enchantment 从静态常量改成了注册表, 旧字段
- * (DURABILITY / DAMAGE_ALL / ARROW_DAMAGE …) 全部消失。老配置里写的旧名必须映射过来,
- * 否则解析失败 -> 附魔宝石静默无效果。
+ * (DURABILITY / DAMAGE_ALL / ARROW_DAMAGE …) 全部消失老配置里写的旧名必须映射过来,
+ * 否则解析失败 -> 附魔宝石静默无效果
  *
- * 现代键(sharpness / density / breach / wind_burst)不需要登记, 直接就能查到。
+ * 现代键(sharpness / density / breach / wind_burst)不需要登记, 直接就能查到
  */
 object EnchantAliases {
 
@@ -72,6 +72,5 @@ object EnchantAliases {
         put("WIND_BURST", "wind_burst")
     }
 
-    /** 取旧名对应的现代键; 传入的本就是现代键时返回 null, 由上层直接当键查 */
     fun keyOf(name: String): String? = ALIASES[name.trim().uppercase()]
 }

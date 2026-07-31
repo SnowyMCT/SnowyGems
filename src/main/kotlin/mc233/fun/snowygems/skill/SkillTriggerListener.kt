@@ -28,7 +28,7 @@ import taboolib.platform.util.PlayerSessionMap
 import taboolib.platform.util.sendActionBar
 
 /**
- * 技能触发器 —— 把游戏事件翻译成触发标记(trigger), 交给 [SkillExecutor] 执行。
+ * 技能触发器 —— 把游戏事件翻译成触发标记(trigger), 交给 [SkillExecutor] 执行
  *
  * 服主在技能行末尾用 `~触发标记` 声明这一行响应什么事件, 当前支持:
  *
@@ -46,20 +46,14 @@ import taboolib.platform.util.sendActionBar
  *   onDamaged      物品即将损失耐久
  *   onTimer        每秒轮询(由 BuffEngine 驱动)
  *
- * 多版本要点: 发射物类型不写死枚举, 直接取 `entity.type.name`。这样 1.21.11 的矛(SPEAR)
- * 投出去后, 服主写 `~onHit:SPEAR` 就能用, 引擎不需要认识"矛"这个概念。
+ * 多版本要点: 发射物类型不写死枚举, 直接取 `entity.type.name`这样 1.21.11 的矛(SPEAR)
+ * 投出去后, 服主写 `~onHit:SPEAR` 就能用, 引擎不需要认识"矛"这个概念
  */
 object SkillTriggerListener {
 
     /** 冷却表按玩家会话存放, 玩家退出后由 TabooLib 自动清理, 不会随时间无限增长 */
     private val cooldowns = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
 
-    /**
-     * 发射物命中时玩家手里通常已经不是原来的弓/三叉戟/矛, 所以在发射瞬间把物品记下来.
-     *
-     * 注意: 箭飞进虚空 / 落在被卸载的区块里, ProjectileHitEvent 永远不会触发,
-     * 那条记录就会一直留着. 这里额外记下写入时间, 由 [cleanupProjectiles] 定期清扫.
-     */
     private val projectileItems = ConcurrentHashMap<UUID, Pair<ItemStack, Long>>()
 
     /** 发射物记录的最长保留时间: 30 秒, 比任何正常箭的飞行时间都长 */
@@ -83,8 +77,8 @@ object SkillTriggerListener {
     @SubscribeEvent
     fun onInteract(e: PlayerInteractEvent) {
         if (e.hand != EquipmentSlot.HAND) return
-        // 右键和潜行左键都属于物品使用类技能。三叉戟/矛没有可靠的 AnimationEvent,
-        // 因此额外监听 LEFT_CLICK, 保证 Shift+左键切换类技能可触发。
+        // 右键和潜行左键都属于物品使用类技能三叉戟/矛没有可靠的 AnimationEvent,
+        // 因此额外监听 LEFT_CLICK, 保证 Shift+左键切换类技能可触发
         val isRight = e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK
         val isShiftLeft = e.player.isSneaking && (e.action == Action.LEFT_CLICK_AIR || e.action == Action.LEFT_CLICK_BLOCK)
         if (!isRight && !isShiftLeft) return
@@ -235,8 +229,8 @@ object SkillTriggerListener {
 
     /** 解析 CooldownTip 表达式并渲染. 支持 ActionBar{...} / Chat{...} / Title{...} */
     private fun renderCooldownTip(player: Player, raw: String, remaining: Double, total: Double) {
-        // CooldownTip 本身也是技能表达式, 不是普通文本。
-        // 部分配置经过 YAML 转义后会保留外层字符串, 需要再次展开。
+        // CooldownTip 本身也是技能表达式, 不是普通文本
+        // 部分配置经过 YAML 转义后会保留外层字符串, 需要再次展开
         var tip = SkillLineParser.parse(raw)
         if (tip.args.size == 1 && tip.args.keys.firstOrNull()?.contains("{") == true) {
             tip = SkillLineParser.parse(tip.args.keys.first())

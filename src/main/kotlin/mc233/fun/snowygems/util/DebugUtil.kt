@@ -11,9 +11,6 @@ import taboolib.module.configuration.Configuration
  * 开启后插件的全部交互逻辑(菜单点击/命令/宝石使用/技能触发/奖励执行/配置加载)
  * 都会在控制台输出详细过程, 便于排查问题.
  *
- * 可选的 DebugTags 白名单: 只输出列表中的 tag, 留空表示全部输出.
- * 例: DebugTags: [Menu, GemManager]
- *
  * config.yml 由 TabooLib 的 [Config] 托管(自动释放 + 保存即热重载 + 版本迁移),
  * 不再手动 releaseResourceFile / loadFromFile.
  */
