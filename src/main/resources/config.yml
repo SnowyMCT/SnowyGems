@@ -2,13 +2,14 @@
 
 # 调试模式: 开启后会把插件全部交互逻辑的执行过程输出到控制台
 #   包括: 菜单打开/渲染/点击, 宝石镶嵌与拆除, 命令执行, 右键使用,
-#         技能触发与执行, BUFF 施加, 奖励函数执行, 配置文件加载
+#         技能触发与执行, BUFF 施加, 奖励函数执行, 配置文件加载, 版本兼容探测
 # 排查问题时打开, 平时建议关闭(日志量较大)
 Debug: false
 
 # 调试输出的 tag 白名单, 留空表示输出全部.
 # 可用 tag:
 #   Registry   - 配置文件加载(宝石/菜单/技能)
+#   Compat     - 版本兼容层(注册表快照/物品分类/能力探测)
 #   Command    - /sgem 各子命令
 #   Menu       - 工作台菜单的点击/拖拽/关闭/镶嵌
 #   Workbench  - 工作台菜单的打开与图标渲染
@@ -33,3 +34,55 @@ DebugTags: []
 #   PlayerPoints - 对接 PlayerPoints 插件 (需要服务器已安装 PlayerPoints)
 Points:
   Provider: Internal
+
+# ============================================================
+#  多版本兼容
+# ============================================================
+#  本插件支持 1.21.4 起的全部版本(含 26.x)。
+#
+#  启动时读取服务端的注册表, 有什么就支持什么。
+#  因此新版本加入的物品(矛/铜盔甲)、属性(scale/交互距离/水下挖掘速度)、附魔(密度/穿透/风爆)、
+#  药水效果(渗浆/寄生/盘丝/蓄风), 都会自动可用, 不需要更新插件。
+#
+#  用 /sgem compat 可以查看当前服务端到底支持哪些能力。
+# ============================================================
+Compat:
+
+  # 配置里用到了当前版本不存在的东西时如何处理:
+  #   skip  - 跳过这一条, 在控制台记一条说明, 其它内容照常生效 (默认, 推荐)
+  #   warn  - 同 skip, 但每次都用醒目的警告级别输出(排查配置时用)
+  #   strict- 加载配置时就报错, 让服主必须改对才能启动(适合正式服上线前自检)
+  OnMissingFeature: skip
+
+  # 启动时是否在控制台打印版本能力简报
+  # 关掉之后仍可用 /sgem compat 随时查看
+  ReportOnStartup: true
+
+  # 按版本自动启停的功能模块.
+  # auto  = 由服务端注册表决定(有就开, 没有就关) —— 推荐
+  # true  = 强制开启(注册表里没有时相关配置会报"跳过")
+  # false = 强制关闭(即使服务端支持也不启用)
+  Modules:
+
+    # 1.21+ 锤(MACE)相关: 锤专属附魔(密度/穿透/风爆)与锤的分类匹配
+    Mace: auto
+
+    # 1.21.11+ 矛(SPEAR)相关: 矛的分类匹配与 ~onHit:SPEAR / ~onLaunch:SPEAR 触发
+    Spear: auto
+
+    # 1.21.9+ 铜装备: 铜盔甲与铜工具纳入 ARMOR / TOOL 分类
+    CopperEquipment: auto
+
+    # 1.20.5+ 新属性: scale(体型) / block_interaction_range / entity_interaction_range
+    #                jump_strength / gravity / max_absorption / safe_fall_distance 等
+    ModernAttributes: auto
+
+    # 1.21.2+ 挖掘与移动类属性: submerged_mining_speed / mining_efficiency / movement_efficiency
+    MiningAttributes: auto
+
+    # 1.21+ 试炼密室新增药水效果: oozing / infested / weaving / wind_charged
+    #                            trial_omen / raid_omen
+    TrialEffects: auto
+
+    # 26.x 新属性: waypoint_transmit_range / waypoint_receive_range / camera_distance
+    WaypointAttributes: auto

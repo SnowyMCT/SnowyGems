@@ -73,7 +73,7 @@ gem:
   # 装备不在 Require 允许的范围内
   require-failed: "&c该装备不满足此宝石的适用范围"
   # 概率判定成功, 但所有 Rewards 都没真正生效(通常是配置里的附魔/属性名过期)
-  no-effect: "&c镶嵌未生效: 该宝石的效果无法应用, 请联系管理员检查配置"
+  no-effect: "&c镶嵌未生效..."
   # 镶嵌结果 (宝石配置里写了 SuccessTip / FailTip 时以配置为准)
   embed-success: "&a镶嵌成功! 装备已强化"
   embed-fail: "&c很遗憾, 强化失败了"
@@ -177,3 +177,63 @@ skill:
   cooldown-title: "&c冷却中"
   # 形态切换  占位符: {mode} 切换后的形态名
   switch: "&7已切换形态: &f{mode}"
+
+# ── /sgem compat 版本兼容报告 ─────────────────────────────
+compat:
+  divider: "&8&m                                                  "
+  title: "&bSnowyGems &f版本兼容报告"
+  server: "&7服务端: &f{server}"
+  version: "&7MC 版本: &f{mc} &8(versionId={id})"
+  registry: "&7注册表: &f{registry}"
+  attribute-api: "&7属性 API: &f{api}"
+  # 占位符: {ok} 支持项数  {missing} 不支持项数
+  summary: "&a✔ 本版本支持 {ok} 项  &c✘ 不支持 {missing} 项"
+  entry-ok: "  &a✔ &f{name}"
+  # 占位符: {name} 能力名  {since} 需要的版本
+  entry-missing: "  &c✘ &7{name} &8(需要 {since})"
+  missing-brief: "&7缺失: &f{list}"
+  more-hint: "&8用 /sgem compat all 查看完整清单"
+  functions: "&7技能函数: &a{ok} 个可用&7, &c{bad} 个不可用"
+  # 功能模块启停(config.yml 的 Compat.Modules)
+  modules-title: "&7功能模块:"
+  module-on: "  &a● &f{name} &7启用"
+  module-off: "  &8● &7{name} &8停用"
+  modules-brief: "&7已停用模块: &f{list} &8(见 config.yml 的 Compat.Modules)"
+
+# ── /sgem skills 技能函数速查 ─────────────────────────────
+skills:
+  divider: "&8&m                                                  "
+  # 占位符: {shown} 显示条数  {total} 总条数
+  title: "&b可用技能函数 &7({shown}/{total})"
+  title-keyword: "&b可用技能函数 &7({shown}/{total}) &8关键字: &f{keyword}"
+  empty: "&7没有匹配的函数, 试试 /sgem skills 看全部"
+  # 占位符: {mark} 可用标记  {name} 函数名  {usage} 参数示例
+  entry: "{mark} &f{name}&7{usage}"
+  entry-desc: "   &8{desc}"
+  entry-aliases: "   &8别名: {aliases}"
+  entry-unavailable: "   &c当前版本不可用: {requires}"
+  mark-ok: "&a✔"
+  mark-bad: "&c✘"
+  footer: "&8触发标记见 &f/sgem triggers  &8版本能力见 &f/sgem compat"
+
+# ── /sgem triggers 触发标记速查 ───────────────────────────
+# 这是一份纯说明文档, 改这里不会影响引擎实际支持的触发标记。
+# 每一行就是最终显示的内容, 可以自由增删和改措辞。
+triggers:
+  divider: "&8&m                                                  "
+  title: "&b可用触发标记 &7(写在技能行末尾, 如 &f~onUse&7)"
+  list:
+    - "  &a~onUse &8- &7右键使用"
+    - "  &a~onShiftUse &8- &7潜行 + 右键"
+    - "  &a~onSwing &8- &7左键挥臂"
+    - "  &a~onShiftSwing &8- &7潜行 + 左键(三叉戟/矛也可用)"
+    - "  &a~onAttack &8- &7近战攻击命中实体"
+    - "  &a~onKill &8- &7击杀实体"
+    - "  &a~onHit &8- &7发射物命中(任意类型)"
+    - "  &a~onHit:类型 &8- &7发射物命中指定类型, 如 onHit:ARROW / onHit:TRIDENT / onHit:SPEAR"
+    - "  &a~onLaunch &8- &7发射物射出(任意类型)"
+    - "  &a~onLaunch:类型 &8- &7发射物射出指定类型"
+    - "  &a~onBreak &8- &7挖掉方块"
+    - "  &a~onDamaged &8- &7物品即将损失耐久"
+    - "  &a~onTimer &8- &7每秒轮询(常驻 BUFF 用)"
+  footer: "&8技能函数见 &f/sgem skills  &8版本能力见 &f/sgem compat"

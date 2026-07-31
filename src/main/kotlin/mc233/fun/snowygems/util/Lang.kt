@@ -11,7 +11,7 @@ import taboolib.platform.util.sendActionBar
  * 玩家可见文本的唯一出口.
  *
  * 设计约定(改代码时请遵守):
- *   - 任何会被玩家看到的字符串, 都必须来自 lang.yml, 代码里不写死中文.
+ *   - 任何会被玩家看到的字符串, 都必须来自 lang.yml, 代码里不写死.
  *   - 代码只负责传"数据"(占位符值), 不负责决定措辞和颜色.
  *
  * lang.yml 由 TabooLib 的 [Config] 托管:

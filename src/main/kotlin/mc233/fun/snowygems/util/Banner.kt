@@ -11,7 +11,7 @@ import taboolib.module.chat.StandardColors
  * 控制台启动/关闭横幅.
  *
  * 主类里塞一堆 info("...") 画 ASCII 字很难看也不好改, 统一挪到这里.
- * 用 TabooLib 的 [Components] 组件化上色, 逐行做蓝→青渐变, 而不是手写 &b。
+ * 用 TabooLib 的 [Components] 组件化上色, 逐行做蓝→青渐变
  */
 object Banner {
 

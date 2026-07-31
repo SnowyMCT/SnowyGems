@@ -1,0 +1,598 @@
+# ============================================================
+#  新版本内容宝石示例  ModernGem.yml
+# ============================================================
+#  这个文件演示 1.20.5 → 26.x 期间 Mojang 新加的东西怎么写成宝石:
+#    新属性(体型/交互距离/水下挖掘/重力…)、新附魔(密度/穿透/风爆)、
+#    新药水效果(渗浆/盘丝/寄生/蓄风)、新物品(矛/铜装备/锤)。
+#
+#  ⚠️ 低版本服务端上, 这里的高版本条目会**自动跳过**并在控制台说明,
+#     其余宝石照常工作 —— 不需要删掉本文件, 也不需要改配置。
+#     用 /sgem compat 查看当前服务端到底支持哪些。
+#
+#  ── 宝石配置字段速查 ────────────────────────────────────
+#    Name         宝石内部名(给玩家看的用 Display)
+#    Type         不写=镶嵌类; PlayerGem=右键/饮用直接生效; RandomGem=开箱抽奖
+#    Require      可镶嵌到哪些物品上(OR 语义, 命中任意一条即可)
+#    Display      宝石物品的显示名
+#    Tips         宝石物品的 lore
+#    Texture      头颅 base64 材质(填了就强制用 PLAYER_HEAD)
+#    Material     不用头颅时的物品材质
+#    Color        皮革/药水的染色(配合 Material: POTION)
+#    Glow         是否附魔光效
+#    Eat          true 则需要"饮用/食用"而非右键
+#    Success      成功率 1-100, 默认 100
+#    Embed        占用镶嵌位权重, 0=不占位(非镶嵌类)
+#    SuccessTip   成功提示; RemoveTip 拆卸提示; FailTip 失败提示
+#    Rewards      真正干活的部分, 见下
+#
+#  ── Require 写法 ────────────────────────────────────────
+#    WEAPON / TOOL / ARMOR / SWORD / PICKAXE / MACE / SPEAR / RANGED …
+#                     分类关键字, 完整清单见 /sgem compat all
+#    _SWORD           以 _SWORD 结尾的任意材质(石剑/铁剑/钻石剑…)
+#    COPPER_*         以 COPPER_ 开头(整套铜装备)
+#    DIAMOND_SWORD    精确物品名
+#    LORE:文本        物品 lore 含指定文本
+#    NOTHING          无条件通过
+#
+#  ── Rewards 可用函数 ────────────────────────────────────
+#    Attribute{name=;operation=;slot=;var=;limit=}   属性加成(可叠加/可回退)
+#    Enchant{name=;level=;limit=}                    附魔增删
+#    LoreAdd{lore=;mode=;locator=;limit=;force=}     加一行 lore
+#    LoreVar{lore=前缀;var=;format=;limit=;mode=}     加带数字的 lore(可叠加)
+#    LoreReplace{old=;new=}                          替换 lore
+#    Name{name=}                                     改物品名
+#    Unbreakable / Durability{amount=}               无限耐久 / 修耐久
+#    ItemFlag{HIDE_ENCHANTS}                         隐藏标记
+#    Point{amount=} / Money{amount=}                 点券 / 金币
+#    MaxHealth{amount=;limit=} / ExpLevel{amount=}   玩家永久生命 / 经验
+#    Conditional{condition=;reward=;roman=}          条件奖励
+#    Empty                                           占位(只靠 Tips 里的 BUFF 标记生效)
+#
+#  ── Rewards 标记 ────────────────────────────────────────
+#    $onSuccess   仅镶嵌成功时执行(默认)
+#    $onRemove    仅拆卸时执行(常用来收取拆卸费)
+#    $ignorable   这一条失败不影响整次镶嵌
+#
+#  ── Attribute 的 operation ──────────────────────────────
+#    0  直接加数值      (+1 生命)
+#    1  按基础值百分比加 (+10% 移速)
+#    2  按最终值百分比乘 (最后再 ×1.1)
+#
+#  ── Attribute 的 slot(1.20.5+ 才有槽位组语义) ───────────
+#    head/chest/legs/feet   指定盔甲部位
+#    hand/off_hand          主手/副手
+#    any_hand               任意手持
+#    armor                  任意盔甲位
+#    any                    任意位置(放背包里也生效)
+#    auto                   由插件按物品类型自动推断(推荐)
+# ============================================================
+
+
+# ════════════════════════════════════════════════════════════
+#  一、新属性宝石 (1.20.5+ / 1.21.2+ / 26.x)
+# ════════════════════════════════════════════════════════════
+
+# ── scale 体型 (1.20.5+) ──────────────────────────────────
+# 基础值 1.0。这里每次 -0.1 让玩家变小, 最多缩到 0.7 倍。
+# 注意: var 是负数时 limit 也要写负数(limit 是"能加到的极限值")。
+缩小宝石:
+  Name: 缩小宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&d&l缩小宝石&8&l&k||"
+  Tips:
+    - "&d缩小宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7穿戴后体型缩小 &d10% &7(最多缩至 70%)"
+    - "&8需要 1.20.5+ 服务端"
+  Material: AMETHYST_SHARD
+  Glow: true
+  SuccessTip: "&f你使用了&d&l缩小宝石&f, 体型&d&l-10%"
+  Rewards:
+    - Attribute{name=scale;operation=0;slot=any;var=v-0.1;limit=-0.3}
+
+放大宝石:
+  Name: 放大宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&5&l放大宝石&8&l&k||"
+  Tips:
+    - "&5放大宝石 &7品质: &b&l史诗"
+    - "&7穿戴后体型增大 &510% &7(最多增至 150%)"
+    - "&8需要 1.20.5+ 服务端"
+  Material: AMETHYST_CLUSTER
+  Glow: true
+  SuccessTip: "&f你使用了&5&l放大宝石&f, 体型&5&l+10%"
+  Rewards:
+    - Attribute{name=scale;operation=0;slot=any;var=v+0.1;limit=0.5}
+
+# ── block_interaction_range 方块交互距离 (1.20.5+) ────────
+# 原版默认 4.5 格。这颗宝石让你能放/挖更远的方块。
+延伸之瞳:
+  Name: 延伸之瞳
+  Require:
+    - TOOL
+    - PICKAXE
+  Display: "&8&l&k||&b&l延伸之瞳&8&l&k||"
+  Tips:
+    - "&b延伸之瞳 &7品质: &a&l传说"
+    - "&7镶嵌在工具上, 方块交互距离 &b+1 &7格"
+    - "&7最多 &b+3 &7格"
+    - "&8需要 1.20.5+ 服务端"
+  Material: ENDER_EYE
+  Glow: true
+  SuccessTip: "&f你使用了&b&l延伸之瞳&f, 方块交互距离&b&l+1格"
+  Rewards:
+    - Attribute{name=block_interaction_range;operation=0;slot=hand;var=v+1;limit=3}
+
+# ── entity_interaction_range 实体交互距离 (1.20.5+) ───────
+# 也就是"攻击距离", 别名 attack_reach 同样可用。
+猎手之瞳:
+  Name: 猎手之瞳
+  Require:
+    - WEAPON
+    - MELEE
+  Display: "&8&l&k||&c&l猎手之瞳&8&l&k||"
+  Tips:
+    - "&c猎手之瞳 &7品质: &a&l传说"
+    - "&7镶嵌在近战武器上, 攻击距离 &c+0.5 &7格"
+    - "&7最多 &c+2 &7格"
+    - "&8需要 1.20.5+ 服务端"
+  Material: SPIDER_EYE
+  Glow: true
+  SuccessTip: "&f你使用了&c&l猎手之瞳&f, 攻击距离&c&l+0.5格"
+  Rewards:
+    - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+0.5;limit=2}
+
+# ── submerged_mining_speed 水下挖掘速度 (1.21.2+) ─────────
+# 原版水下挖掘速度是陆地的 1/5(值为 0.2)。加到 1.0 就等于不受水影响,
+# 效果类似"水下速掘"附魔但可叠加。
+深海矿工宝石:
+  Name: 深海矿工宝石
+  Require:
+    - TOOL
+  Display: "&8&l&k||&3&l深海矿工宝石&8&l&k||"
+  Tips:
+    - "&3深海矿工宝石 &7品质: &b&l史诗"
+    - "&7水下挖掘速度 &3+20%"
+    - "&7叠满后水下挖掘与陆地无异"
+    - "&8需要 1.21.2+ 服务端"
+  Material: PRISMARINE_SHARD
+  Glow: true
+  SuccessTip: "&f你使用了&3&l深海矿工宝石&f, 水下挖掘速度&3&l+20%"
+  Rewards:
+    - Attribute{name=submerged_mining_speed;operation=0;slot=hand;var=v+0.2;limit=0.8}
+
+# ── mining_efficiency 挖掘效率 (1.21.2+) ──────────────────
+# 与"效率"附魔叠加计算, 是纯数值加成。
+迅掘宝石:
+  Name: 迅掘宝石
+  Require:
+    - TOOL
+    - PICKAXE
+    - AXE
+    - SHOVEL
+  Display: "&8&l&k||&e&l迅掘宝石&8&l&k||"
+  Tips:
+    - "&e迅掘宝石 &7品质: &f普通"
+    - "&7挖掘效率 &e+1 &7(上限 +5)"
+    - "&8需要 1.21.2+ 服务端"
+  Material: GOLD_NUGGET
+  SuccessTip: "&f你使用了&e&l迅掘宝石&f, 挖掘效率&e&l+1"
+  Rewards:
+    - Attribute{name=mining_efficiency;operation=0;slot=hand;var=v+1;limit=5}
+
+# ── gravity 重力 (1.20.5+) ────────────────────────────────
+# 默认 0.08。调低后下落变慢、跳得更高, 像在月球上。
+月步靴石:
+  Name: 月步靴石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&f&l月步靴石&8&l&k||"
+  Tips:
+    - "&f月步靴石 &7品质: &b&l史诗"
+    - "&7重力降低, 下落变慢跳跃更高"
+    - "&8需要 1.20.5+ 服务端"
+  Material: FEATHER
+  Glow: true
+  SuccessTip: "&f你使用了&f&l月步靴石&f, 重力&f&l-0.02"
+  Rewards:
+    - Attribute{name=gravity;operation=0;slot=feet;var=v-0.02;limit=-0.05}
+
+# ── jump_strength 跳跃力 (1.20.5+ 玩家也可用) ─────────────
+弹簧靴石:
+  Name: 弹簧靴石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&a&l弹簧靴石&8&l&k||"
+  Tips:
+    - "&a弹簧靴石 &7品质: &a&l传说"
+    - "&7跳跃高度 &a+10% &7(上限 +50%)"
+    - "&8需要 1.20.5+ 服务端"
+  Material: SLIME_BALL
+  Glow: true
+  SuccessTip: "&f你使用了&a&l弹簧靴石&f, 跳跃力&a&l+10%"
+  Rewards:
+    - Attribute{name=jump_strength;operation=1;slot=feet;var=v+0.1;limit=0.5}
+
+# ── safe_fall_distance 安全落地距离 (1.20.5+) ─────────────
+缓冲靴石:
+  Name: 缓冲靴石
+  Require:
+    - BOOTS
+  Display: "&8&l&k||&9&l缓冲靴石&8&l&k||"
+  Tips:
+    - "&9缓冲靴石 &7品质: &f普通"
+    - "&7安全落地距离 &9+2 &7格(上限 +10)"
+    - "&8需要 1.20.5+ 服务端"
+  Material: HAY_BLOCK
+  SuccessTip: "&f你使用了&9&l缓冲靴石&f, 安全落地距离&9&l+2格"
+  Rewards:
+    - Attribute{name=safe_fall;operation=0;slot=feet;var=v+2;limit=10}
+
+# ── max_absorption 吸收上限 (1.20.5+) ─────────────────────
+金心宝石:
+  Name: 金心宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&6&l金心宝石&8&l&k||"
+  Tips:
+    - "&6金心宝石 &7品质: &b&l史诗"
+    - "&7伤害吸收上限 &6+2 &7(上限 +10)"
+    - "&8需要 1.20.5+ 服务端"
+  Material: GOLDEN_APPLE
+  Glow: true
+  SuccessTip: "&f你使用了&6&l金心宝石&f, 吸收上限&6&l+2"
+  Rewards:
+    - Attribute{name=absorption;operation=0;slot=armor;var=v+2;limit=10}
+
+# ── burning_time 燃烧时长 (1.21.2+) ───────────────────────
+# 默认 1.0, 降低后着火持续时间变短。
+阻燃宝石:
+  Name: 阻燃宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&c&l阻燃宝石&8&l&k||"
+  Tips:
+    - "&c阻燃宝石 &7品质: &a&l传说"
+    - "&7着火持续时间 &c-20% &7(最多 -60%)"
+    - "&8需要 1.21.2+ 服务端"
+  Material: MAGMA_CREAM
+  SuccessTip: "&f你使用了&c&l阻燃宝石&f, 燃烧时长&c&l-20%"
+  Rewards:
+    - Attribute{name=burning_time;operation=0;slot=armor;var=v-0.2;limit=-0.6}
+
+# ── oxygen_bonus 氧气加成 (1.21.2+) ───────────────────────
+鱼鳃宝石:
+  Name: 鱼鳃宝石
+  Require:
+    - HELMET
+  Display: "&8&l&k||&3&l鱼鳃宝石&8&l&k||"
+  Tips:
+    - "&3鱼鳃宝石 &7品质: &f普通"
+    - "&7水下憋气时间 &3+1 &7(上限 +5)"
+    - "&8需要 1.21.2+ 服务端"
+  Material: KELP
+  SuccessTip: "&f你使用了&3&l鱼鳃宝石&f, 氧气加成&3&l+1"
+  Rewards:
+    - Attribute{name=oxygen_bonus;operation=0;slot=head;var=v+1;limit=5}
+
+# ── sweeping_damage_ratio 横扫伤害比 (1.21+) ──────────────
+横扫宝石:
+  Name: 横扫宝石
+  Require:
+    - SWORD
+  Display: "&8&l&k||&7&l横扫宝石&8&l&k||"
+  Tips:
+    - "&7横扫宝石 &7品质: &a&l传说"
+    - "&7横扫攻击伤害比 &7+10% &7(上限 100%)"
+    - "&8需要 1.21+ 服务端"
+  Material: IRON_SWORD
+  SuccessTip: "&f你使用了&7&l横扫宝石&f, 横扫伤害比&7&l+10%"
+  Rewards:
+    - Attribute{name=sweeping;operation=0;slot=hand;var=v+0.1;limit=1}
+
+# ── 26.x 路径点属性 ──────────────────────────────────────
+# 这两个属性只有 26.x 才有, 低版本会跳过。
+信标宝石:
+  Name: 信标宝石
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&b&l信标宝石&8&l&k||"
+  Tips:
+    - "&b信标宝石 &7品质: &b&l史诗"
+    - "&7路径点广播距离 &b+64 &7格"
+    - "&8需要 26.1+ 服务端"
+  Material: BEACON
+  Glow: true
+  SuccessTip: "&f你使用了&b&l信标宝石&f, 路径点广播距离&b&l+64格"
+  Rewards:
+    - Attribute{name=waypoint_transmit_range;operation=0;slot=any;var=v+64;limit=512}
+
+
+# ════════════════════════════════════════════════════════════
+#  二、新附魔宝石 (1.21+ 锤专属)
+# ════════════════════════════════════════════════════════════
+#  密度(density) / 穿透(breach) / 风爆(wind_burst) 只能附在锤(MACE)上,
+#  Require 写 MACE 即可 —— 低版本没有锤, 这几颗宝石会被自动跳过。
+
+密度宝石:
+  Name: 密度宝石
+  Require:
+    - MACE
+  Display: "&8&l&k||&8&l密度宝石&8&l&k||"
+  Tips:
+    - "&8密度宝石 &7品质: &b&l史诗"
+    - "&7锤的下砸伤害随高度增幅更高"
+    - "&7密度等级 &8+1 &7(上限 5)"
+    - "&8需要 1.21+ 服务端(锤)"
+  Material: HEAVY_CORE
+  Glow: true
+  SuccessTip: "&f你使用了&8&l密度宝石&f, 密度等级&8&l+1"
+  Rewards:
+    - Enchant{name=density;limit=5}
+
+穿透宝石:
+  Name: 穿透宝石
+  Require:
+    - MACE
+  Display: "&8&l&k||&6&l穿透宝石&8&l&k||"
+  Tips:
+    - "&6穿透宝石 &7品质: &b&l史诗"
+    - "&7无视目标护甲的一部分"
+    - "&7穿透等级 &6+1 &7(上限 4)"
+    - "&8需要 1.21+ 服务端(锤)"
+  Material: BREEZE_ROD
+  Glow: true
+  SuccessTip: "&f你使用了&6&l穿透宝石&f, 穿透等级&6&l+1"
+  Rewards:
+    - Enchant{name=breach;limit=4}
+
+风爆宝石:
+  Name: 风爆宝石
+  Require:
+    - MACE
+  Display: "&8&l&k||&f&l风爆宝石&8&l&k||"
+  Tips:
+    - "&f风爆宝石 &7品质: &a&l传说"
+    - "&7下砸命中后把自己弹起, 可连续下砸"
+    - "&7风爆等级 &f+1 &7(上限 3)"
+    - "&8需要 1.21+ 服务端(锤)"
+  Material: WIND_CHARGE
+  Glow: true
+  SuccessTip: "&f你使用了&f&l风爆宝石&f, 风爆等级&f&l+1"
+  Rewards:
+    - Enchant{name=wind_burst;limit=3}
+
+
+# ════════════════════════════════════════════════════════════
+#  三、新药水效果 BUFF 宝石 (1.21+ 试炼密室)
+# ════════════════════════════════════════════════════════════
+#  BUFF 宝石的原理: 往装备 lore 里写一行标记, BUFF 引擎每秒扫描装备,
+#  命中标记就施加对应效果。
+#
+#  ⚠️ 两边必须配对:
+#     这里的 LoreAdd{lore=...} 写什么, skills/ModernBuffs.yml 里对应定义的
+#     Lore: 就必须写一样的文本, 否则镶嵌上了却没有任何效果。
+#  本文件的四颗宝石已在 skills/ModernBuffs.yml 里配好, 可直接用。
+
+渗浆药水:
+  Name: 渗浆药水
+  Embed: 1
+  Require:
+    - WEAPON
+    - TOOL
+    - ARMOR
+  Display: "&8&l&k||&a&l渗浆药水&8&l&k||"
+  Tips:
+    - "&a&l渗浆药水 &7品质: &a&l传说"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7死亡时会生成史莱姆"
+    - "&7可花费500点券拆卸"
+    - "&8需要 1.21+ 服务端"
+  Material: SLIME_BALL
+  Glow: true
+  SuccessTip: "&f你使用了&a&l渗浆药水&f, 装备添加&a&l渗浆&fBUFF"
+  Rewards:
+    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l渗浆}
+    - Point{amount=-500} $onRemove
+
+盘丝药水:
+  Name: 盘丝药水
+  Embed: 1
+  Require:
+    - WEAPON
+    - TOOL
+    - ARMOR
+  Display: "&8&l&k||&f&l盘丝药水&8&l&k||"
+  Tips:
+    - "&f&l盘丝药水 &7品质: &a&l传说"
+    - "&7死亡时会生成蜘蛛网"
+    - "&7可花费500点券拆卸"
+    - "&8需要 1.21+ 服务端"
+  Material: COBWEB
+  Glow: true
+  SuccessTip: "&f你使用了&f&l盘丝药水&f, 装备添加&f&l盘丝&fBUFF"
+  Rewards:
+    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l盘丝}
+    - Point{amount=-500} $onRemove
+
+寄生药水:
+  Name: 寄生药水
+  Embed: 1
+  Require:
+    - WEAPON
+    - TOOL
+    - ARMOR
+  Display: "&8&l&k||&7&l寄生药水&8&l&k||"
+  Tips:
+    - "&7&l寄生药水 &7品质: &a&l传说"
+    - "&7受伤时会生成蠹虫"
+    - "&7可花费500点券拆卸"
+    - "&8需要 1.21+ 服务端"
+  Material: INFESTED_STONE
+  Glow: true
+  SuccessTip: "&f你使用了&7&l寄生药水&f, 装备添加&7&l寄生&fBUFF"
+  Rewards:
+    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l寄生}
+    - Point{amount=-500} $onRemove
+
+蓄风药水:
+  Name: 蓄风药水
+  Embed: 1
+  Require:
+    - WEAPON
+    - TOOL
+    - ARMOR
+  Display: "&8&l&k||&b&l蓄风药水&8&l&k||"
+  Tips:
+    - "&b&l蓄风药水 &7品质: &a&l传说"
+    - "&7跳跃高度提升, 落地产生风爆"
+    - "&7可花费1000点券拆卸"
+    - "&8需要 1.21+ 服务端"
+  Material: WIND_CHARGE
+  Glow: true
+  SuccessTip: "&f你使用了&b&l蓄风药水&f, 装备添加&b&l蓄风&fBUFF"
+  Rewards:
+    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l蓄风}
+    - Point{amount=-1000} $onRemove
+
+# ── 可叠加等级的 BUFF: 用 LoreVar 而不是 LoreAdd ──────────
+# LoreVar 会在 lore 上写"标记 + 数字", 重复镶嵌时数字递增。
+# BUFF 定义那边用 $LORE:标记?默认值$ 把这个数字读回来当等级。
+# limit=v<=2 表示"当前值 ≤2 时才允许继续镶嵌"。
+蓄风药水强化:
+  Name: 蓄风药水·强化
+  Embed: 1
+  Require:
+    - ARMOR
+  Display: "&8&l&k||&b&l蓄风药水·强化&8&l&k||"
+  Tips:
+    - "&b&l蓄风药水·强化 &7品质: &b&l史诗"
+    - "&7蓄风等级 &b+1 &7(上限 3 级)"
+    - "&8需要 1.21+ 服务端"
+  Material: WIND_CHARGE
+  Glow: true
+  SuccessTip: "&f你使用了&b&l蓄风药水·强化&f, 蓄风等级&b&l+1"
+  Rewards:
+    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l蓄风等级 ;var=v+1;format=%.0f;limit=v<=2;mode=last}
+
+
+# ════════════════════════════════════════════════════════════
+#  四、新物品专属宝石 (1.21.11 矛 / 1.21.9 铜装备)
+# ════════════════════════════════════════════════════════════
+
+# ── 矛(SPEAR, 1.21.11+) ──────────────────────────────────
+# 矛既是近战武器也能投掷, 因此同时落在 WEAPON / MELEE / RANGED / SPEAR 分类里。
+# 配套技能见 skills/ExampleSkills.yml 的「穿云长矛」。
+长矛精通宝石:
+  Name: 长矛精通宝石
+  Require:
+    - SPEAR
+  Display: "&8&l&k||&f&l长矛精通宝石&8&l&k||"
+  Tips:
+    - "&f长矛精通宝石 &7品质: &b&l史诗"
+    - "&7专为矛设计: 攻击力与攻击距离同时提升"
+    - "&8需要 1.21.11+ 服务端(矛)"
+  Material: NETHERITE_INGOT
+  Glow: true
+  SuccessTip: "&f你使用了&f&l长矛精通宝石&f, 矛已强化"
+  Rewards:
+    - Attribute{name=damage;operation=0;slot=hand;var=v+2;limit=10}
+    - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+1;limit=3} $ignorable
+    - Enchant{name=impaling;limit=5} $ignorable
+
+# ── 铜装备 (1.21.9+) ─────────────────────────────────────
+# 用 COPPER_* 通配匹配整套铜装, 不必逐个列出。
+# 铜装备耐久低, 这颗宝石专门补它的短板。
+铜匠宝石:
+  Name: 铜匠宝石
+  Require:
+    - COPPER_*
+  Display: "&8&l&k||&6&l铜匠宝石&8&l&k||"
+  Tips:
+    - "&6铜匠宝石 &7品质: &f普通"
+    - "&7专为铜装备设计: 耐久与防御同时提升"
+    - "&8需要 1.21.9+ 服务端(铜装备)"
+  Material: COPPER_INGOT
+  SuccessTip: "&f你使用了&6&l铜匠宝石&f, 铜装备已强化"
+  Rewards:
+    - Enchant{name=unbreaking;limit=5}
+    - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=4} $ignorable
+
+# ── 锤(MACE, 1.21+) ──────────────────────────────────────
+# 锤的伤害随下落高度增长, 这颗宝石强化它的落地生存能力。
+战锤大师宝石:
+  Name: 战锤大师宝石
+  Require:
+    - MACE
+  Display: "&8&l&k||&8&l战锤大师宝石&8&l&k||"
+  Tips:
+    - "&8战锤大师宝石 &7品质: &6&l神话"
+    - "&7密度+穿透+风爆一次到位"
+    - "&7并附带安全落地距离提升"
+    - "&8需要 1.21+ 服务端(锤)"
+  Material: HEAVY_CORE
+  Glow: true
+  Success: 40
+  SuccessTip: "&f你使用了&8&l战锤大师宝石&f, 锤已成为神话武器"
+  FailTip: "&c&l战锤大师宝石&f镶嵌失败了..."
+  Rewards:
+    - Enchant{name=density;limit=5}
+    - Enchant{name=breach;limit=4} $ignorable
+    - Enchant{name=wind_burst;limit=3} $ignorable
+    - Attribute{name=safe_fall;operation=0;slot=hand;var=v+3;limit=9} $ignorable
+
+
+# ════════════════════════════════════════════════════════════
+#  五、玩家类宝石 (右键/饮用直接生效, 不需要目标装备)
+# ════════════════════════════════════════════════════════════
+
+# 体型永久变化的药剂. PlayerGem 类型不能用 Attribute(它作用于物品),
+# 只能用 MaxHealth / ExpLevel / Point / Money 这类作用于玩家的奖励。
+巨人药剂:
+  Name: 巨人药剂
+  Type: PlayerGem
+  Display: "&8&l&k||&5&l巨人药剂&8&l&k||"
+  Tips:
+    - "&7饮用后永久增加 &c4 &7点生命上限"
+    - "&7上限为 &c60 &7点"
+    - "&7(&c!&7) 右键饮用"
+  Material: "POTION"
+  Color: "PURPLE"
+  Eat: true
+  SuccessTip: "&f您饮用了&5&l巨人药剂&f, 生命上限永久&c&l+4"
+  Rewards:
+    - MaxHealth{amount=4;limit=60} $onSuccess
+
+
+# ════════════════════════════════════════════════════════════
+#  六、开箱抽奖 (RandomGem)
+# ════════════════════════════════════════════════════════════
+#  Gems: 下面写"子宝石ID: 权重", 右键后按权重抽一个当场生效。
+#  权重是相对值, 不需要凑成 100。
+
+新版宝石礼包:
+  Name: 新版宝石礼包
+  Type: RandomGem
+  Display: "&8&l&k||&e&l新版宝石礼包&8&l&k||"
+  Tips:
+    - "&e&l新版宝石礼包"
+    - "&7右键开启, 随机获得一颗新版本宝石"
+    - "&8(内容取决于服务端版本, 抽到不支持的会提示)"
+    - "&7(&c!&7) 右键使用"
+  Material: CHEST
+  Glow: true
+  SuccessTip: "none"
+  Gems:
+    缩小宝石: 20
+    放大宝石: 20
+    延伸之瞳: 15
+    猎手之瞳: 15
+    深海矿工宝石: 10
+    迅掘宝石: 10
+    月步靴石: 5
+    密度宝石: 3
+    穿透宝石: 3
+    风爆宝石: 2
+    战锤大师宝石: 1

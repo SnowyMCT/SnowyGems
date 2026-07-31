@@ -1,5 +1,9 @@
 package mc233.`fun`.snowygems.reward.impl
 
+import mc233.`fun`.snowygems.compat.AttributeAliases
+import mc233.`fun`.snowygems.compat.AttributeCompat
+import mc233.`fun`.snowygems.compat.Registries
+import mc233.`fun`.snowygems.compat.ServerVersion
 import mc233.`fun`.snowygems.reward.Reward
 import mc233.`fun`.snowygems.reward.RewardContext
 import mc233.`fun`.snowygems.util.DebugUtil
@@ -7,15 +11,19 @@ import mc233.`fun`.snowygems.util.ExprUtil
 import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
-import org.bukkit.inventory.EquipmentSlot
 import taboolib.module.nms.ItemTagData
 import taboolib.module.nms.getItemTag
-import java.util.*
 
 /**
  * Attribute{name=health;operation=0;slot=auto;var=v+1;limit=5}
- * 语义: 从 NBT 中读取该属性已叠加的数值 v, 用 [var] 表达式算出新值(不超过 limit), 用一个固定
- * UUID(由 gem 属性名派生)的 AttributeModifier 替换旧的, 使数值可重复叠加且可回退.
+ *
+ * 语义: 从 NBT 读出该属性已叠加的数值 v, 用 [varExpr] 算出新值(不超过 limit), 再用一个
+ * 固定标识的 AttributeModifier 替换旧的 —— 于是数值可重复叠加也可回退。
+ *
+ * 多版本: 属性名解析走 [Registries.attribute], 直接问服务端注册表, 因此 1.20.5+ 的
+ * scale / block_interaction_range、1.21.2+ 的 submerged_mining_speed 以及后续版本
+ * 新增的属性都无需改代码; 老版本上写了新属性只跳过这一条并提示。
+ * 修饰符的创建与清理走 [AttributeCompat], 兼容新旧两套构造函数。
  */
 class AttributeReward(
     private val attrName: String,
@@ -26,71 +34,42 @@ class AttributeReward(
 ) : Reward {
 
     companion object {
-        private val NAME_MAP = mapOf(
-            "health" to listOf("GENERIC_MAX_HEALTH", "MAX_HEALTH"),
-            "move" to listOf("GENERIC_MOVEMENT_SPEED", "MOVEMENT_SPEED"),
-            "damage" to listOf("GENERIC_ATTACK_DAMAGE", "ATTACK_DAMAGE"),
-            "attack_speed" to listOf("GENERIC_ATTACK_SPEED", "ATTACK_SPEED"),
-            "attack_knockback" to listOf("GENERIC_ATTACK_KNOCKBACK", "ATTACK_KNOCKBACK"),
-            "luck" to listOf("GENERIC_LUCK", "LUCK"),
-            "armor" to listOf("GENERIC_ARMOR", "ARMOR"),
-            "armor_toughness" to listOf("GENERIC_ARMOR_TOUGHNESS", "ARMOR_TOUGHNESS"),
-            "knockback_resistance" to listOf("GENERIC_KNOCKBACK_RESISTANCE", "KNOCKBACK_RESISTANCE")
-        )
-
-        fun resolve(key: String): Attribute? {
-            val candidates = NAME_MAP[key] ?: listOf(key.uppercase())
-            for (c in candidates) {
-                try {
-                    @Suppress("UNCHECKED_CAST")
-                    return (Attribute::class.java.getField(c).get(null) as Attribute)
-                } catch (ignored: Exception) {
-                }
-            }
-            return null
-        }
+        /** 解析属性名, 兼容简写 / 现代键 / 旧常量名 */
+        fun resolve(key: String): Attribute? = Registries.attribute(key)
     }
 
     override fun apply(ctx: RewardContext): Boolean {
-        val item = ctx.item ?: run {
-            DebugUtil.log("Reward", "    Attribute($attrName) 失败: 本次操作没有目标物品(纯玩家类宝石不能用 Attribute)")
-            return false
-        }
-        val attribute = resolve(attrName) ?: run {
-            DebugUtil.log("Reward", "    Attribute 失败: 无法识别属性名 $attrName (可用简写: ${NAME_MAP.keys})")
-            return false
-        }
+        val item = ctx.item ?: return fail("本次操作没有目标物品(纯玩家类宝石不能用 Attribute)")
+        val attribute = resolve(attrName) ?: return failResolve()
         val meta = item.itemMeta ?: return false
+
         val tag = item.getItemTag()
         val nbtKey = "SnowyGemsAttr_$attrName"
         val current = tag[nbtKey]?.asDouble() ?: 0.0
-        var newValue = ExprUtil.eval(varExpr, current)
-        if (limit != null) {
-            newValue = if (newValue >= 0) newValue.coerceAtMost(limit) else newValue.coerceAtLeast(limit)
+        val newValue = ExprUtil.eval(varExpr, current).let {
+            // limit 对正负增益都是"绝对值上限", 所以按符号夹取
+            when {
+                limit == null -> it
+                it >= 0 -> it.coerceAtMost(limit)
+                else -> it.coerceAtLeast(limit)
+            }
         }
-        // 已达上限(或表达式算出的新值和当前值一致): 不再变化, 视为未生效, 避免白吃宝石
+        // 已达上限(或表达式算出的值没变): 视为未生效, 避免白吃宝石
         if (newValue == current) {
-            DebugUtil.log(
-                "Reward",
-                "    Attribute($attrName): 已叠加值=$current 已达上限或无变化(limit=$limit), 视为未生效"
-            )
-            return false
+            return fail("已叠加值=$current 已达上限或无变化(limit=$limit)")
         }
-        val equipSlot = resolveSlot(if (slot == "auto") ItemRequireMatcher.autoSlot(item) else slot)
+        val op = AttributeModifier.Operation.entries.getOrNull(operation)
+            ?: return fail("operation=$operation 越界, 只能是 0/1/2")
+
+        val slotName = if (slot.equals("auto", true)) ItemRequireMatcher.autoSlot(item) else slot
+        // 先清掉本插件之前写的同属性修饰符(新旧两种身份都清), 再写入新值
+        val removed = AttributeCompat.removeOwn(meta, attribute, attrName)
+        val modifier = AttributeCompat.create(attrName, newValue, op, slotName) ?: return false
         DebugUtil.log(
             "Reward",
-            "    Attribute($attrName): 已叠加值=$current 表达式=$varExpr -> 新值=$newValue " +
-                "limit=$limit 生效槽位=$equipSlot operation=${AttributeModifier.Operation.values()[operation]}"
+            "    Attribute(${attribute.key.key}): $current -> $newValue (表达式=$varExpr limit=$limit " +
+                "槽位=$slotName operation=$op 清理旧修饰符=$removed 条)"
         )
-        val uuid = UUID.nameUUIDFromBytes("snowygems:attr:$attrName".toByteArray())
-        // ⚠️ 版本敏感点: AttributeModifier(UUID, String, double, Operation, EquipmentSlot) 是较旧的构造函数,
-        // 1.21.3+ 的 Paper/Spigot API 新增了基于 NamespacedKey + EquipmentSlotGroup 的构造函数并标记旧构造为
-        // 过时(但截至 1.21.4 仍保留). 若编译时报错找不到该构造函数, 请改用新版构造函数并自行调整此处代码.
-        // 移除旧的同名修饰符
-        meta.getAttributeModifiers(attribute)?.forEach { entry ->
-            if (entry.uniqueId == uuid) meta.removeAttributeModifier(attribute, entry)
-        }
-        val modifier = AttributeModifier(uuid, "snowygems:$attrName", newValue, AttributeModifier.Operation.values()[operation], equipSlot)
         meta.addAttributeModifier(attribute, modifier)
         item.itemMeta = meta
         tag[nbtKey] = ItemTagData(newValue)
@@ -99,14 +78,16 @@ class AttributeReward(
         return true
     }
 
-    private fun resolveSlot(name: String): EquipmentSlot {
-        return when (name.lowercase()) {
-            "head" -> EquipmentSlot.HEAD
-            "chest" -> EquipmentSlot.CHEST
-            "legs" -> EquipmentSlot.LEGS
-            "feet" -> EquipmentSlot.FEET
-            "off_hand", "offhand" -> EquipmentSlot.OFF_HAND
-            else -> EquipmentSlot.HAND
-        }
+    private fun fail(reason: String): Boolean {
+        DebugUtil.log("Reward", "    Attribute($attrName) 未生效: $reason")
+        return false
     }
+
+    /** 属性解析失败: 区分"名字压根不认识"与"认识但当前版本没有", 提示完全不同 */
+    private fun failResolve(): Boolean = fail(
+        AttributeAliases.candidatesOf(attrName)?.let { keys ->
+            "属性(键=${keys.joinToString("/")}) 在当前版本 ${ServerVersion.minecraftVersion} 的注册表中不存在, " +
+                "可能需要更高版本的服务端"
+        } ?: "无法识别的属性名. 可用简写: ${AttributeAliases.knownAliases().sorted()}"
+    )
 }

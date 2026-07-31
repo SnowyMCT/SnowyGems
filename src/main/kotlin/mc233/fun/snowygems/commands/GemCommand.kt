@@ -1,6 +1,7 @@
 package mc233.`fun`.snowygems.commands
 
 import mc233.`fun`.snowygems.SnowyGems
+import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
@@ -8,6 +9,7 @@ import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
+import mc233.`fun`.snowygems.skill.SkillFunctions
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
@@ -136,6 +138,66 @@ object GemCommand {
         }
     }
 
+    /**
+     * /sgem compat [all] - 查看当前服务端版本支持哪些能力
+     *
+     * 服主换版本或写配置前先看这个: 矛/铜盔甲/新属性/新附魔/新效果在你的版本上到底有没有,
+     * 一目了然, 不用等游戏里宝石没反应再翻日志。
+     */
+    @CommandBody
+    val compat = subCommand {
+        dynamic("mode") {
+            suggestion<CommandSender>(uncheck = true) { _, _ -> listOf("all") }
+            execute<CommandSender> { sender, context, _ ->
+                val verbose = context["mode"].equals("all", true)
+                DebugUtil.log("Command", "${sender.name} 执行 /sgem compat ${context["mode"]}")
+                CompatReport.lines(verbose).forEach { sender.sendMessage(it) }
+            }
+        }
+        execute<CommandSender> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem compat")
+            CompatReport.lines(false).forEach { sender.sendMessage(it) }
+        }
+    }
+
+    /**
+     * /sgem skills [关键字] - 列出当前版本可用的技能函数及其用法
+     *
+     * 这是服主自己写技能时的速查表: 每个函数的名字、别名、参数示例、以及
+     * 在当前版本是否可用, 全部来自实际注册结果, 不会和代码脱节。
+     */
+    @CommandBody
+    val skills = subCommand {
+        dynamic("keyword") {
+            suggestion<CommandSender>(uncheck = true) { _, _ ->
+                SkillFunctions.all().map { it.name }
+            }
+            execute<CommandSender> { sender, context, _ ->
+                showSkillFunctions(sender, context["keyword"])
+            }
+        }
+        execute<CommandSender> { sender, _, _ ->
+            showSkillFunctions(sender, null)
+        }
+    }
+
+    /**
+     * /sgem triggers - 列出所有可用的触发标记
+     *
+     * 清单内容来自 lang.yml 的 triggers.list, 服主可以自行增删和改措辞。
+     */
+    @CommandBody
+    val triggers = subCommand {
+        execute<CommandSender> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem triggers")
+            sender.sendMessage(Lang.get("triggers.divider"))
+            sender.sendMessage(Lang.get("triggers.title"))
+            Lang.getList("triggers.list").forEach { sender.sendMessage(it) }
+            sender.sendMessage(Lang.get("triggers.footer"))
+            sender.sendMessage(Lang.get("triggers.divider"))
+        }
+    }
+
     /** /sgem reload - 重新加载所有配置 */
     @CommandBody
     val reload = subCommand {
@@ -148,6 +210,56 @@ object GemCommand {
             DebugUtil.log("Command", "重载完成, 耗时 ${cost}ms")
             Lang.sendCommand(sender, "command.reload", "time" to cost)
         }
+    }
+
+    /**
+     * 展示技能函数清单, keyword 非空时只显示名字/别名/说明里含该关键字的.
+     *
+     * 每行的排版文案都来自 lang.yml 的 skills.* 节点, 内容(函数名/参数/可用性)
+     * 则来自 SkillFunctions 的实际注册结果, 因此不会和代码脱节。
+     */
+    private fun showSkillFunctions(sender: CommandSender, keyword: String?) {
+        DebugUtil.log("Command", "${sender.name} 执行 /sgem skills ${keyword ?: ""}")
+        val all = SkillFunctions.all()
+        val filtered = if (keyword.isNullOrBlank()) all else all.filter {
+            it.name.contains(keyword, true) ||
+                it.aliases.any { a -> a.contains(keyword, true) } ||
+                it.description.contains(keyword, true)
+        }
+        sender.sendMessage(Lang.get("skills.divider"))
+        if (keyword.isNullOrBlank()) {
+            sender.sendMessage(Lang.get("skills.title", "shown" to filtered.size, "total" to all.size))
+        } else {
+            sender.sendMessage(
+                Lang.get("skills.title-keyword", "shown" to filtered.size, "total" to all.size, "keyword" to keyword)
+            )
+        }
+        if (filtered.isEmpty()) {
+            sender.sendMessage(Lang.get("skills.empty"))
+        }
+        val markOk = Lang.get("skills.mark-ok")
+        val markBad = Lang.get("skills.mark-bad")
+        for (f in filtered) {
+            sender.sendMessage(
+                Lang.get(
+                    "skills.entry",
+                    "mark" to if (f.isAvailable()) markOk else markBad,
+                    "name" to f.name,
+                    "usage" to f.usage
+                )
+            )
+            if (f.description.isNotBlank()) {
+                sender.sendMessage(Lang.get("skills.entry-desc", "desc" to f.description))
+            }
+            if (f.aliases.isNotEmpty()) {
+                sender.sendMessage(Lang.get("skills.entry-aliases", "aliases" to f.aliases.joinToString("/")))
+            }
+            if (!f.isAvailable() && f.requires.isNotBlank()) {
+                sender.sendMessage(Lang.get("skills.entry-unavailable", "requires" to f.requires))
+            }
+        }
+        sender.sendMessage(Lang.get("skills.footer"))
+        sender.sendMessage(Lang.get("skills.divider"))
     }
 
     private fun doGive(sender: CommandSender, playerName: String, gemId: String, amount: Int) {

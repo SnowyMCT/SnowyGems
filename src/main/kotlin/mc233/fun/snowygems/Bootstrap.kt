@@ -1,8 +1,11 @@
 package mc233.`fun`.snowygems
 
+import mc233.`fun`.snowygems.compat.ConfigValidator
+import mc233.`fun`.snowygems.compat.FeatureModules
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
+import mc233.`fun`.snowygems.skill.SkillExecutor
 import mc233.`fun`.snowygems.util.Banner
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
@@ -59,16 +62,26 @@ object Bootstrap {
     }
 
     /**
-     * 重新读取全部配置. 顺序有依赖关系, 不要打乱:
-     *   DebugUtil 先读(后面的加载过程要按 Debug 开关决定是否输出日志)
-     *   Lang 次之(注册表加载失败时的提示要能用上语言文件)
-     *   然后才是宝石 / 菜单 / 技能
+     * 重新读取全部配置. 顺序有严格依赖, 不要打乱:
+     *
+     *   1. DebugUtil    —— 后面每一步是否输出日志都取决于它
+     *   2. Lang         —— 加载过程中的提示要能用上语言文件
+     *   3. FeatureModules —— 版本模块门禁, 必须先于任何注册表查询
+     *   4. 宝石/菜单/技能注册表 —— 解析配置(其中会查属性/附魔/效果, 因此依赖第 3 步)
+     *   5. SkillExecutor  —— 技能函数表
+     *   6. ConfigValidator —— 自检, 依赖以上全部就位
+     *
+     * 第 3、5 步刻意不用 @Awake: 同一生命周期内多个 @Awake 方法的执行顺序不保证,
+     * 一旦乱序就会出现"前半段配置按全模块启用解析""自检把所有函数误报成未注册"这类问题。
      */
     fun reloadAll() {
         DebugUtil.reload()
         Lang.reload()
+        FeatureModules.resolve()
         GemRegistry.reload()
         MenuRegistry.reload()
         SkillRegistry.reload()
+        SkillExecutor.registerBuiltins()
+        ConfigValidator.validate()
     }
 }
