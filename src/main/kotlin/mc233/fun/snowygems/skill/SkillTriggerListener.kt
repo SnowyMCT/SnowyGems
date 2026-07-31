@@ -3,6 +3,7 @@ package mc233.`fun`.snowygems.skill
 import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -15,15 +16,42 @@ import org.bukkit.event.player.PlayerAnimationEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import java.util.concurrent.ConcurrentHashMap
+import taboolib.common.platform.Schedule
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common5.cint
+import taboolib.common5.util.createBar
 import taboolib.platform.util.PlayerSessionMap
 import taboolib.platform.util.sendActionBar
 
 object SkillTriggerListener {
 
+    /** 冷却表按玩家会话存放, 玩家退出后由 TabooLib 自动清理, 不会随时间无限增长 */
     private val cooldowns = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
-    // 发射物命中时玩家手里通常已经不是原来的弓/三叉戟，保存发射瞬间物品。
-    private val projectileItems = mutableMapOf<UUID, ItemStack>()
+
+    /**
+     * 发射物命中时玩家手里通常已经不是原来的弓/三叉戟, 所以在发射瞬间把物品记下来.
+     *
+     * 注意: 箭飞进虚空 / 落在被卸载的区块里, ProjectileHitEvent 永远不会触发,
+     * 那条记录就会一直留着. 这里额外记下写入时间, 由 [cleanupProjectiles] 定期清扫.
+     */
+    private val projectileItems = ConcurrentHashMap<UUID, Pair<ItemStack, Long>>()
+
+    /** 发射物记录的最长保留时间: 30 秒, 比任何正常箭的飞行时间都长 */
+    private const val PROJECTILE_TTL = 30_000L
+
+    /** 每 30 秒异步清一次过期的发射物记录, 防止内存缓慢泄漏 */
+    @Schedule(period = 600, async = true)
+    fun cleanupProjectiles() {
+        if (projectileItems.isEmpty()) return
+        val deadline = System.currentTimeMillis() - PROJECTILE_TTL
+        val before = projectileItems.size
+        projectileItems.entries.removeIf { it.value.second < deadline }
+        val removed = before - projectileItems.size
+        if (removed > 0) {
+            DebugUtil.log("Skill", "清理了 $removed 条未命中的发射物记录, 当前剩余 ${projectileItems.size} 条")
+        }
+    }
 
     @SubscribeEvent
     fun onInteract(e: PlayerInteractEvent) {
@@ -68,14 +96,14 @@ object SkillTriggerListener {
         val shooter = e.entity.shooter as? Player ?: return
         val item = shooter.inventory.itemInMainHand
         if (item.type != Material.AIR) {
-            projectileItems[e.entity.uniqueId] = item.clone()
+            projectileItems[e.entity.uniqueId] = item.clone() to System.currentTimeMillis()
         }
     }
 
     @SubscribeEvent
     fun onProjectileHit(e: ProjectileHitEvent) {
         val shooter = e.entity.shooter as? Player ?: return
-        val item = projectileItems.remove(e.entity.uniqueId) ?: shooter.inventory.itemInMainHand
+        val item = projectileItems.remove(e.entity.uniqueId)?.first ?: shooter.inventory.itemInMainHand
         if (item.type == Material.AIR) return
         val typeName = e.entity.type.name
         val hitLoc = e.hitBlock?.location ?: e.hitEntity?.location ?: e.entity.location
@@ -152,10 +180,10 @@ object SkillTriggerListener {
                 val suffixTpl = ColorUtil.colorize(tip.args["s"] ?: "%.2fs")
                 val empty = ColorUtil.colorize(tip.args["empty"] ?: "&f|")
                 val full = ColorUtil.colorize(tip.args["full"] ?: "&a|")
-                val length = tip.args["length"]?.toIntOrNull() ?: 10
+                val length = (tip.args["length"]?.cint ?: 10).coerceAtLeast(1)
                 val ratio = (1.0 - remaining / total).coerceIn(0.0, 1.0)
-                val filled = (ratio * length).toInt()
-                val bar = full.repeat(filled) + empty.repeat(length - filled)
+                // 进度条交给 TabooLib 的 createBar, 不再手写 repeat 拼接
+                val bar = createBar(empty, full, length, ratio)
                 val suffix = try {
                     String.format(suffixTpl, remaining)
                 } catch (e: Exception) {
@@ -163,9 +191,9 @@ object SkillTriggerListener {
                 }
                 player.sendActionBar(prefix + bar + suffix)
             }
-            "chat" -> player.sendMessage(ColorUtil.colorize(tip.args["m"] ?: "&c技能冷却中"))
-            "title" -> player.sendTitle(ColorUtil.colorize(tip.args["m"] ?: "&c冷却中"), "", 10, 40, 10)
-            else -> player.sendMessage(ColorUtil.colorize("&c技能冷却中: &f${String.format("%.2f", remaining)}s"))
+            "chat" -> player.sendMessage(ColorUtil.colorize(tip.args["m"] ?: Lang.get("skill.cooldown-chat")))
+            "title" -> player.sendTitle(ColorUtil.colorize(tip.args["m"] ?: Lang.get("skill.cooldown-title")), "", 10, 40, 10)
+            else -> Lang.send(player, "skill.cooldown", "time" to String.format("%.2f", remaining))
         }
     }
 }

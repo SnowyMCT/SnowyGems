@@ -5,7 +5,6 @@ import mc233.`fun`.snowygems.config.MenuItemDef
 import mc233.`fun`.snowygems.config.MenuLayout
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.manager.GemManager
-import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
@@ -160,7 +159,7 @@ object MenuListener {
         }
         if (target == null) {
             DebugUtil.log("Menu", "Shift 移入被拒绝: ${moving!!.type} isGem=$isGem 没有匹配的空槽位")
-            player.sendMessage(Lang.get("menu.no-slot"))
+            Lang.send(player, "menu.no-slot")
             return
         }
         val one = moving!!.clone()
@@ -245,13 +244,11 @@ object MenuListener {
             val hint = def.require.firstOrNull()
             val player = e.whoClicked as? Player
             DebugUtil.log("Menu", "GEM_SLOT 拒绝放入: gemId=${ItemFactory.getGemId(incoming)} require=${def.require}")
-            player?.sendMessage(
-                ColorUtil.colorize(
-                    if (hint.isNullOrBlank()) "&c这个槽位只能放入本插件的宝石"
-                    else "&c该槽位只能放入 &f$hint &c类宝石"
-                )
-            )
-            player?.updateInventory()
+            if (player != null) {
+                if (hint.isNullOrBlank()) Lang.send(player, "menu.slot-only-gem")
+                else Lang.send(player, "menu.slot-require", "require" to hint)
+                player.updateInventory()
+            }
         }
     }
 
@@ -289,7 +286,7 @@ object MenuListener {
             "applyCursorGem 结果: success=${result.success} consumed=${result.consumedGem} " +
                 "有新物品=${result.resultItem != null} msg=${result.message}"
         )
-        player.sendMessage(ColorUtil.colorize(result.message))
+        Lang.sendRaw(player, result.message)
         if (result.consumedGem) {
             val left = gemStack.clone()
             left.amount -= 1
@@ -318,7 +315,7 @@ object MenuListener {
                 "Menu",
                 "applyAllGemSlots: 槽位 $slot 结果 success=${result.success} consumed=${result.consumedGem} msg=${result.message}"
             )
-            player.sendMessage(ColorUtil.colorize(result.message))
+            Lang.sendRaw(player, result.message)
             if (result.consumedGem) {
                 val left = gemStack.clone()
                 left.amount -= 1
@@ -330,7 +327,7 @@ object MenuListener {
         }
         if (!attempted) {
             DebugUtil.log("Menu", "applyAllGemSlots: 所有 GEM_SLOT 都是空的, 没有可镶嵌的宝石")
-            player.sendMessage(Lang.get("menu.select-gem"))
+            Lang.send(player, "menu.select-gem")
         }
         inv.setItem(equipRawSlot, current)
         player.updateInventory()
@@ -339,7 +336,7 @@ object MenuListener {
     private fun handleUseGem(player: Player, inv: Inventory, layout: MenuLayout, gemId: String?) {
         if (gemId == null) return
         val cfg = GemRegistry.get(gemId) ?: run {
-            player.sendMessage(ColorUtil.colorize("&c该按钮引用的宝石配置不存在: $gemId"))
+            Lang.send(player, "menu.button-gem-missing", "gem" to gemId)
             DebugUtil.log("Menu", "USE_GEM 按钮引用的宝石配置不存在: $gemId")
             return
         }
@@ -352,19 +349,15 @@ object MenuListener {
         if (equipRawSlot >= 0 && !hasEquip) {
             val equipDef = WorkbenchMenu.charAt(layout, equipRawSlot)?.let { layout.items[it] }
             val hint = equipDef?.require?.firstOrNull { !it.equals("GEM:ALL", true) && !it.equals("ALL", true) }
-            player.sendMessage(
-                ColorUtil.colorize(
-                    if (hint.isNullOrBlank()) "&c请先在左侧槽位放入要操作的物品"
-                    else "&c请先在左侧槽位放入 &f$hint"
-                )
-            )
+            if (hint.isNullOrBlank()) Lang.send(player, "menu.need-target")
+            else Lang.send(player, "menu.need-target-named", "hint" to hint)
             DebugUtil.log("Menu", "USE_GEM 被拒绝: 菜单有 EQUIP_SLOT($equipRawSlot) 但槽内为空")
             return
         }
 
         val result = GemManager.executeButton(player, cfg, if (hasEquip) equipItem else null)
         DebugUtil.log("Menu", "USE_GEM 执行结果: success=${result.success} msg=${result.message}")
-        player.sendMessage(ColorUtil.colorize(result.message))
+        Lang.sendRaw(player, result.message)
         if (hasEquip) {
             // 只有成功才消耗目标物品; 失败时把物品原样留在槽里, 避免玩家白丢东西
             if (result.success) {

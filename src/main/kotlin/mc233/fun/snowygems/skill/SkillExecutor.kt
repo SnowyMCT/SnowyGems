@@ -1,9 +1,11 @@
 package mc233.`fun`.snowygems.skill
 
+import mc233.`fun`.snowygems.SnowyGems
 import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.reward.impl.EnchantReward
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.*
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -13,7 +15,6 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import taboolib.common.platform.function.submit
-import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.sendActionBar
 
 /**
@@ -24,10 +25,13 @@ import taboolib.platform.util.sendActionBar
  */
 object SkillExecutor {
 
-    private val plugin by lazy { BukkitPlugin.getInstance() }
+    private val plugin by lazy { SnowyGems.plugin }
     private fun ns(path: String) = NamespacedKey(plugin, path)
     private const val SWITCH_KEY = "switch_mode"
     private const val ENCH_PREFIX = "ench_"
+
+    /** 这些嵌套函数本身就会给玩家发提示, 命中时不再叠加语言文件的兜底提示 */
+    private val TIP_FUNCTIONS = setOf("chat", "actionbar", "title")
 
     fun execute(player: Player, item: ItemStack, line: SkillLine, victim: LivingEntity? = null, hitLocation: Location? = null) {
         DebugUtil.log("SkillExec", "执行 ${line.name} 给 ${player.name} (target=${line.target} args=${line.args})")
@@ -245,15 +249,21 @@ object SkillExecutor {
         DebugUtil.log("SkillExec", "  Switch: 形态 ${current ?: "(未设置)"} -> $next")
         val nextDef = SkillRegistry.get(next) ?: run {
             DebugUtil.log("SkillExec", "  Switch 目标形态 $next 在技能配置中不存在")
+            // 配置里没定义目标形态: 至少给玩家一个反馈, 否则按下去毫无反应像是坏了
+            Lang.send(player, "skill.switch", "mode" to next)
             player.inventory.setItemInMainHand(target)
             return
         }
+        // 目标形态自己配了 Chat/ActionBar/Title 提示时以配置为准, 没配才用语言文件兜底
+        var notified = false
         for (raw in nextDef.skills) {
             val nl = SkillLineParser.parse(raw)
             if (!nl.name.equals("RewardSwitch", true)) continue
             val nestedRaw = nl.args.keys.firstOrNull() ?: continue
+            if (SkillLineParser.parse(nestedRaw).name.lowercase() in TIP_FUNCTIONS) notified = true
             executeSimpleFunction(player, nestedRaw, target)
         }
+        if (!notified) Lang.send(player, "skill.switch", "mode" to next)
         player.inventory.setItemInMainHand(target)
     }
 

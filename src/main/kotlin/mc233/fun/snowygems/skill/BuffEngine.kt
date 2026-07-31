@@ -9,27 +9,26 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import taboolib.common.platform.function.submit
+import taboolib.common.platform.Schedule
 
 /**
  * 简化版 BUFF 引擎: 每秒扫描在线玩家的装备/手持物品, 若其 Lore 命中某个技能/BUFF 的 [Lore]
  * 标记文本, 则执行该定义中带 ~onTimer 标记的 PotionBuff{...} 技能行.
  * (完整的 Kether 式技能引擎不在本次实现范围内, 这里只覆盖 skills/DefaultBuffs.yml 中出现的用法)
+ *
+ * 定时任务用 TabooLib 的 [Schedule] 注解声明, 服务器调度器就绪后自动开始, 主类不需要调 start().
  */
 object BuffEngine {
 
-    private var task: Any? = null
-
-    fun start() {
-        DebugUtil.log("Buff", "BUFF 定时引擎启动, 每 20 tick(1秒) 扫描一次在线玩家装备")
-        task = submit(period = 20L, delay = 20L) {
-            for (player in Bukkit.getOnlinePlayers()) {
-                try {
-                    tick(player)
-                } catch (e: Exception) {
-                    // 忽略单个玩家 tick 出错, 不影响其他玩家
-                    DebugUtil.err("Buff", "为 ${player.name} 执行 BUFF tick 时出错", e)
-                }
+    /** 每 20 tick(1 秒) 扫描一次. 同步执行: 药水效果必须在主线程施加 */
+    @Schedule(period = 20, async = false)
+    fun run() {
+        for (player in Bukkit.getOnlinePlayers()) {
+            try {
+                tick(player)
+            } catch (e: Exception) {
+                // 忽略单个玩家 tick 出错, 不影响其他玩家
+                DebugUtil.err("Buff", "为 ${player.name} 执行 BUFF tick 时出错", e)
             }
         }
     }

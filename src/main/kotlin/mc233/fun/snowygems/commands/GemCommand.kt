@@ -1,5 +1,6 @@
 package mc233.`fun`.snowygems.commands
 
+import mc233.`fun`.snowygems.SnowyGems
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
@@ -7,8 +8,8 @@ import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
-import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
@@ -61,12 +62,12 @@ object GemCommand {
             val held = sender.inventory.itemInMainHand
             DebugUtil.log("Command", "${sender.name} 执行 /sgem use, 手持=${held.type} x${held.amount}")
             if (held.type == Material.AIR) {
-                sender.sendMessage(ColorUtil.colorize("&c请先手持要使用的宝石"))
+                Lang.sendCommand(sender, "command.no-held-gem")
                 return@execute
             }
             val result = GemManager.useDirectly(sender, held)
             DebugUtil.log("Command", "  useDirectly 返回 success=${result.success} consumed=${result.consumedGem} msg=${result.message}")
-            sender.sendMessage(ColorUtil.colorize(result.message))
+            Lang.sendRaw(sender, result.message)
             if (result.consumedGem && result.success) {
                 val left = held.clone()
                 left.amount -= 1
@@ -119,23 +120,19 @@ object GemCommand {
                 val raw = context["tags"]
                 if (raw.equals("all", true)) {
                     DebugUtil.setTags(emptyList())
-                    sender.sendMessage(ColorUtil.colorize("&a[SnowyGems] 调试输出范围已设为: &f全部"))
+                    Lang.sendCommand(sender, "command.debug-scope-all")
                 } else {
                     val list = raw.split(",", " ").filter { it.isNotBlank() }
                     DebugUtil.setTags(list)
-                    sender.sendMessage(ColorUtil.colorize("&a[SnowyGems] 调试输出范围已设为: &f${list.joinToString(",")}"))
+                    Lang.sendCommand(sender, "command.debug-scope", "scope" to list.joinToString(","))
                 }
             }
         }
         execute<CommandSender> { sender, _, _ ->
             val now = DebugUtil.toggle()
-            val scope = if (DebugUtil.tags().isEmpty()) "全部" else DebugUtil.tags().joinToString(",")
-            sender.sendMessage(
-                ColorUtil.colorize(
-                    if (now) "&a[SnowyGems] 调试模式已临时开启, 输出范围: &f$scope &7(重载后以 config.yml 为准)"
-                    else "&7[SnowyGems] 调试模式已临时关闭"
-                )
-            )
+            val scope = if (DebugUtil.tags().isEmpty()) Lang.get("common.scope-all") else DebugUtil.tags().joinToString(",")
+            if (now) Lang.sendCommand(sender, "command.debug-on", "scope" to scope)
+            else Lang.sendCommand(sender, "command.debug-off")
         }
     }
 
@@ -144,14 +141,12 @@ object GemCommand {
     val reload = subCommand {
         execute<CommandSender> { sender, _, _ ->
             val start = System.currentTimeMillis()
-            DebugUtil.reload()
             DebugUtil.log("Command", "${sender.name} 执行 /sgem reload")
-            GemRegistry.reload()
-            MenuRegistry.reload()
-            SkillRegistry.reload()
+            // 统一走主类的 reloadAll, 避免命令层和主类两份重载顺序不一致
+            SnowyGems.reloadAll()
             val cost = System.currentTimeMillis() - start
             DebugUtil.log("Command", "重载完成, 耗时 ${cost}ms")
-            sender.sendMessage(ColorUtil.colorize("&a[SnowyGems] 配置已重新加载 &7(${cost}ms)"))
+            Lang.sendCommand(sender, "command.reload", "time" to cost)
         }
     }
 
@@ -159,14 +154,14 @@ object GemCommand {
         DebugUtil.log("Command", "${sender.name} 执行 /sgem give player=$playerName gem=$gemId amount=$amount")
         val target = Bukkit.getPlayer(playerName)
         if (target == null) {
-            sender.sendMessage(ColorUtil.colorize("&c玩家不在线: $playerName"))
+            Lang.sendCommand(sender, "command.no-player", "player" to playerName)
             return
         }
         if (GemRegistry.get(gemId) == null) {
-            sender.sendMessage(ColorUtil.colorize("&c未知的宝石配置: $gemId"))
+            Lang.sendCommand(sender, "command.no-gem", "gem" to gemId)
             return
         }
         GemManager.give(target, gemId, amount.coerceAtLeast(1))
-        sender.sendMessage(ColorUtil.colorize("&a已给予 ${target.name} x$amount 个 $gemId"))
+        Lang.sendCommand(sender, "command.give", "player" to target.name, "gem" to gemId, "amount" to amount)
     }
 }

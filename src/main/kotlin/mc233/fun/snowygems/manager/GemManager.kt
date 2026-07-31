@@ -9,6 +9,7 @@ import mc233.`fun`.snowygems.reward.RewardTokenParser
 import mc233.`fun`.snowygems.reward.impl.RewardFactory
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.ItemFactory
+import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import mc233.`fun`.snowygems.util.DebugUtil
 import org.bukkit.entity.Player
@@ -42,9 +43,9 @@ object GemManager {
         if (success) runRewards(ctx, cfg.rewards, RewardPhase.APPLY)
         else DebugUtil.log("GemManager", "executeButton: 判定失败, 跳过全部 Rewards")
         val msg = if (success) {
-            cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: "&a操作成功".c()
+            cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.button-success")
         } else {
-            cfg.failTip?.let { ColorUtil.colorize(it) } ?: "&c操作失败".c()
+            cfg.failTip?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.button-fail")
         }
         return ApplyResult(success, msg, true, ctx.item)
     }
@@ -69,15 +70,15 @@ object GemManager {
     fun applyToItem(player: Player, gemStack: ItemStack, targetStack: ItemStack): ApplyResult {
         val gemId = ItemFactory.getGemId(gemStack)
         DebugUtil.log("GemManager", "applyToItem: 手持物品读取到的 GemId=$gemId (材质=${gemStack.type})")
-        if (gemId == null) return ApplyResult(false, "&c这不是一个有效的宝石".c(), false)
-        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, "&c宝石配置不存在".c(), false)
+        if (gemId == null) return ApplyResult(false, Lang.get("gem.not-gem"), false)
+        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
         DebugUtil.log("GemManager", "applyToItem: 宝石配置 id=${cfg.id} type=${cfg.type} require=${cfg.require} embed=${cfg.embed}")
 
         val target = targetStack.clone()
         val loreLines = target.itemMeta?.lore?.let { ColorUtil.colorize(it) } ?: emptyList()
         if (!ItemRequireMatcher.matches(cfg.require, target, loreLines)) {
             DebugUtil.log("GemManager", "applyToItem: Require 不匹配, 目标材质=${target.type}, 目标lore=$loreLines")
-            return ApplyResult(false, "&c该装备不满足此宝石的适用范围".c(), false)
+            return ApplyResult(false, Lang.get("gem.require-failed"), false)
         }
 
         val success = rollSuccess(cfg.success)
@@ -89,20 +90,15 @@ object GemManager {
             // 否则玩家会看到"镶嵌成功"却毫无变化. 此时不消耗宝石, 让玩家能重试/找管理员.
             if (attempted > 0 && succeeded == 0) {
                 DebugUtil.log("GemManager", "applyToItem: 判定成功但 $attempted 条奖励全部未生效, 视为失败并保留宝石")
-                return ApplyResult(
-                    false,
-                    "&c镶嵌未生效: 该宝石的效果无法应用(可能是配置里的附魔/属性名在当前版本已失效, 请联系管理员)".c(),
-                    false,
-                    target
-                )
+                return ApplyResult(false, Lang.get("gem.no-effect"), false, target)
             }
             markApplied(ctx.item ?: target, cfg.id)
             DebugUtil.log("GemManager", "applyToItem: 镶嵌完成, 该装备现有宝石=${getAppliedGems(ctx.item ?: target)}")
             val msg = cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
-                ?: "&a镶嵌/强化成功!".c()
+                ?: Lang.get("gem.embed-success")
             return ApplyResult(true, msg, true, ctx.item ?: target)
         } else {
-            val msg = cfg.failTip?.let { ColorUtil.colorize(it) } ?: "&c很遗憾, 强化失败了!".c()
+            val msg = cfg.failTip?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.embed-fail")
             return ApplyResult(false, msg, true, target)
         }
     }
@@ -111,19 +107,19 @@ object GemManager {
     fun useDirectly(player: Player, gemStack: ItemStack): ApplyResult {
         val gemId = ItemFactory.getGemId(gemStack)
         DebugUtil.log("GemManager", "useDirectly: 手持物品读取到的 GemId=$gemId (材质=${gemStack.type})")
-        if (gemId == null) return ApplyResult(false, "&c这不是一个有效的宝石".c(), false)
-        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, "&c宝石配置不存在".c(), false)
+        if (gemId == null) return ApplyResult(false, Lang.get("gem.not-gem"), false)
+        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
 
         DebugUtil.log("GemManager", "useDirectly: 宝石 ${cfg.id} 类型=${cfg.type} 成功率=${cfg.success}%")
         return when (cfg.type) {
             GemType.RANDOM_GEM -> {
-                val picked = weightedPick(cfg.randomPool) ?: return ApplyResult(false, "&c该随机奖池为空".c(), false)
+                val picked = weightedPick(cfg.randomPool) ?: return ApplyResult(false, Lang.get("gem.pool-empty"), false)
                 DebugUtil.log("GemManager", "useDirectly: 随机奖池 ${cfg.randomPool} 抽中 $picked")
-                val subCfg = GemRegistry.get(picked) ?: return ApplyResult(false, "&c随机奖池配置错误".c(), false)
+                val subCfg = GemRegistry.get(picked) ?: return ApplyResult(false, Lang.get("gem.pool-invalid"), false)
                 val ctx = RewardContext(player, null, subCfg, RewardPhase.APPLY, true)
                 runRewards(ctx, subCfg.rewards, RewardPhase.APPLY)
                 val msg = subCfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
-                    ?: ("&a获得了 " + subCfg.name).c()
+                    ?: Lang.get("gem.random-get", "gem" to subCfg.display.ifBlank { subCfg.name })
                 ApplyResult(true, msg, true)
             }
             GemType.PLAYER_GEM -> {
@@ -131,26 +127,26 @@ object GemManager {
                 val ctx = RewardContext(player, null, cfg, RewardPhase.APPLY, success)
                 if (success) runRewards(ctx, cfg.rewards, RewardPhase.APPLY)
                 val msg = if (success) {
-                    cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: "&a使用成功!".c()
+                    cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.use-success")
                 } else {
-                    cfg.failTip?.let { ColorUtil.colorize(it) } ?: "&c使用失败!".c()
+                    cfg.failTip?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.use-fail")
                 }
                 ApplyResult(success, msg, true)
             }
-            GemType.NORMAL -> ApplyResult(false, "&c该宝石需要在工作台中镶嵌到装备上使用".c(), false)
+            GemType.NORMAL -> ApplyResult(false, Lang.get("gem.need-workbench"), false)
         }
     }
 
     /** 从目标物品上拆除一个已应用的宝石(执行其 $onRemove 奖励, 如扣除拆卸费用) */
     fun removeFromItem(player: Player, targetStack: ItemStack, gemId: String): ApplyResult {
         DebugUtil.log("GemManager", "removeFromItem: 从 ${targetStack.type} 拆除 $gemId, 拆除前已镶嵌=${getAppliedGems(targetStack)}")
-        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, "&c宝石配置不存在".c(), false)
+        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
         val target = targetStack.clone()
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
         runRewards(ctx, cfg.rewards, RewardPhase.REMOVE)
         unmarkApplied(ctx.item ?: target, gemId)
         DebugUtil.log("GemManager", "removeFromItem: 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
-        val msg = cfg.removeTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: "&a已拆除该宝石".c()
+        val msg = cfg.removeTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.remove-success")
         return ApplyResult(true, msg, false, ctx.item ?: target)
     }
 
@@ -242,5 +238,4 @@ object GemManager {
         return pool.keys.lastOrNull()
     }
 
-    private fun String.c() = ColorUtil.colorize(this)
 }

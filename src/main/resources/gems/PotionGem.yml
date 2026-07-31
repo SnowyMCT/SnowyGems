@@ -1,5 +1,5 @@
 # 下面是一些内置药水
-内置-发光药水:
+发光药水:
   Name: 发光药水
   Embed: 1
   Require:
@@ -18,7 +18,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l发光}
     - Point{amount=-1000} $onRemove
-内置-缓降药水:
+缓降药水:
   Name: 缓降药水
   Embed: 1
   Require:
@@ -37,7 +37,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l缓降}
     - Point{amount=-500} $onRemove
-内置-潮涌能量药水:
+潮涌能量药水:
   Name: 潮涌能量药水
   Embed: 1
   Require:
@@ -56,7 +56,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l潮涌能量}
     - Point{amount=-2000} $onRemove
-内置-防火药水:
+防火药水:
   Name: 防火药水
   Embed: 1
   Require:
@@ -73,7 +73,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l防火}
     - Point{amount=-5000} $onRemove
-内置-水下呼吸药水:
+水下呼吸药水:
   Name: 水下呼吸药水
   Embed: 1
   Require:
@@ -92,7 +92,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l水下呼吸}
     - Point{amount=-2000} $onRemove
-内置-夜视药水:
+夜视药水:
   Name: 夜视药水
   Embed: 1
   Require:
@@ -111,7 +111,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l夜视}
     - Point{amount=-2000} $onRemove
-内置-隐身药水:
+隐身药水:
   Name: 隐身药水
   Embed: 1
   Require:
@@ -130,7 +130,7 @@
   Rewards:
     - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l隐身}
     - Point{amount=-500} $onRemove
-内置-生命恢复药水1:
+生命恢复药水1:
   Name: 生命恢复药水1
   Require:
     - WEAPON
@@ -147,7 +147,7 @@
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-生命恢复药水2:
+生命恢复药水2:
   Name: 生命恢复药水2
   Success: 80
   Require:
@@ -165,7 +165,7 @@
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-生命恢复药水3:
+生命恢复药水3:
   Name: 生命恢复药水3
   Success: 60
   Require:
@@ -183,7 +183,7 @@
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-生命恢复药水4:
+生命恢复药水4:
   Name: 生命恢复药水4
   Success: 40
   Require:
@@ -201,7 +201,7 @@
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复IV&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<4?4:5;format=%.0f;limit=v<=4;mode=last}
-内置-抗性提升药水1:
+抗性提升药水1:
   Name: 抗性提升药水1
   Require:
     - WEAPON
@@ -218,7 +218,7 @@
   SuccessTip: "&f你使用了&7&l抗性提升药水&f, 装备添加&7&l抗性提升&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-抗性提升药水2:
+抗性提升药水2:
   Name: 抗性提升药水2
   Success: 90
   Require:
@@ -237,7 +237,7 @@
   FailTip: "&c抗性提升II药水使用失败……脸有点黑呀"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-抗性提升药水3:
+抗性提升药水3:
   Name: 抗性提升药水3
   Success: 50
   Require:
@@ -256,7 +256,7 @@
   FailTip: "&c抗性提升药水使用失败, 再接再厉!"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-抗性提升药水4:
+抗性提升药水4:
   Name: 抗性提升药水4
   Success: 10
   Require:
@@ -276,7 +276,7 @@
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v<4?4:5;format=%.0f;limit=v<=4;mode=last}
     - Command{commands=bc 恭喜 %player_name% 成功为装备添加抗性提升IV!;console=true} $onSuccess
-内置-英雄的信物1:
+英雄的信物1:
   Name: 英雄的信物
   Require:
     - WEAPON
@@ -293,7 +293,7 @@
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=3;mode=last}
-内置-英雄的信物2:
+英雄的信物2:
   Name: 英雄的信物2
   Success: 70
   Require:
@@ -311,7 +311,7 @@
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=5;mode=last}
-内置-英雄的信物3:
+英雄的信物3:
   Name: 英雄的信物3
   Success: 40
   Require:
@@ -329,7 +329,7 @@
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=8;mode=last}
-内置-英雄的信物4:
+英雄的信物4:
   Name: 英雄的信物4
   Success: 20
   Require:
@@ -347,7 +347,7 @@
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=10;mode=last}
-内置-跳跃提升药水1:
+跳跃提升药水1:
   Name: 跳跃提升药水1
   Require:
     - WEAPON
@@ -364,7 +364,7 @@
   SuccessTip: "&f你使用了&d&l跳跃提升药水&f, 装备添加&d&l跳跃提升&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l跳跃提升 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-跳跃提升药水2:
+跳跃提升药水2:
   Name: 跳跃提升药水2
   Require:
     - WEAPON
@@ -381,7 +381,7 @@
   SuccessTip: "&f你使用了&d&l跳跃提升药水&f, 装备添加&d&l跳跃提升II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l跳跃提升 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-跳跃提升药水3:
+跳跃提升药水3:
   Name: 跳跃提升药水3
   Require:
     - WEAPON
@@ -398,7 +398,7 @@
   SuccessTip: "&f你使用了&d&l跳跃提升药水&f, 装备添加&d&l跳跃提升III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l跳跃提升 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-速度药水1:
+速度药水1:
   Name: 速度药水1
   Require:
     - WEAPON
@@ -415,7 +415,7 @@
   SuccessTip: "&f你使用了&a&l速度药水&f, 装备添加&a&l速度&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l速度 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-速度药水2:
+速度药水2:
   Name: 速度药水2
   Require:
     - WEAPON
@@ -432,7 +432,7 @@
   SuccessTip: "&f你使用了&a&l速度药水&f, 装备添加&a&l速度II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l速度 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-速度药水3:
+速度药水3:
   Name: 速度药水3
   Require:
     - WEAPON
@@ -449,7 +449,7 @@
   SuccessTip: "&f你使用了&a&l速度药水&f, 装备添加&a&l速度III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l速度 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-急迫药水1:
+急迫药水1:
   Name: 急迫药水1
   Require:
     - WEAPON
@@ -466,7 +466,7 @@
   SuccessTip: "&f你使用了&6&l急迫药水&f, 装备添加&6&l急迫&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l急迫 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-急迫药水2:
+急迫药水2:
   Name: 急迫药水2
   Require:
     - WEAPON
@@ -483,7 +483,7 @@
   SuccessTip: "&f你使用了&6&l急迫药水&f, 装备添加&6&l急迫II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l急迫 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-急迫药水3:
+急迫药水3:
   Name: 急迫药水3
   Require:
     - WEAPON
@@ -500,7 +500,7 @@
   SuccessTip: "&f你使用了&6&l急迫药水&f, 装备添加&6&l急迫III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l急迫 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-力量药水1:
+力量药水1:
   Name: 力量药水1
   Require:
     - WEAPON
@@ -517,7 +517,7 @@
   SuccessTip: "&f你使用了&c&l力量药水&f, 装备添加&c&l力量&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l力量 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-力量药水2:
+力量药水2:
   Name: 力量药水2
   Require:
     - WEAPON
@@ -534,7 +534,7 @@
   SuccessTip: "&f你使用了&c&l力量药水&f, 装备添加&c&l力量II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l力量 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-力量药水3:
+力量药水3:
   Name: 力量药水3
   Require:
     - WEAPON
@@ -551,7 +551,7 @@
   SuccessTip: "&f你使用了&c&l力量药水&f, 装备添加&c&l力量III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l力量 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-生命提升药水1:
+生命提升药水1:
   Name: 生命提升药水1
   Require:
     - WEAPON
@@ -568,7 +568,7 @@
   SuccessTip: "&f你使用了&c&l生命提升药水&f, 装备添加&c&l生命提升&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命提升 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-生命提升药水2:
+生命提升药水2:
   Name: 生命提升药水2
   Require:
     - WEAPON
@@ -585,7 +585,7 @@
   SuccessTip: "&f你使用了&c&l生命提升药水&f, 装备添加&c&l生命提升II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命提升 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-生命提升药水3:
+生命提升药水3:
   Name: 生命提升药水3
   Require:
     - WEAPON
@@ -602,7 +602,7 @@
   SuccessTip: "&f你使用了&c&l生命提升药水&f, 装备添加&c&l生命提升III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命提升 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-伤害吸收药水1:
+伤害吸收药水1:
   Name: 伤害吸收药水1
   Require:
     - WEAPON
@@ -619,7 +619,7 @@
   SuccessTip: "&f你使用了&e&l伤害吸收药水&f, 装备添加&e&l伤害吸收&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l伤害吸收 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-伤害吸收药水2:
+伤害吸收药水2:
   Name: 伤害吸收药水2
   Require:
     - WEAPON
@@ -636,7 +636,7 @@
   SuccessTip: "&f你使用了&e&l伤害吸收药水&f, 装备添加&e&l伤害吸收II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l伤害吸收 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-伤害吸收药水3:
+伤害吸收药水3:
   Name: 伤害吸收药水3
   Require:
     - WEAPON
@@ -653,7 +653,7 @@
   SuccessTip: "&f你使用了&e&l伤害吸收药水&f, 装备添加&e&l伤害吸收III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l伤害吸收 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-幸运药水1:
+幸运药水1:
   Name: 幸运药水1
   Require:
     - WEAPON
@@ -670,7 +670,7 @@
   SuccessTip: "&f你使用了&2&l幸运药水&f, 装备添加&2&l幸运&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l幸运 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-幸运药水2:
+幸运药水2:
   Name: 幸运药水2
   Require:
     - WEAPON
@@ -687,7 +687,7 @@
   SuccessTip: "&f你使用了&2&l幸运药水&f, 装备添加&2&l幸运II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l幸运 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-幸运药水3:
+幸运药水3:
   Name: 幸运药水3
   Require:
     - WEAPON
@@ -704,7 +704,7 @@
   SuccessTip: "&f你使用了&2&l幸运药水&f, 装备添加&2&l幸运III&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l幸运 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
-内置-海豚的恩惠1:
+海豚的恩惠1:
   Name: 海豚的恩惠1
   Require:
     - WEAPON
@@ -721,7 +721,7 @@
   SuccessTip: "&f你使用了&b&l海豚的恩惠药水&f, 装备添加&b&l海豚的恩惠&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
-内置-海豚的恩惠2:
+海豚的恩惠2:
   Name: 海豚的恩惠2
   Require:
     - WEAPON
@@ -738,7 +738,7 @@
   SuccessTip: "&f你使用了&b&l海豚的恩惠药水&f, 装备添加&b&l海豚的恩惠II&fBUFF"
   Rewards:
     - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
-内置-饱和药水:
+饱和药水:
   Name: 饱和药水
   Embed: 1
   Require:

@@ -1,10 +1,10 @@
 package mc233.`fun`.snowygems.util
 
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
-import taboolib.common.platform.function.getDataFolder
-import taboolib.common.platform.function.releaseResourceFile
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
-import java.io.File
 
 /**
  * 调试日志系统, 通过 config.yml 中的 Debug: true/false 总开关控制.
@@ -13,8 +13,14 @@ import java.io.File
  *
  * 可选的 DebugTags 白名单: 只输出列表中的 tag, 留空表示全部输出.
  * 例: DebugTags: [Menu, GemManager]
+ *
+ * config.yml 由 TabooLib 的 [Config] 托管(自动释放 + 保存即热重载 + 版本迁移),
+ * 不再手动 releaseResourceFile / loadFromFile.
  */
 object DebugUtil {
+
+    @Config(value = "config.yml", autoReload = true, migrate = true)
+    lateinit var conf: Configuration
 
     var enabled: Boolean = false
         private set
@@ -26,26 +32,36 @@ object DebugUtil {
     var pointsProvider: String = "Internal"
         private set
 
-    private val file by lazy { File(getDataFolder(), "config.yml") }
+    /**
+     * autoReload 只保证"文件内容被重新读进 Configuration", 不会自动同步到本对象的字段,
+     * 所以这里注册一个 onReload 回调, 玩家手改 config.yml 保存后立即生效, 不用打命令.
+     */
+    @Awake(LifeCycle.ENABLE)
+    fun bindAutoReload() {
+        // @Config 的注入发生在更早的阶段, 但 ENABLE 阶段各方法的执行顺序不保证,
+        // 所以这里仍然守一道 isInitialized, 避免抢跑时抛 UninitializedPropertyAccessException
+        if (!::conf.isInitialized) return
+        conf.onReload { readFields() }
+        readFields()
+    }
 
     fun reload() {
         try {
-            releaseResourceFile("config.yml", false)
-            if (file.exists()) {
-                val cfg = Configuration.loadFromFile(file)
-                enabled = cfg.getBoolean("Debug", false)
-                tagFilter = cfg.getStringList("DebugTags").map { it.trim().lowercase() }.filter { it.isNotEmpty() }.toSet()
-                pointsProvider = cfg.getString("Points.Provider", "Internal") ?: "Internal"
+            if (::conf.isInitialized) {
+                conf.reload()
+                readFields()
             }
         } catch (e: Exception) {
             enabled = false
             tagFilter = emptySet()
         }
         lastByKey.clear()
-        if (enabled) {
-            val scope = if (tagFilter.isEmpty()) "全部" else tagFilter.joinToString(",")
-            console().sendMessage(ColorUtil.colorize("&8[&bSnowyGems-Debug&8] &a调试模式已开启, 输出范围: &f$scope"))
-        }
+    }
+
+    private fun readFields() {
+        enabled = conf.getBoolean("Debug", false)
+        tagFilter = conf.getStringList("DebugTags").map { it.trim().lowercase() }.filter { it.isNotEmpty() }.toSet()
+        pointsProvider = conf.getString("Points.Provider", "Internal") ?: "Internal"
     }
 
     /** 运行时临时开关(不写回 config.yml, /sgem reload 后以配置文件为准) */

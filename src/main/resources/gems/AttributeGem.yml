@@ -1,4 +1,4 @@
-内置-生命宝石:
+生命宝石:
   Name: 生命宝石
   Require:
     - ARMOR
@@ -13,7 +13,7 @@
   Rewards:
     - Attribute{name=health;operation=0;slot=auto;var=v+1;limit=5}
 
-内置-真生命宝石:
+真生命宝石:
   Name: 真·生命宝石
   Require:
     - ARMOR
@@ -28,7 +28,7 @@
   Rewards:
     - Attribute{name=health;operation=0;slot=auto;var=v+1;limit=10}
 
-内置-神生命宝石:
+神生命宝石:
   Name: 神·生命宝石
   Require:
     - ARMOR
@@ -45,7 +45,7 @@
   Rewards:
     - Attribute{name=health;operation=0;slot=auto;var=v+2;limit=20}
 
-内置-速度宝石:
+速度宝石:
   Name: 速度宝石
   Require:
     - BOOTS
@@ -60,7 +60,7 @@
   Rewards:
     - Attribute{name=move;operation=1;slot=auto;var=v+0.01;limit=0.06}
 
-内置-真速度宝石:
+真速度宝石:
   Name: 真·速度宝石
   Require:
     - BOOTS
@@ -75,7 +75,7 @@
   Rewards:
     - Attribute{name=move;operation=1;slot=auto;var=v+0.01;limit=0.15}
 
-内置-神速度宝石:
+神速度宝石:
   Name: 神·速度宝石
   Require:
     - BOOTS
@@ -92,7 +92,7 @@
   Rewards:
     - Attribute{name=move;operation=1;slot=auto;var=v+0.02;limit=0.3}
 
-内置-攻击伤害宝石:
+攻击伤害宝石:
   Name: 攻击伤害宝石
   Require:
     - WEAPON
@@ -107,7 +107,7 @@
   Rewards:
     - Attribute{name=damage;operation=0;slot=auto;var=v+1;limit=20}
 
-内置-真攻击伤害宝石:
+真攻击伤害宝石:
   Name: 真·攻击伤害宝石
   Require:
     - WEAPON
@@ -122,7 +122,7 @@
   Rewards:
     - Attribute{name=damage;operation=0;slot=auto;var=v+1;limit=80}
 
-内置-攻速宝石:
+攻速宝石:
   Name: 攻速宝石
   Require:
     - WEAPON
@@ -137,7 +137,7 @@
   Rewards:
     - Attribute{name=attack_speed;operation=1;slot=auto;var=v+0.05;limit=0.8}
 
-内置-真攻速宝石:
+真攻速宝石:
   Name: 真·攻速宝石
   Require:
     - WEAPON
@@ -152,7 +152,7 @@
   Rewards:
     - Attribute{name=attack_speed;operation=1;slot=auto;var=v+0.1;limit=3}
 
-内置-攻击击退宝石:
+攻击击退宝石:
   Name: 攻击击退宝石
   Require:
     - WEAPON
@@ -167,7 +167,7 @@
   Rewards:
     - Attribute{name=attack_knockback;operation=0;slot=auto;var=v+1;limit=10}
 
-内置-幸运宝石:
+幸运宝石:
   Name: 幸运宝石
   Require:
     - WEAPON
@@ -184,7 +184,7 @@
   Rewards:
     - Attribute{name=luck;operation=0;slot=auto;var=v+1;limit=10}
 
-内置-护甲宝石:
+护甲宝石:
   Name: 护甲宝石
   Require:
     - ARMOR
@@ -199,7 +199,7 @@
   Rewards:
     - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=10}
 
-内置-盔甲韧性宝石:
+盔甲韧性宝石:
   Name: 盔甲韧性宝石
   Require:
     - ARMOR
@@ -214,7 +214,7 @@
   Rewards:
     - Attribute{name=armor_toughness;operation=0;slot=auto;var=v+1;limit=10}
 
-内置-击退抗性宝石:
+击退抗性宝石:
   Name: 击退抗性宝石
   Require:
     - ARMOR

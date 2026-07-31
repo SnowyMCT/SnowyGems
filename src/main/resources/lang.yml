@@ -1,19 +1,179 @@
-# SnowyGems 玩家语言
-# 颜色规范: &c 错误 &7 辅助 &f 主体
-menu:
-  no-slot: "&c没有可以放入该物品的空槽位"
-  select-gem: "&7请先点起一颗宝石 再点击装备镶嵌"
-  no-gem: "&7当前没有加载任何宝石配置"
-  no-embed: "&7该装备上还没有镶嵌任何宝石"
-gem:
-  success: "&f操作成功"
-  fail: "&c操作失败"
-  invalid: "&c该宝石配置不存在"
-  protect: "&c无法放置宝石"
-skill:
-  cooldown: "&c技能冷却中 &7{time}s"
-  switch: "&7已切换模式 &f{mode}"
+# ============================================================
+#  SnowyGems 语言文件
+# ============================================================
+#  这里是「玩家能看见的所有文字」的唯一修改入口。
+#  插件代码里不再硬编码任何玩家可见文本, 想改措辞/颜色/语言, 只改这个文件。
+#
+#  修改后无需重启, 执行 /sgem reload 即可生效 (本文件同时开启了自动热重载,
+#  直接保存文件也会被 TabooLib 侦测并重新读取)。
+#
+#  ── 颜色 ────────────────────────────────────────────────
+#    &0-&9 &a-&f  颜色      &l 粗体  &o 斜体  &n 下划线
+#    &m 删除线    &k 乱码    &r 重置
+#
+#  ── 占位符 ──────────────────────────────────────────────
+#    {xxx}  具名占位符, 会被对应的实际值替换。每条消息下方注释里
+#           标注了这条消息可用的占位符, 不写也不会报错(原样保留)。
+#
+#  ── 发送方式前缀 ────────────────────────────────────────
+#    在文本最前面加下列前缀, 可以改变这句话的呈现方式:
+#      (无前缀)      普通聊天栏消息
+#      actionbar:    显示在物品栏上方的动作栏
+#      title:        大标题 (用 | 分隔主标题和副标题)
+#      none:         什么都不发 (等于关掉这条提示)
+#    例:
+#      embed-success: "actionbar:&a镶嵌成功!"
+#      embed-success: "title:&a镶嵌成功!|&7装备已强化"
+#      embed-success: "none:"
+#
+#  ── 前缀 ────────────────────────────────────────────────
+#    prefix 会自动加在「命令回执类」消息前面(见 command.* 一节)。
+#    其余提示不带前缀, 以免刷屏。
+# ============================================================
+
+# 插件消息前缀
+prefix: "&8[&bSnowyGems&8] &f"
+
+# ── 通用 ──────────────────────────────────────────────────
+common:
+  # 翻页按钮
+  next-page: "&a下一页 &7→"
+  next-page-none: "&7已经是最后一页了"
+  prev-page: "&7← &a上一页"
+  prev-page-none: "&7已经是第一页了"
+  # 数值/占位
+  any-item: "任意物品"
+  # /sgem debug 里表示"不过滤任何 tag"
+  scope-all: "全部"
+
+# ── /sgem 命令回执 (这一节的消息会自动带上 prefix) ─────────
 command:
-  reload: "&f配置已重新加载 &7({time}ms)"
-  no-player: "&c玩家不在线"
-  no-gem: "&c未知的宝石配置"
+  # 配置重载完成  占位符: {time} 耗时毫秒
+  reload: "&a配置已重新加载 &7({time}ms)"
+  # /sgem use 时手上没拿东西
+  no-held-gem: "&c请先手持要使用的宝石"
+  # 目标玩家不在线  占位符: {player}
+  no-player: "&c玩家不在线: &f{player}"
+  # 宝石 ID 不存在  占位符: {gem}
+  no-gem: "&c未知的宝石配置: &f{gem}"
+  # 给予成功  占位符: {player} {gem} {amount}
+  give: "&a已给予 &f{player} &7×&f{amount} &a个 &f{gem}"
+  # 调试开关
+  debug-on: "&a调试模式已临时开启, 输出范围: &f{scope} &7(重载后以 config.yml 为准)"
+  debug-off: "&7调试模式已临时关闭"
+  debug-scope: "&a调试输出范围已设为: &f{scope}"
+  debug-scope-all: "&a调试输出范围已设为: &f全部"
+
+# ── 宝石核心逻辑 (镶嵌 / 使用 / 拆除) ─────────────────────
+gem:
+  # 手上/槽里的东西不是本插件的宝石
+  not-gem: "&c这不是一个有效的宝石"
+  # 物品带着宝石标记, 但配置文件里已经找不到这个 ID 了
+  config-missing: "&c宝石配置不存在, 请联系管理员"
+  # 装备不在 Require 允许的范围内
+  require-failed: "&c该装备不满足此宝石的适用范围"
+  # 概率判定成功, 但所有 Rewards 都没真正生效(通常是配置里的附魔/属性名过期)
+  no-effect: "&c镶嵌未生效: 该宝石的效果无法应用, 请联系管理员检查配置"
+  # 镶嵌结果 (宝石配置里写了 SuccessTip / FailTip 时以配置为准)
+  embed-success: "&a镶嵌成功! 装备已强化"
+  embed-fail: "&c很遗憾, 强化失败了"
+  # GUI 按钮类宝石(USE_GEM)的执行结果
+  button-success: "&a操作成功"
+  button-fail: "&c操作失败"
+  # 直接右键使用类宝石
+  use-success: "&a使用成功!"
+  use-fail: "&c使用失败!"
+  need-workbench: "&c该宝石需要在工作台中镶嵌到装备上使用"
+  # 随机奖池  占位符: {gem} 抽中的宝石名
+  random-get: "&a获得了 &f{gem}"
+  pool-empty: "&c该随机奖池是空的, 请联系管理员"
+  pool-invalid: "&c随机奖池里引用了不存在的宝石, 请联系管理员"
+  # 拆除
+  remove-success: "&a已拆除该宝石"
+  # 防误用保护: 宝石不能当方块放置 / 塞展示框
+  protect: "&c宝石不能放置到世界里, 否则会失效"
+
+# ── 宝石镶嵌台 /sgem embed ────────────────────────────────
+embed:
+  # 界面标题
+  title: "&8&l&k||&b&l宝石镶嵌台&8&l&k||"
+  # 两个槽位的指示标签
+  label:
+    equip-top: "&a&l↓ 把装备放在下面 ↓"
+    equip-bottom: "&a装备槽"
+    gem-top: "&b&l↓ 把宝石放在下面 ↓"
+    gem-bottom: "&b宝石槽"
+  # Shift 快速移入时槽位已被占用
+  equip-slot-occupied: "&c装备槽已经有东西了"
+  gem-slot-occupied: "&c宝石槽已经有东西了"
+  # 中间确认按钮 —— 条件不满足时显示的原因
+  need-equip: "&7请先把要强化的装备放进&a装备槽"
+  need-gem: "&7请再把宝石放进&b宝石槽"
+  not-gem: "&c宝石槽里的物品不是本插件的宝石"
+  gem-missing: "&c宝石配置不存在: &f{gem}"
+  wrong-type: "&c这类宝石请直接手持右键使用, 不需要镶嵌"
+  wrong-gui: "&c该宝石需要在 &f{gui} &c中使用"
+  equip-is-gem: "&c装备槽里放的是宝石, 请放入要被强化的装备"
+  out-of-scope: "&c这件装备不在该宝石的适用范围内 &7(需要: &f{scope}&7)"
+  # 中间确认按钮的外观
+  button:
+    ready-name: "&a&l点击此处完成镶嵌"
+    locked-name: "&7暂时还不能镶嵌"
+    equip: "&7装备: &f{equip}"
+    cost: "&e镶嵌会消耗 1 个宝石"
+  # 按钮 Lore 上的宝石信息
+  info:
+    gem: "&7宝石: &f{gem}"
+    scope: "&7适用: &f{scope}"
+    chance: "&7成功率: &f{chance}&7%"
+    may-fail: "&c失败会消耗宝石且不产生效果"
+
+# ── 工作台菜单 (gui.yml / rune.yml 定义的界面) ────────────
+menu:
+  # 菜单名字写错了  占位符: {menu}
+  not-found: "&c菜单不存在: &f{menu}"
+  # Shift 移入时没有能接收该物品的空槽
+  no-slot: "&c没有可以放入该物品的空槽位"
+  # 装备槽里有装备, 但所有宝石槽都是空的
+  select-gem: "&7请先把宝石放进宝石槽, 或点起一颗宝石再点击装备"
+  # 宝石槽有 Require 限制
+  slot-only-gem: "&c这个槽位只能放入本插件的宝石"
+  slot-require: "&c该槽位只能放入 &f{require} &c类宝石"
+  # USE_GEM 按钮引用了不存在的宝石  占位符: {gem}
+  button-gem-missing: "&c该按钮引用的宝石配置不存在: &f{gem}"
+  # USE_GEM 按钮需要一个目标物品, 但装备槽是空的
+  need-target: "&c请先在左侧槽位放入要操作的物品"
+  need-target-named: "&c请先在左侧槽位放入 &f{hint}"
+
+# ── /sgem view 宝石浏览面板 ───────────────────────────────
+view:
+  title: "&b宝石分类浏览"
+  category-title: "&b分类: &f{category}"
+  # 第一层的分类图标  占位符: {category} {count}
+  category-name: "&e&l{category}"
+  category-count: "&7共 &f{count} &7个宝石/物品"
+  category-click: "&a点击查看"
+  # 第二层的宝石图标
+  gem-id: "&7ID: &f{id}"
+  gem-click: "&a左键领取 1 个 &7/ &aShift+左键领取一组"
+  # 领取成功  占位符: {gem} {amount}
+  claimed: "&a已领取 &f{gem} &7×&f{amount}"
+  # 当前一个宝石配置都没加载到
+  no-gem: "&c当前没有加载任何宝石配置, 请检查 gems/ 目录"
+
+# ── /sgem inspect 查看装备上的宝石 ────────────────────────
+inspect:
+  title: "&b已镶嵌宝石 &7- &f{item}"
+  need-held: "&c请先手持你想查看的装备"
+  no-embed: "&7这件装备上还没有镶嵌任何宝石"
+  remove-hint: "&e右键拆除该宝石"
+
+# ── 技能 / BUFF ───────────────────────────────────────────
+skill:
+  # 技能定义里没写 CooldownTip 时用的兜底提示  占位符: {time} 剩余秒数
+  cooldown: "&c技能冷却中: &f{time}s"
+  # CooldownTip 写成 Chat{} / Title{} 但没给 m 参数时的兜底文本
+  cooldown-chat: "&c技能冷却中"
+  cooldown-title: "&c冷却中"
+  # 形态切换  占位符: {mode} 切换后的形态名
+  switch: "&7已切换形态: &f{mode}"

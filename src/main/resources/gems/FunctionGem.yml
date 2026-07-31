@@ -1,6 +1,7 @@
 #
 # 以下宝石演示了内置功能
-内置-无限宝石:
+#
+无限宝石:
   Name: 无限宝石
   Require:
     - WEAPON
@@ -20,7 +21,7 @@
   Rewards:
     - Unbreakable
 
-内置-原版耐久修复石:
+原版耐久修复石:
   Name: 修复宝石
   Require:
     - WEAPON
@@ -40,7 +41,7 @@
   Rewards:
     - Durability{amount=1000}
 
-内置-失败宝石:
+失败宝石:
   Name: 败者宝石
   Success: 1
   Require:
@@ -61,7 +62,7 @@
   Rewards:
     - Name{name=&8&l&k||&a&l天命之子&8&l&k||}
 
-内置-精准时运切换宝石:
+精准时运切换宝石:
   Name: 精准时运切换宝石
   Require:
     - PICKAXE
@@ -78,7 +79,7 @@
   Rewards:
     - LoreAdd{lore=&2Shift+右键切换模式(精准/时运);limit=1}
 
-内置-忠诚激流切换宝石:
+忠诚激流切换宝石:
   Name: 忠诚激流切换宝石
   Require:
     - TRIDENT
@@ -93,7 +94,7 @@
   Rewards:
     - LoreAdd{lore=&2Shift+左键切换模式(忠诚/激流);limit=1}
 
-内置-巨无霸汉堡:
+巨无霸汉堡:
   Name: 巨无霸汉堡
   Require:
     - 啥也不能打
@@ -107,7 +108,7 @@
   Rewards:
     - Empty
 
-内置-附魔隐藏粉尘:
+附魔隐藏粉尘:
   Name: 附魔隐藏粉尘
   Require:
     - WEAPON
@@ -127,7 +128,7 @@
   Rewards:
     - ItemFlag{HIDE_ENCHANTS}
 
-内置-属性隐藏粉尘:
+属性隐藏粉尘:
   Name: 属性隐藏粉尘
   Require:
     - WEAPON
@@ -147,7 +148,7 @@
   Rewards:
     - ItemFlag{HIDE_ATTRIBUTES}
 
-内置-技能隐藏粉尘:
+技能隐藏粉尘:
   Name: 技能隐藏粉尘
   Require:
     - WEAPON

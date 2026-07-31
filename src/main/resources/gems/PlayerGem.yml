@@ -1,5 +1,5 @@
 # 玩家直接使用的宝石
-内置-点券兑换券-500:
+点券兑换券-500:
   Name: 点券兑换券-500
   Type: PlayerGem
   Display: "&8&l&k||&9&l点券兑换券&8&l&k||"
@@ -11,7 +11,7 @@
   Rewards:
     - Point{amount=500} $onSuccess
 
-内置-点券兑换券-1000:
+点券兑换券-1000:
   Name: 点券兑换券-1000
   Type: PlayerGem
   Display: "&8&l&k||&9&l点券兑换券&8&l&k||"
@@ -23,7 +23,7 @@
   Rewards:
     - Point{amount=1000} $onSuccess
 
-内置-点券兑换券-2000:
+点券兑换券-2000:
   Name: 点券兑换券-2000
   Type: PlayerGem
   Display: "&8&l&k||&9&l点券兑换券&8&l&k||"
@@ -35,7 +35,7 @@
   Rewards:
     - Point{amount=2000} $onSuccess
 
-内置-点券兑换券-10000:
+点券兑换券-10000:
   Name: 点券兑换券-10000
   Type: PlayerGem
   Display: "&8&l&k||&9&l点券兑换券&8&l&k||"
@@ -47,7 +47,7 @@
   Rewards:
     - Point{amount=10000} $onSuccess
 
-内置-随机点券兑换券:
+随机点券兑换券:
   Name: 随机点券兑换券-500-10000
   Type: RandomGem
   Display: "&8&l&k||&9&l随机点券兑换券&8&l&k||"
@@ -66,7 +66,7 @@
     点券兑换券-1000: 20
     点券兑换券-500: 69
 
-内置-随机点券兑换券2:
+随机点券兑换券2:
   Name: 随机点券兑换券-100-3000
   Type: PlayerGem
   Display: "&8&l&k||&9&l随机点券兑换券&8&l&k||"
@@ -78,7 +78,7 @@
   Rewards:
     - Point{amount=100+2900*$RANDOM()} $onSuccess
 
-内置-金币兑换券-1000:
+金币兑换券-1000:
   Name: 金币兑换券-1000
   Type: PlayerGem
   Display: "&8&l&k||&e&l金币兑换券&8&l&k||"
@@ -90,7 +90,7 @@
   Rewards:
     - Money{amount=1000} $onSuccess
 
-内置-金币兑换券-2000:
+金币兑换券-2000:
   Name: 金币兑换券-2000
   Type: PlayerGem
   Display: "&8&l&k||&e&l金币兑换券&8&l&k||"
@@ -102,7 +102,7 @@
   Rewards:
     - Money{amount=2000} $onSuccess
 
-内置-金币兑换券-5000:
+金币兑换券-5000:
   Name: 金币兑换券-5000
   Type: PlayerGem
   Display: "&8&l&k||&e&l金币兑换券&8&l&k||"
@@ -114,7 +114,7 @@
   Rewards:
     - Money{amount=5000} $onSuccess
 
-内置-金币兑换券-10000:
+金币兑换券-10000:
   Name: 金币兑换券-10000
   Type: PlayerGem
   Display: "&8&l&k||&e&l金币兑换券&8&l&k||"
@@ -126,7 +126,7 @@
   Rewards:
     - Money{amount=10000} $onSuccess
 
-内置-金币兑换券-100000:
+金币兑换券-100000:
   Name: 金币兑换券-100000
   Type: PlayerGem
   Display: "&8&l&k||&e&l金币兑换券&8&l&k||"
@@ -138,7 +138,7 @@
   Rewards:
     - Money{amount=100000} $onSuccess
 
-内置-随机金币兑换券:
+随机金币兑换券:
   Name: 随机金币兑换券-1000-100000
   Type: RandomGem
   Display: "&8&l&k||&e&l随机金币兑换券&8&l&k||"
@@ -157,7 +157,7 @@
     金币兑换券-2000: 30
     金币兑换券-1000: 59
 
-内置-随机金币兑换券2:
+随机金币兑换券2:
   Name: 随机金币兑换券-1000-10000
   Type: PlayerGem
   Display: "&8&l&k||&e&l金币兑换券&8&l&k||"
@@ -169,7 +169,7 @@
   Rewards:
     - Money{amount=1000+9000*$RANDOM()} $onSuccess
 
-内置-蛇胆:
+蛇胆:
   Name: 蛇胆
   Type: PlayerGem
   Display: "&8&l&k||&c&l蛇胆&8&l&k||"
@@ -183,7 +183,7 @@
   Rewards:
     - MaxHealth{amount=1;limit=30} $onSuccess
 
-内置-龙胆:
+龙胆:
   Name: 龙胆
   Type: PlayerGem
   Display: "&8&l&k||&6&l龙胆&8&l&k||"
@@ -197,7 +197,7 @@
   Rewards:
     - MaxHealth{amount=2;limit=60} $onSuccess
 
-内置-经验药水:
+经验药水:
   Name: 经验药水
   Type: PlayerGem
   Display: "&8&l&k||&a&l经验药水&8&l&k||"

@@ -5,6 +5,7 @@ import mc233.`fun`.snowygems.config.MenuLayout
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
@@ -19,7 +20,7 @@ object WorkbenchMenu {
         val layout = MenuRegistry.get(menuName)
         if (layout == null) {
             DebugUtil.log("Workbench", "打开菜单失败: 不存在名为 $menuName 的菜单 (已加载: ${MenuRegistry.names()})")
-            player.sendMessage(ColorUtil.colorize("&c菜单不存在: $menuName"))
+            Lang.send(player, "menu.not-found", "menu" to menuName)
             return
         }
         val holder = MenuHolder(menuName)

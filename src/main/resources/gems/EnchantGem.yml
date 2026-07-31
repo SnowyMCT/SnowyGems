@@ -1,10 +1,8 @@
 #
 # 以下是升级原版附魔的宝石
-# 你可以在游戏内用mgem enchant查看附魔的名称
-# 支持GoldenEnchant/EcoEnchant的特殊附魔. 你可以自行添加
-Version: 1.05
-
-内置-耐久宝石:
+# 支持 GoldenEnchant/EcoEnchant/Aiyatsbus 的特殊附魔
+#
+耐久宝石:
   Name: 耐久宝石
   Require:
     - WEAPON
@@ -24,7 +22,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DURABILITY;limit=7}
 
-内置-真耐久宝石:
+真耐久宝石:
   Name: 真·耐久宝石
   Require:
     - WEAPON
@@ -44,7 +42,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DURABILITY;limit=15}
 
-内置-时运宝石:
+时运宝石:
   Name: 时运宝石
   Require:
     - TOOL
@@ -59,7 +57,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOOT_BONUS_BLOCKS;limit=15}
 
-内置-真时运宝石:
+真时运宝石:
   Name: 真·时运宝石
   Require:
     - TOOL
@@ -74,7 +72,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOOT_BONUS_BLOCKS;limit=40}
 
-内置-神时运宝石:
+神时运宝石:
   Name: 神·时运宝石
   Require:
     - TOOL
@@ -91,7 +89,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOOT_BONUS_BLOCKS;limit=512}
 
-内置-锋利宝石:
+锋利宝石:
   Name: 锋利宝石
   Require:
     - _AXE
@@ -107,7 +105,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_ALL;limit=15}
 
-内置-真锋利宝石:
+真锋利宝石:
   Name: 真·锋利宝石
   Require:
     - _AXE
@@ -123,7 +121,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_ALL;limit=40}
 
-内置-神锋利宝石:
+神锋利宝石:
   Name: 神·锋利宝石
   Require:
     - _AXE
@@ -141,7 +139,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_ALL}
 
-内置-抢夺宝石:
+抢夺宝石:
   Name: 抢夺宝石
   Require:
     - _AXE
@@ -157,7 +155,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOOT_BONUS_MOBS;limit=15}
 
-内置-真抢夺宝石:
+真抢夺宝石:
   Name: 真·抢夺宝石
   Require:
     - _AXE
@@ -173,7 +171,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOOT_BONUS_MOBS;limit=30}
 
-内置-神抢夺宝石:
+神抢夺宝石:
   Name: 神·抢夺宝石
   Require:
     - _AXE
@@ -191,7 +189,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOOT_BONUS_MOBS}
 
-内置-力量宝石:
+力量宝石:
   Name: 力量宝石
   Require:
     - BOW
@@ -206,7 +204,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=ARROW_DAMAGE;limit=15}
 
-内置-真力量宝石:
+真力量宝石:
   Name: 真·力量宝石
   Require:
     - BOW
@@ -221,7 +219,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=ARROW_DAMAGE;limit=40}
 
-内置-神力量宝石:
+神力量宝石:
   Name: 神·力量宝石
   Require:
     - BOW
@@ -238,7 +236,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=ARROW_DAMAGE}
 
-内置-荆棘宝石:
+荆棘宝石:
   Name: 荆棘宝石
   Require:
     - ARMOR
@@ -253,7 +251,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=THORNS;limit=10}
 
-内置-真荆棘宝石:
+真荆棘宝石:
   Name: 真·荆棘宝石
   Require:
     - ARMOR
@@ -268,7 +266,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=THORNS;limit=30}
 
-内置-神荆棘宝石:
+神荆棘宝石:
   Name: 神·荆棘宝石
   Require:
     - ARMOR
@@ -285,7 +283,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=THORNS}
 
-内置-激流宝石:
+激流宝石:
   Name: 激流宝石
   Require:
     - TRIDENT
@@ -300,7 +298,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=RIPTIDE;limit=15}
 
-内置-真激流宝石:
+真激流宝石:
   Name: 真·激流宝石
   Require:
     - TRIDENT
@@ -315,7 +313,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=RIPTIDE;limit=40}
 
-内置-保护宝石:
+保护宝石:
   Name: 保护宝石
   Require:
     - ARMOR
@@ -330,7 +328,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=PROTECTION_ENVIRONMENTAL;limit=10}
 
-内置-真保护宝石:
+真保护宝石:
   Name: 真·保护宝石
   Require:
     - ARMOR
@@ -345,7 +343,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=PROTECTION_ENVIRONMENTAL;limit=20}
 
-内置-冰霜行者宝石:
+冰霜行者宝石:
   Name: 冰霜行者宝石
   Require:
     - BOOTS
@@ -359,7 +357,7 @@ Version: 1.05
   SuccessTip: "&f你使用了&9&l冰霜行者宝石&f, 靴子冰霜行者等级&9&l+1"
   Rewards:
     - Enchant{name=FROST_WALKER;limit=7}
-内置-真冰霜行者宝石:
+真冰霜行者宝石:
   Name: 真·冰霜行者宝石
   Require:
     - BOOTS
@@ -374,7 +372,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=FROST_WALKER;limit=14}
 
-内置-海之眷顾宝石:
+海之眷顾宝石:
   Name: 海之眷顾宝石
   Require:
     - FISHING_ROD
@@ -389,7 +387,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LUCK;limit=10}
 
-内置-真海之眷顾宝石:
+真海之眷顾宝石:
   Name: 真·海之眷顾宝石
   Require:
     - FISHING_ROD
@@ -404,7 +402,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LUCK;limit=24}
 
-内置-效率宝石:
+效率宝石:
   Name: 效率宝石
   Require:
     - AXE
@@ -420,7 +418,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DIG_SPEED;limit=10}
 
-内置-真效率宝石:
+真效率宝石:
   Name: 真·效率宝石
   Require:
     - AXE
@@ -436,7 +434,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DIG_SPEED;limit=33}
 
-内置-火焰附加宝石:
+火焰附加宝石:
   Name: 火焰附加宝石
   Require:
     - SWORD
@@ -451,7 +449,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=FIRE_ASPECT;limit=10}
 
-内置-真火焰附加宝石:
+真火焰附加宝石:
   Name: 真·火焰附加宝石
   Require:
     - SWORD
@@ -466,7 +464,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=FIRE_ASPECT;limit=25}
 
-内置-神火焰附加宝石:
+神火焰附加宝石:
   Name: 神·火焰附加宝石
   Require:
     - SWORD
@@ -483,7 +481,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=FIRE_ASPECT}
 
-内置-穿刺宝石:
+穿刺宝石:
   Name: 穿刺宝石
   Require:
     - TRIDENT
@@ -498,7 +496,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=CHANNELING;limit=20}
 
-内置-忠诚宝石:
+忠诚宝石:
   Name: 忠诚宝石
   Require:
     - TRIDENT
@@ -513,7 +511,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=LOYALTY;limit=15}
 
-内置-击退宝石:
+击退宝石:
   Name: 击退宝石
   Require:
     - SWORD
@@ -529,7 +527,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=KNOCKBACK;limit=15}
 
-内置-真击退宝石:
+真击退宝石:
   Name: 真·击退宝石
   Require:
     - _AXE
@@ -545,7 +543,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=KNOCKBACK;limit=30}
 
-内置-冲击宝石:
+冲击宝石:
   Name: 冲击宝石
   Require:
     - BOW
@@ -560,7 +558,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=ARROW_KNOCKBACK;limit=15}
 
-内置-真冲击宝石:
+真冲击宝石:
   Name: 真·冲击宝石
   Require:
     - BOW
@@ -575,7 +573,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=ARROW_KNOCKBACK;limit=30}
 
-内置-水下呼吸宝石:
+水下呼吸宝石:
   Name: 水下呼吸宝石
   Require:
     - HELMET
@@ -590,7 +588,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=OXYGEN;limit=6}
 
-内置-真水下呼吸宝石:
+真水下呼吸宝石:
   Name: 真·水下呼吸宝石
   Require:
     - HELMET
@@ -605,7 +603,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=OXYGEN;limit=15}
 
-内置-亡灵杀手宝石:
+亡灵杀手宝石:
   Name: 亡灵杀手宝石
   Require:
     - _AXE
@@ -621,7 +619,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_UNDEAD;limit=15}
 
-内置-真亡灵杀手宝石:
+真亡灵杀手宝石:
   Name: 真·亡灵杀手宝石
   Require:
     - _AXE
@@ -637,7 +635,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_UNDEAD;limit=40}
 
-内置-神亡灵杀手宝石:
+神亡灵杀手宝石:
   Name: 神·亡灵杀手宝石
   Require:
     - _AXE
@@ -655,7 +653,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_UNDEAD}
 
-内置-节肢杀手宝石:
+节肢杀手宝石:
   Name: 节肢杀手宝石
   Require:
     - _AXE
@@ -671,7 +669,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_ARTHROPODS;limit=15}
 
-内置-真节肢杀手宝石:
+真节肢杀手宝石:
   Name: 真·节肢杀手宝石
   Require:
     - _AXE
@@ -687,7 +685,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_ARTHROPODS;limit=40}
 
-内置-神节肢杀手宝石:
+神节肢杀手宝石:
   Name: 神·节肢杀手宝石
   Require:
     - _AXE
@@ -705,7 +703,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=DAMAGE_ARTHROPODS}
 
-内置-横扫之刃宝石:
+横扫之刃宝石:
   Name: 横扫之刃宝石
   Require:
     - SWORD
@@ -720,7 +718,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=SWEEPING_EDGE;limit=10}
 
-内置-灵魂疾行宝石:
+灵魂疾行宝石:
   Name: 灵魂疾行宝石
   Require:
     - BOOTS
@@ -735,7 +733,7 @@ Version: 1.05
   Rewards:
     - Enchant{name=SOUL_SPEED;limit=10}
 
-内置-真灵魂疾行宝石:
+真灵魂疾行宝石:
   Name: 真·灵魂疾行宝石
   Require:
     - BOOTS

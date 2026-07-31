@@ -1,6 +1,5 @@
 package mc233.`fun`.snowygems.manager
 
-import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
@@ -49,6 +48,6 @@ object GemProtectListener {
     }
 
     private fun warn(player: Player) {
-        player.sendMessage(Lang.get("gem.protect"))
+        Lang.send(player, "gem.protect")
     }
 }

@@ -2,7 +2,7 @@ package mc233.`fun`.snowygems.manager
 
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.GemType
-import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.DebugUtil
 import org.bukkit.entity.Player
@@ -64,7 +64,7 @@ object GemUseListener {
         }
         val result = GemManager.useDirectly(player, held)
         DebugUtil.log("GemUse", "  useDirectly 返回 success=${result.success} consumed=${result.consumedGem} msg=${result.message}")
-        player.sendMessage(ColorUtil.colorize(result.message))
+        Lang.sendRaw(player, result.message)
         if (result.consumedGem) {
             val left = held.clone()
             left.amount -= 1
