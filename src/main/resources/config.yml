@@ -1,8 +1,6 @@
 # SnowyGems 全局设置
 
 # 调试模式: 开启后会把插件全部交互逻辑的执行过程输出到控制台
-#   包括: 菜单打开/渲染/点击, 宝石镶嵌与拆除, 命令执行, 右键使用,
-#         技能触发与执行, BUFF 施加, 奖励函数执行, 配置文件加载, 版本兼容探测
 # 排查问题时打开, 平时建议关闭(日志量较大)
 Debug: false
 
@@ -71,6 +69,7 @@ UpdateChecker:
   Announcement: true
   AdminPermission: snowygems.admin
   NotifyAdminOnJoin: true
+  # 请不要修改下面的两个链接
   VersionUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/version.txt"
   AnnouncementUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/ann.txt"
   Timeout: 8
