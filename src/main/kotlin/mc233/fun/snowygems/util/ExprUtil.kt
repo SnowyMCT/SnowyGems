@@ -49,7 +49,6 @@ object ExprUtil {
             return cond
         }
 
-        /** 比较: a < b / a <= b / a > b / a >= b / a == b / a != b, 结果 1.0 或 0.0 */
         private fun parseComparison(): Double {
             val left = parseExpression()
             skipSpaces()
@@ -67,7 +66,6 @@ object ExprUtil {
             return if (r) 1.0 else 0.0
         }
 
-        /** 读取一个比较运算符(如果当前位置是的话), 并前移 pos */
         private fun matchComparator(): String? {
             skipSpaces()
             if (pos >= src.length) return null
@@ -135,7 +133,6 @@ object ExprUtil {
         }
     }
 
-    /** 从格式化文本(如 "12.34%" / "+5")中提取第一个数字, 找不到返回 0.0 */
     fun extractNumber(text: String): Double {
         val m = Regex("""-?\d+(\.\d+)?""").find(text) ?: return 0.0
         return m.value.toDoubleOrNull() ?: 0.0

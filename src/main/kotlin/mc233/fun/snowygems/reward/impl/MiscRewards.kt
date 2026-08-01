@@ -1,5 +1,8 @@
 package mc233.`fun`.snowygems.reward.impl
 
+import mc233.`fun`.snowygems.compat.EnchantAliases
+import mc233.`fun`.snowygems.compat.Registries
+import mc233.`fun`.snowygems.compat.ServerVersion
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.economy.MoneyEconomy
 import mc233.`fun`.snowygems.economy.PointsEconomy
@@ -24,7 +27,17 @@ class EnchantReward(private val name: String, private val level: Int?, private v
             return false
         }
         val enchant = resolveEnchant(name) ?: run {
-            DebugUtil.log("Reward", "    Enchant 失败: 无法识别附魔名 $name (1.21 请用 unbreaking/sharpness 这类命名空间ID)")
+            // 区分两种失败: 认识这个旧名但当前版本没有 vs 名字压根不认识
+            val mapped = EnchantAliases.keyOf(name)
+            DebugUtil.log(
+                "Reward",
+                "    Enchant 跳过: 附魔 $name " + if (mapped != null) {
+                    "(现代键=$mapped) 在当前版本 ${ServerVersion.minecraftVersion} 的注册表中不存在"
+                } else {
+                    "不在当前版本的注册表中. 请用现代命名空间ID" +
+                        "(sharpness/unbreaking/density/breach/wind_burst), 或确认它需要更高版本的服务端"
+                }
+            )
             return false
         }
         val curLevel = item.getEnchantmentLevel(enchant)
@@ -61,70 +74,37 @@ class EnchantReward(private val name: String, private val level: Int?, private v
         return true
     }
 
+    /** 拆卸撤销: 未指定 level 的累加式附魔按"降 1 级"处理; 指定了 level 的直接移除该附魔 */
+    override fun revert(ctx: RewardContext): Boolean {
+        val item = ctx.item ?: return false
+        val enchant = resolveEnchant(name) ?: return false
+        val curLevel = item.getEnchantmentLevel(enchant)
+        if (curLevel <= 0) return false
+        if (level != null && level > 0) {
+            // 定级附魔: 整体移除
+            item.removeEnchantment(enchant)
+            DebugUtil.log("Reward", "    Enchant(${enchant.key.key}) 撤销: 移除定级附魔(原 $curLevel)")
+        } else {
+            val next = curLevel - 1
+            if (next <= 0) item.removeEnchantment(enchant)
+            else item.addUnsafeEnchantment(enchant, next)
+            DebugUtil.log("Reward", "    Enchant(${enchant.key.key}) 撤销: $curLevel -> ${next.coerceAtLeast(0)}")
+        }
+        ctx.item = item
+        return true
+    }
+
     companion object {
         /**
-         * 旧附魔名(1.13 之前的 Bukkit 常量 / 老配置写法) -> 现代命名空间键.
-         * 1.20.5+ 起 org.bukkit.enchantments.Enchantment 换成了注册表, 旧的静态字段名
-         * (DURABILITY / DAMAGE_ALL / ARROW_DAMAGE ...) 全部被移除, 反射 getField 会失败,
-         * 而 minecraft(旧名.lowercase()) 又不是合法键, 于是解析全军覆没 -> 附魔无效果.
-         * 这里补一张兼容表, 把老配置里出现过的旧名映射到新键.
+         * 解析附魔名, 全权交给 [Registries.enchantment]:
+         *   - 现代命名空间键(sharpness / density / breach / wind_burst / minecraft:xxx)
+         *   - 1.13 之前的旧 Bukkit 常量名(DURABILITY / DAMAGE_ALL …, 见 EnchantAliases)
+         *   - 服主用数据包自定义的附魔(它们同样在注册表里)
+         *
+         * 多版本要点: 不写死任何附魔清单1.21 的锤附魔(密度/穿透/风爆)、以及后续版本
+         * 新增的附魔, 只要服务端注册表里有就能用; 老版本上写了新附魔会跳过并提示, 不会连锁失败
          */
-        private val LEGACY = mapOf(
-            "DURABILITY" to "unbreaking",
-            "DAMAGE_ALL" to "sharpness",
-            "DAMAGE_UNDEAD" to "smite",
-            "DAMAGE_ARTHROPODS" to "bane_of_arthropods",
-            "ARROW_DAMAGE" to "power",
-            "ARROW_KNOCKBACK" to "punch",
-            "ARROW_FIRE" to "flame",
-            "ARROW_INFINITE" to "infinity",
-            "LOOT_BONUS_BLOCKS" to "fortune",
-            "LOOT_BONUS_MOBS" to "looting",
-            "DIG_SPEED" to "efficiency",
-            "OXYGEN" to "respiration",
-            "WATER_WORKER" to "aqua_affinity",
-            "PROTECTION_ENVIRONMENTAL" to "protection",
-            "PROTECTION_FIRE" to "fire_protection",
-            "PROTECTION_FALL" to "feather_falling",
-            "PROTECTION_EXPLOSIONS" to "blast_protection",
-            "PROTECTION_PROJECTILE" to "projectile_protection",
-            "LUCK" to "luck_of_the_sea",
-            "LURE" to "lure",
-            "SWEEPING_EDGE" to "sweeping_edge",
-            "SWEEPING" to "sweeping_edge",
-            "DURABILITY_MENDING" to "mending"
-        )
-
-        fun resolveEnchant(name: String): Enchantment? {
-            val raw = name.trim()
-            // 1) 直接当现代命名空间键解析 (sharpness / unbreaking / minecraft:sharpness)
-            byKey(raw)?.let { return it }
-            // 2) 旧名兼容表
-            LEGACY[raw.uppercase()]?.let { mapped -> byKey(mapped)?.let { return it } }
-            // 3) 兜底: 老 Bukkit 静态字段名反射(在仍保留旧字段的版本上还能命中)
-            for (c in listOf(raw.uppercase(), raw.lowercase())) {
-                try {
-                    val f = Enchantment::class.java.getField(c)
-                    (f.get(null) as? Enchantment)?.let { return it }
-                } catch (ignored: Exception) {
-                }
-            }
-            return null
-        }
-
-        private fun byKey(key: String): Enchantment? = try {
-            val k = key.lowercase()
-            val nsKey = if (k.contains(':')) {
-                val (ns, path) = k.split(':', limit = 2)
-                org.bukkit.NamespacedKey(ns, path)
-            } else {
-                org.bukkit.NamespacedKey.minecraft(k)
-            }
-            @Suppress("DEPRECATION")
-            Enchantment.getByKey(nsKey)
-        } catch (e: Exception) {
-            null
-        }
+        fun resolveEnchant(name: String): Enchantment? = Registries.enchantment(name)
     }
 }
 
@@ -175,6 +155,11 @@ class PointReward(private val amountExpr: String) : Reward {
         val amount = ExprUtil.eval(amountExpr)
         DebugUtil.log("Reward", "    Point: 表达式 $amountExpr -> $amount 点券, 目标=${player.name}")
         PointsEconomy.add(player, amount)
+        // 主动提示玩家获得了多少(取整展示, 因为点券是整数量级)
+        mc233.`fun`.snowygems.util.Lang.send(
+            player, "reward.point-gain",
+            "amount" to amount.toLong().toString()
+        )
         return true
     }
 }
@@ -185,6 +170,11 @@ class MoneyReward(private val amountExpr: String) : Reward {
         val amount = ExprUtil.eval(amountExpr)
         val ok = MoneyEconomy.add(player, amount)
         DebugUtil.log("Reward", "    Money: 表达式 $amountExpr -> $amount 金币, 目标=${player.name} 结果=$ok")
+        if (ok) {
+            // 金币可能有小数, 整数时不显示小数点
+            val shown = if (amount == amount.toLong().toDouble()) amount.toLong().toString() else "%.2f".format(amount)
+            mc233.`fun`.snowygems.util.Lang.send(player, "reward.money-gain", "amount" to shown)
+        }
         return ok
     }
 }

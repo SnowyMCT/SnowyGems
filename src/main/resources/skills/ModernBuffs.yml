@@ -1,0 +1,124 @@
+# ============================================================
+#  新版本 BUFF 定义  ModernBuffs.yml
+# ============================================================
+#  这里定义的是「装备 lore 上带某个标记时, 每秒该做什么」
+#  与 gems/ModernGem.yml 里的 BUFF 宝石**成对使用**:
+#
+#    宝石那边:  LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l渗浆}
+#    这里:      Lore: "&6&l[&c&lBUFF&6&l] &b&l渗浆"
+#
+#  两边文本必须一致, 否则镶嵌上了却没有任何效果(引擎靠这行文本反查该跑哪个 BUFF)
+#  匹配时会去掉颜色码并 trim, 所以颜色写法上的小差异不影响
+#
+#  ── 工作原理 ────────────────────────────────────────────
+#  BUFF 引擎每秒扫描每个在线玩家的主手/副手/四件盔甲, 命中 Lore 标记就执行
+#  该定义里带 ~onTimer 的技能行因为是每秒重新施加, 效果时长只要 ≥2 秒就不会闪断
+#
+#  ── 可叠加等级的 BUFF ───────────────────────────────────
+#  宝石用 LoreVar 在 lore 上写"标记 + 数字", 这里用
+#    $LORE:标记?默认值$
+#  把那个数字读回来当等级注意标记要去掉颜色码写
+#
+#  ── 低版本兼容 ──────────────────────────────────────────
+#  本文件的效果都是 1.21+ 才有的低版本服务端上这些行会被跳过并在控制台说明,
+#  其余 BUFF(DefaultBuffs.yml)照常工作用 /sgem compat 查看支持情况
+# ============================================================
+
+
+# ── 1.21+ 试炼密室四个新效果 ───────────────────────────────
+
+# 渗浆: 死亡时生成两只史莱姆
+渗浆:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l渗浆"
+  Skills:
+    - Potion{type=oozing} ~onTimer
+
+# 盘丝: 死亡时在周围生成蜘蛛网
+盘丝:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l盘丝"
+  Skills:
+    - Potion{type=weaving} ~onTimer
+
+# 寄生: 受伤时生成蠹虫
+寄生:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l寄生"
+  Skills:
+    - Potion{type=infested} ~onTimer
+
+# 蓄风: 跳跃更高, 落地时产生风爆
+蓄风:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l蓄风"
+  Skills:
+    - Potion{type=wind_charged} ~onTimer
+
+# 蓄风(可叠加等级版) —— 配合 gems 里的「蓄风药水·强化」
+# lore 上写的是 "[BUFF] 蓄风等级 2" 这种形式, 这里把 2 读出来当等级
+蓄风等级:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l蓄风等级 "
+  Skills:
+    - Potion{type=wind_charged;level=$LORE:[BUFF] 蓄风等级?1$} ~onTimer
+
+
+# ── 1.21+ 不祥之兆系列 ─────────────────────────────────────
+# ⚠️ 以下定义**没有配套宝石**, 只是把标记准备好了
+#    要用它们, 二选一:
+#      a) 在 gems/ 里写一颗宝石, Rewards 用 LoreAdd{lore=下面的 Lore 文本}
+#      b) 直接把这行 lore 加到装备上(如用其它插件/命令)
+# 试炼之兆: 进入试炼密室时触发不祥试炼
+试炼之兆:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l试炼之兆"
+  Skills:
+    - Potion{type=trial_omen} ~onTimer
+
+# 袭击之兆: 进入村庄时直接触发袭击
+袭击之兆:
+  Lore: "&6&l[&c&lBUFF&6&l] &b&l袭击之兆"
+  Skills:
+    - Potion{type=raid_omen} ~onTimer
+
+
+# ════════════════════════════════════════════════════════════
+#  组合型 BUFF —— 展示新技能引擎能做什么
+# ════════════════════════════════════════════════════════════
+#  onTimer 上同样能用 If / Chance / All 这些控制流函数, 于是可以写出
+#  "满足条件才生效"的智能 BUFF, 而不只是无脑常驻一个效果
+#
+#  ⚠️ 这一节的定义同样**没有配套宝石**, 是给你抄改的模板
+#     照 gems/ModernGem.yml 里 BUFF 宝石的写法加一颗即可(LoreAdd 的 lore 抄下面的 Lore)
+
+# 濒死爆发: 只在血量低于 30% 时给抗性和回血
+# If 的条件变量: health(生命比例0~1) / raw_health / max_health / food / level / y
+濒死爆发:
+  Lore: "&6&l[&c&lBUFF&6&l] &c&l濒死爆发"
+  Skills:
+    - If{c=health<0.3;All{Potion{type=resistance;level=2};Potion{type=regeneration;level=2}}} ~onTimer
+
+# 深海之子: 只在水下才给水下呼吸和挖掘加成
+# 说明: 这里用 y<62 近似判断"在海平面以下", 引擎没有 in_water 变量
+#       想精确判断可以改用 y 加上你服务器海平面高度
+深海之子:
+  Lore: "&6&l[&c&lBUFF&6&l] &3&l深海之子"
+  Skills:
+    - If{c=y<62;All{Potion{type=water_breathing};Potion{type=conduit_power}}} ~onTimer
+
+# 矿工直觉: 在 y<0(深板岩层/深暗之域)时给夜视和急迫
+矿工直觉:
+  Lore: "&6&l[&c&lBUFF&6&l] &e&l矿工直觉"
+  Skills:
+    - If{c=y<0;All{Potion{type=night_vision;duration=15};Potion{type=haste;level=2}}} ~onTimer
+
+# 饥饿转化: 饱食度满时把多余的转成再生
+饱食再生:
+  Lore: "&6&l[&c&lBUFF&6&l] &a&l饱食再生"
+  Skills:
+    - If{c=food>=18;Potion{type=regeneration}} ~onTimer
+
+# 不稳定祝福: 每秒 10% 概率随机给一个正面效果
+# Chance 的 p 是 0~1 的概率, 嵌套里可以再套 All
+不稳定祝福:
+  Lore: "&6&l[&c&lBUFF&6&l] &d&l不稳定祝福"
+  Skills:
+    - Chance{p=0.1;Potion{type=speed;level=2;duration=5}} ~onTimer
+    - Chance{p=0.1;Potion{type=strength;duration=5}} ~onTimer
+    - Chance{p=0.1;Potion{type=absorption;level=2;duration=5}} ~onTimer
+    - Chance{p=0.02;Potion{type=wind_charged;duration=5}} ~onTimer

@@ -1,5 +1,8 @@
 package mc233.`fun`.snowygems.commands
 
+import mc233.`fun`.snowygems.Permissions
+import mc233.`fun`.snowygems.SnowyGems
+import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
@@ -7,8 +10,9 @@ import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
-import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.skill.SkillFunctions
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
@@ -19,6 +23,10 @@ import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.expansion.createHelper
 
+/**
+ * 指令
+ */
+
 @CommandHeader(name = "sgem", permission = "snowygems.command")
 object GemCommand {
 
@@ -27,8 +35,7 @@ object GemCommand {
         createHelper()
     }
 
-    /** /sgem view - 管理员分类浏览/领取宝石 */
-    @CommandBody
+    @CommandBody(permission = Permissions.VIEW)
     val view = subCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem view")
@@ -36,8 +43,7 @@ object GemCommand {
         }
     }
 
-    /** /sgem embed - 打开宝石镶嵌台(属性/附魔/功能/BUFF 类宝石通用) */
-    @CommandBody
+    @CommandBody(permission = Permissions.EMBED)
     val embed = subCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem embed")
@@ -45,8 +51,7 @@ object GemCommand {
         }
     }
 
-    /** /sgem inspect - 查看手持装备上已镶嵌的宝石 */
-    @CommandBody
+    @CommandBody(permission = Permissions.INSPECT)
     val inspect = subCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem inspect, 手持=${sender.inventory.itemInMainHand.type}")
@@ -54,19 +59,27 @@ object GemCommand {
         }
     }
 
-    /** /sgem use - 直接使用手持的兑换券/药水类宝石 */
-    @CommandBody
+    /** /sgem dismantle - 打开拆卸界面(按 config.yml 收费 + 损坏概率拆卸已镶嵌宝石) */
+    @CommandBody(permission = Permissions.DISMANTLE)
+    val dismantle = subCommand {
+        execute<Player> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem dismantle, 手持=${sender.inventory.itemInMainHand.type}")
+            GemGui.openDismantle(sender)
+        }
+    }
+
+    @CommandBody(permission = Permissions.USE)
     val use = subCommand {
         execute<Player> { sender, _, _ ->
             val held = sender.inventory.itemInMainHand
             DebugUtil.log("Command", "${sender.name} 执行 /sgem use, 手持=${held.type} x${held.amount}")
             if (held.type == Material.AIR) {
-                sender.sendMessage(ColorUtil.colorize("&c请先手持要使用的宝石"))
+                Lang.sendCommand(sender, "command.no-held-gem")
                 return@execute
             }
             val result = GemManager.useDirectly(sender, held)
             DebugUtil.log("Command", "  useDirectly 返回 success=${result.success} consumed=${result.consumedGem} msg=${result.message}")
-            sender.sendMessage(ColorUtil.colorize(result.message))
+            Lang.sendRaw(sender, result.message)
             if (result.consumedGem && result.success) {
                 val left = held.clone()
                 left.amount -= 1
@@ -75,8 +88,7 @@ object GemCommand {
         }
     }
 
-    /** /sgem open <菜单名> - 打开 gui.yml / rune.yml 中定义的工作台菜单 */
-    @CommandBody
+    @CommandBody(permission = Permissions.OPEN)
     val open = subCommand {
         dynamic("menu") {
             suggestion<CommandSender>(uncheck = true) { _, _ -> MenuRegistry.names().toList() }
@@ -87,8 +99,7 @@ object GemCommand {
         }
     }
 
-    /** /sgem give <玩家> <宝石ID> [数量] */
-    @CommandBody
+    @CommandBody(permission = Permissions.GIVE)
     val give = subCommand {
         dynamic("player") {
             dynamic("gem") {
@@ -105,11 +116,7 @@ object GemCommand {
         }
     }
 
-    /**
-     * /sgem debug              - 临时开关调试输出
-     * /sgem debug <tag[,tag]>  - 只输出指定 tag, 传 all 恢复全部
-     */
-    @CommandBody
+    @CommandBody(permission = Permissions.DEBUG)
     val debug = subCommand {
         dynamic("tags") {
             suggestion<CommandSender>(uncheck = true) { _, _ ->
@@ -119,54 +126,134 @@ object GemCommand {
                 val raw = context["tags"]
                 if (raw.equals("all", true)) {
                     DebugUtil.setTags(emptyList())
-                    sender.sendMessage(ColorUtil.colorize("&a[SnowyGems] 调试输出范围已设为: &f全部"))
+                    Lang.sendCommand(sender, "command.debug-scope-all")
                 } else {
                     val list = raw.split(",", " ").filter { it.isNotBlank() }
                     DebugUtil.setTags(list)
-                    sender.sendMessage(ColorUtil.colorize("&a[SnowyGems] 调试输出范围已设为: &f${list.joinToString(",")}"))
+                    Lang.sendCommand(sender, "command.debug-scope", "scope" to list.joinToString(","))
                 }
             }
         }
         execute<CommandSender> { sender, _, _ ->
             val now = DebugUtil.toggle()
-            val scope = if (DebugUtil.tags().isEmpty()) "全部" else DebugUtil.tags().joinToString(",")
-            sender.sendMessage(
-                ColorUtil.colorize(
-                    if (now) "&a[SnowyGems] 调试模式已临时开启, 输出范围: &f$scope &7(重载后以 config.yml 为准)"
-                    else "&7[SnowyGems] 调试模式已临时关闭"
-                )
-            )
+            val scope = if (DebugUtil.tags().isEmpty()) Lang.get("common.scope-all") else DebugUtil.tags().joinToString(",")
+            if (now) Lang.sendCommand(sender, "command.debug-on", "scope" to scope)
+            else Lang.sendCommand(sender, "command.debug-off")
         }
     }
 
-    /** /sgem reload - 重新加载所有配置 */
-    @CommandBody
+    @CommandBody(permission = Permissions.COMPAT)
+    val compat = subCommand {
+        dynamic("mode") {
+            suggestion<CommandSender>(uncheck = true) { _, _ -> listOf("all") }
+            execute<CommandSender> { sender, context, _ ->
+                val verbose = context["mode"].equals("all", true)
+                DebugUtil.log("Command", "${sender.name} 执行 /sgem compat ${context["mode"]}")
+                CompatReport.lines(verbose).forEach { sender.sendMessage(it) }
+            }
+        }
+        execute<CommandSender> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem compat")
+            CompatReport.lines(false).forEach { sender.sendMessage(it) }
+        }
+    }
+
+    @CommandBody(permission = Permissions.SKILLS)
+    val skills = subCommand {
+        dynamic("keyword") {
+            suggestion<CommandSender>(uncheck = true) { _, _ ->
+                SkillFunctions.all().map { it.name }
+            }
+            execute<CommandSender> { sender, context, _ ->
+                showSkillFunctions(sender, context["keyword"])
+            }
+        }
+        execute<CommandSender> { sender, _, _ ->
+            showSkillFunctions(sender, null)
+        }
+    }
+
+    @CommandBody(permission = Permissions.TRIGGERS)
+    val triggers = subCommand {
+        execute<CommandSender> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem triggers")
+            sender.sendMessage(Lang.get("triggers.divider"))
+            sender.sendMessage(Lang.get("triggers.title"))
+            Lang.getList("triggers.list").forEach { sender.sendMessage(it) }
+            sender.sendMessage(Lang.get("triggers.footer"))
+            sender.sendMessage(Lang.get("triggers.divider"))
+        }
+    }
+
+    @CommandBody(permission = Permissions.RELOAD)
     val reload = subCommand {
         execute<CommandSender> { sender, _, _ ->
             val start = System.currentTimeMillis()
-            DebugUtil.reload()
             DebugUtil.log("Command", "${sender.name} 执行 /sgem reload")
-            GemRegistry.reload()
-            MenuRegistry.reload()
-            SkillRegistry.reload()
+            // 统一走主类的 reloadAll, 避免命令层和主类两份重载顺序不一致
+            SnowyGems.reloadAll()
             val cost = System.currentTimeMillis() - start
             DebugUtil.log("Command", "重载完成, 耗时 ${cost}ms")
-            sender.sendMessage(ColorUtil.colorize("&a[SnowyGems] 配置已重新加载 &7(${cost}ms)"))
+            Lang.sendCommand(sender, "command.reload", "time" to cost)
         }
+    }
+
+    private fun showSkillFunctions(sender: CommandSender, keyword: String?) {
+        DebugUtil.log("Command", "${sender.name} 执行 /sgem skills ${keyword ?: ""}")
+        val all = SkillFunctions.all()
+        val filtered = if (keyword.isNullOrBlank()) all else all.filter {
+            it.name.contains(keyword, true) ||
+                it.aliases.any { a -> a.contains(keyword, true) } ||
+                it.description.contains(keyword, true)
+        }
+        sender.sendMessage(Lang.get("skills.divider"))
+        if (keyword.isNullOrBlank()) {
+            sender.sendMessage(Lang.get("skills.title", "shown" to filtered.size, "total" to all.size))
+        } else {
+            sender.sendMessage(
+                Lang.get("skills.title-keyword", "shown" to filtered.size, "total" to all.size, "keyword" to keyword)
+            )
+        }
+        if (filtered.isEmpty()) {
+            sender.sendMessage(Lang.get("skills.empty"))
+        }
+        val markOk = Lang.get("skills.mark-ok")
+        val markBad = Lang.get("skills.mark-bad")
+        for (f in filtered) {
+            sender.sendMessage(
+                Lang.get(
+                    "skills.entry",
+                    "mark" to if (f.isAvailable()) markOk else markBad,
+                    "name" to f.name,
+                    "usage" to f.usage
+                )
+            )
+            if (f.description.isNotBlank()) {
+                sender.sendMessage(Lang.get("skills.entry-desc", "desc" to f.description))
+            }
+            if (f.aliases.isNotEmpty()) {
+                sender.sendMessage(Lang.get("skills.entry-aliases", "aliases" to f.aliases.joinToString("/")))
+            }
+            if (!f.isAvailable() && f.requires.isNotBlank()) {
+                sender.sendMessage(Lang.get("skills.entry-unavailable", "requires" to f.requires))
+            }
+        }
+        sender.sendMessage(Lang.get("skills.footer"))
+        sender.sendMessage(Lang.get("skills.divider"))
     }
 
     private fun doGive(sender: CommandSender, playerName: String, gemId: String, amount: Int) {
         DebugUtil.log("Command", "${sender.name} 执行 /sgem give player=$playerName gem=$gemId amount=$amount")
         val target = Bukkit.getPlayer(playerName)
         if (target == null) {
-            sender.sendMessage(ColorUtil.colorize("&c玩家不在线: $playerName"))
+            Lang.sendCommand(sender, "command.no-player", "player" to playerName)
             return
         }
         if (GemRegistry.get(gemId) == null) {
-            sender.sendMessage(ColorUtil.colorize("&c未知的宝石配置: $gemId"))
+            Lang.sendCommand(sender, "command.no-gem", "gem" to gemId)
             return
         }
         GemManager.give(target, gemId, amount.coerceAtLeast(1))
-        sender.sendMessage(ColorUtil.colorize("&a已给予 ${target.name} x$amount 个 $gemId"))
+        Lang.sendCommand(sender, "command.give", "player" to target.name, "gem" to gemId, "amount" to amount)
     }
 }

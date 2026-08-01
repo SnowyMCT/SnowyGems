@@ -35,9 +35,7 @@ data class GemConfig(
     val texture: String? = null,
     val material: String? = null,
     val glow: Boolean = false,
-    /** 成功率 (1-100), 默认 100 即必定成功 */
     val success: Int = 100,
-    /** 该宝石占用的镶嵌位权重, 0 表示不是镶嵌类宝石 */
     val embed: Int = 0,
     val color: String? = null,
     val eat: Boolean = false,
@@ -53,7 +51,6 @@ data class GemConfig(
     val category: String = "Other"
 )
 
-/** gui.yml / rune.yml 中一个菜单格子按钮的定义 */
 data class MenuItemDef(
     val char: Char,
     val type: String,
@@ -63,15 +60,11 @@ data class MenuItemDef(
     val tips: List<String> = emptyList(),
     val require: List<String> = emptyList(),
     val amount: Int = 1,
-    /** 头颜料 base64 材质, 有值时图标强制使用 PLAYER_HEAD */
     val texture: String? = null,
-    /** USE_GEM 类型引用的宝石ID */
     val gem: String? = null,
-    /** PAGE_JUMP 类型跳转到的菜单名 */
     val gui: String? = null
 )
 
-/** gui.yml / rune.yml 中一个完整菜单的定义 */
 data class MenuLayout(
     val name: String,
     val title: String,
@@ -82,12 +75,10 @@ data class MenuLayout(
     val size get() = rows.size * 9
 }
 
-/** skills 目录下 yml 文件中一个技能/BUFF 的定义 (原始字符串形式, 由 SkillEngine 解释执行) */
 data class SkillDef(
     val id: String,
     val lore: String? = null,
     val cooldown: Double = 0.0,
     val cooldownTip: String? = null,
-    /** 原始 Kether 式技能行, 形如 "PotionBuff{type=SPEED} ~onTimer" */
     val skills: List<String> = emptyList()
 )

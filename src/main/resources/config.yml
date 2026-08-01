@@ -2,13 +2,14 @@
 
 # 调试模式: 开启后会把插件全部交互逻辑的执行过程输出到控制台
 #   包括: 菜单打开/渲染/点击, 宝石镶嵌与拆除, 命令执行, 右键使用,
-#         技能触发与执行, BUFF 施加, 奖励函数执行, 配置文件加载
+#         技能触发与执行, BUFF 施加, 奖励函数执行, 配置文件加载, 版本兼容探测
 # 排查问题时打开, 平时建议关闭(日志量较大)
 Debug: false
 
 # 调试输出的 tag 白名单, 留空表示输出全部.
 # 可用 tag:
 #   Registry   - 配置文件加载(宝石/菜单/技能)
+#   Compat     - 版本兼容层(注册表快照/物品分类/能力探测)
 #   Command    - /sgem 各子命令
 #   Menu       - 工作台菜单的点击/拖拽/关闭/镶嵌
 #   Workbench  - 工作台菜单的打开与图标渲染
@@ -25,11 +26,104 @@ Debug: false
 #   Points     - 点券账户
 #   Money      - Vault 经济
 #   PlayerPoints - PlayerPoints 插件对接过程
+#   Update     - 版本更新检测与公告拉取
+#   Dismantle  - 拆卸宝石(扣费/损坏判定)
 # 例: DebugTags: [Menu, GemManager, Reward]  只看镶嵌相关的日志
 DebugTags: []
 
 # 点券系统使用的后端:
-#   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认)
+#   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认) 不推荐在正式服务器中使用
 #   PlayerPoints - 对接 PlayerPoints 插件 (需要服务器已安装 PlayerPoints)
 Points:
   Provider: Internal
+
+# ============================================================
+#  拆卸宝石 (/sgem dismantle)
+# ============================================================
+#  玩家用 /sgem dismantle 打开拆卸界面, 点击已镶嵌的宝石即可拆下。
+#  拆卸会撤销该宝石对装备的全部加成(属性/附魔), 并按下列规则收费与判定损坏。
+# ============================================================
+Dismantle:
+  # 拆卸费用
+  Cost:
+    # 是否收取拆卸费用
+    Enabled: true
+    # 费用类型: money(金币, 需 Vault) / points(点券) / exp(经验等级)
+    Type: money
+    # 费用数额(exp 类型时取整数级数)
+    Amount: 100
+  # 拆卸时宝石损坏(不返还)的概率, 0~100。0 表示永不损坏, 拆下必返还。
+  BreakChance: 20
+
+# ============================================================
+#  版本更新检测 & 公告
+# ============================================================
+#  服务器完全启动后(控制台出现 Done 之后)会静默联网检测一次:
+#    - 从 VersionUrl 读取最新版本号, 与当前插件版本比较, 有新版本就在控制台提示
+#    - 从 AnnouncementUrl 读取公告文本, 逐行打印到控制台
+#  拥有管理员权限(AdminPermission)或 OP 的玩家上线时, 也会单独收到同样的提示
+#
+#  联网走 JDK 自带 HTTP, 会自动遵循服务端启动参数里的系统代理(-Dhttp.proxyHost 等),
+#  插件不写死任何代理检测失败(超时/无网络)只在开启 Debug 时记一条日志, 不影响启动
+# ============================================================
+UpdateChecker:
+  Enabled: true
+  Announcement: true
+  AdminPermission: snowygems.admin
+  NotifyAdminOnJoin: true
+  VersionUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/version.txt"
+  AnnouncementUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/ann.txt"
+  Timeout: 8
+
+# ============================================================
+#  多版本兼容
+# ============================================================
+#  本插件支持 1.21.4 起的全部版本(含 26.x)
+#
+#  启动时读取服务端的注册表, 有什么就支持什么
+#  因此新版本加入的物品(矛/铜盔甲)、属性(scale/交互距离/水下挖掘速度)、附魔(密度/穿透/风爆)、
+#  药水效果(渗浆/寄生/盘丝/蓄风), 都会自动可用, 不需要更新插件
+#
+#  用 /sgem compat 可以查看当前服务端到底支持哪些能力
+# ============================================================
+Compat:
+
+  # 配置里用到了当前版本不存在的东西时如何处理:
+  #   skip  - 跳过这一条, 在控制台记一条说明, 其它内容照常生效 (默认, 推荐)
+  #   warn  - 同 skip, 但每次都用醒目的警告级别输出(排查配置时用)
+  #   strict- 加载配置时就报错, 让服主必须改对才能启动(适合正式服上线前自检)
+  OnMissingFeature: skip
+
+  # 启动时是否在控制台打印版本能力简报
+  # 关掉之后仍可用 /sgem compat 随时查看
+  ReportOnStartup: true
+
+  # 按版本自动启停的功能模块.
+  # auto  = 由服务端注册表决定(有就开, 没有就关) —— 推荐
+  # true  = 强制开启(注册表里没有时相关配置会报"跳过")
+  # false = 强制关闭(即使服务端支持也不启用)
+  Modules:
+
+    # 1.21+ 锤(MACE)相关: 锤专属附魔(密度/穿透/风爆)与锤的分类匹配
+    Mace: auto
+
+    # 1.21.11+ 矛(SPEAR)相关: 矛(木/石/铜/铁/金/钻/下界合金)的分类匹配、专属附魔「突进」(lunge)
+    #                          以及 ~onHit:SPEAR / ~onLaunch:SPEAR 触发
+    Spear: auto
+
+    # 1.21.9+ 铜装备: 铜盔甲与铜工具纳入 ARMOR / TOOL 分类
+    CopperEquipment: auto
+
+    # 1.20.5+ 新属性: scale(体型) / block_interaction_range / entity_interaction_range
+    #                jump_strength / gravity / max_absorption / safe_fall_distance 等
+    ModernAttributes: auto
+
+    # 1.21.2+ 挖掘与移动类属性: submerged_mining_speed / mining_efficiency / movement_efficiency
+    MiningAttributes: auto
+
+    # 1.21+ 试炼密室新增药水效果: oozing / infested / weaving / wind_charged
+    #                            trial_omen / raid_omen
+    TrialEffects: auto
+
+    # 26.x 新属性: waypoint_transmit_range / waypoint_receive_range / camera_distance
+    WaypointAttributes: auto

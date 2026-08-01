@@ -8,6 +8,7 @@ import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.ItemRequireMatcher
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -41,16 +42,12 @@ import taboolib.platform.util.giveItem
  */
 object EmbedGui {
 
-    /** 装备槽: 放要被强化/镶嵌的那件装备 */
     const val EQUIP_SLOT = 20
 
-    /** 宝石槽: 放要消耗掉的宝石 */
     const val GEM_SLOT = 24
 
-    /** 确认按钮 */
     const val CONFIRM_SLOT = 22
 
-    /** 本界面的名字, 用于和宝石配置里的 `Gui:` 字段比对 */
     const val GUI_NAME = "宝石镶嵌台"
 
     private val ROWS = 6
@@ -63,7 +60,7 @@ object EmbedGui {
 
     fun open(player: Player) {
         val holder = EmbedHolder()
-        val inv = Bukkit.createInventory(holder, SIZE, ColorUtil.colorize("&8&l&k||&b&l宝石镶嵌台&8&l&k||"))
+        val inv = Bukkit.createInventory(holder, SIZE, Lang.get("embed.title"))
         holder.inv = inv
         decorate(inv)
         refreshConfirm(inv)
@@ -80,16 +77,16 @@ object EmbedGui {
         inv.setItem(GEM_SLOT, null)
         // 槽位上方的提示标签
         inv.setItem(EQUIP_SLOT - 9, buildItem(XMaterial.LIME_STAINED_GLASS_PANE) {
-            name = ColorUtil.colorize("&a&l↓ 把装备放在下面 ↓")
+            name = Lang.get("embed.label.equip-top")
         })
         inv.setItem(GEM_SLOT - 9, buildItem(XMaterial.LIGHT_BLUE_STAINED_GLASS_PANE) {
-            name = ColorUtil.colorize("&b&l↓ 把宝石放在下面 ↓")
+            name = Lang.get("embed.label.gem-top")
         })
         inv.setItem(EQUIP_SLOT + 9, buildItem(XMaterial.LIME_STAINED_GLASS_PANE) {
-            name = ColorUtil.colorize("&a装备槽")
+            name = Lang.get("embed.label.equip-bottom")
         })
         inv.setItem(GEM_SLOT + 9, buildItem(XMaterial.LIGHT_BLUE_STAINED_GLASS_PANE) {
-            name = ColorUtil.colorize("&b宝石槽")
+            name = Lang.get("embed.label.gem-bottom")
         })
     }
 
@@ -100,29 +97,27 @@ object EmbedGui {
      * 返回 null 表示可以, 否则返回给玩家看的失败原因.
      */
     private fun validate(equip: ItemStack?, gem: ItemStack?): String? {
-        if (isEmpty(equip)) return "&7请先把要强化的装备放进&a装备槽"
-        if (isEmpty(gem)) return "&7请再把宝石放进&b宝石槽"
-        val gemId = ItemFactory.getGemId(gem) ?: return "&c宝石槽里的物品不是本插件的宝石"
-        val cfg = GemRegistry.get(gemId) ?: return "&c宝石配置不存在: &f$gemId"
+        if (isEmpty(equip)) return Lang.get("embed.need-equip")
+        if (isEmpty(gem)) return Lang.get("embed.need-gem")
+        val gemId = ItemFactory.getGemId(gem) ?: return Lang.get("embed.not-gem")
+        val cfg = GemRegistry.get(gemId) ?: return Lang.get("embed.gem-missing", "gem" to gemId)
         if (cfg.type != GemType.NORMAL) {
-            return "&c这类宝石请直接手持右键使用, 不需要镶嵌"
+            return Lang.get("embed.wrong-type")
         }
         // 宝石声明了专属界面(如符文台)且不包含本界面 -> 引导玩家去正确的地方
         if (cfg.gui.isNotEmpty() && cfg.gui.none { it == GUI_NAME }) {
-            return "&c该宝石需要在 &f${cfg.gui.first()} &c中使用"
+            return Lang.get("embed.wrong-gui", "gui" to cfg.gui.first())
         }
         if (ItemFactory.getGemId(equip) != null) {
-            return "&c装备槽里放的是宝石, 请放入要被强化的装备"
+            return Lang.get("embed.equip-is-gem")
         }
         val loreLines = equip!!.itemMeta?.lore?.let { ColorUtil.colorize(it) } ?: emptyList()
         if (!ItemRequireMatcher.matches(cfg.require, equip, loreLines)) {
-            val scope = if (cfg.require.isEmpty()) "任意物品" else cfg.require.joinToString("/")
-            return "&c这件装备不在该宝石的适用范围内 (需要: &f$scope&c)"
+            return Lang.get("embed.out-of-scope", "scope" to scopeOf(cfg))
         }
         return null
     }
 
-    /** 按当前槽位状态重画确认按钮 */
     private fun refreshConfirm(inv: Inventory) {
         val equip = inv.getItem(EQUIP_SLOT)
         val gem = inv.getItem(GEM_SLOT)
@@ -131,19 +126,19 @@ object EmbedGui {
 
         val icon = if (problem == null) {
             buildItem(XMaterial.LIME_DYE) {
-                name = ColorUtil.colorize("&a&l点击此处完成镶嵌")
-                lore.add(ColorUtil.colorize("&7装备: &f${equip!!.type.name}"))
+                name = Lang.get("embed.button.ready-name")
+                lore.add(Lang.get("embed.button.equip", "equip" to equip!!.type.name))
                 gemCfg?.let { appendGemInfo(this.lore, it) }
-                lore.add(ColorUtil.colorize("&7"))
-                lore.add(ColorUtil.colorize("&e镶嵌会消耗 1 个宝石"))
+                lore.add(" ")
+                lore.add(Lang.get("embed.button.cost"))
                 shiny()
             }
         } else {
             buildItem(XMaterial.GRAY_DYE) {
-                name = ColorUtil.colorize("&7暂时还不能镶嵌")
-                lore.add(ColorUtil.colorize(problem))
+                name = Lang.get("embed.button.locked-name")
+                lore.add(problem)
                 gemCfg?.let {
-                    lore.add(ColorUtil.colorize("&7"))
+                    lore.add(" ")
                     appendGemInfo(this.lore, it)
                 }
             }
@@ -153,14 +148,17 @@ object EmbedGui {
 
     /** 把宝石的成功率/适用范围/效果说明写到按钮 Lore 上 */
     private fun appendGemInfo(lore: MutableList<String>, cfg: GemConfig) {
-        lore.add(ColorUtil.colorize("&7宝石: &f${cfg.display.ifBlank { cfg.name }}"))
-        val scope = if (cfg.require.isEmpty()) "任意物品" else cfg.require.joinToString("/")
-        lore.add(ColorUtil.colorize("&7适用: &f$scope"))
-        lore.add(ColorUtil.colorize("&7成功率: &f${cfg.success}&7%"))
+        lore.add(Lang.get("embed.info.gem", "gem" to cfg.display.ifBlank { cfg.name }))
+        lore.add(Lang.get("embed.info.scope", "scope" to scopeOf(cfg)))
+        lore.add(Lang.get("embed.info.chance", "chance" to cfg.success))
         if (cfg.success < 100) {
-            lore.add(ColorUtil.colorize("&c失败会消耗宝石且不产生效果"))
+            lore.add(Lang.get("embed.info.may-fail"))
         }
     }
+
+    /** Require 为空时的"任意物品"文案也走语言文件 */
+    private fun scopeOf(cfg: GemConfig): String =
+        if (cfg.require.isEmpty()) Lang.get("common.any-item") else cfg.require.joinToString("/")
 
     @SubscribeEvent
     fun onClick(e: InventoryClickEvent) {
@@ -198,7 +196,7 @@ object EmbedGui {
         val isGem = ItemFactory.getGemId(moving) != null
         val target = if (isGem) GEM_SLOT else EQUIP_SLOT
         if (!isEmpty(inv.getItem(target))) {
-            player.sendMessage(ColorUtil.colorize(if (isGem) "&c宝石槽已经有东西了" else "&c装备槽已经有东西了"))
+            Lang.send(player, if (isGem) "embed.gem-slot-occupied" else "embed.equip-slot-occupied")
             return
         }
         val one = moving!!.clone()
@@ -255,7 +253,7 @@ object EmbedGui {
         val problem = validate(equip, gem)
         if (problem != null) {
             DebugUtil.log("Embed", "${player.name} 点击确认但条件不满足: $problem")
-            player.sendMessage(ColorUtil.colorize(problem))
+            player.sendMessage(problem)
             return
         }
 
@@ -268,7 +266,7 @@ object EmbedGui {
             "Embed",
             "  结果 success=${result.success} consumed=${result.consumedGem} 有新物品=${result.resultItem != null}"
         )
-        player.sendMessage(ColorUtil.colorize(result.message))
+        Lang.sendRaw(player, result.message)
 
         // 结果装备写回装备槽, 玩家可以接着镶下一颗
         inv.setItem(EQUIP_SLOT, result.resultItem ?: equip)
