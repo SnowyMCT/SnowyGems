@@ -27,14 +27,33 @@ Debug: false
 #   Money      - Vault 经济
 #   PlayerPoints - PlayerPoints 插件对接过程
 #   Update     - 版本更新检测与公告拉取
+#   Dismantle  - 拆卸宝石(扣费/损坏判定)
 # 例: DebugTags: [Menu, GemManager, Reward]  只看镶嵌相关的日志
 DebugTags: []
 
 # 点券系统使用的后端:
-#   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认)
+#   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认) 不推荐在正式服务器中使用
 #   PlayerPoints - 对接 PlayerPoints 插件 (需要服务器已安装 PlayerPoints)
 Points:
   Provider: Internal
+
+# ============================================================
+#  拆卸宝石 (/sgem dismantle)
+# ============================================================
+#  玩家用 /sgem dismantle 打开拆卸界面, 点击已镶嵌的宝石即可拆下。
+#  拆卸会撤销该宝石对装备的全部加成(属性/附魔), 并按下列规则收费与判定损坏。
+# ============================================================
+Dismantle:
+  # 拆卸费用
+  Cost:
+    # 是否收取拆卸费用
+    Enabled: true
+    # 费用类型: money(金币, 需 Vault) / points(点券) / exp(经验等级)
+    Type: money
+    # 费用数额(exp 类型时取整数级数)
+    Amount: 100
+  # 拆卸时宝石损坏(不返还)的概率, 0~100。0 表示永不损坏, 拆下必返还。
+  BreakChance: 20
 
 # ============================================================
 #  版本更新检测 & 公告
@@ -48,26 +67,12 @@ Points:
 #  插件不写死任何代理检测失败(超时/无网络)只在开启 Debug 时记一条日志, 不影响启动
 # ============================================================
 UpdateChecker:
-
-  # 是否开启版本更新检测(关闭后不再联网查版本)
   Enabled: true
-
-  # 是否开启公告(关闭后不再联网拉取公告)
   Announcement: true
-
-  # 谁能在上线时收到提示: 拥有此权限节点或 OP 的玩家
   AdminPermission: snowygems.admin
-
-  # 管理员上线时是否推送提示(关闭后只在控制台提示, 不打扰任何玩家)
   NotifyAdminOnJoin: true
-
-  # 版本文件地址(纯文本, 内含 version: 与 date: 两行)
   VersionUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/version.txt"
-
-  # 公告文件地址(纯文本, 每行作为一条公告, 支持 &颜色码)
   AnnouncementUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/ann.txt"
-
-  # 单次网络请求超时秒数(连接与读取各自的上限)
   Timeout: 8
 
 # ============================================================
@@ -102,7 +107,8 @@ Compat:
     # 1.21+ 锤(MACE)相关: 锤专属附魔(密度/穿透/风爆)与锤的分类匹配
     Mace: auto
 
-    # 1.21.11+ 矛(SPEAR)相关: 矛的分类匹配与 ~onHit:SPEAR / ~onLaunch:SPEAR 触发
+    # 1.21.11+ 矛(SPEAR)相关: 矛(木/石/铜/铁/金/钻/下界合金)的分类匹配、专属附魔「突进」(lunge)
+    #                          以及 ~onHit:SPEAR / ~onLaunch:SPEAR 触发
     Spear: auto
 
     # 1.21.9+ 铜装备: 铜盔甲与铜工具纳入 ARMOR / TOOL 分类

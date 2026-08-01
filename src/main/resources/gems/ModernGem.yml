@@ -484,6 +484,7 @@
 
 # ── 矛(SPEAR, 1.21.11+) ──────────────────────────────────
 # 矛既是近战武器也能投掷, 因此同时落在 WEAPON / MELEE / RANGED / SPEAR 分类里
+# 矛(木/石/铜/铁/金/钻/下界合金)靠 _SPEAR 后缀自动识别, 无需逐个列出
 # 配套技能见 skills/ExampleSkills.yml 的「穿云长矛」
 长矛精通宝石:
   Name: 长矛精通宝石
@@ -500,7 +501,44 @@
   Rewards:
     - Attribute{name=damage;operation=0;slot=hand;var=v+2;limit=10}
     - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+1;limit=3}
-    - Enchant{name=impaling;limit=5}
+
+# ── 突进宝石: 矛专属附魔「突进」(lunge, 1.21.11+) ──────────
+# lunge 是矛在 1.21.11 的专属附魔, 只能附在矛上
+突进宝石:
+  Name: 突进宝石
+  Require:
+    - SPEAR
+  Display: "&8&l&k||&e&l突进宝石&8&l&k||"
+  Tips:
+    - "&e突进宝石 &7品质: &f普通"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入矛与此宝石, 点击中间确认"
+    - "&7即可为其突进等级+1(上限3级)"
+    - "&8需要 1.21.11+ 服务端(矛)"
+  Material: BREEZE_ROD
+  Glow: true
+  SuccessTip: "&f你使用了&e&l突进宝石&f, 矛突进等级&e&l+1"
+  Rewards:
+    - Enchant{name=lunge;limit=3}
+
+真突进宝石:
+  Name: 真·突进宝石
+  Require:
+    - SPEAR
+  Display: "&8&l&k||&e&l真·突进宝石&8&l&k||"
+  Success: 80
+  Tips:
+    - "&e&l真·突进宝石 &7品质: &b&l史诗"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7放入矛与此宝石, 点击中间确认"
+    - "&7即可为其突进等级+1(上限10级)"
+    - "&7成功率: &a80%"
+    - "&8需要 1.21.11+ 服务端(矛)"
+  Material: BREEZE_ROD
+  Glow: true
+  SuccessTip: "&f你使用了&e&l真·突进宝石&f, 矛突进等级&e&l+1"
+  Rewards:
+    - Enchant{name=lunge;limit=10}
 
 # ── 铜装备 (1.21.9+) ─────────────────────────────────────
 # 用 COPPER_* 通配匹配整套铜装, 不必逐个列出

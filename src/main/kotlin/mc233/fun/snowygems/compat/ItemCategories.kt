@@ -20,6 +20,9 @@ object ItemCategories {
         "_SWORD" to setOf("WEAPON", "SWORD", "MELEE"),
         // 斧既是武器又是工具
         "_AXE" to setOf("WEAPON", "TOOL", "AXE", "MELEE"),
+        // 矛(1.21.11+): 分材质等级(WOODEN_SPEAR/IRON_SPEAR/COPPER_SPEAR…), 靠后缀统一归类.
+        // 矛既能近战又能投掷, 因此同时属于 WEAPON/MELEE/RANGED/SPEAR
+        "_SPEAR" to setOf("WEAPON", "MELEE", "RANGED", "SPEAR"),
         // 工具
         "_PICKAXE" to setOf("TOOL", "PICKAXE"),
         "_SHOVEL" to setOf("TOOL", "SHOVEL"),

@@ -1,5 +1,6 @@
 package mc233.`fun`.snowygems.commands
 
+import mc233.`fun`.snowygems.Permissions
 import mc233.`fun`.snowygems.SnowyGems
 import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
@@ -34,7 +35,7 @@ object GemCommand {
         createHelper()
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.VIEW)
     val view = subCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem view")
@@ -42,7 +43,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.EMBED)
     val embed = subCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem embed")
@@ -50,7 +51,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.INSPECT)
     val inspect = subCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem inspect, 手持=${sender.inventory.itemInMainHand.type}")
@@ -58,7 +59,16 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    /** /sgem dismantle - 打开拆卸界面(按 config.yml 收费 + 损坏概率拆卸已镶嵌宝石) */
+    @CommandBody(permission = Permissions.DISMANTLE)
+    val dismantle = subCommand {
+        execute<Player> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem dismantle, 手持=${sender.inventory.itemInMainHand.type}")
+            GemGui.openDismantle(sender)
+        }
+    }
+
+    @CommandBody(permission = Permissions.USE)
     val use = subCommand {
         execute<Player> { sender, _, _ ->
             val held = sender.inventory.itemInMainHand
@@ -78,7 +88,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.OPEN)
     val open = subCommand {
         dynamic("menu") {
             suggestion<CommandSender>(uncheck = true) { _, _ -> MenuRegistry.names().toList() }
@@ -89,7 +99,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.GIVE)
     val give = subCommand {
         dynamic("player") {
             dynamic("gem") {
@@ -106,7 +116,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.DEBUG)
     val debug = subCommand {
         dynamic("tags") {
             suggestion<CommandSender>(uncheck = true) { _, _ ->
@@ -132,7 +142,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.COMPAT)
     val compat = subCommand {
         dynamic("mode") {
             suggestion<CommandSender>(uncheck = true) { _, _ -> listOf("all") }
@@ -148,7 +158,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.SKILLS)
     val skills = subCommand {
         dynamic("keyword") {
             suggestion<CommandSender>(uncheck = true) { _, _ ->
@@ -163,7 +173,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.TRIGGERS)
     val triggers = subCommand {
         execute<CommandSender> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem triggers")
@@ -175,7 +185,7 @@ object GemCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = Permissions.RELOAD)
     val reload = subCommand {
         execute<CommandSender> { sender, _, _ ->
             val start = System.currentTimeMillis()

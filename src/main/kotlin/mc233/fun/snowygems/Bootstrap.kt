@@ -5,6 +5,7 @@ import mc233.`fun`.snowygems.compat.FeatureModules
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
+import mc233.`fun`.snowygems.manager.DismantleService
 import mc233.`fun`.snowygems.skill.SkillExecutor
 import mc233.`fun`.snowygems.update.UpdateChecker
 import mc233.`fun`.snowygems.util.Banner
@@ -33,9 +34,10 @@ object Bootstrap {
         Metrics(33021, pluginVersion, Platform.BUKKIT)
     }
 
-    /** 启用阶段: 读全部配置 */
+    /** 启用阶段: 注册权限节点 + 读全部配置 */
     @Awake(LifeCycle.ENABLE)
     fun onEnable() {
+        Permissions.register()
         reloadAll()
     }
 
@@ -65,6 +67,7 @@ object Bootstrap {
         MenuRegistry.reload()
         SkillRegistry.reload()
         SkillExecutor.registerBuiltins()
+        DismantleService.resolve()
         UpdateChecker.resolve()
         ConfigValidator.validate()
     }

@@ -50,10 +50,8 @@ object UpdateChecker {
     @Volatile private var updateAvailable = false
     @Volatile private var announcement: List<String> = emptyList()
 
-    /** 防止重复并发拉取 */
     private val fetching = AtomicBoolean(false)
 
-    /** 从 config.yml 读取开关, 由 Bootstrap.reloadAll 调用 */
     fun resolve() {
         if (!::conf.isInitialized) return
         updateEnabled = conf.getBoolean("UpdateChecker.Enabled", true)
@@ -66,10 +64,6 @@ object UpdateChecker {
         DebugUtil.log("Update", "配置就绪: 更新检测=$updateEnabled 公告=$announceEnabled 权限=$adminPermission 上线提示=$notifyAdminOnJoin")
     }
 
-    /**
-     * 服务器启动后静默检测一次. 异步执行, 结果打印到控制台.
-     * 两个开关都关时直接跳过, 一次网络请求都不发
-     */
     fun runStartupCheck() {
         if (!updateEnabled && !announceEnabled) {
             DebugUtil.log("Update", "更新检测与公告均已关闭, 跳过启动检测")
@@ -119,8 +113,11 @@ object UpdateChecker {
         latestVersion = ver
         latestDate = date
         val current = pluginVersion
-        updateAvailable = ver != null && isNewer(current, ver)
-        DebugUtil.log("Update", "当前版本=$current 远端版本=$ver 日期=$date 有更新=$updateAvailable")
+        // 判定规则: 本地版本与远端版本"不完全一致"就提示更新, 不做大小比较。
+        // 这样服主把本地版本改成任何 ≠ 远端的值(更低/更高/乱填)都会被提示去核对, 符合"以远端为准"的预期。
+        // 去掉首尾空白后逐字符比较, 忽略大小写差异(避免 v1.0 与 V1.0 误报)。
+        updateAvailable = ver != null && !ver.trim().equals(current.trim(), ignoreCase = true)
+        DebugUtil.log("Update", "当前版本=$current 远端版本=$ver 日期=$date 需更新=$updateAvailable")
     }
 
     private fun fetchAnnouncement() {
@@ -156,28 +153,6 @@ object UpdateChecker {
             null
         }
     }
-
-    /**
-     * 版本比较: 提取两串里的数字段(按 . 分组)逐段比较, 判断 remote 是否比 current 新
-     * 例: 1.0 vs 1.1 -> 新; 1.0-Dev vs 0.0.1 -> 不新
-     * 无法解析出任何数字时退化为\"字符串不相等即视为有更新\"
-     */
-    private fun isNewer(current: String, remote: String): Boolean {
-        val a = numericParts(current)
-        val b = numericParts(remote)
-        if (a.isEmpty() && b.isEmpty()) return current.trim() != remote.trim()
-        val n = maxOf(a.size, b.size)
-        for (i in 0 until n) {
-            val x = a.getOrElse(i) { 0 }
-            val y = b.getOrElse(i) { 0 }
-            if (y > x) return true
-            if (y < x) return false
-        }
-        return false
-    }
-
-    private fun numericParts(s: String): List<Int> =
-        Regex("\\d+").findAll(s).map { it.value.toIntOrNull() ?: 0 }.toList()
 
     // ── 输出 ────────────────────────────────────────────────
 

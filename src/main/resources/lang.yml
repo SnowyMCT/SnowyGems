@@ -45,6 +45,8 @@ common:
   any-item: "任意物品"
   # /sgem debug 里表示"不过滤任何 tag"
   scope-all: "全部"
+  # GUI 通用返回按钮
+  back: "&e← 返回"
 
 # ── /sgem 命令回执 (这一节的消息会自动带上 prefix) ─────────
 command:
@@ -92,6 +94,13 @@ gem:
   remove-success: "&a已拆除该宝石"
   # 防误用保护: 宝石不能当方块放置 / 塞展示框
   protect: "&c宝石不能放置到世界里, 否则会失效"
+
+# ── 奖励通用提示 (兑换券等直接给玩家资源的宝石) ───────────
+reward:
+  # 获得点券  占位符: {amount} 数额
+  point-gain: "&a你获得了 &9{amount} &a点券"
+  # 获得金币  占位符: {amount} 数额
+  money-gain: "&a你获得了 &e{amount} &a金币"
 
 # ── 宝石镶嵌台 /sgem embed ────────────────────────────────
 embed:
@@ -161,12 +170,31 @@ view:
   # 当前一个宝石配置都没加载到
   no-gem: "&c当前没有加载任何宝石配置, 请检查 gems/ 目录"
 
-# ── /sgem inspect 查看装备上的宝石 ────────────────────────
+# ── /sgem inspect 查看装备上的宝石 (只读) ─────────────────
 inspect:
   title: "&b已镶嵌宝石 &7- &f{item}"
   need-held: "&c请先手持你想查看的装备"
   no-embed: "&7这件装备上还没有镶嵌任何宝石"
-  remove-hint: "&e右键拆除该宝石"
+  # 只读界面: 点击不做任何事, 拆卸请用 /sgem dismantle
+  readonly-hint: "&7仅供查看 &8· &7拆卸请用 &f/sgem dismantle"
+
+# ── /sgem dismantle 拆卸装备上的宝石 ──────────────────────
+# 拆卸需要费用且有概率损坏宝石, 规则在 config.yml 的 Dismantle 一节配置。
+dismantle:
+  title: "&c拆卸宝石 &7- &f{item}"
+  need-held: "&c请先手持要拆卸宝石的装备"
+  no-embed: "&7这件装备上没有可拆卸的宝石"
+  # 每个宝石图标下方的说明  占位符见各行
+  cost-line: "&7拆卸费用: &e{amount} &7{type}"     # {amount} 数额  {type} 金币/点券/经验等级
+  break-line: "&c有 &e{chance}&c% 概率损坏宝石(不返还)"  # {chance} 损坏概率
+  click-hint: "&a点击拆卸此宝石"
+  # 拆卸结果  占位符: {gem} 宝石名
+  success: "&a已拆卸 {gem}&a, 宝石已返还背包"
+  broke: "&c很遗憾, {gem} &c在拆卸时损坏了, 未能返还"
+  # 费用不足  占位符: {amount} {type}
+  not-afford: "&c拆卸需要 &e{amount} &f{type}&c, 你的余额不足"
+  # 手持物品在打开界面后发生了变化
+  item-changed: "&c手持的装备已改变, 请重新打开拆卸界面"
 
 # ── 技能 / BUFF ───────────────────────────────────────────
 skill:
@@ -182,12 +210,12 @@ skill:
 # 服务器启动后静默检测一次, 结果打印到控制台; 管理员上线也会收到
 # 想改颜色/措辞改这里即可, 全部支持 &颜色码 与 title:/actionbar:/none: 前缀
 update:
-  # 控制台: 检测到新版本  占位符: {current} 当前版本  {latest} 最新版本  {date} 发布日期
-  console-available: "&e[SnowyGems] &f发现新版本 &a{latest} &7({date})&f, 当前 &7{current}&f, 建议更新~"
-  # 控制台: 已是最新  占位符: {current}
-  console-latest: "&8[SnowyGems] &7当前已是最新版本 &f{current}"
-  # 管理员上线: 检测到新版本  占位符: {current} {latest} {date}
-  player-available: "&e[SnowyGems] &f发现新版本 &a{latest} &7({date})&f, 当前 &7{current}&f, 建议更新~"
+  # 控制台: 本地版本与官方不一致(不做大小比较, 只要 ≠ 远端就提示)  占位符: {current} 当前版本  {latest} 官方版本  {date} 发布日期
+  console-available: "&e[SnowyGems] &f当前版本 &7{current} &f与官方 &a{latest} &7({date})&f 不一致, 请前往更新~"
+  # 控制台: 与官方一致  占位符: {current}
+  console-latest: "&8[SnowyGems] &7当前版本 &f{current} &7已是官方最新"
+  # 管理员上线: 本地版本与官方不一致  占位符: {current} {latest} {date}
+  player-available: "&e[SnowyGems] &f当前版本 &7{current} &f与官方 &a{latest} &7({date})&f 不一致, 请前往更新~"
   # 公告展示的头尾装饰(公告正文来自远端 ann.txt, 每行原样显示)
   announce-header: "&b&m        &r &b&l公告 &b&m        "
   announce-footer: "&b&m                                "

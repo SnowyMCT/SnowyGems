@@ -45,12 +45,22 @@ class AttributeReward(
         val tag = item.getItemTag()
         val nbtKey = "SnowyGemsAttr_$attrName"
         val current = tag[nbtKey]?.asDouble() ?: 0.0
-        val newValue = ExprUtil.eval(varExpr, current).let {
+        val raw = ExprUtil.eval(varExpr, current)
+        val newValue = when {
             // limit 对正负增益都是"绝对值上限", 所以按符号夹取
-            when {
-                limit == null -> it
-                it >= 0 -> it.coerceAtMost(limit)
-                else -> it.coerceAtLeast(limit)
+            limit == null -> raw
+            raw >= 0 -> raw.coerceAtMost(limit)
+            else -> raw.coerceAtLeast(limit)
+        }
+        // 防降级: 同一属性(如 move)被多种宝石共享一份累计值. 若当前累计值已经超过本宝石的 limit,
+        // 夹取会把它拉回更低的 limit —— 表现为"先用神速度到30%, 再用真速度反而掉到15%".
+        // 这里判定: 正增益时 newValue 比 current 更小、负增益时更大, 都说明会造成降级, 视为未生效, 不倒扣.
+        if (limit != null) {
+            if (current >= 0 && newValue < current) {
+                return fail("当前累计值=$current 已超过本宝石上限 $limit, 不降级(视为未生效)")
+            }
+            if (current < 0 && newValue > current) {
+                return fail("当前累计值=$current 已超过本宝石上限 $limit, 不降级(视为未生效)")
             }
         }
         // 已达上限(或表达式算出的值没变): 视为未生效, 避免白吃宝石
@@ -61,13 +71,17 @@ class AttributeReward(
             ?: return fail("operation=$operation 越界, 只能是 0/1/2")
 
         val slotName = if (slot.equals("auto", true)) ItemRequireMatcher.autoSlot(item) else slot
+        // ★ 关键: 一旦给物品写入任何显式 AttributeModifier, 原版会停止应用该物品的"默认属性"
+        //   (下界合金胸甲自带的护甲/韧性/击退抗性). 所以在写入我们的修饰符之前, 先把物品原本的
+        //   默认属性显式固化进 meta, 否则镶嵌生命宝石后护甲/韧性会凭空消失.
+        val preserved = AttributeCompat.preserveDefaultsIfNeeded(item, meta, slotName)
         // 先清掉本插件之前写的同属性修饰符(新旧两种身份都清), 再写入新值
         val removed = AttributeCompat.removeOwn(meta, attribute, attrName)
         val modifier = AttributeCompat.create(attrName, newValue, op, slotName) ?: return false
         DebugUtil.log(
             "Reward",
             "    Attribute(${attribute.key.key}): $current -> $newValue (表达式=$varExpr limit=$limit " +
-                "槽位=$slotName operation=$op 清理旧修饰符=$removed 条)"
+                "槽位=$slotName operation=$op 清理旧修饰符=$removed 条 固化默认属性=$preserved 条)"
         )
         meta.addAttributeModifier(attribute, modifier)
         item.itemMeta = meta
@@ -80,6 +94,28 @@ class AttributeReward(
     private fun fail(reason: String): Boolean {
         DebugUtil.log("Reward", "    Attribute($attrName) 未生效: $reason")
         return false
+    }
+
+    /**
+     * 拆卸时撤销: 清掉本插件为该属性写的修饰符, 并抹掉 NBT 累计值.
+     * 这样同名属性(如 move)下次镶嵌会从 0 重新累计, 不会残留.
+     */
+    override fun revert(ctx: RewardContext): Boolean {
+        val item = ctx.item ?: return false
+        val attribute = resolve(attrName) ?: return false
+        val meta = item.itemMeta ?: return false
+        val removed = AttributeCompat.removeOwn(meta, attribute, attrName)
+        item.itemMeta = meta
+        val tag = item.getItemTag()
+        val nbtKey = "SnowyGemsAttr_$attrName"
+        val had = tag[nbtKey] != null
+        if (had) {
+            tag.remove(nbtKey)
+            tag.saveTo(item)
+        }
+        ctx.item = item
+        DebugUtil.log("Reward", "    Attribute($attrName) 撤销: 移除修饰符=$removed 条, 清NBT=$had")
+        return removed > 0 || had
     }
 
     private fun failResolve(): Boolean = fail(

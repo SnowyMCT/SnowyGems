@@ -94,6 +94,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&c&l锋利宝石&8&l&k||"
   Tips:
     - "&c锋利宝石 &7品质: &f普通"
@@ -110,6 +112,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&c&l真·锋利宝石&8&l&k||"
   Tips:
     - "&c&l真·锋利宝石 &7品质: &a&l传说"
@@ -126,6 +130,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Success: 80
   Display: "&8&l&k||&c&l神·锋利宝石&8&l&k||"
   Tips:
@@ -144,6 +150,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&8&l抢夺宝石&8&l&k||"
   Tips:
     - "&8抢夺宝石 &7品质: &f普通"
@@ -160,6 +168,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&8&l真·抢夺宝石&8&l&k||"
   Tips:
     - "&8&l真·抢夺宝石 &7品质: &a&l传说"
@@ -176,6 +186,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Success: 80
   Display: "&8&l&k||&8&l神·抢夺宝石&8&l&k||"
   Tips:
@@ -438,6 +450,8 @@
   Name: 火焰附加宝石
   Require:
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&6&l火焰附加宝石&8&l&k||"
   Tips:
     - "&6火焰附加宝石 &7品质: &f普通"
@@ -453,6 +467,8 @@
   Name: 真·火焰附加宝石
   Require:
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&6&l真·火焰附加宝石&8&l&k||"
   Tips:
     - "&6&l真·火焰附加宝石 &7品质: &a&l传说"
@@ -468,6 +484,8 @@
   Name: 神·火焰附加宝石
   Require:
     - SWORD
+    - SPEAR
+    - MACE
   Success: 80
   Display: "&8&l&k||&6&l神·火焰附加宝石&8&l&k||"
   Tips:
@@ -516,6 +534,8 @@
   Require:
     - SWORD
     - _AXE
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&8&l击退宝石&8&l&k||"
   Tips:
     - "&8&l击退宝石 &7品质: &a&l传说"
@@ -532,6 +552,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&8&l真·击退宝石&8&l&k||"
   Tips:
     - "&8&l真·击退宝石 &7品质: &b&l史诗"
@@ -608,6 +630,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&7&l亡灵杀手宝石&8&l&k||"
   Tips:
     - "&7亡灵杀手宝石 &7品质: &f普通"
@@ -624,6 +648,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&7&l真·亡灵杀手宝石&8&l&k||"
   Tips:
     - "&7&l真·亡灵杀手宝石 &7品质: &a&l传说"
@@ -640,6 +666,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Success: 80
   Display: "&8&l&k||&7&l神·亡灵杀手宝石&8&l&k||"
   Tips:
@@ -658,6 +686,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&8&l节肢杀手宝石&8&l&k||"
   Tips:
     - "&8节肢杀手宝石 &7品质: &f普通"
@@ -674,6 +704,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Display: "&8&l&k||&8&l真·节肢杀手宝石&8&l&k||"
   Tips:
     - "&8&l真·节肢杀手宝石 &7品质: &a&l传说"
@@ -690,6 +722,8 @@
   Require:
     - _AXE
     - SWORD
+    - SPEAR
+    - MACE
   Success: 80
   Display: "&8&l&k||&8&l神·节肢杀手宝石&8&l&k||"
   Tips:

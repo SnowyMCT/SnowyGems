@@ -66,10 +66,11 @@ object EnchantAliases {
         put("DURABILITY_MENDING", "mending")
         put("VANISHING_CURSE", "vanishing_curse")
 
-        // ── 1.21 锤专属(现代键即可, 这里登记大写写法方便老习惯) ──
+        // ── 1.21 锤专属 & 1.21.11 矛专属(现代键即可, 这里登记大写写法方便老习惯) ──
         put("DENSITY", "density")
         put("BREACH", "breach")
         put("WIND_BURST", "wind_burst")
+        put("LUNGE", "lunge")   // 1.21.11 矛专属附魔「突进」
     }
 
     fun keyOf(name: String): String? = ALIASES[name.trim().uppercase()]

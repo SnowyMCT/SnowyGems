@@ -28,7 +28,9 @@ object CompatReport {
     private val PROBES: List<Triple<String, () -> Boolean, String>> = listOf(
         // ── 物品 ──────────────────────────────────────────
         Triple("锤 MACE", { Registries.hasMaterialRaw("MACE") }, "1.21"),
-        Triple("矛 SPEAR", { Registries.hasMaterialRaw("SPEAR") }, "1.21.11"),
+        // 矛是分材质命名的物品(WOODEN_SPEAR … NETHERITE_SPEAR), 没有单一 "SPEAR" 材质,
+        // 所以探测必须看"有没有任何以 _SPEAR 结尾的材质", 不能只查 hasMaterialRaw("SPEAR")。
+        Triple("矛 SPEAR", { Registries.materials.any { it == "SPEAR" || it.endsWith("_SPEAR") } }, "1.21.11"),
         Triple("铜盔甲", { Registries.hasMaterialRaw("COPPER_HELMET") }, "1.21.9"),
         Triple("铜工具", { Registries.hasMaterialRaw("COPPER_PICKAXE") }, "1.21.9"),
         Triple("狼铠 WOLF_ARMOR", { Registries.hasMaterialRaw("WOLF_ARMOR") }, "1.20.5"),
@@ -53,6 +55,7 @@ object CompatReport {
         Triple("附魔 density(密度)", { Registries.hasEnchantmentRaw("density") }, "1.21"),
         Triple("附魔 breach(穿透)", { Registries.hasEnchantmentRaw("breach") }, "1.21"),
         Triple("附魔 wind_burst(风爆)", { Registries.hasEnchantmentRaw("wind_burst") }, "1.21"),
+        Triple("附魔 lunge(突进/矛专属)", { Registries.hasEnchantmentRaw("lunge") }, "1.21.11"),
 
         // ── 药水效果 ──────────────────────────────────────
         Triple("效果 oozing(渗浆)", { Registries.hasEffectRaw("oozing") }, "1.21"),

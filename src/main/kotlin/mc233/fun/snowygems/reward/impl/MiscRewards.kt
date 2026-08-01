@@ -74,6 +74,26 @@ class EnchantReward(private val name: String, private val level: Int?, private v
         return true
     }
 
+    /** 拆卸撤销: 未指定 level 的累加式附魔按"降 1 级"处理; 指定了 level 的直接移除该附魔 */
+    override fun revert(ctx: RewardContext): Boolean {
+        val item = ctx.item ?: return false
+        val enchant = resolveEnchant(name) ?: return false
+        val curLevel = item.getEnchantmentLevel(enchant)
+        if (curLevel <= 0) return false
+        if (level != null && level > 0) {
+            // 定级附魔: 整体移除
+            item.removeEnchantment(enchant)
+            DebugUtil.log("Reward", "    Enchant(${enchant.key.key}) 撤销: 移除定级附魔(原 $curLevel)")
+        } else {
+            val next = curLevel - 1
+            if (next <= 0) item.removeEnchantment(enchant)
+            else item.addUnsafeEnchantment(enchant, next)
+            DebugUtil.log("Reward", "    Enchant(${enchant.key.key}) 撤销: $curLevel -> ${next.coerceAtLeast(0)}")
+        }
+        ctx.item = item
+        return true
+    }
+
     companion object {
         /**
          * 解析附魔名, 全权交给 [Registries.enchantment]:
@@ -135,6 +155,11 @@ class PointReward(private val amountExpr: String) : Reward {
         val amount = ExprUtil.eval(amountExpr)
         DebugUtil.log("Reward", "    Point: 表达式 $amountExpr -> $amount 点券, 目标=${player.name}")
         PointsEconomy.add(player, amount)
+        // 主动提示玩家获得了多少(取整展示, 因为点券是整数量级)
+        mc233.`fun`.snowygems.util.Lang.send(
+            player, "reward.point-gain",
+            "amount" to amount.toLong().toString()
+        )
         return true
     }
 }
@@ -145,6 +170,11 @@ class MoneyReward(private val amountExpr: String) : Reward {
         val amount = ExprUtil.eval(amountExpr)
         val ok = MoneyEconomy.add(player, amount)
         DebugUtil.log("Reward", "    Money: 表达式 $amountExpr -> $amount 金币, 目标=${player.name} 结果=$ok")
+        if (ok) {
+            // 金币可能有小数, 整数时不显示小数点
+            val shown = if (amount == amount.toLong().toDouble()) amount.toLong().toString() else "%.2f".format(amount)
+            mc233.`fun`.snowygems.util.Lang.send(player, "reward.money-gain", "amount" to shown)
+        }
         return ok
     }
 }

@@ -20,6 +20,14 @@ class RewardContext(
 
 interface Reward {
     fun apply(ctx: RewardContext): Boolean
+
+    /**
+     * 撤销本奖励对目标物品造成的效果(拆卸宝石时调用).
+     * 默认什么都不做——只有真正改动物品的奖励(属性/附魔)才需要实现.
+     * 玩家类奖励(点券/金币/给物品)没有\"可撤销\"的语义, 保持默认即可.
+     * @return 是否确实撤销了点什么
+     */
+    fun revert(ctx: RewardContext): Boolean = false
 }
 
 class ParsedReward(val call: FunctionCall, val flags: Set<String>) {

@@ -30,8 +30,14 @@ object FeatureModules {
         val enchantments: Set<String> = emptySet(),
         /** 归该模块管的药水效果键 */
         val effects: Set<String> = emptySet(),
-        /** 归该模块管的物品名 */
-        val materials: Set<String> = emptySet()
+        /** 归该模块管的物品名(精确匹配) */
+        val materials: Set<String> = emptySet(),
+        /**
+         * 归该模块管的物品名后缀(如 "_SPEAR" 匹配 WOODEN_SPEAR/IRON_SPEAR/COPPER_SPEAR…)。
+         * 矛这类**分材质等级**的新物品没有单一材质名, 只能靠后缀识别, 否则
+         * hasMaterialRaw("SPEAR") 永远为 false, auto 模式检测不到 -> 矛兼容打不开。
+         */
+        val materialSuffixes: Set<String> = emptySet()
     )
 
     private val MODULES: List<Module> = listOf(
@@ -43,8 +49,12 @@ object FeatureModules {
         ),
         Module(
             name = "Spear",
-            probe = { Registries.hasMaterialRaw("SPEAR") },
-            materials = setOf("SPEAR")
+            // 矛是分材质等级的物品(WOODEN_SPEAR/IRON_SPEAR/COPPER_SPEAR…), 没有单一 "SPEAR" 材质,
+            // 所以探测要看"有没有任何以 _SPEAR 结尾(或恰为 SPEAR)的材质", 不能只查 hasMaterialRaw("SPEAR")。
+            probe = { Registries.materials.any { it == "SPEAR" || it.endsWith("_SPEAR") } },
+            enchantments = setOf("lunge"),  // 1.21.11 矛专属附魔「突进」
+            materials = setOf("SPEAR"),
+            materialSuffixes = setOf("_SPEAR")
         ),
         Module(
             name = "CopperEquipment",
@@ -88,20 +98,18 @@ object FeatureModules {
     @Config(value = "config.yml", autoReload = true, migrate = true)
     lateinit var conf: Configuration
 
-    /** 模块名 -> 是否启用. 在 ENABLE 阶段算好, 之后只读 */
     private var enabled: Map<String, Boolean> = emptyMap()
 
-    /** 反查索引: 注册表键 -> 管辖它的模块名. 用于 Registries 的门禁判断 */
     private var attributeOwner: Map<String, String> = emptyMap()
     private var enchantmentOwner: Map<String, String> = emptyMap()
     private var effectOwner: Map<String, String> = emptyMap()
     private var materialOwner: Map<String, String> = emptyMap()
 
-    /** 配置里 Compat.OnMissingFeature 的取值: skip / warn / strict */
+    private var materialSuffixOwner: Map<String, String> = emptyMap()
+
     var onMissingFeature: String = "skip"
         private set
 
-    /** 是否在启动时打印能力简报 */
     var reportOnStartup: Boolean = true
         private set
 
@@ -139,16 +147,26 @@ object FeatureModules {
         val ench = HashMap<String, String>()
         val eff = HashMap<String, String>()
         val mat = HashMap<String, String>()
+        val suffix = HashMap<String, String>()
         for (module in MODULES) {
             module.attributes.forEach { attr[it] = module.name }
             module.enchantments.forEach { ench[it] = module.name }
             module.effects.forEach { eff[it] = module.name }
             module.materials.forEach { mat[it] = module.name }
+            module.materialSuffixes.forEach { suffix[it.uppercase()] = module.name }
+        }
+        // 把服务端实际存在、且命中某个模块后缀的物品也纳入 materialOwner,
+        // 这样 IRON_SPEAR / COPPER_SPEAR 等具体矛材质都会被 Spear 模块正确门禁与归类。
+        for (name in Registries.materials) {
+            if (mat.containsKey(name)) continue
+            val owner = suffix.entries.firstOrNull { name.endsWith(it.key) }?.value ?: continue
+            mat[name] = owner
         }
         attributeOwner = attr
         enchantmentOwner = ench
         effectOwner = eff
         materialOwner = mat
+        materialSuffixOwner = suffix
     }
 
     // ── 门禁查询(供 Registries 调用) ────────────────────────
@@ -181,7 +199,12 @@ object FeatureModules {
     // 与"名字拼错了"(真错误, 必须提醒服主)
 
     /** 该物品名是否为某个版本模块管辖(如 SPEAR 属于 Spear 模块), 返回模块名 */
-    fun moduleOfMaterial(name: String): String? = materialOwner[name.trim().uppercase()]
+    fun moduleOfMaterial(name: String): String? {
+        val key = name.trim().uppercase()
+        materialOwner[key]?.let { return it }
+        // 精确名没命中时按后缀兜底(IRON_SPEAR -> Spear), 供配置自检区分"版本没有" vs "拼错了"
+        return materialSuffixOwner.entries.firstOrNull { key.endsWith(it.key) }?.value
+    }
 
     /** 该属性键是否为某个版本模块管辖 */
     fun moduleOfAttribute(key: String): String? = attributeOwner[key]

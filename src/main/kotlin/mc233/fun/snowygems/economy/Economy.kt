@@ -44,8 +44,8 @@ object PlayerPointsBridge {
 
     fun give(uuid: UUID, amount: Long): Boolean {
         return try {
-            (api!!.javaClass.getMethod("give", UUID::class.java, Long::class.javaPrimitiveType)
-                .invoke(api, uuid, amount) as? Boolean) ?: false
+            (api!!.javaClass.getMethod("give", UUID::class.java, Int::class.javaPrimitiveType)
+                .invoke(api, uuid, amount.toInt()) as? Boolean) ?: false
         } catch (e: Exception) {
             DebugUtil.log("PlayerPoints", "give 调用失败: ${e.message}")
             false
@@ -54,8 +54,8 @@ object PlayerPointsBridge {
 
     fun take(uuid: UUID, amount: Long): Boolean {
         return try {
-            (api!!.javaClass.getMethod("take", UUID::class.java, Long::class.javaPrimitiveType)
-                .invoke(api, uuid, amount) as? Boolean) ?: false
+            (api!!.javaClass.getMethod("take", UUID::class.java, Int::class.javaPrimitiveType)
+                .invoke(api, uuid, amount.toInt()) as? Boolean) ?: false
         } catch (e: Exception) {
             DebugUtil.log("PlayerPoints", "take 调用失败: ${e.message}")
             false

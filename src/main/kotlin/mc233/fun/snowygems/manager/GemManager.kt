@@ -136,15 +136,36 @@ object GemManager {
         }
     }
 
-    /** 从目标物品上拆除一个已应用的宝石(执行其 $onRemove 奖励, 如扣除拆卸费用) */
+    /**
+     * 从目标物品上拆除一个已应用的宝石.
+     *
+     * 与旧版的关键区别:
+     *   - 旧版只跑 $onRemove 奖励(几乎没有宝石写了), 于是属性/附魔根本没被撤销 -> "拆了跟没拆一样".
+     *   - 新版真正调用每条 Reward 的 [Reward.revert] 撤销其对装备造成的效果(移除属性修饰符/降附魔),
+     *     再跑一遍配置里显式写的 $onRemove 奖励(如给回材料).
+     *
+     * 费用与损坏由 config.yml 的 Dismantle 一节控制, 已在调用方 [DismantleService] 处理,
+     * 这里只负责"把宝石从装备上摘掉并撤销其效果".
+     */
     fun removeFromItem(player: Player, targetStack: ItemStack, gemId: String): ApplyResult {
         DebugUtil.log("GemManager", "removeFromItem: 从 ${targetStack.type} 拆除 $gemId, 拆除前已镶嵌=${getAppliedGems(targetStack)}")
         val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
         val target = targetStack.clone()
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
+        // 1) 撤销该宝石所有奖励对装备造成的效果(属性/附魔)
+        var reverted = 0
+        for (raw in cfg.rewards) {
+            if (raw.isBlank()) continue
+            val parsed = runCatching { RewardTokenParser.parseLine(raw) }.getOrNull() ?: continue
+            val reward = RewardFactory.create(parsed.call) ?: continue
+            runCatching { if (reward.revert(ctx)) reverted++ }
+                .onFailure { DebugUtil.err("GemManager", "撤销奖励 ${parsed.call.name} 失败", it) }
+        }
+        // 2) 再跑配置里显式标了 $onRemove 的奖励(如返还部分材料)
         runRewards(ctx, cfg.rewards, RewardPhase.REMOVE)
+        // 3) 从 NBT 已镶嵌列表里摘掉
         unmarkApplied(ctx.item ?: target, gemId)
-        DebugUtil.log("GemManager", "removeFromItem: 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
+        DebugUtil.log("GemManager", "removeFromItem: 撤销了 $reverted 条奖励效果, 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
         val msg = cfg.removeTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.remove-success")
         return ApplyResult(true, msg, false, ctx.item ?: target)
     }
@@ -173,8 +194,14 @@ object GemManager {
     private fun unmarkApplied(item: ItemStack, gemId: String) {
         val tag = item.getItemTag()
         val list = (tag[APPLIED_LIST_KEY] as? ItemTagList) ?: return
-        list.removeAll { it.asString() == gemId }
-        tag[APPLIED_LIST_KEY] = list
+        // ⚠️ ItemTagList 底层是 CopyOnWriteArrayList, 其迭代器不支持 remove(),
+        //   直接 list.removeAll { } / removeIf { } 会抛 UnsupportedOperationException。
+        //   所以重建一个新列表, 只保留不等于 gemId 的项, 整体替换。
+        val kept = ItemTagList()
+        for (data in list) {
+            if (data.asString() != gemId) kept.add(data)
+        }
+        tag[APPLIED_LIST_KEY] = kept
         tag.saveTo(item)
     }
 

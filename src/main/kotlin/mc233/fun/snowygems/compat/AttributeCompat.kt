@@ -7,6 +7,8 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.meta.ItemMeta
+import taboolib.module.nms.ItemTagData
+import taboolib.module.nms.getItemTag
 import java.util.UUID
 
 /**
@@ -149,4 +151,78 @@ object AttributeCompat {
 
     /** 供启动日志: 当前用的是哪套 API */
     fun describe(): String = if (modernAvailable) "AttributeModifier 使用现代 API(SlotGroup)" else "AttributeModifier 使用旧 API(EquipmentSlot)"
+
+    /**
+     * 把物品的"默认属性"固化进 meta —— 修复"镶嵌属性宝石后, 装备自带护甲/韧性消失"的核心方法.
+     *
+     * 原理: Minecraft 的物品有两层属性:
+     *   1) 隐式默认属性: 下界合金胸甲自带 +8 护甲 +3 韧性, 钻石剑自带攻击力等. 这些不在 NBT 里,
+     *      是原版按材质动态附加的.
+     *   2) 显式 AttributeModifier: 写进物品 NBT 的.
+     * 原版规则: **一旦物品带有任何显式 AttributeModifier, 隐式默认属性全部不再生效**. 所以我们给
+     * 盔甲加一条 max_health 修饰符后, 它自带的护甲/韧性就凭空没了.
+     *
+     * 解决: 在写入我们的修饰符之前, 若 meta 尚无任何属性修饰符, 就把该材质在对应槽位的全部默认属性
+     * 显式拷进 meta. 之后再叠加我们自己的, 两者共存.
+     *
+     * 只在"首次给这件物品加修饰符"时做一次(用 NBT 标记去重), 避免重复镶嵌时反复累加默认属性.
+     *
+     * @return 固化的默认属性条数(0 表示无需固化或该材质无默认属性)
+     */
+    fun preserveDefaultsIfNeeded(item: org.bukkit.inventory.ItemStack, meta: ItemMeta, slotName: String): Int {
+        // 已经固化过就不再重复(用一个专属 NBT 标记)
+        val tag = runCatching { item.getItemTag() }.getOrNull()
+        if (tag != null && tag[DEFAULTS_KEPT_KEY]?.asString() == "1") return 0
+        // meta 已带显式修饰符: 说明要么之前已固化, 要么本就是自定义装备, 不动它, 只打标记.
+        // hasAttributeModifiers() 返回 Boolean, 避开直接引用 Guava Multimap 类型(编译期不在 classpath).
+        val hasModifiers = runCatching { meta.hasAttributeModifiers() }.getOrDefault(false)
+        if (hasModifiers) {
+            tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(item) }
+            return 0
+        }
+        val defaults = defaultModifiersOf(item, slotName)
+        if (defaults.isEmpty()) {
+            // 该材质本就没有默认属性(如普通靴子除盔甲外无其它), 仍打标记避免每次都查
+            tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(item) }
+            return 0
+        }
+        var kept = 0
+        for ((attr, mod) in defaults) {
+            runCatching {
+                meta.addAttributeModifier(attr, mod)
+                kept++
+            }.onFailure { DebugUtil.log("Compat", "固化默认属性 ${attr.key.key} 失败: ${it.message}") }
+        }
+        tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(item) }
+        DebugUtil.log("Compat", "为 ${item.type} 固化了 $kept 条默认属性(槽位=$slotName), 防止原生护甲/韧性丢失")
+        return kept
+    }
+
+    private const val DEFAULTS_KEPT_KEY = "SnowyGemsDefaultsKept"
+
+    /**
+     * 取某材质在指定槽位的默认属性修饰符.
+     * 走 Paper 的 `Material.getDefaultAttributeModifiers(EquipmentSlot)`, 用反射调用以兼容不同版本:
+     *   - 1.21.x Paper 有此方法, 返回 Multimap<Attribute, AttributeModifier>
+     *   - 若方法不存在(极旧版本), 返回空表, 上层按"无默认属性"处理
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun defaultModifiersOf(item: org.bukkit.inventory.ItemStack, slotName: String): List<Pair<Attribute, AttributeModifier>> {
+        return runCatching {
+            val slot = slotOf(slotName)
+            val method = org.bukkit.Material::class.java.getMethod("getDefaultAttributeModifiers", EquipmentSlot::class.java)
+            val multimap = method.invoke(item.type, slot)
+            // Multimap.entries() -> Collection<Map.Entry<Attribute, AttributeModifier>>
+            val entries = multimap.javaClass.getMethod("entries").invoke(multimap) as Collection<*>
+            entries.mapNotNull { e ->
+                val entry = e as? Map.Entry<*, *> ?: return@mapNotNull null
+                val attr = entry.key as? Attribute ?: return@mapNotNull null
+                val mod = entry.value as? AttributeModifier ?: return@mapNotNull null
+                attr to mod
+            }
+        }.getOrElse {
+            DebugUtil.log("Compat", "获取 ${item.type} 默认属性失败(可能是旧版本无此 API): ${it.message}")
+            emptyList()
+        }
+    }
 }

@@ -41,8 +41,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("ink.ptms.core:v12104:12104:mapped")
-    compileOnly("ink.ptms.core:v12104:12104:universal")
+//    compileOnly("ink.ptms.core:v12107:12107:mapped")
+//    compileOnly("ink.ptms.core:v12107:12107:universal")
+    compileOnly("ink.ptms.core:v260100:260100-minimize")
+    compileOnly("ink.ptms.core:v260100:260100")
     compileOnly(kotlin("stdlib"))
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly(fileTree("libs"))
