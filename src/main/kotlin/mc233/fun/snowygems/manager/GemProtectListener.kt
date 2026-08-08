@@ -23,7 +23,7 @@ object GemProtectListener {
         val gemId = ItemFactory.getGemId(e.itemInHand) ?: return
         e.isCancelled = true
         DebugUtil.log("Protect", "阻止 ${e.player.name} 把宝石 $gemId (${e.itemInHand.type}) 放置为方块")
-        warn(e.player)
+        warnPlace(e.player)
     }
 
     /** 禁止把宝石塞进展示框(展示框内的物品不保留自定义 NBT, 会导致宝石失效) */
@@ -37,7 +37,7 @@ object GemProtectListener {
         val gemId = ItemFactory.getGemId(hand) ?: return
         e.isCancelled = true
         DebugUtil.log("Protect", "阻止 ${e.player.name} 把宝石 $gemId 放进展示框")
-        warn(e.player)
+        warnPlace(e.player)
     }
 
 
@@ -48,7 +48,7 @@ object GemProtectListener {
         val gemId = ItemFactory.getGemId(item) ?: return
         e.isCancelled = true
         DebugUtil.log("Protect", "阻止 ${e.player.name} 吃掉宝石 $gemId (${item.type})")
-        warn(e.player)
+        warnEat(e.player)
     }
 
     /** 禁止拿着末影之眼右键*/
@@ -65,7 +65,6 @@ object GemProtectListener {
         val gemId = ItemFactory.getGemId(item) ?: return
         e.isCancelled = true
         DebugUtil.log("Protect", "阻止 ${e.player.name} 投掷末影之眼宝石 $gemId")
-        warn(e.player)
     }
 
     /**
@@ -104,9 +103,9 @@ object GemProtectListener {
         if (gemId != null) {
             e.isCancelled = true
             DebugUtil.log("Protect", "阻止 ${e.whoClicked.name} 从工作台取出宝石 $gemId")
-            if (e.whoClicked is Player) {
-                warn(e.whoClicked as Player)
-            }
+//            if (e.whoClicked is Player) {
+//                warn(e.whoClicked as Player)
+//            }
             return
         }
 
@@ -118,16 +117,21 @@ object GemProtectListener {
                 if (id != null) {
                     e.isCancelled = true
                     DebugUtil.log("Protect", "阻止 ${e.whoClicked.name} 使用宝石 $id 进行合成")
-                    if (e.whoClicked is Player) {
-                        warn(e.whoClicked as Player)
-                    }
+//                    if (e.whoClicked is Player) {
+//                        warn(e.whoClicked as Player)
+//                    }
                     return
                 }
             }
         }
     }
+    // 放置宝石 / 宝石塞展示框里时给玩家的输出信息
+    private fun warnPlace(player: Player) {
+        Lang.send(player, "gem.protect-place")
+    }
 
-    private fun warn(player: Player) {
-        Lang.send(player, "gem.protect")
+    // 尝试食用宝石时给玩家的输出信息
+    private fun warnEat(player: Player) {
+        Lang.send(player, "gem.protect-eat")
     }
 }

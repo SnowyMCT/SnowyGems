@@ -35,6 +35,23 @@ DebugTags: []
 Points:
   Provider: Internal
 
+# 可被标记成镶嵌台的方块种类白名单
+# 每行一个方块，可以添加或减少，注意拼写，不要重复
+tagged-blocks:
+  - STONE #石头
+  - GRASS_BLOCK #草方块
+  - SAND #沙子
+  - DIRT #泥土
+  - COBBLESTONE #园石
+  - OAK_LOG #橡木原木
+  - SPRUCE_LOG #橡云杉原木
+  - BIRCH_LOG #白桦原木
+  - DIAMOND_BLOCK #钻石块
+  - EMERALD_BLOCK #绿宝石块
+  - GOLD_BLOCK #金块
+  - IRON_BLOCK #铁块
+  - NETHERITE_BLOCK #下界合金块
+
 # ============================================================
 #  拆卸宝石 (/sgem dismantle)
 # ============================================================
