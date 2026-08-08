@@ -5,6 +5,7 @@ import mc233.`fun`.snowygems.compat.FeatureModules
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
+import mc233.`fun`.snowygems.manager.BlockListener
 import mc233.`fun`.snowygems.manager.DismantleService
 import mc233.`fun`.snowygems.skill.SkillExecutor
 import mc233.`fun`.snowygems.update.UpdateChecker
@@ -16,6 +17,7 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.pluginVersion
 import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 
 /**
  * 生命周期编排.
@@ -39,6 +41,8 @@ object Bootstrap {
     fun onEnable() {
         Permissions.register()
         reloadAll()
+        val plugin = BukkitPlugin.getInstance()
+        plugin.server.pluginManager.registerEvents(BlockListener(), plugin)
     }
 
     /** 服务器完全启动: 数字此时才是最终值, 汇报一次加载结果, 并静默检测更新/公告 */

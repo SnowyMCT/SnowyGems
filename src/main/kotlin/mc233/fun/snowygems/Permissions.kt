@@ -40,6 +40,7 @@ object Permissions {
     const val COMPAT = "snowygems.compat"
     const val SKILLS = "snowygems.skills"
     const val TRIGGERS = "snowygems.triggers"
+    const val MARK = "snowygems.mark"
 
     private val USER_NODES = listOf(BASE, EMBED, INSPECT, DISMANTLE, USE, OPEN)
     private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS)

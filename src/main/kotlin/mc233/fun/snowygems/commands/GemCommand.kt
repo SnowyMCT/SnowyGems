@@ -5,11 +5,11 @@ import mc233.`fun`.snowygems.SnowyGems
 import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
-import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
+import mc233.`fun`.snowygems.manager.MarkBlockManager
 import mc233.`fun`.snowygems.skill.SkillFunctions
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
@@ -48,6 +48,14 @@ object GemCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem embed")
             EmbedGui.open(sender)
+        }
+    }
+
+    @CommandBody(permission = Permissions.MARK)
+    val mark = subCommand {
+        execute<Player> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem mark")
+            MarkBlockManager.markBlock(sender)
         }
     }
 
