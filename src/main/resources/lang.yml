@@ -66,10 +66,12 @@ command:
   debug-scope: "&a调试输出范围已设为: &f{scope}"
   debug-scope-all: "&a调试输出范围已设为: &f全部"
   # 镶嵌台设置
-  no-air: "&c空气不能被设置为镶嵌台"
   no-block: "&c准星处无方块..."
-  has-been-dug-up: "&e设置的镶嵌台方块已被挖掘, 后续在该位置放置的方块点击将不会打开镶嵌台"
   block-not-allowed: "&c该方块不被允许设置为镶嵌台, 请联系管理员"
+  mark-override: "&e该位置已是镶嵌台, 正在覆盖..."
+  mark-success: "&a✓ 已将方块 &6{block} &a设置为镶嵌台 &7(&b{x}, {y}, {z}&7)"
+  mark-hint: "&7右键该方块即可打开镶嵌台界面"
+  has-been-dug-up: "&e设置的镶嵌台方块已被挖掘, 后续在该位置放置的方块点击将不会打开镶嵌台"
 
 # ── 宝石核心逻辑 (镶嵌 / 使用 / 拆除) ─────────────────────
 gem:

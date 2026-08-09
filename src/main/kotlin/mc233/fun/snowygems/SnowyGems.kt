@@ -14,7 +14,6 @@ object SnowyGems : Plugin() {
 
     val gemManager get() = GemManager
 
-
     /** 需要 JavaPlugin 实例的地方(NamespacedKey 等)统一从这里取 */
     val plugin: BukkitPlugin get() = BukkitPlugin.getInstance()
 

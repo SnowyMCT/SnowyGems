@@ -1,106 +1,82 @@
 package mc233.`fun`.snowygems.manager
 
+import mc233.`fun`.snowygems.SnowyGems
+import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
-import taboolib.common.platform.function.getDataFolder
-import taboolib.module.chat.colored
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
-import java.io.File
 
 /**
- * 方块标记管理器
- * 使用 PersistentDataContainer 持久化存储被标记的方块
+ * 镶嵌台方块标记管理器.
+ *
+ * 用「区块的 PersistentDataContainer」持久化被标记的方块:
+ *   - 每个被标记的方块在其所属区块 PDC 上写一个以自身坐标为 path 的 NamespacedKey,
+ *     因此同一区块可标记任意多个方块(不会互相覆盖), 且随区块存档一起持久化。
+ *   - tagged-blocks 白名单由 @Config 托管, reloadAll 时通过 [resolve] 刷新缓存。
  */
 object MarkBlockManager {
 
-    private val markedBlockKey = NamespacedKey("snowplugin", "marked_block")
-    private val markedBlockTimeKey = NamespacedKey("snowplugin", "marked_time")
+    @Config(value = "config.yml", autoReload = true, migrate = true)
+    lateinit var conf: Configuration
 
-    /**
-     * 标记玩家准星指向的方块
-     */
+    /** 可被设置为镶嵌台的方块材质白名单(全大写) */
+    private var taggedBlocks: Set<String> = emptySet()
+
+    /** reloadAll 时刷新白名单缓存 */
+    fun resolve() {
+        if (!::conf.isInitialized) return
+        taggedBlocks = conf.getStringList("tagged-blocks").map { it.uppercase() }.toSet()
+        DebugUtil.log("Command", "镶嵌台方块白名单已加载: ${taggedBlocks.size} 种")
+    }
+
+    /** 标记玩家准星指向的方块为镶嵌台 */
     fun markBlock(player: Player) {
-        val targetBlock = player.getTargetBlock(null, 6) ?: run {
-            Lang.send(player,"command.no-block")
-            return
-        }
-
+        val targetBlock = player.getTargetBlock(null, 6)
         if (targetBlock.type.isAir) {
-            Lang.send(player,"command.no-air")
+            Lang.send(player, "command.no-block")
             return
         }
 
-        // 检查方块是否是 config.yml 文件中 tagged-blocks 中定义的方块类型
-        val allowedBlocks = Configuration.loadFromFile(File(getDataFolder(), "config.yml"))
-            .getStringList("tagged-blocks") ?: emptyList()
         val material = targetBlock.type
-        if (material.name !in allowedBlocks.map { it.uppercase() }) {
+        if (material.name !in taggedBlocks) {
             Lang.send(player, "command.block-not-allowed")
             return
         }
 
         val location = targetBlock.location
-
-        // 检查是否已被标记
-        if (isBlockMarked(location)) {
-            player.sendMessage("§e该方块已被标记，正在覆盖...".colored())
-        }
-
-        // 保存标记
+        val override = isBlockMarked(location)
         saveMarkedBlock(location)
 
-        player.sendMessage("§a✓ 成功将该方块设置成镶嵌台 §6${targetBlock.type.name} §a坐标 §b${location.blockX}, ${location.blockY}, ${location.blockZ}".colored())
-        player.sendMessage("§7现在右键点击该方块将打开镶嵌台界面".colored())
+        if (override) Lang.send(player, "command.mark-override")
+        Lang.send(
+            player, "command.mark-success",
+            "block" to material.name,
+            "x" to location.blockX,
+            "y" to location.blockY,
+            "z" to location.blockZ
+        )
+        Lang.send(player, "command.mark-hint")
     }
 
-    /**
-     * 检查方块是否被标记
-     */
-    fun isBlockMarked(location: Location): Boolean {
-        val chunk = location.chunk
-        val pdc = chunk.persistentDataContainer
-        val key = locationToKey(location)
-        val stored = pdc.get(markedBlockKey, PersistentDataType.STRING)
-        return stored != null && stored == key
-    }
+    /** 检查方块是否被标记为镶嵌台 */
+    fun isBlockMarked(location: Location): Boolean =
+        location.chunk.persistentDataContainer.has(keyOf(location), PersistentDataType.BYTE)
 
-    /**
-     * 保存标记到持久化数据
-     */
+    /** 写入标记 */
     fun saveMarkedBlock(location: Location) {
-        val chunk = location.chunk
-        val pdc = chunk.persistentDataContainer
-        val key = locationToKey(location)
-        pdc.set(markedBlockKey, PersistentDataType.STRING, key)
-        pdc.set(markedBlockTimeKey, PersistentDataType.LONG, System.currentTimeMillis())
+        location.chunk.persistentDataContainer.set(keyOf(location), PersistentDataType.BYTE, 1)
     }
 
-    /**
-     * 移除标记
-     */
+    /** 移除标记 */
     fun removeMarkedBlock(location: Location) {
-        val chunk = location.chunk
-        val pdc = chunk.persistentDataContainer
-        pdc.remove(markedBlockKey)
-        pdc.remove(markedBlockTimeKey)
+        location.chunk.persistentDataContainer.remove(keyOf(location))
     }
 
-    /**
-     * 获取标记时间（用于扩展功能）
-     */
-    fun getMarkedTime(location: Location): Long? {
-        val chunk = location.chunk
-        val pdc = chunk.persistentDataContainer
-        return pdc.get(markedBlockTimeKey, PersistentDataType.LONG)
-    }
-
-    /**
-     * 将 Location 转换为字符串键
-     */
-    private fun locationToKey(location: Location): String {
-        return "${location.world?.name}:${location.blockX}:${location.blockY}:${location.blockZ}"
-    }
+    /** 每个方块用其世界坐标生成唯一 key(同区块内不冲突) */
+    private fun keyOf(location: Location): NamespacedKey =
+        NamespacedKey(SnowyGems.plugin, "mark_${location.blockX}_${location.blockY}_${location.blockZ}")
 }

@@ -42,9 +42,9 @@ tagged-blocks:
   - GRASS_BLOCK #草方块
   - SAND #沙子
   - DIRT #泥土
-  - COBBLESTONE #园石
+  - COBBLESTONE #圆石
   - OAK_LOG #橡木原木
-  - SPRUCE_LOG #橡云杉原木
+  - SPRUCE_LOG #云杉原木
   - BIRCH_LOG #白桦原木
   - DIAMOND_BLOCK #钻石块
   - EMERALD_BLOCK #绿宝石块
