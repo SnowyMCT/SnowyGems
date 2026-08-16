@@ -245,10 +245,9 @@ object ItemFunctions {
             line.args["name"]?.let { Registries.enchantment(it) }
         }
 
-    /** 取某个形态定义里全部 RewardSwitch 的嵌套函数字符串 */
+    /** 取某个形态定义里全部 RewardSwitch 的嵌套函数字符串(技能行已在注册表加载时预解析) */
     private fun rewardSwitchesOf(mode: String): List<String> =
-        SkillRegistry.get(mode)?.skills.orEmpty().mapNotNull { raw ->
-            val line = SkillLineParser.parse(raw)
+        SkillRegistry.get(mode)?.parsedSkills.orEmpty().mapNotNull { line ->
             if (line.name.equals("RewardSwitch", true)) line.args.keys.firstOrNull() else null
         }
 }

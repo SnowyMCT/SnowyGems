@@ -5,8 +5,7 @@ import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.GemType
 import mc233.`fun`.snowygems.reward.RewardContext
 import mc233.`fun`.snowygems.reward.RewardPhase
-import mc233.`fun`.snowygems.reward.RewardTokenParser
-import mc233.`fun`.snowygems.reward.impl.RewardFactory
+import mc233.`fun`.snowygems.reward.ParsedReward
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.Lang
@@ -40,7 +39,7 @@ object GemManager {
         )
         val working = target?.clone()
         val ctx = RewardContext(player, working, cfg, RewardPhase.APPLY, success)
-        if (success) runRewards(ctx, cfg.rewards, RewardPhase.APPLY)
+        if (success) runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
         else DebugUtil.log("GemManager", "executeButton: 判定失败, 跳过全部 Rewards")
         val msg = if (success) {
             cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.button-success")
@@ -84,7 +83,7 @@ object GemManager {
         DebugUtil.log("GemManager", "applyToItem: Require 通过, 成功率=${cfg.success}% 本次判定=$success")
         val ctx = RewardContext(player, target, cfg, RewardPhase.APPLY, success)
         if (success) {
-            val (attempted, succeeded) = runRewards(ctx, cfg.rewards, RewardPhase.APPLY)
+            val (attempted, succeeded) = runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
             // 概率判定成功, 但奖励一条都没真正生效(如附魔名解析失败) —— 不能假报成功,
             // 否则玩家会看到"镶嵌成功"却毫无变化. 此时不消耗宝石, 让玩家能重试/找管理员.
             if (attempted > 0 && succeeded == 0) {
@@ -116,7 +115,7 @@ object GemManager {
                 DebugUtil.log("GemManager", "useDirectly: 随机奖池 ${cfg.randomPool} 抽中 $picked")
                 val subCfg = GemRegistry.get(picked) ?: return ApplyResult(false, Lang.get("gem.pool-invalid"), false)
                 val ctx = RewardContext(player, null, subCfg, RewardPhase.APPLY, true)
-                runRewards(ctx, subCfg.rewards, RewardPhase.APPLY)
+                runRewards(ctx, subCfg.parsedRewards, RewardPhase.APPLY)
                 val msg = subCfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
                     ?: Lang.get("gem.random-get", "gem" to subCfg.display.ifBlank { subCfg.name })
                 ApplyResult(true, msg, true)
@@ -124,7 +123,7 @@ object GemManager {
             GemType.PLAYER_GEM -> {
                 val success = rollSuccess(cfg.success)
                 val ctx = RewardContext(player, null, cfg, RewardPhase.APPLY, success)
-                if (success) runRewards(ctx, cfg.rewards, RewardPhase.APPLY)
+                if (success) runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
                 val msg = if (success) {
                     cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.use-success")
                 } else {
@@ -154,15 +153,13 @@ object GemManager {
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
         // 1) 撤销该宝石所有奖励对装备造成的效果(属性/附魔)
         var reverted = 0
-        for (raw in cfg.rewards) {
-            if (raw.isBlank()) continue
-            val parsed = runCatching { RewardTokenParser.parseLine(raw) }.getOrNull() ?: continue
-            val reward = RewardFactory.create(parsed.call) ?: continue
+        for (parsed in cfg.parsedRewards) {
+            val reward = parsed.reward ?: continue
             runCatching { if (reward.revert(ctx)) reverted++ }
                 .onFailure { DebugUtil.err("GemManager", "撤销奖励 ${parsed.call.name} 失败", it) }
         }
         // 2) 再跑配置里显式标了 $onRemove 的奖励(如返还部分材料)
-        runRewards(ctx, cfg.rewards, RewardPhase.REMOVE)
+        runRewards(ctx, cfg.parsedRewards, RewardPhase.REMOVE)
         // 3) 从 NBT 已镶嵌列表里摘掉
         unmarkApplied(ctx.item ?: target, gemId)
         DebugUtil.log("GemManager", "removeFromItem: 撤销了 $reverted 条奖励效果, 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
@@ -206,33 +203,22 @@ object GemManager {
     }
 
     /**
-     * 执行匹配当前阶段的 Rewards.
+     * 执行匹配当前阶段的 Rewards(奖励行已在注册表加载时预解析).
      * @return Pair(attempted, succeeded): attempted=尝试执行的奖励条数(已识别且匹配阶段),
      *         succeeded=其中 apply() 返回 true 的条数. 供调用方判断"是否真的产生了效果".
      */
-    private fun runRewards(ctx: RewardContext, rewards: List<String>, phase: RewardPhase): Pair<Int, Int> {
-        DebugUtil.log("Reward", "开始执行 ${ctx.gem.id} 的 Rewards, 阶段=$phase 共 ${rewards.size} 行")
+    private fun runRewards(ctx: RewardContext, parsedRewards: List<ParsedReward>, phase: RewardPhase): Pair<Int, Int> {
+        DebugUtil.log("Reward", "开始执行 ${ctx.gem.id} 的 Rewards, 阶段=$phase 共 ${parsedRewards.size} 行")
         var attempted = 0
         var succeeded = 0
         var skipped = 0
-        for (raw in rewards) {
-            if (raw.isBlank()) continue
-            val parsed = try {
-                RewardTokenParser.parseLine(raw)
-            } catch (e: Exception) {
-                DebugUtil.err("Reward", "解析奖励行失败: $raw", e)
-                continue
-            }
+        for (parsed in parsedRewards) {
             if (!parsed.matchesPhase(phase)) {
                 skipped++
                 DebugUtil.log("Reward", "  跳过 ${parsed.call.name}: 标记=${parsed.flags} 不匹配当前阶段 $phase")
                 continue
             }
-            val reward = RewardFactory.create(parsed.call)
-            if (reward == null) {
-                DebugUtil.log("Reward", "  未识别的奖励函数: ${parsed.call.name} 参数=${parsed.call.args} (原始配置行: $raw)")
-                continue
-            }
+            val reward = parsed.reward ?: continue
             try {
                 val ok = reward.apply(ctx)
                 attempted++

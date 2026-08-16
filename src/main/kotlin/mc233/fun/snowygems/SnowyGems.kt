@@ -1,6 +1,5 @@
 package mc233.`fun`.snowygems
 
-import mc233.`fun`.snowygems.manager.GemManager
 import taboolib.common.platform.Plugin
 import taboolib.platform.BukkitPlugin
 
@@ -11,9 +10,6 @@ import taboolib.platform.BukkitPlugin
  *
  */
 object SnowyGems : Plugin() {
-
-    val gemManager get() = GemManager
-
 
     /** 需要 JavaPlugin 实例的地方(NamespacedKey 等)统一从这里取 */
     val plugin: BukkitPlugin get() = BukkitPlugin.getInstance()

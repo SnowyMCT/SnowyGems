@@ -1,0 +1,289 @@
+# ============================================================
+#  SnowyGems 語言檔案 - 繁體中文 (zh_TW)
+# ============================================================
+#  本目錄(lang/)下的每個檔案對應一種語言, 檔名即語言代碼:
+#    zh_CN.yml - 簡體中文 (預設)
+#    en_US.yml - English
+#    zh_TW.yml - 繁體中文
+#  伺服器當前使用的語言在 config.yml 的 Lang 節點設定,
+#  修改後執行 /sgem reload 立即生效, 無需重啟伺服器。
+#
+#  這些檔案由 TabooLib 語言模組託管:
+#    - 首次執行自動釋放到外掛目錄 lang/ 資料夾
+#    - 直接修改外掛目錄裡的檔案也會被熱重載(自動生效)
+#    - 外掛更新後新增的節點會自動補進已釋放的檔案, 不覆蓋已改過的行
+#
+#  ── 鍵名 ──────────────────────────────────────────────────
+#    語言檔案必須是扁平結構(不支援巢狀), 層級用橫槓連接:
+#      舊版 lang.yml 的 gem.embed-success  -> 本檔案寫 gem-embed-success
+#    程式碼裡兩種寫法都能用, 舊點號寫法會自動轉換。
+#
+#  ── 顏色 ────────────────────────────────────────────────
+#    &0-&9 &a-&f  顏色      &l 粗體  &o 斜體  &n 底線
+#    &m 刪除線    &k 亂碼    &r 重置
+#
+#  ── 佔位符 ──────────────────────────────────────────────
+#    {xxx}  具名佔位符, 會被對應的實際值替換。每條訊息下方註釋裡
+#           標註了這條訊息可用的佔位符, 不寫也不會報錯(原樣保留)
+#
+#  ── 發送方式前綴 ────────────────────────────────────────
+#    在文本最前面加下列前綴, 可以改變這句話的呈現方式:
+#      (無前綴)      普通聊天欄訊息
+#      actionbar:    顯示在物品欄上方的動作欄
+#      title:        大標題 (用 | 分隔主標題和副標題)
+#      none:         什麼都不發 (等於關掉這條提示)
+#    例:
+#      gem-embed-success: "actionbar:&a鑲嵌成功!"
+#      gem-embed-success: "title:&a鑲嵌成功!|&7裝備已強化"
+#      gem-embed-success: "none:"
+#
+#  ── 前綴 ────────────────────────────────────────────────
+#    prefix 會自動加在「命令回覆類」訊息前面(見 command.* 一節)
+#    其餘提示不帶前綴, 以免洗頻
+# ============================================================
+
+# 外掛訊息前綴
+prefix: '&8[&bSnowyGems&8] &f'
+
+# ── 通用 ──────────────────────────────────────────────────
+# 翻頁按鈕
+common-next-page: '&a下一頁 &7→'
+common-next-page-none: '&7已經是最後一頁了'
+common-prev-page: '&7← &a上一頁'
+common-prev-page-none: '&7已經是第一頁了'
+# 數值/佔位
+common-any-item: '任意物品'
+# /sgem debug 裡表示"不過濾任何 tag"
+common-scope-all: '全部'
+# GUI 通用返回按鈕
+common-back: '&e← 返回'
+
+# ── /sgem 命令回執 (這一節的訊息會自動帶上 prefix) ─────────
+# 配置重新載入完成  佔位符: {time} 耗時毫秒
+command-reload: '&a配置已重新載入 &7({time}ms)'
+# /sgem use 時手上沒拿東西
+command-no-held-gem: '&c請先手持要使用的寶石'
+# 目標玩家不在線  佔位符: {player}
+command-no-player: '&c玩家不在線: &f{player}'
+# 寶石 ID 不存在  佔位符: {gem}
+command-no-gem: '&c未知的寶石配置: &f{gem}'
+# 給予成功  佔位符: {player} {gem} {amount}
+command-give: '&a已給予 &f{player} &7×&f{amount} &a個 &f{gem}'
+# 除錯開關
+command-debug-on: '&a除錯模式已臨時開啟, 輸出範圍: &f{scope} &7(重新載入後以 config.yml 為準)'
+command-debug-off: '&7除錯模式已臨時關閉'
+command-debug-scope: '&a除錯輸出範圍已設為: &f{scope}'
+command-debug-scope-all: '&a除錯輸出範圍已設為: &f全部'
+# 鑲嵌臺設定
+command-no-air: '&c空氣不能被設定為鑲嵌臺'
+command-no-block: '&c準星處無方塊...'
+command-has-been-dug-up: '&e設定的鑲嵌臺方塊已被挖掘, 後續在該位置放置的方塊點選將不會開啟鑲嵌臺'
+command-block-not-allowed: '&c該方塊不被允許設定為鑲嵌臺, 請聯絡管理員'
+command-block-marbed: '&e該方塊已標記, 正在覆蓋'
+
+# ── 寶石核心邏輯 (鑲嵌 / 使用 / 拆除) ─────────────────────
+# 手上/槽裡的東西不是本外掛的寶石
+gem-not-gem: '&c這不是一個有效的寶石'
+# 物品帶著寶石標記, 但配置檔案裡已經找不到這個 ID 了
+gem-config-missing: '&c寶石配置不存在, 請聯絡管理員'
+# 裝備不在 Require 允許的範圍內
+gem-require-failed: '&c該裝備不滿足此寶石的適用範圍'
+# 機率判定成功, 但所有 Rewards 都沒真正生效(通常是配置裡的附魔/屬性名過期)
+gem-no-effect: '&c鑲嵌未生效...'
+# 鑲嵌結果 (寶石配置裡寫了 SuccessTip / FailTip 時以配置為準)
+gem-embed-success: '&a鑲嵌成功! 裝備已強化'
+gem-embed-fail: '&c很遺憾, 強化失敗了'
+# GUI 按鈕類寶石(USE_GEM)的執行結果
+gem-button-success: '&a操作成功'
+gem-button-fail: '&c操作失敗'
+# 直接右鍵使用類寶石
+gem-use-success: '&a使用成功!'
+gem-use-fail: '&c使用失敗!'
+gem-need-workbench: '&c該寶石需要在工作臺中鑲嵌到裝備上使用'
+# 隨機獎池  佔位符: {gem} 抽中的寶石名
+gem-random-get: '&a獲得了 &f{gem}'
+gem-pool-empty: '&c該隨機獎池是空的, 請聯絡管理員'
+gem-pool-invalid: '&c隨機獎池裡引用了不存在的寶石, 請聯絡管理員'
+# 拆除
+gem-remove-success: '&a已拆除該寶石'
+# 防誤用保護: 寶石不能當方塊放置 / 塞展示框
+gem-protect-place: '&c寶石不能放置到世界裡, 否則會失效'
+# 防誤用保護: 寶石不可食用
+gem-protect-eat: '&c寶石不可食用'
+
+# ── 獎勵通用提示 (兌換券等直接給玩家資源的寶石) ───────────
+# 獲得點券  佔位符: {amount} 數額
+reward-point-gain: '&a你獲得了 &9{amount} &a點券'
+# 獲得金幣  佔位符: {amount} 數額
+reward-money-gain: '&a你獲得了 &e{amount} &a金幣'
+
+# ── 寶石鑲嵌臺 /sgem embed ────────────────────────────────
+# 介面標題
+embed-title: '&8&l&k||&b&l寶石鑲嵌臺&8&l&k||'
+# 兩個槽位的指示標籤
+embed-label-equip-top: '&a&l↓ 把裝備放在下面 ↓'
+embed-label-equip-bottom: '&a裝備槽'
+embed-label-gem-top: '&b&l↓ 把寶石放在下面 ↓'
+embed-label-gem-bottom: '&b寶石槽'
+# Shift 快速移入時槽位已被佔用
+embed-equip-slot-occupied: '&c裝備槽已經有東西了'
+embed-gem-slot-occupied: '&c寶石槽已經有東西了'
+# 中間確認按鈕 —— 條件不滿足時顯示的原因
+embed-need-equip: '&7請先把要強化的裝備放進&a裝備槽'
+embed-need-gem: '&7請再把寶石放進&b寶石槽'
+embed-not-gem: '&c寶石槽裡的物品不是本外掛的寶石'
+embed-gem-missing: '&c寶石配置不存在: &f{gem}'
+embed-wrong-type: '&c這類寶石請直接手持右鍵使用, 不需要鑲嵌'
+embed-wrong-gui: '&c該寶石需要在 &f{gui} &c中使用'
+embed-equip-is-gem: '&c裝備槽裡放的是寶石, 請放入要被強化的裝備'
+embed-out-of-scope: '&c這件裝備不在該寶石的適用範圍內 &7(需要: &f{scope}&7)'
+# 中間確認按鈕的外觀
+embed-button-ready-name: '&a&l點選此處完成鑲嵌'
+embed-button-locked-name: '&7暫時還不能鑲嵌'
+embed-button-equip: '&7裝備: &f{equip}'
+embed-button-cost: '&e鑲嵌會消耗 1 個寶石'
+# 按鈕 Lore 上的寶石資訊
+embed-info-gem: '&7寶石: &f{gem}'
+embed-info-scope: '&7適用: &f{scope}'
+embed-info-chance: '&7成功率: &f{chance}&7%'
+embed-info-may-fail: '&c失敗會消耗寶石且不產生效果'
+
+# ── 工作臺選單 (gui.yml / rune.yml 定義的介面) ────────────
+# 選單名字寫錯了  佔位符: {menu}
+menu-not-found: '&c選單不存在: &f{menu}'
+# Shift 移入時沒有能接收該物品的空槽
+menu-no-slot: '&c沒有可以放入該物品的空槽位'
+# 裝備槽裡有裝備, 但所有寶石槽都是空的
+menu-select-gem: '&7請先把寶石放進寶石槽, 或拿起一顆寶石再點選裝備'
+# 寶石槽有 Require 限制
+menu-slot-only-gem: '&c這個槽位只能放入本外掛的寶石'
+menu-slot-require: '&c該槽位只能放入 &f{require} &c類寶石'
+# USE_GEM 按鈕引用了不存在的寶石  佔位符: {gem}
+menu-button-gem-missing: '&c該按鈕引用的寶石配置不存在: &f{gem}'
+# USE_GEM 按鈕需要一個目標物品, 但裝備槽是空的
+menu-need-target: '&c請先在左側槽位放入要操作的物品'
+menu-need-target-named: '&c請先在左側槽位放入 &f{hint}'
+
+# ── /sgem view 寶石瀏覽面板 ───────────────────────────────
+view-title: '&b寶石分類瀏覽'
+view-category-title: '&b分類: &f{category}'
+# 第一層的分類圖示  佔位符: {category} {count}
+view-category-name: '&e&l{category}'
+view-category-count: '&7共 &f{count} &7個寶石/物品'
+view-category-click: '&a點選檢視'
+# 第二層的寶石圖示
+view-gem-id: '&7ID: &f{id}'
+view-gem-click: '&a左鍵領取 1 個 &7/ &aShift+左鍵領取一組'
+# 領取成功  佔位符: {gem} {amount}
+view-claimed: '&a已領取 &f{gem} &7×&f{amount}'
+# 當前一個寶石配置都沒載入到
+view-no-gem: '&c當前沒有載入任何寶石配置, 請檢查 gems/ 目錄'
+
+# ── /sgem inspect 檢視裝備上的寶石 (只讀) ─────────────────
+inspect-title: '&b已鑲嵌寶石 &7- &f{item}'
+inspect-need-held: '&c請先手持你想檢視的裝備'
+inspect-no-embed: '&7這件裝備上還沒有鑲嵌任何寶石'
+# 只讀介面: 點選不做任何事, 拆卸請用 /sgem dismantle
+inspect-readonly-hint: '&7僅供檢視 &8· &7拆卸請用 &f/sgem dismantle'
+
+# ── /sgem dismantle 拆卸裝備上的寶石 ──────────────────────
+# 拆卸需要費用且有機率損壞寶石, 規則在 config.yml 的 Dismantle 一節配置。
+dismantle-title: '&c拆卸寶石 &7- &f{item}'
+dismantle-need-held: '&c請先手持要拆卸寶石的裝備'
+dismantle-no-embed: '&7這件裝備上沒有可拆卸的寶石'
+# 每個寶石圖示下方的說明  佔位符見各行
+dismantle-cost-line: '&7拆卸費用: &e{amount} &7{type}'     # {amount} 數額  {type} 金幣/點券/經驗等級
+dismantle-break-line: '&c有 &e{chance}&c% 機率損壞寶石(不返還)'  # {chance} 損壞機率
+dismantle-click-hint: '&a點選拆卸此寶石'
+# 拆卸結果  佔位符: {gem} 寶石名
+dismantle-success: '&a已拆卸 {gem}&a, 寶石已返還背包'
+dismantle-broke: '&c很遺憾, {gem} &c在拆卸時損壞了, 未能返還'
+# 費用不足  佔位符: {amount} {type}
+dismantle-not-afford: '&c拆卸需要 &e{amount} &f{type}&c, 你的餘額不足'
+# 手持物品在開啟介面後發生了變化
+dismantle-item-changed: '&c手持的裝備已改變, 請重新開啟拆卸介面'
+
+# ── 技能 / BUFF ───────────────────────────────────────────
+# 技能定義裡沒寫 CooldownTip 時用的兜底提示  佔位符: {time} 剩餘秒數
+skill-cooldown: '&c技能冷卻中: &f{time}s'
+# CooldownTip 寫成 Chat{} / Title{} 但沒給 m 參數時的兜底文本
+skill-cooldown-chat: '&c技能冷卻中'
+skill-cooldown-title: '&c冷卻中'
+# 形態切換  佔位符: {mode} 切換後的形態名
+skill-switch: '&7已切換形態: &f{mode}'
+
+# ── 版本更新檢測 & 公告 ────────────────────────────────────
+# 伺服器啟動後靜默檢測一次, 結果列印到控制台; 管理員上線也會收到
+# 想改顏色/措辭改這裡即可, 全部支援 &顏色碼 與 title:/actionbar:/none: 前綴
+# 控制台: 本地版本與官方不一致(不做大小比較, 只要 ≠ 遠端就提示)  佔位符: {current} 當前版本  {latest} 官方版本  {date} 發布日期
+update-console-available: '&e[SnowyGems] &f當前版本 &7{current} &f與官方 &a{latest} &7({date})&f 不一致, 請前往更新~'
+# 控制台: 與官方一致  佔位符: {current}
+update-console-latest: '&8[SnowyGems] &7當前版本 &f{current} &7已是官方最新'
+# 管理員上線: 本地版本與官方不一致  佔位符: {current} {latest} {date}
+update-player-available: '&e[SnowyGems] &f當前版本 &7{current} &f與官方 &a{latest} &7({date})&f 不一致, 請前往更新~'
+# 公告展示的頭尾裝飾(公告正文來自遠端 ann.txt, 每行原樣顯示)
+update-announce-header: '&b&m        &r &b&l公告 &b&m        '
+update-announce-footer: '&b&m                                '
+
+# ── /sgem compat 版本相容報告 ─────────────────────────────
+compat-divider: '&8&m                                                  '
+compat-title: '&bSnowyGems &f版本相容報告'
+compat-server: '&7服務端: &f{server}'
+compat-version: '&7MC 版本: &f{mc} &8(versionId={id})'
+compat-registry: '&7註冊表: &f{registry}'
+compat-attribute-api: '&7屬性 API: &f{api}'
+# 佔位符: {ok} 支援項數  {missing} 不支援項數
+compat-summary: '&a✔ 本版本支援 {ok} 項  &c✘ 不支援 {missing} 項'
+compat-entry-ok: '  &a✔ &f{name}'
+# 佔位符: {name} 能力名  {since} 需要的版本
+compat-entry-missing: '  &c✘ &7{name} &8(需要 {since})'
+compat-missing-brief: '&7缺失: &f{list}'
+compat-more-hint: '&8用 /sgem compat all 檢視完整清單'
+compat-functions: '&7技能函式: &a{ok} 個可用&7, &c{bad} 個不可用'
+# 配置自檢結果(/sgem compat all 展示明細)
+compat-check-clean: '&7配置自檢: &a未發現寫錯的條目'
+compat-check-mistakes: '&c配置自檢: {count} 處寫錯的條目 &7(任何版本都不會生效)'
+compat-check-skips: '&7配置自檢: &f{count} &7處內容當前版本不支援, 已跳過 &8(屬正常)'
+compat-check-entry: '  &c● &f{text}'
+compat-check-skip-entry: '  &8● &7{text}'
+# 功能模組啟停(config.yml 的 Compat.Modules)
+compat-modules-title: '&7功能模組:'
+compat-module-on: '  &a● &f{name} &7啟用'
+compat-module-off: '  &8● &7{name} &8停用'
+compat-modules-brief: '&7已停用模組: &f{list} &8(見 config.yml 的 Compat.Modules)'
+
+# ── /sgem skills 技能函式速查 ─────────────────────────────
+skills-divider: '&8&m                                                  '
+# 佔位符: {shown} 顯示條數  {total} 總條數
+skills-title: '&b可用技能函式 &7({shown}/{total})'
+skills-title-keyword: '&b可用技能函式 &7({shown}/{total}) &8關鍵字: &f{keyword}'
+skills-empty: '&7沒有匹配的函式, 試試 /sgem skills 看全部'
+# 佔位符: {mark} 可用標記  {name} 函式名  {usage} 參數示例
+skills-entry: '{mark} &f{name}&7{usage}'
+skills-entry-desc: '   &8{desc}'
+skills-entry-aliases: '   &8別名: {aliases}'
+skills-entry-unavailable: '   &c當前版本不可用: {requires}'
+skills-mark-ok: '&a✔'
+skills-mark-bad: '&c✘'
+skills-footer: '&8觸發標記見 &f/sgem triggers  &8版本能力見 &f/sgem compat'
+
+# ── /sgem triggers 觸發標記速查 ───────────────────────────
+# 這是一份純說明文件, 改這裡不會影響引擎實際支援的觸發標記
+# 每一行就是最終顯示的內容, 可以自由增刪和改措辭
+triggers-divider: '&8&m                                                  '
+triggers-title: '&b可用觸發標記 &7(寫在技能行末尾, 如 &f~onUse&7)'
+triggers-list:
+  - '  &a~onUse &8- &7右鍵使用'
+  - '  &a~onShiftUse &8- &7潛行 + 右鍵'
+  - '  &a~onSwing &8- &7左鍵揮臂'
+  - '  &a~onShiftSwing &8- &7潛行 + 左鍵(三叉戟/矛也可用)'
+  - '  &a~onAttack &8- &7近戰攻擊命中實體'
+  - '  &a~onKill &8- &7擊殺實體'
+  - '  &a~onHit &8- &7發射物命中(任意型別)'
+  - '  &a~onHit:型別 &8- &7發射物命中指定型別, 如 onHit:ARROW / onHit:TRIDENT / onHit:SPEAR'
+  - '  &a~onLaunch &8- &7發射物射出(任意型別)'
+  - '  &a~onLaunch:型別 &8- &7發射物射出指定型別'
+  - '  &a~onBreak &8- &7挖掉方塊'
+  - '  &a~onDamaged &8- &7物品即將損失耐久'
+  - '  &a~onTimer &8- &7每秒輪詢(常駐 BUFF 用)'
+triggers-footer: '&8技能函式見 &f/sgem skills  &8版本能力見 &f/sgem compat'

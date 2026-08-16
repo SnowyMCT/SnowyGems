@@ -1,5 +1,7 @@
 package mc233.`fun`.snowygems.config
 
+import mc233.`fun`.snowygems.reward.RewardTokenParser
+import mc233.`fun`.snowygems.reward.impl.RewardFactory
 import mc233.`fun`.snowygems.util.DebugUtil
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
@@ -59,6 +61,7 @@ object GemRegistry {
                 randomPool[k] = gs.getInt(k, 1)
             }
         }
+        val rawRewards = sec.getStringList("Rewards")
         return GemConfig(
             id = id,
             name = sec.getString("Name", id) ?: id,
@@ -76,7 +79,16 @@ object GemRegistry {
             successTip = sec.getString("SuccessTip"),
             removeTip = sec.getString("RemoveTip"),
             failTip = sec.getString("FailTip"),
-            rewards = sec.getStringList("Rewards"),
+            rewards = rawRewards,
+            // 一次性预解析: 每次镶嵌/使用直接取用, 不再重复解析配置行;
+            // 顺带创建并缓存 Reward 实例(全部实现为不可变配置持有者, 可安全共享), 运行时零分配
+            parsedRewards = rawRewards.mapNotNull { raw ->
+                if (raw.isBlank()) null
+                else runCatching { RewardTokenParser.parseLine(raw) }
+                    .onFailure { DebugUtil.err("Registry", "宝石 $id 的奖励行解析失败: $raw", it) }
+                    .getOrNull()
+                    ?.also { it.reward = RewardFactory.create(it.call) }
+            },
             randomPool = randomPool,
             gui = sec.getStringList("Gui"),
             category = category

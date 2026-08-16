@@ -1,0 +1,284 @@
+# ============================================================
+#  SnowyGems Language File - English (en_US)
+# ============================================================
+#  Each file in this folder (lang/) is one language; the file
+#  name is the language code:
+#    zh_CN.yml - Simplified Chinese (default)
+#    en_US.yml - English
+#  The server language is set via the "Lang" node in config.yml.
+#  Run /sgem reload after changing it - takes effect immediately,
+#  no server restart needed.
+#
+#  These files are managed by the TabooLib language module:
+#    - Released automatically to the plugin folder (lang/) on first run
+#    - Editing the released file hot-reloads it
+#    - New nodes added by plugin updates are merged in, keeping edits
+#
+#  ── Keys ──────────────────────────────────────────────────
+#    Flat structure only (no nesting); levels joined with dashes:
+#      old lang.yml gem.embed-success  ->  gem-embed-success here
+#    Both spellings work in code; dotted keys are converted automatically.
+#
+#  ── Colors ────────────────────────────────────────────────
+#    &0-&9 &a-&f  colors    &l bold  &o italic  &n underline
+#    &m strikethrough  &k obfuscated  &r reset
+#
+#  ── Placeholders ──────────────────────────────────────────
+#    {xxx}  named placeholder, replaced by the actual value.
+#           The comment under each message lists its placeholders.
+#
+#  ── Send prefix ───────────────────────────────────────────
+#    (no prefix)   normal chat message
+#    actionbar:    action bar above the hotbar
+#    title:        big title (separate main/subtitle with |)
+#    none:         send nothing (disables the message)
+#
+#  ── Prefix ────────────────────────────────────────────────
+#    "prefix" is prepended automatically to command-reply
+#    messages (see command.* section)
+# ============================================================
+
+# Plugin message prefix
+prefix: '&8[&bSnowyGems&8] &f'
+
+# ── Common ─────────────────────────────────────────────────
+# Page buttons
+common-next-page: '&aNext page &7→'
+common-next-page-none: '&7Already on the last page'
+common-prev-page: '&7← &aPrevious page'
+common-prev-page-none: '&7Already on the first page'
+# Values / placeholders
+common-any-item: 'Any item'
+# /sgem debug: "do not filter any tag"
+common-scope-all: 'All'
+# Common GUI back button
+common-back: '&e← Back'
+
+# ── /sgem command replies (prefixed automatically) ─────────
+# Config reloaded   Placeholders: {time} elapsed ms
+command-reload: '&aConfiguration reloaded &7({time}ms)'
+# /sgem use with nothing in hand
+command-no-held-gem: '&cHold the gem you want to use first'
+# Target player offline   Placeholder: {player}
+command-no-player: '&cPlayer not online: &f{player}'
+# Unknown gem ID   Placeholder: {gem}
+command-no-gem: '&cUnknown gem config: &f{gem}'
+# Give success   Placeholders: {player} {gem} {amount}
+command-give: '&aGiven &f{player} &7×&f{amount} &aof &f{gem}'
+# Debug toggle
+command-debug-on: '&aDebug mode enabled temporarily, scope: &f{scope} &7(back to config.yml on reload)'
+command-debug-off: '&7Debug mode disabled temporarily'
+command-debug-scope: '&aDebug scope set to: &f{scope}'
+command-debug-scope-all: '&aDebug scope set to: &fAll'
+# Workbench block setup
+command-no-air: '&cAir cannot be set as a workbench block'
+command-no-block: '&cNo block in sight...'
+command-has-been-dug-up: '&eThe workbench block was broken; blocks placed here later will not open the workbench'
+command-block-not-allowed: '&cThis block is not allowed to be a workbench block, contact an admin'
+command-block-marbed: '&eThis block has been marked and is being overwritten...'
+
+# ── Gem core logic (embed / use / dismantle) ───────────────
+# Item in hand/slot is not one of our gems
+gem-not-gem: '&cThis is not a valid gem'
+# Item carries a gem tag but the config no longer has this ID
+gem-config-missing: '&cGem config missing, contact an admin'
+# Item not allowed by Require
+gem-require-failed: '&cThis item does not meet the requirements of this gem'
+# Roll succeeded but none of the Rewards took effect (usually outdated enchant/attribute names)
+gem-no-effect: '&cThe embed had no effect...'
+# Embed result (gem config SuccessTip / FailTip overrides these)
+gem-embed-success: '&aEmbed successful! Item enhanced'
+gem-embed-fail: '&cSorry, the enhancement failed'
+# USE_GEM button result
+gem-button-success: '&aSuccess'
+gem-button-fail: '&cFailed'
+# Direct-use gems (right-click)
+gem-use-success: '&aUsed successfully!'
+gem-use-fail: '&cUse failed!'
+gem-need-workbench: '&cThis gem must be embedded into an item at a workbench'
+# Random pool   Placeholder: {gem} picked gem name
+gem-random-get: '&aYou received &f{gem}'
+gem-pool-empty: '&cThis random pool is empty, contact an admin'
+gem-pool-invalid: '&cThe random pool references a missing gem, contact an admin'
+# Dismantle
+gem-remove-success: '&aGem removed'
+# Protection: gems cannot be placed as blocks / into item frames
+gem-protect-place: '&cGems cannot be placed into the world, they would break'
+# Protection: gems cannot be eaten
+gem-protect-eat: '&cGems are not edible'
+
+# ── Reward generic messages (vouchers giving resources) ─────
+# Points gained   Placeholder: {amount}
+reward-point-gain: '&aYou received &9{amount} &apoints'
+# Money gained   Placeholder: {amount}
+reward-money-gain: '&aYou received &e{amount} &agold'
+
+# ── Gem workbench /sgem embed ──────────────────────────────
+# GUI title
+embed-title: '&8&l&k||&b&lGem Workbench&8&l&k||'
+# Slot labels
+embed-label-equip-top: '&a&l↓ Put the item below ↓'
+embed-label-equip-bottom: '&aItem slot'
+embed-label-gem-top: '&b&l↓ Put the gem below ↓'
+embed-label-gem-bottom: '&bGem slot'
+# Shift move into occupied slot
+embed-equip-slot-occupied: '&cThe item slot is already occupied'
+embed-gem-slot-occupied: '&cThe gem slot is already occupied'
+# Confirm button - reasons when requirements are not met
+embed-need-equip: '&7Put the item to enhance into the&a item slot&7 first'
+embed-need-gem: '&7Then put a gem into the&b gem slot'
+embed-not-gem: '&cThe item in the gem slot is not one of our gems'
+embed-gem-missing: '&cGem config missing: &f{gem}'
+embed-wrong-type: '&cThis kind of gem is used by right-clicking, no embedding needed'
+embed-wrong-gui: '&cThis gem must be used in &f{gui}&c'
+embed-equip-is-gem: '&cThe item slot holds a gem; put in the item to enhance'
+embed-out-of-scope: '&cThis item is not in the scope of this gem &7(needs: &f{scope}&7)'
+# Confirm button appearance
+embed-button-ready-name: '&a&lClick to embed'
+embed-button-locked-name: '&7Cannot embed yet'
+embed-button-equip: '&7Item: &f{equip}'
+embed-button-cost: '&eEmbedding consumes 1 gem'
+# Gem info on the button lore
+embed-info-gem: '&7Gem: &f{gem}'
+embed-info-scope: '&7Scope: &f{scope}'
+embed-info-chance: '&7Success rate: &f{chance}&7%'
+embed-info-may-fail: '&cOn failure the gem is consumed with no effect'
+
+# ── Workbench menus (gui.yml / rune.yml) ───────────────────
+# Wrong menu name   Placeholder: {menu}
+menu-not-found: '&cMenu not found: &f{menu}'
+# Shift move with no free slot
+menu-no-slot: '&cNo free slot to put this item into'
+# Item slot occupied but all gem slots empty
+menu-select-gem: '&7Put a gem into a gem slot first, or pick up a gem and click the item'
+# Gem slot Require restriction
+menu-slot-only-gem: '&cThis slot only accepts our gems'
+menu-slot-require: '&cThis slot only accepts &f{require} &cgems'
+# USE_GEM button references a missing gem   Placeholder: {gem}
+menu-button-gem-missing: '&cThe gem referenced by this button is missing: &f{gem}'
+# USE_GEM button needs a target item, item slot empty
+menu-need-target: '&cPut the item to operate on into the left slot first'
+menu-need-target-named: '&cPut &f{hint} &cinto the left slot first'
+
+# ── /sgem view gem browser ─────────────────────────────────
+view-title: '&bGem Browser'
+view-category-title: '&bCategory: &f{category}'
+# Category icon on the first page   Placeholders: {category} {count}
+view-category-name: '&e&l{category}'
+view-category-count: '&7&f{count} &7gems/items'
+view-category-click: '&aClick to view'
+# Gem icon on the second page
+view-gem-id: '&7ID: &f{id}'
+view-gem-click: '&aLeft-click: claim 1 &7/ &aShift+Left-click: claim a stack'
+# Claimed   Placeholders: {gem} {amount}
+view-claimed: '&aClaimed &f{gem} &7×&f{amount}'
+# No gem configs loaded at all
+view-no-gem: '&cNo gem configs loaded, check the gems/ folder'
+
+# ── /sgem inspect (read-only) ──────────────────────────────
+inspect-title: '&bEmbedded gems &7- &f{item}'
+inspect-need-held: '&cHold the item you want to inspect first'
+inspect-no-embed: '&7This item has no gems embedded'
+# Read-only: clicking does nothing; use /sgem dismantle
+inspect-readonly-hint: '&7View only &8· &7to remove gems use &f/sgem dismantle'
+
+# ── /sgem dismantle ────────────────────────────────────────
+# Costs money and may break gems; rules in config.yml under Dismantle.
+dismantle-title: '&cRemove gems &7- &f{item}'
+dismantle-need-held: '&cHold the item to remove gems from first'
+dismantle-no-embed: '&7This item has no gems to remove'
+# Text under each gem icon   Placeholders per line
+dismantle-cost-line: '&7Remove cost: &e{amount} &7{type}'     # {amount} amount  {type} gold/points/exp levels
+dismantle-break-line: '&c&e{chance}&c% chance the gem breaks (not returned)'  # {chance} break chance
+dismantle-click-hint: '&aClick to remove this gem'
+# Result   Placeholder: {gem} gem name
+dismantle-success: '&aRemoved {gem}&a, gem returned to your inventory'
+dismantle-broke: '&cSorry, {gem} &cbroke during removal and was lost'
+# Not enough money   Placeholders: {amount} {type}
+dismantle-not-afford: '&cRemoval costs &e{amount} &f{type}&c, your balance is too low'
+# Held item changed after opening the GUI
+dismantle-item-changed: '&cThe held item changed, reopen the removal GUI'
+
+# ── Skills / BUFF ──────────────────────────────────────────
+# Fallback when the skill has no CooldownTip   Placeholder: {time} seconds left
+skill-cooldown: '&cSkill on cooldown: &f{time}s'
+# Fallback text when CooldownTip is Chat{} / Title{} without an m parameter
+skill-cooldown-chat: '&cSkill on cooldown'
+skill-cooldown-title: '&cOn cooldown'
+# Mode switch   Placeholder: {mode} new mode name
+skill-switch: '&7Mode switched: &f{mode}'
+
+# ── Update check & announcement ────────────────────────────
+# Checked silently after startup; admins get it on join too
+# Console: local version differs from remote (any inequality)   Placeholders: {current} {latest} {date}
+update-console-available: '&e[SnowyGems] &fCurrent version &7{current} &fdiffers from official &a{latest} &7({date})&f, please update~'
+# Console: up to date   Placeholder: {current}
+update-console-latest: '&8[SnowyGems] &7Current version &f{current} &7is up to date'
+# Admin on join   Placeholders: {current} {latest} {date}
+update-player-available: '&e[SnowyGems] &fCurrent version &7{current} &fdiffers from official &a{latest} &7({date})&f, please update~'
+# Announcement decorations (body comes from the remote ann.txt)
+update-announce-header: '&b&m        &r &b&lAnnouncement &b&m        '
+update-announce-footer: '&b&m                                '
+
+# ── /sgem compat version report ────────────────────────────
+compat-divider: '&8&m                                                  '
+compat-title: '&bSnowyGems &fCompatibility Report'
+compat-server: '&7Server: &f{server}'
+compat-version: '&7MC version: &f{mc} &8(versionId={id})'
+compat-registry: '&7Registry: &f{registry}'
+compat-attribute-api: '&7Attribute API: &f{api}'
+# Placeholders: {ok} supported count  {missing} unsupported count
+compat-summary: '&a✔ &f{ok} &asupported  &c✘ &f{missing} &cunsupported'
+compat-entry-ok: '  &a✔ &f{name}'
+# Placeholders: {name} capability  {since} required version
+compat-entry-missing: '  &c✘ &7{name} &8(needs {since})'
+compat-missing-brief: '&7Missing: &f{list}'
+compat-more-hint: '&8Use /sgem compat all for the full list'
+compat-functions: '&7Skill functions: &a{ok} available&7, &c{bad} unavailable'
+# Config self-check (/sgem compat all shows details)
+compat-check-clean: '&7Config check: &ano mistakes found'
+compat-check-mistakes: '&cConfig check: {count} mistake(s) &7(never work on any version)'
+compat-check-skips: '&7Config check: &f{count} &7entries unsupported on this version, skipped &8(normal)'
+compat-check-entry: '  &c● &f{text}'
+compat-check-skip-entry: '  &8● &7{text}'
+# Feature modules (config.yml Compat.Modules)
+compat-modules-title: '&7Feature modules:'
+compat-module-on: '  &a● &f{name} &7enabled'
+compat-module-off: '  &8● &7{name} &8disabled'
+compat-modules-brief: '&7Disabled modules: &f{list} &8(see Compat.Modules in config.yml)'
+
+# ── /sgem skills function reference ────────────────────────
+skills-divider: '&8&m                                                  '
+# Placeholders: {shown} lines shown  {total} total
+skills-title: '&bSkill functions &7({shown}/{total})'
+skills-title-keyword: '&bSkill functions &7({shown}/{total}) &8keyword: &f{keyword}'
+skills-empty: '&7No matching functions, try /sgem skills for all'
+# Placeholders: {mark} availability mark  {name} function name  {usage} example args
+skills-entry: '{mark} &f{name}&7{usage}'
+skills-entry-desc: '   &8{desc}'
+skills-entry-aliases: '   &8Aliases: {aliases}'
+skills-entry-unavailable: '   &cUnavailable on this version: {requires}'
+skills-mark-ok: '&a✔'
+skills-mark-bad: '&c✘'
+skills-footer: '&8Trigger marks: &f/sgem triggers  &8version capabilities: &f/sgem compat'
+
+# ── /sgem triggers reference ───────────────────────────────
+# Documentation only; editing this does not change the engine.
+# Each line is rendered as-is; add/remove/reword freely.
+triggers-divider: '&8&m                                                  '
+triggers-title: '&bTrigger marks &7(at the end of a skill line, e.g. &f~onUse&7)'
+triggers-list:
+  - '  &a~onUse &8- &7right-click use'
+  - '  &a~onShiftUse &8- &7sneak + right-click'
+  - '  &a~onSwing &8- &7left-click swing'
+  - '  &a~onShiftSwing &8- &7sneak + left-click (trident/spear works too)'
+  - '  &a~onAttack &8- &7melee attack hits an entity'
+  - '  &a~onKill &8- &7kill an entity'
+  - '  &a~onHit &8- &7projectile hits (any type)'
+  - '  &a~onHit:type &8- &7projectile hits a specific type, e.g. onHit:ARROW / onHit:TRIDENT / onHit:SPEAR'
+  - '  &a~onLaunch &8- &7projectile launched (any type)'
+  - '  &a~onLaunch:type &8- &7projectile of a specific type launched'
+  - '  &a~onBreak &8- &7break a block'
+  - '  &a~onDamaged &8- &7item about to lose durability'
+  - '  &a~onTimer &8- &7poll every second (for permanent BUFFs)'
+triggers-footer: '&8Skill functions: &f/sgem skills  &8version capabilities: &f/sgem compat'
