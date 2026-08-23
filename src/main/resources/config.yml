@@ -29,6 +29,12 @@ Debug: false
 # 例: DebugTags: [Menu, GemManager, Reward]  只看镶嵌相关的日志
 DebugTags: []
 
+#  语言设置
+#    zh_CN.yml - 简体中文 (默认)
+#    zh_TW.yml - 繁體中文
+#    en_US.yml - English
+Lang: zh_CN
+
 # 点券系统使用的后端:
 #   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认) 不推荐在正式服务器中使用
 #   PlayerPoints - 对接 PlayerPoints 插件 (需要服务器已安装 PlayerPoints)

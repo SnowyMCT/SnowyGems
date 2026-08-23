@@ -183,17 +183,18 @@ object SkillTriggerListener {
         hitLocation: org.bukkit.Location? = null
     ) {
         val lore = item.itemMeta?.lore ?: return
+        val strippedLore = lore.map { ColorUtil.stripColor(it).trim() }
         var matched = 0
-        for (def in SkillRegistry.all()) {
-            val marker = def.lore ?: continue
-            if (lore.none { ColorUtil.loreMatches(it, marker) }) continue
-            val all = def.skills.map { SkillLineParser.parse(it) }
-            val relevant = all.filter { it.triggers.contains(trigger) }
+        // 只遍历带 Lore 标记的定义(加载时已缓存); 技能行已按触发标记分组, O(1) 取用
+        for (def in SkillRegistry.withLore()) {
+            val marker = def.loreClean
+            if (marker.isEmpty() || strippedLore.none { it.contains(marker) }) continue
+            val relevant = def.byTrigger[trigger].orEmpty()
             if (relevant.isEmpty()) continue
             matched++
             DebugUtil.log(
                 "Skill",
-                "  命中技能定义 ${def.id} (Lore标记=${def.lore}), ${relevant.size}/${all.size} 行响应 $trigger"
+                "  命中技能定义 ${def.id} (Lore标记=${def.lore}), ${relevant.size}/${def.skills.size} 行响应 $trigger"
             )
             val remaining = checkAndSetCooldown(player, def.id, def.cooldown)
             if (remaining != null) {

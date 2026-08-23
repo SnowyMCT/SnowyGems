@@ -43,15 +43,18 @@ object BuffEngine {
     }
 
     private fun tick(player: Player) {
+        // 带 Lore 标记的 BUFF 定义加载时已缓存; onTimer 行也已预分组, tick 内零解析零 filter 分配
+        val buffDefs = SkillRegistry.withLore()
         for (item in equipmentOf(player)) {
             val lore = item.itemMeta?.lore ?: continue
-            for (def in SkillRegistry.withLore()) {
-                val marker = def.lore ?: continue
+            // 每件装备只去色一次, 全部技能定义共用
+            val strippedLore = lore.map { ColorUtil.stripColor(it).trim() }
+            for (def in buffDefs) {
+                val marker = def.loreClean
                 // 用去色+trim 的容错匹配: BUFF 标记尾部常带空格(如 "生命提升 "), 而写进装备的行
                 // 是 "生命提升4"(数字紧贴), 直接 contains 带色带空格的 marker 会匹配失败 -> buff 从不触发
-                if (lore.none { ColorUtil.loreMatches(it, marker) }) continue
-                val timerLines = def.skills.map { SkillLineParser.parse(it) }
-                    .filter { it.triggers.contains("onTimer") }
+                if (marker.isEmpty() || strippedLore.none { it.contains(marker) }) continue
+                val timerLines = def.timerLines
                 if (timerLines.isEmpty()) continue
                 DebugUtil.logChanged(
                     "Buff", "match:${player.uniqueId}:${item.type}:${def.id}",
