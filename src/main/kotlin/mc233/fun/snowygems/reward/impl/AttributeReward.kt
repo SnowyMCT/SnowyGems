@@ -46,21 +46,22 @@ class AttributeReward(
         val nbtKey = "SnowyGemsAttr_$attrName"
         val current = tag[nbtKey]?.asDouble() ?: 0.0
         val raw = ExprUtil.eval(varExpr, current)
+        // limit 是同方向的绝对值上限: 仅当表达式结果与 limit 同号(同方向增益)才夹取.
+        // 异号说明是方向相反的宝石在叠加(如先缩小再放大), limit 不适用, 不夹取.
         val newValue = when {
-            // limit 对正负增益都是"绝对值上限", 所以按符号夹取
             limit == null -> raw
-            raw >= 0 -> raw.coerceAtMost(limit)
-            else -> raw.coerceAtLeast(limit)
+            raw > 0 && limit > 0 -> raw.coerceAtMost(limit)
+            raw < 0 && limit < 0 -> raw.coerceAtLeast(limit)
+            else -> raw
         }
-        // 防降级: 同一属性(如 move)被多种宝石共享一份累计值. 若当前累计值已经超过本宝石的 limit,
-        // 夹取会把它拉回更低的 limit —— 表现为"先用神速度到30%, 再用真速度反而掉到15%".
-        // 这里判定: 正增益时 newValue 比 current 更小、负增益时更大, 都说明会造成降级, 视为未生效, 不倒扣.
-        if (limit != null) {
-            if (current >= 0 && newValue < current) {
-                return fail("当前累计值=$current 已超过本宝石上限 $limit, 不降级(视为未生效)")
-            }
-            if (current < 0 && newValue > current) {
-                return fail("当前累计值=$current 已超过本宝石上限 $limit, 不降级(视为未生效)")
+        // 防降级: 同一属性(如 move)被多种宝石共享一份累计值. 若本宝石的 limit 比当前累计值更小,
+        // 夹取会把它拉回 —— 表现为"先用神速度到30%, 再用真速度反而掉到15%".
+        // 判定: 只有夹取真正发生(newValue != raw)才可能降级, 夹取后相对当前值变弱才拒绝.
+        // 从 0 开始镶负增益宝石(如 scale 缩小)时 raw 未被夹取, 属正常生效, 不是降级.
+        if (limit != null && newValue != raw) {
+            val weakened = if (raw >= 0) newValue < current else newValue > current
+            if (weakened) {
+                return fail("本宝石上限 $limit 低于当前累计值 $current, 夹取将回退到 $newValue, 视为未生效")
             }
         }
         // 已达上限(或表达式算出的值没变): 视为未生效, 避免白吃宝石

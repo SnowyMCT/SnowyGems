@@ -22,11 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean
  *      —— 异步拉取远端 version.txt / ann.txt, 不阻塞主线程; 结果打印到控制台("后台提示")
  *   2. 拥有管理员权限的玩家上线时, 把\"有新版本 / 公告\"提示单独发给他(见 [notifyOnJoin])
  *
- * 远端文件格式:
- *   version.txt   version: 0.0.1
- *                 date: 2026年7月31日
- *   ann.txt       纯文本, 多行, 每行原样作为一条公告展示(支持 &颜色码)
- *
  * 网络: 用 JDK 自带的 HttpURLConnection, 自动遵循 JVM 系统代理(-Dhttp.proxyHost 等),
  * 插件本身不写死任何代理地址 —— 内网/需要代理访问 GitHub 的服主自行在启动参数里配置
  */
@@ -40,7 +35,7 @@ object UpdateChecker {
     private var announceEnabled = true
     private var adminPermission = "snowygems.admin"
     private var notifyAdminOnJoin = true
-    private var versionUrl = "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/version.txt"
+    private var versionUrl = "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/refs/heads/main/version.txt"
     private var announcementUrl = "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/ann.txt"
     private var timeoutSeconds = 8
 
@@ -160,11 +155,14 @@ object UpdateChecker {
     private fun reportToConsole() {
         val sender = console()
         if (updateEnabled) {
-            if (updateAvailable) {
-                sender.sendMessage(Lang.get("update.console-available",
-                    "current" to pluginVersion, "latest" to (latestVersion ?: "?"), "date" to (latestDate ?: "-")))
-            } else {
-                sender.sendMessage(Lang.get("update.console-latest", "current" to pluginVersion))
+            val latest = latestVersion
+            when {
+                // 拉取失败/解析失败: 绝不能判定为"已是最新", 明确提示检查失败
+                // (常见于服务器未配 JVM 代理直连 GitHub 超时)
+                latest == null -> sender.sendMessage(Lang.get("update.console-failed"))
+                updateAvailable -> sender.sendMessage(Lang.get("update.console-available",
+                    "current" to pluginVersion, "latest" to latest, "date" to (latestDate ?: "-")))
+                else -> sender.sendMessage(Lang.get("update.console-latest", "current" to pluginVersion))
             }
         }
         if (announceEnabled && announcement.isNotEmpty()) {
