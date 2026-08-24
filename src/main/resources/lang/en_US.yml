@@ -212,8 +212,10 @@ skill-switch: '&7Mode switched: &f{mode}'
 # Checked silently after startup; admins get it on join too
 # Console: local version differs from remote (any inequality)   Placeholders: {current} {latest} {date}
 update-console-available: '&e[SnowyGems] &fCurrent version &7{current} &fdiffers from official &a{latest} &7({date})&f, please update~'
-# Console: up to date   Placeholder: {current}
+# Console: matches official   placeholder: {current}
 update-console-latest: '&8[SnowyGems] &7Current version &f{current} &7is up to date'
+# Console: failed to fetch official version (network/proxy issue, e.g. no JVM proxy for GitHub); NOT necessarily up to date
+update-console-failed: '&c[SnowyGems] &fFailed to fetch official version, check network/proxy (not necessarily up to date)'
 # Admin on join   Placeholders: {current} {latest} {date}
 update-player-available: '&e[SnowyGems] &fCurrent version &7{current} &fdiffers from official &a{latest} &7({date})&f, please update~'
 # Announcement decorations (body comes from the remote ann.txt)

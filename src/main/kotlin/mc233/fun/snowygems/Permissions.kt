@@ -43,7 +43,7 @@ object Permissions {
     const val MARK = "snowygems.mark"
 
     private val USER_NODES = listOf(BASE, EMBED, INSPECT, DISMANTLE, USE, OPEN)
-    private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS)
+    private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS, MARK)
 
     /**
      * 在 ENABLE 阶段注册权限父子关系. 重复注册(reload)会先移除旧的再重建, 保持幂等。

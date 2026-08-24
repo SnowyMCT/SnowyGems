@@ -103,9 +103,6 @@ object GemProtectListener {
         if (gemId != null) {
             e.isCancelled = true
             DebugUtil.log("Protect", "阻止 ${e.whoClicked.name} 从工作台取出宝石 $gemId")
-//            if (e.whoClicked is Player) {
-//                warn(e.whoClicked as Player)
-//            }
             return
         }
 
@@ -117,9 +114,6 @@ object GemProtectListener {
                 if (id != null) {
                     e.isCancelled = true
                     DebugUtil.log("Protect", "阻止 ${e.whoClicked.name} 使用宝石 $id 进行合成")
-//                    if (e.whoClicked is Player) {
-//                        warn(e.whoClicked as Player)
-//                    }
                     return
                 }
             }

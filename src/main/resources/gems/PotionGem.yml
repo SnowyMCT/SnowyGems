@@ -182,7 +182,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFlN2ViMmU0NjFlOTZlNjMxY2JhMGMwY2RhYTU0NDg4MDYzMDJlZGFlOTFiNjFkYWZjMjgxYWU1ODRkOCJ9fX0=
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=3;format=%.0f;limit=v<3;mode=last}
+#  Rewards:
+#    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
 生命恢复药水4:
   Name: 生命恢复药水4
   Success: 40

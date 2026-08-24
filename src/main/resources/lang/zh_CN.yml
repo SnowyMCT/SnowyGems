@@ -218,6 +218,8 @@ skill-switch: '&7已切换形态: &f{mode}'
 update-console-available: '&e[SnowyGems] &f当前版本 &7{current} &f与官方 &a{latest} &7({date})&f 不一致, 请前往更新~'
 # 控制台: 与官方一致  占位符: {current}
 update-console-latest: '&8[SnowyGems] &7当前版本 &f{current} &7已是官方最新'
+# 控制台: 无法获取官方版本(网络/代理问题, 常见于服务器直连 GitHub 超时; 此时不代表已是最新)
+update-console-failed: '&c[SnowyGems] &f无法获取官方版本号, 请检查网络/代理(不代表已是最新)'
 # 管理员上线: 本地版本与官方不一致  占位符: {current} {latest} {date}
 update-player-available: '&e[SnowyGems] &f当前版本 &7{current} &f与官方 &a{latest} &7({date})&f 不一致, 请前往更新~'
 # 公告展示的头尾装饰(公告正文来自远端 ann.txt, 每行原样显示)
