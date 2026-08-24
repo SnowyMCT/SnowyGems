@@ -10,6 +10,11 @@ data class SkillLine(val name: String, val args: LinkedHashMap<String, String>, 
 
 object SkillLineParser {
 
+    /** ~onUse / ~onHit:EGG 这类触发标记(可能带冒号后缀, 整体作为触发标记保留) */
+    private val triggerRegex = Regex("""~([\w:]+)""")
+    /** @Self / @Location 目标标记 */
+    private val targetRegex = Regex("""@(\w+)""")
+
     fun parse(raw: String): SkillLine {
         val s = raw.trim()
         val braceStart = s.indexOf('{')
@@ -25,9 +30,8 @@ object SkillLineParser {
             if (close < 0) argsStr = s.substring(braceStart + 1)
             else { argsStr = s.substring(braceStart + 1, close); remainder = s.substring(close + 1) }
         }
-        // ~onHit:MATERIAL 这种触发器可能带冒号后缀, 整体作为触发标记保留 (如 "onHit:EGG")
-        val triggers = Regex("""~([\w:]+)""").findAll(remainder).map { it.groupValues[1] }.toSet()
-        val target = Regex("""@(\w+)""").find(remainder)?.groupValues?.get(1) ?: "Self"
+        val triggers = triggerRegex.findAll(remainder).map { it.groupValues[1] }.toSet()
+        val target = targetRegex.find(remainder)?.groupValues?.get(1) ?: "Self"
         val args = LinkedHashMap<String, String>()
         for (tok in splitTopLevel(argsStr)) {
             val t = tok.trim()

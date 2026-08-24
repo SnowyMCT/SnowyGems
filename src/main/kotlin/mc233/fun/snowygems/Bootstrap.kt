@@ -69,7 +69,7 @@ object Bootstrap {
         SkillRegistry.reload()
         SkillExecutor.registerBuiltins()
         DismantleService.resolve()
-        MarkBlockManager.resolve()
+        MarkBlockManager.load()
         UpdateChecker.resolve()
         ConfigValidator.validate()
     }

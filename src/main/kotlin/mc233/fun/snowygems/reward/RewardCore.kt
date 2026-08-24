@@ -4,7 +4,7 @@ import mc233.`fun`.snowygems.config.GemConfig
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-enum class RewardPhase { APPLY, REMOVE, FAIL }
+enum class RewardPhase { APPLY, REMOVE }
 
 /**
  * 一次奖励执行所需的上下文. [item] 是被作用的目标装备(强化/镶嵌类奖励), 可能为 null(纯玩家类奖励,
@@ -32,6 +32,13 @@ interface Reward {
 
 class ParsedReward(val call: FunctionCall, val flags: Set<String>) {
 
+    /**
+     * 对应的 Reward 实例(注册表加载时由 [RewardFactory] 创建并缓存, 运行时零分配).
+     * 所有 Reward 实现都是不可变配置持有者, apply()/revert() 只读不写自身, 可安全共享.
+     * 未识别的函数名为 null(加载时已记录, 运行时不重复查找).
+     */
+    var reward: Reward? = null
+
     fun matchesPhase(phase: RewardPhase): Boolean {
         return when {
             flags.contains("onRemove") -> phase == RewardPhase.REMOVE
@@ -49,6 +56,9 @@ class FunctionCall(val name: String, val args: LinkedHashMap<String, String>) {
 }
 
 object RewardTokenParser {
+
+    /** 行尾 $onSuccess / $onRemove / $ignorable 等标记; 预编译避免每次解析都重新编译正则 */
+    private val flagRegex = Regex("""\${'$'}([A-Za-z]+)""")
 
     fun parseLine(raw: String): ParsedReward {
         var s = raw.trim()
@@ -79,7 +89,7 @@ object RewardTokenParser {
                 remainder = s.substring(closeIdx + 1)
             }
         }
-        val flags = Regex("""\$([A-Za-z]+)""").findAll(remainder).map { it.groupValues[1] }.toSet()
+        val flags = flagRegex.findAll(remainder).map { it.groupValues[1] }.toSet()
         val args = parseArgs(argsStr)
         return ParsedReward(FunctionCall(name.trim(), args), flags)
     }

@@ -1,5 +1,8 @@
 package mc233.`fun`.snowygems.config
 
+import mc233.`fun`.snowygems.skill.SkillLine
+import mc233.`fun`.snowygems.skill.SkillLineParser
+import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
@@ -12,6 +15,9 @@ import java.util.concurrent.ConcurrentHashMap
 object SkillRegistry {
 
     private val skills = ConcurrentHashMap<String, SkillDef>()
+
+    /** 带 Lore 标记的技能定义, 加载时算好缓存, 触发/BUFF 循环直接取用(避免每次事件重新 filter 分配) */
+    private var withLoreCache: List<SkillDef> = emptyList()
 
     fun reload() {
         skills.clear()
@@ -29,8 +35,9 @@ object SkillRegistry {
                 DebugUtil.err("Registry", "加载技能配置文件失败: ${file.name}", e)
             }
         }
+        withLoreCache = skills.values.filter { !it.lore.isNullOrBlank() }
         info("已加载 ${skills.size} 个技能/BUFF 定义")
-        DebugUtil.log("Registry", "技能加载完毕, 带Lore标记可触发的共 ${withLore().size} 个: ${withLore().map { it.id }}")
+        DebugUtil.log("Registry", "技能加载完毕, 带Lore标记可触发的共 ${withLoreCache.size} 个: ${withLoreCache.map { it.id }}")
     }
 
     private fun loadFile(file: File) {
@@ -44,12 +51,26 @@ object SkillRegistry {
         for (key in cfg.getKeys(false)) {
             if (key.equals("depend", true)) continue
             val sec = cfg.getConfigurationSection(key) ?: continue
+            val rawSkills = sec.getStringList("Skills")
+            // 一次性预解析: 触发事件里直接取用, 不再每次重复解析配置行
+            val parsed = rawSkills.mapNotNull { raw ->
+                if (raw.isBlank()) null else runCatching { SkillLineParser.parse(raw) }.getOrNull()
+            }
+            // 按触发标记分组(一行可挂多个 ~trigger, 会出现在多组); 无触发标记的行不参与
+            val byTrigger = HashMap<String, MutableList<SkillLine>>()
+            for (line in parsed) {
+                for (t in line.triggers) byTrigger.getOrPut(t) { ArrayList() }.add(line)
+            }
             val def = SkillDef(
                 id = key,
                 lore = sec.getString("Lore"),
                 cooldown = sec.getDouble("Cooldown", 0.0),
                 cooldownTip = sec.getString("CooldownTip"),
-                skills = sec.getStringList("Skills")
+                skills = rawSkills,
+                parsedSkills = parsed,
+                byTrigger = byTrigger,
+                timerLines = byTrigger["onTimer"] ?: emptyList(),
+                loreClean = sec.getString("Lore")?.let { ColorUtil.stripColor(it).trim() } ?: ""
             )
             skills[key] = def
             DebugUtil.log("Registry", "    解析技能 id=$key lore标记=${def.lore} 冷却=${def.cooldown}s 技能行=${def.skills.size}条")
@@ -61,6 +82,6 @@ object SkillRegistry {
 
     fun all(): Collection<SkillDef> = skills.values
 
-    /** 所有带 Lore 标记的技能/BUFF, 用于按物品 Lore 反查触发 */
-    fun withLore(): List<SkillDef> = skills.values.filter { !it.lore.isNullOrBlank() }
+    /** 所有带 Lore 标记的技能/BUFF, 用于按物品 Lore 反查触发(加载时缓存, 零分配) */
+    fun withLore(): List<SkillDef> = withLoreCache
 }

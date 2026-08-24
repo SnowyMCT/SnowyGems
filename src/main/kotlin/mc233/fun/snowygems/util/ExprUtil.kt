@@ -15,17 +15,21 @@ import kotlin.random.Random
  */
 object ExprUtil {
 
+    /** $RANDOM() 通配符; 预编译避免每次求值都重新编译正则 */
+    private val randomRegex = Regex("""\${'$'}RANDOM\(\)""")
+    /** 独立变量 v(避免误伤单词内部, 如函数名中的 v) */
+    private val varRegex = Regex("""(?<![A-Za-z0-9_.])v(?![A-Za-z0-9_.])""")
+    /** 提取文本中的第一个数字 */
+    private val numberRegex = Regex("""-?\d+(\.\d+)?""")
+
     fun eval(expr: String, v: Double = 0.0): Double {
         var s = expr.trim()
         // 先处理 $RANDOM() -> 替换为 [0,1) 的随机数, 每次出现各自独立取值
-        val randomRegex = Regex("""\${'$'}RANDOM\(\)""")
         s = randomRegex.replace(s) { Random.nextDouble().toString() }
-        // 替换独立的变量 v (避免误伤单词内部, 如函数名中的 v)
-        s = Regex("""(?<![A-Za-z0-9_.])v(?![A-Za-z0-9_.])""").replace(s) { v.toString() }
+        // 替换独立的变量 v
+        s = varRegex.replace(s) { v.toString() }
         return try {
-            val p = Parser(s)
-            val result = p.parseTernary()
-            result
+            Parser(s).parseTernary()
         } catch (e: Exception) {
             v
         }
@@ -134,7 +138,7 @@ object ExprUtil {
     }
 
     fun extractNumber(text: String): Double {
-        val m = Regex("""-?\d+(\.\d+)?""").find(text) ?: return 0.0
+        val m = numberRegex.find(text) ?: return 0.0
         return m.value.toDoubleOrNull() ?: 0.0
     }
 }

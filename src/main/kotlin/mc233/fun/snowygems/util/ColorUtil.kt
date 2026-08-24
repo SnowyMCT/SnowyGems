@@ -18,11 +18,4 @@ object ColorUtil {
     fun colorize(list: List<String>): List<String> = list.map { it.colored() }
 
     fun stripColor(text: String): String = text.uncolored()
-
-    fun loreMatches(loreLine: String, marker: String): Boolean {
-        val a = stripColor(loreLine).trim()
-        val b = stripColor(marker).trim()
-        if (b.isEmpty()) return false
-        return a.contains(b)
-    }
 }

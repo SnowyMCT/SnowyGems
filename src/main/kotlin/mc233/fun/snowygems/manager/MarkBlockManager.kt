@@ -1,82 +1,127 @@
 package mc233.`fun`.snowygems.manager
 
-import mc233.`fun`.snowygems.SnowyGems
-import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Location
-import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
-import org.bukkit.persistence.PersistentDataType
-import taboolib.module.configuration.Config
+import taboolib.common.platform.function.getDataFolder
+import taboolib.module.chat.colored
 import taboolib.module.configuration.Configuration
+import java.io.File
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 /**
- * 镶嵌台方块标记管理器.
- *
- * 用「区块的 PersistentDataContainer」持久化被标记的方块:
- *   - 每个被标记的方块在其所属区块 PDC 上写一个以自身坐标为 path 的 NamespacedKey,
- *     因此同一区块可标记任意多个方块(不会互相覆盖), 且随区块存档一起持久化。
- *   - tagged-blocks 白名单由 @Config 托管, reloadAll 时通过 [resolve] 刷新缓存。
+ * 方块标记管理器
  */
 object MarkBlockManager {
 
-    @Config(value = "config.yml", autoReload = true, migrate = true)
-    lateinit var conf: Configuration
-
-    /** 可被设置为镶嵌台的方块材质白名单(全大写) */
-    private var taggedBlocks: Set<String> = emptySet()
-
-    /** reloadAll 时刷新白名单缓存 */
-    fun resolve() {
-        if (!::conf.isInitialized) return
-        taggedBlocks = conf.getStringList("tagged-blocks").map { it.uppercase() }.toSet()
-        DebugUtil.log("Command", "镶嵌台方块白名单已加载: ${taggedBlocks.size} 种")
+    private val file by lazy { File(getDataFolder(), "MarkedBlocks.yml") }
+    private val storage by lazy {
+        file.parentFile?.mkdirs()
+        if (!file.exists()) file.createNewFile()
+        Configuration.loadFromFile(file)
     }
 
-    /** 标记玩家准星指向的方块为镶嵌台 */
+    // 单条标记信息: 格式化后的时间 + 执行标记的玩家
+    private data class MarkedInfo(val time: String, val player: String)
+
+    // 标记内存: world:x:y:z -> 标记信息
+    private val markedBlocks = HashMap<String, MarkedInfo>()
+
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+
+    private fun formatTime(millis: Long): String =
+        Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).format(dateFormatter)
+
+    // 加载
+    fun load() {
+        markedBlocks.clear()
+        for (entry in storage.getMapList("marked")) {
+            val key = entry["key"]?.toString() ?: continue
+            val rawTime = entry["time"] ?: continue
+            val time = when (rawTime) {
+                is Number -> formatTime(rawTime.toLong())
+                is Date -> formatTime(rawTime.time)
+                else -> rawTime.toString()
+            }
+            val player = entry["player"]?.toString()?.ifBlank { "?" } ?: "?"
+            markedBlocks[key] = MarkedInfo(time, player)
+        }
+    }
+
+    // 存
+    private fun save() {
+        storage.set("marked", markedBlocks.map { (k, v) ->
+            mapOf("key" to k, "time" to v.time, "player" to v.player)
+        })
+        storage.saveToFile()
+    }
+
+    // 标记玩家指的方块
     fun markBlock(player: Player) {
-        val targetBlock = player.getTargetBlock(null, 6)
-        if (targetBlock.type.isAir) {
-            Lang.send(player, "command.no-block")
+        val targetBlock = player.getTargetBlock(null, 6) ?: run {
+            Lang.send(player,"command.no-block")
             return
         }
 
+        if (targetBlock.type.isAir) {
+            Lang.send(player,"command.no-air")
+            return
+        }
+
+        // 检查方块是否是 config.yml 文件中 tagged-blocks 中定义的方块类型
+        val allowedBlocks = Configuration.loadFromFile(File(getDataFolder(), "config.yml"))
+            .getStringList("tagged-blocks") ?: emptyList()
         val material = targetBlock.type
-        if (material.name !in taggedBlocks) {
+        if (material.name !in allowedBlocks.map { it.uppercase() }) {
             Lang.send(player, "command.block-not-allowed")
             return
         }
 
         val location = targetBlock.location
-        val override = isBlockMarked(location)
-        saveMarkedBlock(location)
 
-        if (override) Lang.send(player, "command.mark-override")
-        Lang.send(
-            player, "command.mark-success",
-            "block" to material.name,
-            "x" to location.blockX,
-            "y" to location.blockY,
-            "z" to location.blockZ
-        )
-        Lang.send(player, "command.mark-hint")
+        // 检查是否已被标记
+        if (isBlockMarked(location)) {
+            Lang.send(player, "command.block-marked")
+        }
+
+        // 保存标记
+        saveMarkedBlock(location, player.name)
+
+        player.sendMessage("§a✓ 成功将该方块设置成镶嵌台 §6${targetBlock.type.name} §a坐标 §b${location.blockX}, ${location.blockY}, ${location.blockZ}".colored())
+        player.sendMessage("§7现在右键点击该方块将打开镶嵌台界面".colored())
     }
 
-    /** 检查方块是否被标记为镶嵌台 */
+    //检查方块是否被标记
     fun isBlockMarked(location: Location): Boolean =
-        location.chunk.persistentDataContainer.has(keyOf(location), PersistentDataType.BYTE)
+        markedBlocks.containsKey(locationToKey(location))
 
-    /** 写入标记 */
-    fun saveMarkedBlock(location: Location) {
-        location.chunk.persistentDataContainer.set(keyOf(location), PersistentDataType.BYTE, 1)
+
+    //保存标记到持久化数据
+    fun saveMarkedBlock(location: Location, playerName: String) {
+        markedBlocks[locationToKey(location)] = MarkedInfo(formatTime(System.currentTimeMillis()), playerName)
+        save()
     }
 
-    /** 移除标记 */
+    // 移除标记
     fun removeMarkedBlock(location: Location) {
-        location.chunk.persistentDataContainer.remove(keyOf(location))
+        markedBlocks.remove(locationToKey(location))
+        save()
     }
 
-    /** 每个方块用其世界坐标生成唯一 key(同区块内不冲突) */
-    private fun keyOf(location: Location): NamespacedKey =
-        NamespacedKey(SnowyGems.plugin, "mark_${location.blockX}_${location.blockY}_${location.blockZ}")
+    //获取标记时间
+    fun getMarkedTime(location: Location): String? =
+        markedBlocks[locationToKey(location)]?.time
+
+    //获取标记该方块的玩家名
+    fun getMarkedPlayer(location: Location): String? =
+        markedBlocks[locationToKey(location)]?.player
+
+
+    //将 Location 转换为字符串键
+    private fun locationToKey(location: Location): String {
+        return "${location.world?.name}:${location.blockX}:${location.blockY}:${location.blockZ}"
+    }
 }
