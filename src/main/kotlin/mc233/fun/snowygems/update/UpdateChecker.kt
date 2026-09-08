@@ -109,7 +109,7 @@ object UpdateChecker {
         latestDate = date
         val current = pluginVersion
         // 判定规则: 本地版本与远端版本"不完全一致"就提示更新, 不做大小比较。
-        // 这样服主把本地版本改成任何 ≠ 远端的值(更低/更高/乱填)都会被提示去核对, 符合"以远端为准"的预期。
+        // 这样服主把本地版本改成任何 ≠ 远端的值(更低/更高/乱填)都会被提示去核对
         // 去掉首尾空白后逐字符比较, 忽略大小写差异(避免 v1.0 与 V1.0 误报)。
         updateAvailable = ver != null && !ver.trim().equals(current.trim(), ignoreCase = true)
         DebugUtil.log("Update", "当前版本=$current 远端版本=$ver 日期=$date 需更新=$updateAvailable")

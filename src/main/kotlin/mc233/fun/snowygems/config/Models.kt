@@ -7,7 +7,8 @@ import mc233.`fun`.snowygems.skill.SkillLine
  * 宝石的三种基础形态:
  *  - NORMAL:      放入镶嵌台/工作台, 先点宝石再点装备 (强化/镶嵌/粉尘)
  *  - PLAYER_GEM:  玩家手持右键(或吃/喝)直接生效, 不需要目标装备 (兑换券/药水)
- *  - RANDOM_GEM:  右键后按权重从 [randomPool] 中抽取一个子宝石并当场生效
+ *  - RANDOM_GEM:  右键后按权重从 [randomPool] 抽取一个子宝石: 配置 GiveItem=true 的礼包把
+ *                 子宝石以物品形式放进背包(背包满则掉在安全地面), 其余当场执行子宝石 Rewards
  */
 enum class GemType {
     NORMAL, PLAYER_GEM, RANDOM_GEM;
@@ -53,6 +54,9 @@ data class GemConfig(
     val parsedRewards: List<ParsedReward> = emptyList(),
     /** 仅 RANDOM_GEM 使用: 子宝石ID -> 权重 */
     val randomPool: Map<String, Int> = emptyMap(),
+    /** 仅 RANDOM_GEM 使用: GiveItem=true 时抽中的子宝石以物品形式放入玩家背包(背包满则掉落在身边安全地面);
+     *  默认 false 保持旧行为: 当场执行子宝石的 Rewards (随机点券券等直接到账类随机宝石用) */
+    val randomGiveItem: Boolean = false,
     /** 该宝石限定只能在这些界面里使用(配置里的 `Gui:` 列表), 为空表示通用宝石镶嵌台受理 */
     val gui: List<String> = emptyList(),
     /** 分类, 来自其所在的配置文件名(不含扩展名), 用于 /sgem view 分类浏览 */

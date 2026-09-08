@@ -11,6 +11,9 @@ import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import mc233.`fun`.snowygems.util.DebugUtil
+import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.module.nms.ItemTagData
@@ -114,11 +117,35 @@ object GemManager {
                 val picked = weightedPick(cfg.randomPool) ?: return ApplyResult(false, Lang.get("gem.pool-empty"), false)
                 DebugUtil.log("GemManager", "useDirectly: 随机奖池 ${cfg.randomPool} 抽中 $picked")
                 val subCfg = GemRegistry.get(picked) ?: return ApplyResult(false, Lang.get("gem.pool-invalid"), false)
-                val ctx = RewardContext(player, null, subCfg, RewardPhase.APPLY, true)
-                runRewards(ctx, subCfg.parsedRewards, RewardPhase.APPLY)
-                val msg = subCfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
-                    ?: Lang.get("gem.random-get", "gem" to subCfg.display.ifBlank { subCfg.name })
-                ApplyResult(true, msg, true)
+                if (cfg.randomGiveItem) {
+                    // 礼包模式(GiveItem=true): 把抽中的子宝石以物品形式放进背包;
+                    // 背包放不下则在身边找安全地面(无岩浆/仙人掌/水)掉落, 并提示玩家
+                    val item = ItemFactory.build(subCfg, 1)
+                    val leftover = player.inventory.addItem(item)
+                    val gemName = subCfg.display.ifBlank { subCfg.name }
+                    if (leftover.isEmpty()) {
+                        DebugUtil.log("GemManager", "useDirectly: 礼包(${cfg.id})抽中 $picked 已放入背包")
+                        ApplyResult(true, Lang.get("gem.random-get", "gem" to gemName), true)
+                    } else {
+                        val loc = findSafeDropLocation(player)
+                        if (loc != null) {
+                            player.world.dropItem(loc, item)
+                            DebugUtil.log("GemManager", "useDirectly: 礼包(${cfg.id})抽中 $picked 背包已满, 掉落在 $loc")
+                            ApplyResult(true, Lang.get("gem.inventory-full", "gem" to gemName), true)
+                        } else {
+                            // 周围确实没有安全地面: 不消耗礼包, 让玩家清理背包/换个位置再开
+                            DebugUtil.log("GemManager", "useDirectly: 礼包(${cfg.id})抽中 $picked 背包已满且周围无安全落点, 不消耗礼包")
+                            ApplyResult(false, Lang.get("gem.no-safe-spot"), false)
+                        }
+                    }
+                } else {
+                    // 旧行为: 当场执行子宝石的 Rewards (随机点券券等直接到账类随机宝石)
+                    val ctx = RewardContext(player, null, subCfg, RewardPhase.APPLY, true)
+                    runRewards(ctx, subCfg.parsedRewards, RewardPhase.APPLY)
+                    val msg = subCfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
+                        ?: Lang.get("gem.random-get", "gem" to subCfg.display.ifBlank { subCfg.name })
+                    ApplyResult(true, msg, true)
+                }
             }
             GemType.PLAYER_GEM -> {
                 val success = rollSuccess(cfg.success)
@@ -248,6 +275,53 @@ object GemManager {
             roll -= w
         }
         return pool.keys.lastOrNull()
+    }
+
+    /** 掉落物会被销毁/烧毁/冲走的方块类型: 岩浆(烧毁物品)、仙人掌(销毁物品)、水(冲走物品) */
+    private fun isHazardous(mat: Material): Boolean =
+        mat == Material.LAVA || mat == Material.WATER || mat == Material.CACTUS
+
+    /** 落点/头顶格可通行: 非实体方块, 且不是岩浆/水 */
+    private fun isClear(block: Block): Boolean =
+        !block.type.isSolid && !isHazardous(block.type)
+
+    /**
+     * 以玩家为中心、半径 4 格的圆形范围, 由近到远找一个安全掉落点:
+     *  - 落点正下方必须有实体方块支撑, 且该方块不是岩浆/仙人掌(水不是实体方块, 天然不满足支撑);
+     *  - 落点格与头顶格必须可通行且不含岩浆/水, 保证掉落物实体不会落进危险方块;
+     *  - 玩家脚下一层找不到支撑面时向下最多探 6 格(玩家站在低空/浮空时也能落回最近地面).
+     * 找不到返回 null, 由调用方提示玩家清理背包或换个位置再开.
+     */
+    private fun findSafeDropLocation(player: Player): Location? {
+        val world = player.world
+        val blockX = player.location.blockX
+        val blockZ = player.location.blockZ
+        val feetY = player.location.blockY
+        val radius = 4
+        val spots = ArrayList<IntArray>()
+        for (dx in -radius..radius) {
+            for (dz in -radius..radius) {
+                if (dx * dx + dz * dz > radius * radius) continue // 只搜圆形范围, 不搜四个远角
+                spots.add(intArrayOf(dx, dz))
+            }
+        }
+        spots.sortBy { it[0] * it[0] + it[1] * it[1] } // 近处优先
+        for (spot in spots) {
+            val x = blockX + spot[0]
+            val z = blockZ + spot[1]
+            for (down in 0..6) {
+                val groundY = feetY - down
+                if (groundY < world.minHeight) break
+                val ground = world.getBlockAt(x, groundY, z)
+                if (!ground.type.isSolid || isHazardous(ground.type)) continue
+                val stand = world.getBlockAt(x, groundY + 1, z)
+                val head = world.getBlockAt(x, groundY + 2, z)
+                if (isClear(stand) && isClear(head)) {
+                    return Location(world, x + 0.5, groundY + 1.0, z + 0.5)
+                }
+            }
+        }
+        return null
     }
 
 }

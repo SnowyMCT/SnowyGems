@@ -90,6 +90,7 @@ object GemRegistry {
                     ?.also { it.reward = RewardFactory.create(it.call) }
             },
             randomPool = randomPool,
+            randomGiveItem = sec.getBoolean("GiveItem", false),
             gui = sec.getStringList("Gui"),
             category = category
         )
