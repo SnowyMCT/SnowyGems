@@ -11,7 +11,6 @@
 #
 #  These files are managed by the TabooLib language module:
 #    - Released automatically to the plugin folder (lang/) on first run
-#    - Editing the released file hot-reloads it
 #    - New nodes added by plugin updates are merged in, keeping edits
 #
 #  ── Keys ──────────────────────────────────────────────────
@@ -100,6 +99,9 @@ gem-need-workbench: '&cThis gem must be embedded into an item at a workbench'
 gem-random-get: '&aYou received &f{gem}'
 gem-pool-empty: '&cThis random pool is empty, contact an admin'
 gem-pool-invalid: '&cThe random pool references a missing gem, contact an admin'
+# Gift-box random gems (GiveItem=true) when the inventory is full   Placeholder: {gem} picked gem name
+gem-inventory-full: '&cInventory full! &f{gem} &cdropped at a safe spot near you, pick it up soon'
+gem-no-safe-spot: '&cInventory full and no safe spot nearby to drop the gem (lava/cactus/water), free up space and try again'
 # Dismantle
 gem-remove-success: '&aGem removed'
 # Protection: gems cannot be placed as blocks / into item frames
