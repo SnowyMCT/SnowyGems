@@ -16,8 +16,8 @@ import mc233.`fun`.snowygems.util.ItemFactory
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.meta.Damageable
-import taboolib.module.nms.ItemTagData
-import taboolib.module.nms.getItemTag
+import mc233.`fun`.snowygems.util.ItemTagData
+import mc233.`fun`.snowygems.util.getItemTag
 
 /** Enchant{name=DURABILITY;limit=7} 或 Enchant{name=RIPTIDE;level=0} */
 class EnchantReward(private val name: String, private val level: Int?, private val limit: Int?) : Reward {
@@ -70,6 +70,7 @@ class EnchantReward(private val name: String, private val level: Int?, private v
             }
             item.addUnsafeEnchantment(enchant, next)
         }
+        ctx.undoData["enchantDelta"] = (item.getEnchantmentLevel(enchant) - curLevel).toString()
         ctx.item = item
         return true
     }
@@ -77,8 +78,19 @@ class EnchantReward(private val name: String, private val level: Int?, private v
     /** 拆卸撤销: 未指定 level 的累加式附魔按"降 1 级"处理; 指定了 level 的直接移除该附魔 */
     override fun revert(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
-        val enchant = resolveEnchant(name) ?: return false
+        val enchant = resolveEnchant(name) ?: error("Cannot resolve enchantment for removal: $name")
         val curLevel = item.getEnchantmentLevel(enchant)
+        val delta = ctx.undoData["enchantDelta"]?.toIntOrNull()
+        if (delta != null) {
+            val restored = curLevel.toLong() - delta
+            // 后续定级/清除附魔可能覆盖了本次贡献；不能截成 0 后返还宝石，
+            // 否则以后撤销那次清除会凭空恢复额外等级。请先拆较新的覆盖型宝石。
+            require(restored in 0..Int.MAX_VALUE.toLong()) { "Remove newer enchantment changes first" }
+            val next = restored.toInt()
+            if (next <= 0) item.removeEnchantment(enchant) else item.addUnsafeEnchantment(enchant, next)
+            ctx.item = item
+            return next != curLevel
+        }
         if (curLevel <= 0) return false
         if (level != null && level > 0) {
             // 定级附魔: 整体移除
@@ -112,6 +124,7 @@ class EnchantReward(private val name: String, private val level: Int?, private v
 class ItemGiveReward(private val gemId: String, private val amount: Int = 1) : Reward {
     override fun apply(ctx: RewardContext): Boolean {
         val player = ctx.player ?: return false
+        if (amount <= 0) return false
         val cfg = GemRegistry.get(gemId) ?: run {
             DebugUtil.log("Reward", "    ItemGive 引用的宝石配置不存在: $gemId (请检查配置文件里是否漏写了这个宝石的定义)")
             return false
@@ -125,21 +138,27 @@ class ItemGiveReward(private val gemId: String, private val amount: Int = 1) : R
 }
 
 /** ItemTake{GEM:xxx=amount} 从背包扣除指定数量的某宝石物品 */
-class ItemTakeReward(private val gemId: String, private val amount: Int) : Reward {
+class ItemTakeReward(val gemId: String, val amount: Int) : Reward {
     override fun apply(ctx: RewardContext): Boolean {
         val player = ctx.player ?: return false
+        if (amount <= 0) return false
         var remaining = amount
-        val contents = player.inventory.contents
+        val contents = player.inventory.storageContents
+        val available = contents.filterNotNull().filter { ItemFactory.getGemId(it) == gemId }.sumOf { it.amount.toLong() }
+        if (available < amount) {
+            DebugUtil.log("Reward", "    ItemTake 材料不足: 需要 $gemId x$amount, 现有 $available，未扣除")
+            return false
+        }
         for (i in contents.indices) {
-            val stack = contents[i] ?: continue
+            val stack = contents[i]?.clone() ?: continue
             if (ItemFactory.getGemId(stack) != gemId) continue
             val take = minOf(remaining, stack.amount)
             stack.amount -= take
             remaining -= take
-            if (stack.amount <= 0) contents[i] = null
+            contents[i] = stack.takeIf { it.amount > 0 }
             if (remaining <= 0) break
         }
-        player.inventory.contents = contents
+        player.inventory.storageContents = contents
         if (remaining > 0) {
             DebugUtil.log("Reward", "    ItemTake 材料不足: 需要 $gemId x$amount, 还差 $remaining 个")
         } else {
@@ -154,12 +173,12 @@ class PointReward(private val amountExpr: String) : Reward {
         val player = ctx.player ?: return false
         val amount = ExprUtil.eval(amountExpr)
         DebugUtil.log("Reward", "    Point: 表达式 $amountExpr -> $amount 点券, 目标=${player.name}")
-        PointsEconomy.add(player, amount)
+        if (!PointsEconomy.tryAdd(player, amount)) return false
         // 主动提示玩家获得了多少(取整展示, 因为点券是整数量级)
-        mc233.`fun`.snowygems.util.Lang.send(
+        runCatching { mc233.`fun`.snowygems.util.Lang.send(
             player, "reward.point-gain",
-            "amount" to amount.toLong().toString()
-        )
+            "amount" to if (amount == amount.toLong().toDouble()) amount.toLong().toString() else amount.toString()
+        ) }
         return true
     }
 }
@@ -173,7 +192,7 @@ class MoneyReward(private val amountExpr: String) : Reward {
         if (ok) {
             // 金币可能有小数, 整数时不显示小数点
             val shown = if (amount == amount.toLong().toDouble()) amount.toLong().toString() else "%.2f".format(amount)
-            mc233.`fun`.snowygems.util.Lang.send(player, "reward.money-gain", "amount" to shown)
+            runCatching { mc233.`fun`.snowygems.util.Lang.send(player, "reward.money-gain", "amount" to shown) }
         }
         return ok
     }
@@ -186,6 +205,8 @@ class MaxHealthReward(private val amount: Double, private val limit: Double?) : 
         val inst = player.getAttribute(attribute) ?: return false
         var newBase = inst.baseValue + amount
         if (limit != null) newBase = newBase.coerceAtMost(limit)
+        if (!newBase.isFinite() || newBase <= 0 || newBase == inst.baseValue ||
+            (amount > 0 && newBase < inst.baseValue)) return false
         inst.baseValue = newBase
         return true
     }
@@ -194,6 +215,7 @@ class MaxHealthReward(private val amount: Double, private val limit: Double?) : 
 class ExpLevelReward(private val amount: Int) : Reward {
     override fun apply(ctx: RewardContext): Boolean {
         val player = ctx.player ?: return false
+        if (amount == 0 || player.level.toLong() + amount !in 0..Int.MAX_VALUE.toLong()) return false
         player.giveExpLevels(amount)
         return true
     }
@@ -203,6 +225,7 @@ class UnbreakableReward : Reward {
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
         val meta = item.itemMeta ?: return false
+        if (meta.isUnbreakable) return false
         meta.isUnbreakable = true
         item.itemMeta = meta
         ctx.item = item
@@ -214,7 +237,9 @@ class DurabilityReward(private val amount: Int) : Reward {
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
         val meta = item.itemMeta as? Damageable ?: return false
-        meta.damage = (meta.damage - amount).coerceAtLeast(0)
+        val updated = (meta.damage.toLong() - amount).coerceIn(0, item.type.maxDurability.toLong()).toInt()
+        if (updated == meta.damage) return false
+        meta.damage = updated
         item.itemMeta = meta as org.bukkit.inventory.meta.ItemMeta
         ctx.item = item
         return true
@@ -232,6 +257,7 @@ class ItemFlagReward(private val flagName: String) : Reward {
             DebugUtil.log("Reward", "    ItemFlag 失败: 无法识别的 flag 名 $flagName")
             return false
         }
+        if (meta.hasItemFlag(flag)) return false
         meta.addItemFlags(flag)
         item.itemMeta = meta
         ctx.item = item
@@ -253,7 +279,7 @@ class SkillToNbtReward : Reward {
         val hidden = tag[hiddenKey]
         if (hidden == null) {
             val toHide = lore.filter { it.contains("[技能]") || it.contains("[BUFF]") }
-            if (toHide.isEmpty()) return true
+            if (toHide.isEmpty()) return false
             lore.removeAll(toHide)
             tag[hiddenKey] = ItemTagData(toHide.joinToString("\n"))
         } else {
@@ -276,20 +302,24 @@ class SkillToNbtReward : Reward {
  */
 class ConditionalReward(private val condition: String, private val roman: Boolean, private val nested: String) : Reward {
 
+    private val parsed by lazy { RewardTokenParser.parseLine(nested) }
+    private val nestedReward by lazy { RewardFactory.create(parsed.call) }
+
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item
         val lore = item?.itemMeta?.lore ?: emptyList()
         val pass = evaluate(condition, lore)
         DebugUtil.log("Reward", "    Conditional: 条件 $condition (roman=$roman) 判定=$pass")
         if (!pass) return false
-        val parsed = RewardTokenParser.parseLine(nested)
-        val reward = RewardFactory.create(parsed.call) ?: run {
+        val reward = nestedReward ?: run {
             DebugUtil.log("Reward", "    Conditional: 嵌套奖励 ${parsed.call.name} 无法识别")
             return false
         }
         DebugUtil.log("Reward", "    Conditional 条件成立, 执行嵌套奖励 ${parsed.call.name}")
         return reward.apply(ctx)
     }
+
+    override fun revert(ctx: RewardContext): Boolean = nestedReward?.revert(ctx) ?: false
 
     private fun evaluate(condition: String, lore: List<String>): Boolean {
         val m = Regex("""\${'$'}LORE:(.+?):\${'$'}([=!<>]+)(-?\d+(?:\.\d+)?)""").find(condition) ?: return false

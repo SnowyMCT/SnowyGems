@@ -16,7 +16,10 @@ class RewardContext(
     val gem: GemConfig,
     val phase: RewardPhase,
     val success: Boolean
-)
+) {
+    /** 本条奖励的撤销凭据，只保存本次实际变化，不持有玩家或物品引用。 */
+    val undoData: MutableMap<String, String> = linkedMapOf()
+}
 
 interface Reward {
     fun apply(ctx: RewardContext): Boolean
@@ -96,8 +99,24 @@ object RewardTokenParser {
 
     /** 找到与 openIndex 处 '{' 匹配的 '}' 下标, 找不到返回 -1 */
     fun findMatchingBrace(s: String, openIndex: Int): Int {
+        if (openIndex !in s.indices || s[openIndex] != '{') return -1
         var depth = 0
+        var inQuote = false
+        var escaped = false
         for (i in openIndex until s.length) {
+            if (escaped) {
+                escaped = false
+                continue
+            }
+            if (s[i] == '\\' && inQuote) {
+                escaped = true
+                continue
+            }
+            if (s[i] == '"') {
+                inQuote = !inQuote
+                continue
+            }
+            if (inQuote) continue
             when (s[i]) {
                 '{' -> depth++
                 '}' -> {

@@ -20,9 +20,9 @@ object ItemCategories {
         "_SWORD" to setOf("WEAPON", "SWORD", "MELEE"),
         // 斧既是武器又是工具
         "_AXE" to setOf("WEAPON", "TOOL", "AXE", "MELEE"),
-        // 矛(1.21.11+): 分材质等级(WOODEN_SPEAR/IRON_SPEAR/COPPER_SPEAR…), 靠后缀统一归类.
-        // 矛既能近战又能投掷, 因此同时属于 WEAPON/MELEE/RANGED/SPEAR
-        "_SPEAR" to setOf("WEAPON", "MELEE", "RANGED", "SPEAR"),
+        // 矛(1.21.11+): 分材质等级(WOODEN_SPEAR/IRON_SPEAR/COPPER_SPEAR…), 靠后缀统一归类。
+        // 矛是近战武器，拥有突刺/蓄力攻击；它不是可投掷发射物，不属于 RANGED。
+        "_SPEAR" to setOf("WEAPON", "MELEE", "SPEAR"),
         // 工具
         "_PICKAXE" to setOf("TOOL", "PICKAXE"),
         "_SHOVEL" to setOf("TOOL", "SHOVEL"),
@@ -41,7 +41,7 @@ object ItemCategories {
         put("TRIDENT", setOf("WEAPON", "RANGED", "MELEE", "TRIDENT"))
         // ── 近战武器 ──────────────────────────────────────
         put("MACE", setOf("WEAPON", "MELEE", "MACE"))            // 1.21+
-        put("SPEAR", setOf("WEAPON", "MELEE", "RANGED", "SPEAR")) // 1.21.11+ 矛(可投掷)
+        put("SPEAR", setOf("WEAPON", "MELEE", "SPEAR")) // 1.21.11+ 矛（近战/突刺/蓄力）
         // ── 工具 ──────────────────────────────────────────
         put("SHEARS", setOf("TOOL", "SHEARS"))
         put("FISHING_ROD", setOf("TOOL", "FISHING_ROD"))

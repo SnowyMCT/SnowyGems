@@ -7,6 +7,7 @@ import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
+import mc233.`fun`.snowygems.gui.RuneForgeGui
 import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.manager.MarkBlockManager
@@ -51,6 +52,11 @@ object GemCommand {
         }
     }
 
+    @CommandBody(permission = Permissions.RUNE)
+    val rune = subCommand {
+        execute<Player> { sender, _, _ -> RuneForgeGui.open(sender) }
+    }
+
     @CommandBody(permission = Permissions.MARK)
     val mark = subCommand {
         execute<Player> { sender, _, _ ->
@@ -85,14 +91,9 @@ object GemCommand {
                 Lang.sendCommand(sender, "command.no-held-gem")
                 return@execute
             }
-            val result = GemManager.useDirectly(sender, held)
+            val result = GemManager.useHeld(sender)
             DebugUtil.log("Command", "  useDirectly 返回 success=${result.success} consumed=${result.consumedGem} msg=${result.message}")
             Lang.sendRaw(sender, result.message)
-            if (result.consumedGem && result.success) {
-                val left = held.clone()
-                left.amount -= 1
-                sender.inventory.setItemInMainHand(if (left.amount <= 0) null else left)
-            }
         }
     }
 

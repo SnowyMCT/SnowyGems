@@ -2,12 +2,10 @@ package mc233.`fun`.snowygems.gui
 
 import mc233.`fun`.snowygems.config.GemConfig
 import mc233.`fun`.snowygems.config.GemRegistry
-import mc233.`fun`.snowygems.config.GemType
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
-import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -19,6 +17,7 @@ import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
@@ -55,6 +54,10 @@ object EmbedGui {
 
     class EmbedHolder : InventoryHolder {
         lateinit var inv: Inventory
+        var refreshPending = false
+        var processing = false
+        var closeRequested = false
+        var returned = false
         override fun getInventory(): Inventory = inv
     }
 
@@ -90,7 +93,7 @@ object EmbedGui {
         })
     }
 
-    private fun isEmpty(item: ItemStack?) = item == null || item.type == Material.AIR
+    private fun isEmpty(item: ItemStack?) = item == null || item.type.isAir || item.amount <= 0
 
     /**
      * 检查当前两个槽位的组合能不能镶嵌.
@@ -99,23 +102,7 @@ object EmbedGui {
     private fun validate(equip: ItemStack?, gem: ItemStack?): String? {
         if (isEmpty(equip)) return Lang.get("embed.need-equip")
         if (isEmpty(gem)) return Lang.get("embed.need-gem")
-        val gemId = ItemFactory.getGemId(gem) ?: return Lang.get("embed.not-gem")
-        val cfg = GemRegistry.get(gemId) ?: return Lang.get("embed.gem-missing", "gem" to gemId)
-        if (cfg.type != GemType.NORMAL) {
-            return Lang.get("embed.wrong-type")
-        }
-        // 宝石声明了专属界面(如符文台)且不包含本界面 -> 引导玩家去正确的地方
-        if (cfg.gui.isNotEmpty() && cfg.gui.none { it == GUI_NAME }) {
-            return Lang.get("embed.wrong-gui", "gui" to cfg.gui.first())
-        }
-        if (ItemFactory.getGemId(equip) != null) {
-            return Lang.get("embed.equip-is-gem")
-        }
-        val loreLines = equip!!.itemMeta?.lore?.let { ColorUtil.colorize(it) } ?: emptyList()
-        if (!ItemRequireMatcher.matches(cfg.require, equip, loreLines)) {
-            return Lang.get("embed.out-of-scope", "scope" to scopeOf(cfg))
-        }
-        return null
+        return GemManager.validateApply(gem!!, equip!!, GUI_NAME)
     }
 
     private fun refreshConfirm(inv: Inventory) {
@@ -166,6 +153,13 @@ object EmbedGui {
         val player = e.whoClicked as? Player ?: return
         val inv = holder.inv
         val rawSlot = e.rawSlot
+        if (e.isCancelled) return
+        if (holder.processing || holder.returned) { e.isCancelled = true; return }
+        // 双击会扫描整个容器，即使点在玩家背包也可能拿走装饰图标。
+        if (e.action == InventoryAction.COLLECT_TO_CURSOR || e.action == InventoryAction.UNKNOWN) {
+            e.isCancelled = true
+            return
+        }
 
         // 点自己背包: 只拦 Shift+左键快速移入, 自己决定东西该进哪个槽
         if (rawSlot < 0 || rawSlot >= inv.size) {
@@ -178,14 +172,40 @@ object EmbedGui {
         when (rawSlot) {
             CONFIRM_SLOT -> {
                 e.isCancelled = true
+                if (e.click != org.bukkit.event.inventory.ClickType.LEFT && e.click != org.bukkit.event.inventory.ClickType.RIGHT) return
                 doEmbed(player, inv)
             }
             EQUIP_SLOT, GEM_SLOT -> {
+                if (rawSlot == EQUIP_SLOT && !acceptEquipClick(e, player)) return
+                if (e.action == InventoryAction.CLONE_STACK) {
+                    e.isCancelled = true
+                    return
+                }
                 // 放入/取出走原版行为, 只是放完之后刷新一下确认按钮
                 scheduleRefresh(player, inv)
             }
             else -> e.isCancelled = true
         }
+    }
+
+    /** 检查原版动作完成后的装备数量，所有入口都只接收一件装备。 */
+    private fun acceptEquipClick(e: InventoryClickEvent, player: Player): Boolean {
+        val amount = when (e.action) {
+            InventoryAction.PLACE_ALL, InventoryAction.PLACE_SOME -> (e.currentItem?.amount ?: 0) + (e.cursor?.amount ?: 0)
+            InventoryAction.PLACE_ONE -> (e.currentItem?.amount ?: 0) + 1
+            InventoryAction.SWAP_WITH_CURSOR -> e.cursor?.amount ?: 0
+            InventoryAction.HOTBAR_SWAP, InventoryAction.HOTBAR_MOVE_AND_READD -> {
+                val incoming = if (e.click == org.bukkit.event.inventory.ClickType.SWAP_OFFHAND) {
+                    player.inventory.getItem(EquipmentSlot.OFF_HAND)
+                } else if (e.hotbarButton in 0..8) player.inventory.getItem(e.hotbarButton) else null
+                incoming?.amount ?: 0
+            }
+            else -> 0
+        }
+        if (amount <= 1) return true
+        e.isCancelled = true
+        Lang.send(player, "embed.single-equip")
+        return false
     }
 
     /** Shift+左键: 宝石进宝石槽, 其余物品进装备槽 */
@@ -212,9 +232,16 @@ object EmbedGui {
     @SubscribeEvent
     fun onDrag(e: InventoryDragEvent) {
         val holder = e.inventory.holder as? EmbedHolder ?: return
+        if (e.isCancelled) return
+        if (holder.processing || holder.returned) { e.isCancelled = true; return }
         val touched = e.rawSlots.filter { it < holder.inv.size }
         if (touched.any { it != EQUIP_SLOT && it != GEM_SLOT }) {
             e.isCancelled = true
+            return
+        }
+        if ((e.newItems[EQUIP_SLOT]?.amount ?: 0) > 1) {
+            e.isCancelled = true
+            Lang.send(e.whoClicked, "embed.single-equip")
             return
         }
         (e.whoClicked as? Player)?.let { scheduleRefresh(it, holder.inv) }
@@ -225,12 +252,19 @@ object EmbedGui {
     fun onClose(e: InventoryCloseEvent) {
         val holder = e.inventory.holder as? EmbedHolder ?: return
         val player = e.player as? Player ?: return
+        if (holder.processing) { holder.closeRequested = true; return }
+        returnItems(player, holder)
+    }
+
+    private fun returnItems(player: Player, holder: EmbedHolder) {
+        if (holder.returned) return
+        holder.returned = true
         var returned = 0
         for (slot in intArrayOf(EQUIP_SLOT, GEM_SLOT)) {
             val item = holder.inv.getItem(slot) ?: continue
             if (item.type == Material.AIR) continue
-            player.giveItem(item)
             holder.inv.setItem(slot, null)
+            player.giveItem(item)
             returned++
         }
         if (returned > 0) {
@@ -240,14 +274,20 @@ object EmbedGui {
 
     /** 原版的放入行为在事件结束后才落地, 所以延迟一 tick 再重画按钮 */
     private fun scheduleRefresh(player: Player, inv: Inventory) {
+        val holder = inv.holder as? EmbedHolder ?: return
+        if (holder.refreshPending) return
+        holder.refreshPending = true
         submit(delay = 1) {
+            holder.refreshPending = false
+            if (!player.isOnline || player.openInventory.topInventory !== inv) return@submit
             refreshConfirm(inv)
-            player.updateInventory()
         }
     }
 
     /** 执行一次镶嵌 */
     private fun doEmbed(player: Player, inv: Inventory) {
+        val holder = inv.holder as? EmbedHolder ?: return
+        if (holder.processing || holder.returned) return
         val equip = inv.getItem(EQUIP_SLOT)
         val gem = inv.getItem(GEM_SLOT)
         val problem = validate(equip, gem)
@@ -261,23 +301,29 @@ object EmbedGui {
             "Embed",
             "${player.name} 确认镶嵌: 宝石=${ItemFactory.getGemId(gem)} 装备=${equip!!.type}"
         )
-        val result = GemManager.applyToItem(player, gem!!, equip)
-        DebugUtil.log(
-            "Embed",
-            "  结果 success=${result.success} consumed=${result.consumedGem} 有新物品=${result.resultItem != null}"
-        )
-        Lang.sendRaw(player, result.message)
+        holder.processing = true
+        try {
+            val result = GemManager.applyToItem(player, gem!!, equip, GUI_NAME)
+            DebugUtil.log(
+                "Embed",
+                "  结果 success=${result.success} consumed=${result.consumedGem} 有新物品=${result.resultItem != null}"
+            )
+            Lang.sendRaw(player, result.message)
 
-        // 结果装备写回装备槽, 玩家可以接着镶下一颗
-        inv.setItem(EQUIP_SLOT, result.resultItem ?: equip)
-        // 消耗一个宝石
-        if (result.consumedGem) {
-            val left = gem.clone()
-            left.amount -= 1
-            inv.setItem(GEM_SLOT, if (left.amount <= 0) null else left)
-            DebugUtil.log("Embed", "  宝石数量 ${gem.amount} -> ${left.amount.coerceAtLeast(0)}")
+            // 结果装备写回装备槽, 玩家可以接着镶下一颗
+            inv.setItem(EQUIP_SLOT, result.resultItem ?: equip)
+            // 消耗一个宝石
+            if (result.consumedGem) {
+                val left = gem.clone()
+                left.amount -= 1
+                inv.setItem(GEM_SLOT, if (left.amount <= 0) null else left)
+                DebugUtil.log("Embed", "  宝石数量 ${gem.amount} -> ${left.amount.coerceAtLeast(0)}")
+            }
+            refreshConfirm(inv)
+            player.updateInventory()
+        } finally {
+            holder.processing = false
+            if (holder.closeRequested) returnItems(player, holder)
         }
-        refreshConfirm(inv)
-        player.updateInventory()
     }
 }

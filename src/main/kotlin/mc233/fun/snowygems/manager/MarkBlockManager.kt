@@ -4,7 +4,6 @@ import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.getDataFolder
-import taboolib.module.chat.colored
 import taboolib.module.configuration.Configuration
 import java.io.File
 import java.time.Instant
@@ -37,6 +36,7 @@ object MarkBlockManager {
 
     // 加载
     fun load() {
+        storage.reload()
         markedBlocks.clear()
         for (entry in storage.getMapList("marked")) {
             val key = entry["key"]?.toString() ?: continue
@@ -90,8 +90,9 @@ object MarkBlockManager {
         // 保存标记
         saveMarkedBlock(location, player.name)
 
-        player.sendMessage("§a✓ 成功将该方块设置成镶嵌台 §6${targetBlock.type.name} §a坐标 §b${location.blockX}, ${location.blockY}, ${location.blockZ}".colored())
-        player.sendMessage("§7现在右键点击该方块将打开镶嵌台界面".colored())
+        Lang.send(player, "command.block-success", "material" to targetBlock.type.name,
+            "x" to location.blockX, "y" to location.blockY, "z" to location.blockZ)
+        Lang.send(player, "command.block-hint")
     }
 
     //检查方块是否被标记

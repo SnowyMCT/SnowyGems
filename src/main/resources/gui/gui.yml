@@ -1,80 +1,116 @@
+# Existing server files are preserved on upgrade. Copy the desired menu below into
+# plugins/SnowyGems/gui/gui.yml to adopt the new preview and navigation buttons.
 default:
-  Locations:
-  Page: 10000
+  Title: '&8宝石工作台'
   Slots:
-    - TTTTITTTT
-    - GGGGGGGGG
-    - GGGGGGGGG
-    - GGGGGGGGG
-    - GGGGGGGGG
-    - PEEEXEEEN
+    - TETBTATTT
+    - TITGTCTXT
+    - TTTTTTTTT
   Items:
     T:
       Type: TIP
       Material: BLACK_STAINED_GLASS_PANE
+      Display: ' '
+    E:
+      Type: TIP
+      Material: IRON_CHESTPLATE
+      Display: '&a↓ 放入一件装备（左键取回，右键确认）'
+      Tips: ['&7普通点击取出；Shift 点击快速放入一件']
+    B:
+      Type: TIP
+      Material: DIAMOND
+      Display: '&b↓ 放入一颗宝石'
+    A:
+      Type: TIP
+      Material: BOOK
+      Display: '&e↓ 查看预览并确认'
     I:
       Type: EQUIP_SLOT
     G:
       Type: GEM_SLOT
-    P:
-      Type: PAGE_PREV
-      Material: ARROW
-    E:
-      Type: EMPTY
-    N:
-      Type: PAGE_NEXT
-      Material: ARROW
+      Amount: 1
+    C:
+      Type: CONFIRM_EMBED
+      Material: ANVIL
+      Tips: ['&7检查下方材料与成功率后，点击执行一次']
     X:
-      Type: PAGE_TIP
-      Material: PAPER
+      Type: CLOSE
+      Material: BARRIER
+      Display: '&c关闭并取回物品'
 
 符文镶嵌台:
-  Locations:
-  Title: "&8&l&k||&6&l符文镶嵌台&8&l&k||"
-  Page: 1
+  Title: '&8符文镶嵌台'
   Slots:
-    - LLBTITRKK
-    - LBBMGMRRK
-    - BBMGGGMRR
-    - BBMGGGMRR
-    - LBBMGMRRK
-    - LLBDSDRKK
+    - TTTTITTTT
+    - TbTTgTTrT
+    - TBTTGTTRT
+    - TTTTsTTTT
+    - TTTTSTTTT
+    - TQTTCTFXT
   Items:
-    L:
-      Type: TIP
-      Material: BLUE_STAINED_GLASS_PANE
-      Display: "&9在左侧镶嵌蓝色符文"
-    K:
-      Type: TIP
-      Material: RED_STAINED_GLASS_PANE
-      Display: "&c在右侧镶嵌红色符文"
-    M:
-      Type: TIP
-      Material: GREEN_STAINED_GLASS_PANE
-      Display: "&a在中间镶嵌绿色符文"
     T:
       Type: TIP
       Material: BLACK_STAINED_GLASS_PANE
-      Display: "&f&l在中间放置装备"
-    D:
+      Display: '&7装备放入顶部中央；点击可取回'
+      Tips:
+        - '&7按颜色放入符文，每格最多一颗'
+        - '&7Shift 点击背包物品可快速放入一件'
+        - '&7光标符文点击装备可暂存至匹配符文槽'
+        - '&e检查底部预览后点击铁砧确认，也可右键装备确认'
+    b:
+      Type: TIP
+      Material: BLUE_STAINED_GLASS_PANE
+      Display: '&9↓ 蓝色符文'
+    g:
+      Type: TIP
+      Material: GREEN_STAINED_GLASS_PANE
+      Display: '&a↓ 绿色符文'
+    r:
+      Type: TIP
+      Material: RED_STAINED_GLASS_PANE
+      Display: '&c↓ 红色符文'
+    s:
       Type: TIP
       Material: YELLOW_STAINED_GLASS_PANE
-      Display: "&e在中间镶嵌技能符文"
+      Display: '&e↓ 技能符文'
     I:
       Type: EQUIP_SLOT
-    R:
+      Require: [WEAPON, TOOL, ARMOR]
+    B:
       Type: GEM_SLOT
-      Require: 红色符文
+      Require: 蓝色符文
       Amount: 1
     G:
       Type: GEM_SLOT
       Require: 绿色符文
       Amount: 1
-    B:
+    R:
       Type: GEM_SLOT
-      Require: 蓝色符文
+      Require: 红色符文
       Amount: 1
     S:
       Type: GEM_SLOT
       Require: 技能符文
       Amount: 1
+    C:
+      Type: CONFIRM_EMBED
+      Material: ANVIL
+      Glow: true
+      Tips:
+        - '&7一次点击：每个已放入符文的槽位各尝试一颗'
+        - '&7不必填满四个槽位；有不匹配材料时不会开始'
+    Q:
+      Type: PAGE_JUMP
+      Material: GRINDSTONE
+      Display: '&6打开符文分解台'
+      Tips: ['&7切换时自动归还当前所有物品']
+      Gui: 符文分解台
+    F:
+      Type: RUNE_FORGE
+      Material: SMITHING_TABLE
+      Display: '&d符文锻造与升级'
+      Tips: ['&7使用背包中的碎片合成符文或升级至 II 级']
+    X:
+      Type: CLOSE
+      Material: BARRIER
+      Display: '&c关闭并取回物品'

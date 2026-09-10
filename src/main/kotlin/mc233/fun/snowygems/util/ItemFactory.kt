@@ -4,8 +4,6 @@ import mc233.`fun`.snowygems.config.GemConfig
 import org.bukkit.Color
 import org.bukkit.inventory.ItemStack
 import taboolib.library.xseries.XMaterial
-import taboolib.module.nms.getItemTag
-import taboolib.module.nms.ItemTagData
 import taboolib.platform.util.buildItem
 
 /** NBT key 常量, 全部使用扁平(不含 '.') 的键名 —— TabooLib 的 ItemTag[key]= 写入时,
@@ -41,7 +39,7 @@ object ItemFactory {
             }
             colored()
         }
-        val tag = item.getItemTag()
+        val tag = ItemData(linkedMapOf())
         tag[GemNbt.GEM_ID] = ItemTagData(cfg.id)
         tag[GemNbt.GEM_TYPE] = ItemTagData(cfg.type.name)
         tag.saveTo(item)

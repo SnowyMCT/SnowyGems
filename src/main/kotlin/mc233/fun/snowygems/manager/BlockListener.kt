@@ -1,15 +1,13 @@
 package mc233.`fun`.snowygems.manager
 
-import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.getDataFolder
-import taboolib.module.configuration.Configuration
-import java.io.File
+import taboolib.common.platform.event.EventPriority
 
 /**
  * 方块交互事件监听器
@@ -21,6 +19,8 @@ object BlockListener {
      */
     @SubscribeEvent
     fun onPlayerInteract(event: PlayerInteractEvent) {
+        if (event.hand != EquipmentSlot.HAND) return
+        if (event.useInteractedBlock() == org.bukkit.event.Event.Result.DENY) return
         val player = event.player
         val clickedBlock = event.clickedBlock ?: return
 
@@ -51,8 +51,9 @@ object BlockListener {
      * 处理方块被挖掘
      * 清除标记，确保后续填充的方块不会触发
      */
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.MONITOR)
     fun onBlockBreak(event: BlockBreakEvent) {
+        if (event.isCancelled) return
         val block = event.block
         val location = block.location
 

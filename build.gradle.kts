@@ -15,7 +15,6 @@ taboolib {
         install(Bukkit)
         install(BukkitHook)
         install(BukkitUI)
-        install(BukkitNMSItemTag)
 //        install(Database)
         install(I18n)
 //        install(Kether)
@@ -48,6 +47,9 @@ dependencies {
     compileOnly(kotlin("stdlib"))
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly(fileTree("libs"))
+    testImplementation(kotlin("test-junit"))
+    // Unit tests exercise plugin classes outside Bukkit; production dependencies remain compile-only.
+    testRuntimeOnly(files(configurations.compileClasspath))
 }
 
 tasks.withType<JavaCompile> {
