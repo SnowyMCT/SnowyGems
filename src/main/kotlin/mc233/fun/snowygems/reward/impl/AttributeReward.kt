@@ -11,8 +11,8 @@ import mc233.`fun`.snowygems.util.ExprUtil
 import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
-import taboolib.module.nms.ItemTagData
-import taboolib.module.nms.getItemTag
+import mc233.`fun`.snowygems.util.ItemTagData
+import mc233.`fun`.snowygems.util.getItemTag
 
 /**
  * Attribute{name=health;operation=0;slot=auto;var=v+1;limit=5}
@@ -43,9 +43,16 @@ class AttributeReward(
         val meta = item.itemMeta ?: return false
 
         val tag = item.getItemTag()
-        val nbtKey = "SnowyGemsAttr_$attrName"
+        val slotName = canonicalSlot(if (slot.equals("auto", true)) ItemRequireMatcher.autoSlot(item) else slot)
+        // 新物品按属性、计算方式和装备槽分别累计，避免不同 operation/slot 的宝石覆盖彼此。
+        // 旧物品保留原键，避免升级时突然失去已有强化。
+        val legacyKey = "SnowyGemsAttr_$attrName"
+        val modifierId = if (tag[legacyKey] != null) attrName else
+            "${attribute.key}_${operation}_$slotName".replace(Regex("[^A-Za-z0-9_]"), "_")
+        val nbtKey = if (tag[legacyKey] != null) legacyKey else "SnowyGemsAttr_$modifierId"
         val current = tag[nbtKey]?.asDouble() ?: 0.0
         val raw = ExprUtil.eval(varExpr, current)
+        if (!current.isFinite() || !raw.isFinite() || limit?.isFinite() == false) return fail("属性数值不是有限数")
         // limit 是同方向的绝对值上限: 仅当表达式结果与 limit 同号(同方向增益)才夹取.
         // 异号说明是方向相反的宝石在叠加(如先缩小再放大), limit 不适用, 不夹取.
         val newValue = when {
@@ -71,23 +78,28 @@ class AttributeReward(
         val op = AttributeModifier.Operation.entries.getOrNull(operation)
             ?: return fail("operation=$operation 越界, 只能是 0/1/2")
 
-        val slotName = if (slot.equals("auto", true)) ItemRequireMatcher.autoSlot(item) else slot
         // ★ 关键: 一旦给物品写入任何显式 AttributeModifier, 原版会停止应用该物品的"默认属性"
         //   (下界合金胸甲自带的护甲/韧性/击退抗性). 所以在写入我们的修饰符之前, 先把物品原本的
         //   默认属性显式固化进 meta, 否则镶嵌生命宝石后护甲/韧性会凭空消失.
         val preserved = AttributeCompat.preserveDefaultsIfNeeded(item, meta, slotName)
         // 先清掉本插件之前写的同属性修饰符(新旧两种身份都清), 再写入新值
-        val removed = AttributeCompat.removeOwn(meta, attribute, attrName)
-        val modifier = AttributeCompat.create(attrName, newValue, op, slotName) ?: return false
+        val removed = AttributeCompat.removeOwn(meta, attribute, modifierId)
+        val modifier = AttributeCompat.create(modifierId, newValue, op, slotName) ?: return false
         DebugUtil.log(
             "Reward",
             "    Attribute(${attribute.key.key}): $current -> $newValue (表达式=$varExpr limit=$limit " +
                 "槽位=$slotName operation=$op 清理旧修饰符=$removed 条 固化默认属性=$preserved 条)"
         )
-        meta.addAttributeModifier(attribute, modifier)
+        if (!meta.addAttributeModifier(attribute, modifier)) return fail("服务端拒绝添加属性修饰符")
         item.itemMeta = meta
-        tag[nbtKey] = ItemTagData(newValue)
-        tag.saveTo(item)
+        item.getItemTag().apply {
+            this[nbtKey] = ItemTagData(newValue)
+            saveTo(item)
+        }
+        ctx.undoData["delta"] = (newValue - current).toString()
+        ctx.undoData["nbtKey"] = nbtKey
+        ctx.undoData["modifierId"] = modifierId
+        ctx.undoData["slot"] = slotName
         ctx.item = item
         return true
     }
@@ -103,20 +115,44 @@ class AttributeReward(
      */
     override fun revert(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
-        val attribute = resolve(attrName) ?: return false
+        val attribute = resolve(attrName) ?: error("Cannot resolve attribute for removal: $attrName")
         val meta = item.itemMeta ?: return false
-        val removed = AttributeCompat.removeOwn(meta, attribute, attrName)
-        item.itemMeta = meta
+        val delta = ctx.undoData["delta"]?.toDoubleOrNull()
+        val nbtKey = ctx.undoData["nbtKey"] ?: "SnowyGemsAttr_$attrName"
+        val modifierId = ctx.undoData["modifierId"] ?: attrName
         val tag = item.getItemTag()
-        val nbtKey = "SnowyGemsAttr_$attrName"
+        val current = tag[nbtKey]?.asDouble() ?: 0.0
+        val next = if (delta == null) 0.0 else current - delta
+        require(next.isFinite()) { "Invalid stored attribute contribution" }
+        val removed = AttributeCompat.removeOwn(meta, attribute, modifierId)
+        if (kotlin.math.abs(next) > 1.0e-10) {
+            val op = AttributeModifier.Operation.entries.getOrNull(operation) ?: error("Invalid operation")
+            val modifier = AttributeCompat.create(modifierId, next, op, ctx.undoData["slot"] ?: slot)
+                ?: error("Cannot restore attribute modifier")
+            check(meta.addAttributeModifier(attribute, modifier)) { "Cannot restore attribute modifier" }
+        }
+        item.itemMeta = meta
         val had = tag[nbtKey] != null
-        if (had) {
-            tag.remove(nbtKey)
-            tag.saveTo(item)
+        item.getItemTag().apply {
+            if (kotlin.math.abs(next) <= 1.0e-10) remove(nbtKey)
+            else this[nbtKey] = ItemTagData(next)
+            saveTo(item)
         }
         ctx.item = item
         DebugUtil.log("Reward", "    Attribute($attrName) 撤销: 移除修饰符=$removed 条, 清NBT=$had")
         return removed > 0 || had
+    }
+
+    private fun canonicalSlot(name: String): String = when (name.trim().lowercase()) {
+        "head", "helmet" -> "head"
+        "chest", "chestplate" -> "chest"
+        "legs", "leggings" -> "legs"
+        "feet", "boots" -> "feet"
+        "off_hand", "offhand" -> "off_hand"
+        "main_hand", "mainhand", "hand" -> "hand"
+        "any_hand", "hands" -> "hands"
+        "armor" -> "armor"
+        else -> "any"
     }
 
     private fun failResolve(): Boolean = fail(

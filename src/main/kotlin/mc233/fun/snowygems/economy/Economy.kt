@@ -43,6 +43,7 @@ object PlayerPointsBridge {
     }
 
     fun give(uuid: UUID, amount: Long): Boolean {
+        if (amount !in 0..Int.MAX_VALUE.toLong()) return false
         return try {
             (api!!.javaClass.getMethod("give", UUID::class.java, Int::class.javaPrimitiveType)
                 .invoke(api, uuid, amount.toInt()) as? Boolean) ?: false
@@ -53,6 +54,7 @@ object PlayerPointsBridge {
     }
 
     fun take(uuid: UUID, amount: Long): Boolean {
+        if (amount !in 0..Int.MAX_VALUE.toLong()) return false
         return try {
             (api!!.javaClass.getMethod("take", UUID::class.java, Int::class.javaPrimitiveType)
                 .invoke(api, uuid, amount.toInt()) as? Boolean) ?: false
@@ -95,23 +97,43 @@ object PointsEconomy {
 
     @Synchronized
     fun add(player: OfflinePlayer, amount: Double): Double {
+        tryAdd(player, amount)
+        return get(player)
+    }
+
+    /** 返回交易结果，调用者不可用扣费后的余额推断成功与否。 */
+    @Synchronized
+    fun tryAdd(player: OfflinePlayer, amount: Double): Boolean {
+        if (!amount.isFinite()) return false
+        if (amount == 0.0) return true
         if (usePlayerPoints()) {
+            if (kotlin.math.abs(amount) > Int.MAX_VALUE || amount != amount.toLong().toDouble()) return false
             val amountLong = amount.toLong()
             val ok = if (amountLong >= 0) PlayerPointsBridge.give(player.uniqueId, amountLong)
             else PlayerPointsBridge.take(player.uniqueId, -amountLong)
             DebugUtil.log("Points", "PlayerPoints ${if (amountLong >= 0) "give" else "take"} ${player.uniqueId} amount=$amountLong -> $ok")
-            return PlayerPointsBridge.look(player.uniqueId)?.toDouble() ?: 0.0
+            return ok
         }
-        val newValue = get(player) + amount
+        val current = get(player)
+        val newValue = current + amount
+        if (!newValue.isFinite() || newValue < 0.0 || !current.isFinite()) return false
         storage.set(player.uniqueId.toString(), newValue)
-        storage.saveToFile()
-        return newValue
+        return try {
+            storage.saveToFile()
+            true
+        } catch (e: Exception) {
+            storage.set(player.uniqueId.toString(), current)
+            DebugUtil.err("Points", "保存点券交易失败", e)
+            false
+        }
     }
 }
 
 object MoneyEconomy {
 
     fun add(player: Player, amount: Double): Boolean {
+        if (!amount.isFinite()) return false
+        if (amount == 0.0) return true
         if (!isEconomySupported) {
             severe("未检测到 Vault 经济插件, Money 奖励未生效, 请安装 Vault + 经济插件, 或改用点券系统")
             return false

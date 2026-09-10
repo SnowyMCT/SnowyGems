@@ -1,0 +1,60 @@
+# 符文锻造：只扣主背包内带有宝石 ID 的物品，材料与产物位置统一规划后写回。
+# 配方无随机失败、无额外金币费用。缺料或空间不足时保持背包原样。
+# Result 和 Ingredients 引用 gems/ 中的宝石 ID。Amount 默认 1。
+Recipes:
+  red-1:
+    Display: '&c合成红色符文 I'
+    Result: 红色符文I
+    Ingredients:
+      符文碎片: 24
+  blue-1:
+    Display: '&9合成蓝色符文 I'
+    Result: 蓝色符文I
+    Ingredients:
+      符文碎片: 24
+  green-1:
+    Display: '&a合成绿色符文 I'
+    Result: 绿色符文I
+    Ingredients:
+      符文碎片: 24
+  skill-1:
+    Display: '&e合成技能符文 I'
+    Result: 技能符文I
+    Ingredients:
+      符文碎片: 40
+  red-2:
+    Display: '&c升级红色符文 II'
+    Result: 红色符文II
+    Ingredients:
+      红色符文I: 3
+      符文碎片: 20
+  blue-2:
+    Display: '&9升级蓝色符文 II'
+    Result: 蓝色符文II
+    Ingredients:
+      蓝色符文I: 3
+      符文碎片: 20
+  green-2:
+    Display: '&a升级绿色符文 II'
+    Result: 绿色符文II
+    Ingredients:
+      绿色符文I: 3
+      符文碎片: 20
+  recycle-red-2:
+    Display: '&6回收红色符文 II'
+    Result: 符文碎片
+    Amount: 30
+    Ingredients:
+      红色符文II: 1
+  recycle-blue-2:
+    Display: '&6回收蓝色符文 II'
+    Result: 符文碎片
+    Amount: 30
+    Ingredients:
+      蓝色符文II: 1
+  recycle-green-2:
+    Display: '&6回收绿色符文 II'
+    Result: 符文碎片
+    Amount: 30
+    Ingredients:
+      绿色符文II: 1

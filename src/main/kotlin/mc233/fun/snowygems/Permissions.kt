@@ -31,6 +31,7 @@ object Permissions {
     const val DISMANTLE = "snowygems.dismantle"
     const val USE = "snowygems.use"
     const val OPEN = "snowygems.open"
+    const val RUNE = "snowygems.rune"
 
     // 管理员指令
     const val VIEW = "snowygems.view"
@@ -42,7 +43,7 @@ object Permissions {
     const val TRIGGERS = "snowygems.triggers"
     const val MARK = "snowygems.mark"
 
-    private val USER_NODES = listOf(BASE, EMBED, INSPECT, DISMANTLE, USE, OPEN)
+    private val USER_NODES = listOf(BASE, EMBED, INSPECT, DISMANTLE, USE, OPEN, RUNE)
     private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS, MARK)
 
     /**

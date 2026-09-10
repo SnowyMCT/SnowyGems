@@ -128,20 +128,18 @@
 
 
 # ── 7. 1.21.11+ 矛(SPEAR) ───────────────────────────────────
-# 矛可以投掷, 因此 ~onLaunch:SPEAR 与 ~onHit:SPEAR 都能用
-# 类型名直接来自服务端实体注册表, 引擎不需要"认识"矛这个概念
+# 矛是近战武器，核心玩法是突刺与蓄力攻击，不是可投掷发射物。
+# 因此使用通用的 onUse/onShiftUse/onAttack 触发；onLaunch/onHit 只用于真正的发射物。
 穿云长矛:
   Lore: "&f穿云长矛"
   Cooldown: 6.0
   CooldownTip: ActionBar{p=&f长矛冷却;s=&f%.2fs;empty=&8|;full=&f|;length=40}
   Skills:
-    # 投出瞬间的反馈
-    - Sound{name=ITEM_TRIDENT_THROW} ~onLaunch:SPEAR
-    - ActionBar{m=&f长矛已投出} ~onLaunch:SPEAR
-    # 命中处爆发 + 传送到落点(类似飞雷神)
-    - Particle{name=EXPLOSION;count=1} ~onHit:SPEAR @Location
-    - Damage{amount=6} ~onHit:SPEAR @Entity
-    - Blink{distance=120} ~onHit:SPEAR @Location
+    # 右键/蓄力准备反馈；实际突刺伤害由原版战斗系统处理
+    - ActionBar{m=&f长矛已准备} ~onUse
+    - ActionBar{m=&e长矛蓄力中} ~onShiftUse
+    # 命中实体时给出视觉反馈，不额外调用 Damage，避免重复结算伤害
+    - Particle{name=CRIT;count=8} ~onAttack @Entity
 
 
 # ── 8. 1.20.5+ / 1.21.2+ 新属性(用 Attribute 奖励, 不是技能函数) ──

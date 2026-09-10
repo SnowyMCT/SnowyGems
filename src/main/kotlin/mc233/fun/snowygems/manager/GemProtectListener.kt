@@ -3,6 +3,8 @@ package mc233.`fun`.snowygems.manager
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
+import mc233.`fun`.snowygems.config.GemRegistry
+import mc233.`fun`.snowygems.config.GemType
 import org.bukkit.Material
 import org.bukkit.entity.ItemFrame
 import org.bukkit.entity.Player
@@ -46,6 +48,8 @@ object GemProtectListener {
     fun onConsume(e: PlayerItemConsumeEvent) {
         val item = e.item ?: return
         val gemId = ItemFactory.getGemId(item) ?: return
+        val cfg = GemRegistry.get(gemId)
+        if (cfg?.eat == true && cfg.type != GemType.NORMAL) return
         e.isCancelled = true
         DebugUtil.log("Protect", "阻止 ${e.player.name} 吃掉宝石 $gemId (${item.type})")
         warnEat(e.player)

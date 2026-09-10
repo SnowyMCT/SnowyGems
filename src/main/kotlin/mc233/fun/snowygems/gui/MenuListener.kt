@@ -2,21 +2,19 @@ package mc233.`fun`.snowygems.gui
 
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuItemDef
-import mc233.`fun`.snowygems.config.MenuLayout
-import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.manager.GemManager
-import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
-import org.bukkit.Material
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.submit
 import taboolib.platform.util.giveItem
 
 object MenuListener {
@@ -24,343 +22,269 @@ object MenuListener {
     @SubscribeEvent
     fun onClick(e: InventoryClickEvent) {
         val holder = e.inventory.holder as? MenuHolder ?: return
-        val layout = MenuRegistry.get(holder.menuName) ?: run {
-            DebugUtil.log("Menu", "点击了菜单 ${holder.menuName}, 但找不到对应的布局配置")
-            return
-        }
         val player = e.whoClicked as? Player ?: return
-        val rawSlot = e.rawSlot
-        // 点击玩家自己的背包区域: 只需要拦住 Shift+左键快速移入, 避免物品被塞进 TIP 等静态按钮槽
-        if (rawSlot < 0 || rawSlot >= e.inventory.size) {
-            if (e.action == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
-                handleShiftMoveIn(e, player, layout)
-            }
-            return
-        }
-
-        val c = WorkbenchMenu.charAt(layout, rawSlot)
-        val def = c?.let { layout.items[it] }
-        DebugUtil.log("Menu", "菜单=${holder.menuName} rawSlot=$rawSlot char=$c type=${def?.type} action=${e.action}")
-        if (def == null) {
+        if (e.isCancelled) return
+        // Double-click collection searches the entire view, including decorative icons.
+        if (holder.returned || holder.processing || e.action in setOf(
+                InventoryAction.COLLECT_TO_CURSOR, InventoryAction.CLONE_STACK, InventoryAction.UNKNOWN)) {
             e.isCancelled = true
             return
         }
-
-        // ── 核心镶嵌流程 ─────────────────────────────────────────────
-        // 玩家先在背包里点起宝石(宝石在光标上), 再点击工作台内已放好的装备 -> 立刻镶嵌.
-        // 装备放在 EQUIP_SLOT 还是 GEM_SLOT 都算, 因为镶嵌台里活动槽位很多,
-        // 玩家不会去数哪一格才是"装备格".
-        if (WorkbenchMenu.isSlotDynamic(def) && tryEmbedWithCursor(e, player)) return
-
-        when (def.type.uppercase()) {
-            "EQUIP_SLOT" -> handleEquipClick(e, player, layout)
-            "GEM_SLOT" -> handleGemSlotClick(e, def)
-            "USE_GEM" -> {
-                e.isCancelled = true
-                handleUseGem(player, e.inventory, layout, def.gem)
-            }
-            "PAGE_JUMP" -> {
-                e.isCancelled = true
-                def.gui?.let { WorkbenchMenu.open(player, it) }
-            }
-            else -> e.isCancelled = true // TIP / PAGE_PREV / PAGE_NEXT / PAGE_TIP / EMPTY
+        if (e.rawSlot !in 0 until e.inventory.size) {
+            if (e.action == InventoryAction.MOVE_TO_OTHER_INVENTORY) shiftMoveIn(e, player, holder)
+            return
         }
-    }
-
-    private fun tryEmbedWithCursor(e: InventoryClickEvent, player: Player): Boolean {
-        val cursor = e.cursor
-        val target = e.currentItem
-        if (isEmpty(cursor) || isEmpty(target)) return false
-        val gemId = ItemFactory.getGemId(cursor) ?: return false
-        // 槽里放的也是宝石: 那是玩家在整理宝石槽, 不是要往宝石上镶宝石
-        if (ItemFactory.getGemId(target) != null) return false
-
         e.isCancelled = true
-        DebugUtil.log(
-            "Menu",
-            "镶嵌意图: 光标宝石=$gemId (${cursor!!.type} x${cursor.amount}) -> 槽位 ${e.rawSlot} 的 ${target!!.type}"
-        )
-        applyCursorGem(player, e.inventory, cursor, target, e.rawSlot)
-        return true
+        val def = holder.slots[e.rawSlot] ?: return
+        if (!WorkbenchMenu.isSlotDynamic(def)) {
+            // Number keys, item dropping and middle-clicking must never execute a button.
+            if (e.click != ClickType.LEFT && e.click != ClickType.RIGHT) return
+            when (def.type.uppercase()) {
+                "CONFIRM_EMBED" -> applyGemSlots(player, holder)
+                "RUNE_FORGE" -> submit(delay = 1) {
+                    if (!holder.returned && player.openInventory.topInventory === holder.inv) RuneForgeGui.open(player)
+                }
+                "USE_GEM" -> useButton(player, holder, def.gem)
+                "PAGE_JUMP" -> def.gui?.let { menu ->
+                    submit { if (player.openInventory.topInventory === holder.inv) WorkbenchMenu.open(player, menu) }
+                }
+                "CLOSE" -> submit { if (player.openInventory.topInventory === holder.inv) player.closeInventory() }
+            }
+            return
+        }
+
+        val target = e.currentItem
+        if (def.type.equals("EQUIP_SLOT", true) && !isEmpty(target)) {
+            if (e.click == ClickType.SHIFT_RIGHT && isEmpty(e.cursor) &&
+                holder.slots.values.none { it.type.equals("CONFIRM_EMBED", true) }) {
+                applyGemSlots(player, holder)
+                return
+            }
+            // Preserve the intuitive gem-then-equipment gesture, but stage it for preview first.
+            if ((e.click == ClickType.LEFT || e.click == ClickType.RIGHT) &&
+                ItemFactory.getGemId(target) == null && !isEmpty(e.cursor) && ItemFactory.getGemId(e.cursor) != null) {
+                stageCursorGem(player, holder, e.cursor!!)
+                return
+            }
+            // 兼容旧菜单和没有明显确认按钮的布局：右键已有装备视为确认镶嵌。
+            // 左键仍然只取回装备，关闭菜单也只返还输入，不会意外消耗符文。
+            if (e.click == ClickType.RIGHT && !isEmpty(target) &&
+                WorkbenchMenu.gemSlots(holder.inv, holder.layout).any { !isEmpty(holder.inv.getItem(it)) }) {
+                applyGemSlots(player, holder)
+                return
+            }
+        }
+        when (e.action) {
+            InventoryAction.PLACE_ONE, InventoryAction.PLACE_SOME, InventoryAction.PLACE_ALL,
+            InventoryAction.SWAP_WITH_CURSOR -> placeCursor(e, player, holder, def)
+            InventoryAction.HOTBAR_SWAP, InventoryAction.HOTBAR_MOVE_AND_READD -> {
+                val incoming = when {
+                    e.click == ClickType.SWAP_OFFHAND -> player.inventory.itemInOffHand
+                    e.hotbarButton in 0..8 -> player.inventory.getItem(e.hotbarButton)
+                    else -> return
+                }
+                if (!isEmpty(incoming)) {
+                    val reason = MenuSlotRules.rejection(holder.layout, def, incoming!!)
+                    if (reason != null) { Lang.sendRaw(player, reason); return }
+                    val limit = MenuSlotRules.limit(def, incoming)
+                    if (incoming.amount > limit) {
+                        Lang.send(player, "menu.slot-limit", "limit" to limit)
+                        return
+                    }
+                }
+                e.isCancelled = false
+                refreshLater(player, holder)
+            }
+            InventoryAction.MOVE_TO_OTHER_INVENTORY -> {
+                if (!isEmpty(target)) {
+                    holder.inv.setItem(e.rawSlot, null)
+                    player.giveItem(target!!.clone())
+                    refreshNow(player, holder)
+                }
+            }
+            InventoryAction.PICKUP_ALL, InventoryAction.PICKUP_HALF, InventoryAction.PICKUP_ONE,
+            InventoryAction.PICKUP_SOME, InventoryAction.DROP_ALL_SLOT, InventoryAction.DROP_ONE_SLOT -> {
+                // Taking out an item is never an implicit request to consume gems.
+                e.isCancelled = false
+                refreshLater(player, holder)
+            }
+            else -> Unit
+        }
     }
 
     @SubscribeEvent
     fun onDrag(e: InventoryDragEvent) {
         val holder = e.inventory.holder as? MenuHolder ?: return
-        val layout = MenuRegistry.get(holder.menuName) ?: return
-        for (slot in e.rawSlots) {
-            if (slot >= e.inventory.size) continue
-            val c = WorkbenchMenu.charAt(layout, slot)
-            val def = c?.let { layout.items[it] }
-            if (def == null || !WorkbenchMenu.isSlotDynamic(def)) {
+        val player = e.whoClicked as? Player ?: return
+        if (e.isCancelled) return
+        if (holder.returned || holder.processing) { e.isCancelled = true; return }
+        var changed = false
+        for ((slot, item) in e.newItems) {
+            if (slot !in 0 until holder.inv.size) continue
+            val def = holder.dynamicSlots[slot]
+            if (def == null) { e.isCancelled = true; return }
+            val reason = MenuSlotRules.rejection(holder.layout, def, item)
+            if (reason != null) { e.isCancelled = true; Lang.sendRaw(player, reason); return }
+            val limit = MenuSlotRules.limit(def, item)
+            if (item.amount > limit) {
                 e.isCancelled = true
-                DebugUtil.log("Menu", "拖拽被取消: 菜单=${holder.menuName} 槽位 $slot 字符=$c type=${def?.type} 不是活动槽位")
+                Lang.send(player, "menu.slot-limit", "limit" to limit)
                 return
             }
+            changed = true
         }
-        DebugUtil.log("Menu", "拖拽放行: 菜单=${holder.menuName} 涉及槽位=${e.rawSlots.filter { it < e.inventory.size }}")
+        if (changed) refreshLater(player, holder)
     }
 
-    /**
-     * 关闭菜单时, 把玩家放进 EQUIP_SLOT / GEM_SLOT 里还没被消耗掉的物品还给玩家,
-     * 避免物品凭空消失背包放不下时直接掉落在玩家脚下
-     */
     @SubscribeEvent
     fun onClose(e: InventoryCloseEvent) {
         val holder = e.inventory.holder as? MenuHolder ?: return
-        val layout = MenuRegistry.get(holder.menuName) ?: return
         val player = e.player as? Player ?: return
-        var returned = 0
-        for (row in layout.rows.indices) {
-            val rowStr = layout.rows[row]
-            for (col in rowStr.indices) {
-                val slot = row * 9 + col
-                if (slot >= e.inventory.size) continue
-                val def = layout.items[rowStr[col]] ?: continue
-                if (!WorkbenchMenu.isSlotDynamic(def)) continue
-                val item = e.inventory.getItem(slot) ?: continue
-                if (item.type == Material.AIR) continue
-                player.giveItem(item)
-                e.inventory.setItem(slot, null)
-                returned++
-            }
+        // A reward can open another inventory during execution. Commit its result before
+        // returning inputs, otherwise the unmodified original target would be duplicated.
+        if (holder.processing) holder.closeRequested = true else returnItems(player, holder)
+    }
+
+    private fun returnItems(player: Player, holder: MenuHolder) {
+        if (holder.returned) return
+        holder.returned = true
+        val items = holder.dynamicSlots.keys.mapNotNull { slot ->
+            holder.inv.getItem(slot)?.takeUnless(::isEmpty)?.clone().also { holder.inv.setItem(slot, null) }
         }
-        if (returned > 0) {
-            DebugUtil.log("Menu", "关闭菜单 ${holder.menuName}, 归还了 $returned 组未消耗的物品给 ${player.name}")
+        items.forEach { player.giveItem(it) }
+        if (items.isNotEmpty()) {
+            Lang.send(player, "menu.returned", "count" to items.size)
+            DebugUtil.log("Menu", "关闭 ${holder.menuName}, 已归还 ${items.size} 组物品给 ${player.name}")
         }
     }
 
-    private fun isEmpty(item: ItemStack?) = item == null || item.type == Material.AIR
+    private fun isEmpty(item: ItemStack?): Boolean = item == null || item.type.isAir || item.amount <= 0
 
-    /**
-     * 玩家在背包里 Shift+左键: 原版会把物品塞进菜单的第一个空槽(可能是装备槽也可能是宝石槽,
-     * 甚至可能顶掉静态按钮). 这里改成自己接管 —— 只投放到第一个类型匹配且为空的活动槽位,
-     * 找不到合适的槽位就整体取消, 物品留在背包里.
-     */
-    private fun handleShiftMoveIn(e: InventoryClickEvent, player: Player, layout: MenuLayout) {
+    private fun shiftMoveIn(e: InventoryClickEvent, player: Player, holder: MenuHolder) {
         e.isCancelled = true
-        val moving = e.currentItem
-        if (isEmpty(moving)) return
-        val inv = e.inventory
-        val isGem = ItemFactory.getGemId(moving) != null
-
-        DebugUtil.log("Menu", "Shift 移入: ${player.name} 把 ${moving!!.type} x${moving.amount} 推向菜单 (isGem=$isGem)")
-        val target = dynamicSlots(inv, layout).firstOrNull { (slot, def) ->
-            if (!isEmpty(inv.getItem(slot))) return@firstOrNull false
-            if (def.type.equals("GEM_SLOT", true)) isGem && gemSlotAccepts(def, moving)
-            else !isGem // EQUIP_SLOT 只接收非宝石物品(即待镶嵌的装备)
-        }
-        if (target == null) {
-            DebugUtil.log("Menu", "Shift 移入被拒绝: ${moving!!.type} isGem=$isGem 没有匹配的空槽位")
-            Lang.send(player, "menu.no-slot")
-            return
-        }
-        val one = moving!!.clone()
-        one.amount = 1
-        inv.setItem(target.first, one)
-        val left = moving.clone()
-        left.amount -= 1
-        e.currentItem = if (left.amount <= 0) null else left
-        DebugUtil.log("Menu", "Shift 移入: ${one.type} -> 槽位 ${target.first} (${target.second.type})")
+        val moving = e.currentItem?.takeUnless(::isEmpty) ?: return
+        val slot = findReceivingSlot(holder, moving)
+        if (slot == null) { Lang.send(player, "menu.no-slot"); return }
+        addOne(holder, slot, moving)
+        e.currentItem = moving.clone().also { it.amount-- }.takeUnless(::isEmpty)
+        refreshNow(player, holder)
     }
 
-    /** 列出该菜单中所有 EQUIP_SLOT / GEM_SLOT 的 (rawSlot, 定义), 按槽位顺序 */
-    private fun dynamicSlots(inv: Inventory, layout: MenuLayout): List<Pair<Int, MenuItemDef>> {
-        val result = ArrayList<Pair<Int, MenuItemDef>>()
-        for (row in layout.rows.indices) {
-            val rowStr = layout.rows[row]
-            for (col in rowStr.indices) {
-                val slot = row * 9 + col
-                if (slot >= inv.size) continue
-                val def = layout.items[rowStr[col]] ?: continue
-                if (WorkbenchMenu.isSlotDynamic(def)) result.add(slot to def)
-            }
-        }
-        return result
+    private fun findReceivingSlot(holder: MenuHolder, item: ItemStack, gemsOnly: Boolean = false): Int? =
+        holder.dynamicSlots.entries.firstOrNull { (slot, def) ->
+            if (gemsOnly && !def.type.equals("GEM_SLOT", true)) return@firstOrNull false
+            if (MenuSlotRules.rejection(holder.layout, def, item) != null) return@firstOrNull false
+            val current = holder.inv.getItem(slot)
+            isEmpty(current) || (current!!.isSimilar(item) && current.amount < MenuSlotRules.limit(def, item))
+        }?.key
+
+    private fun addOne(holder: MenuHolder, slot: Int, item: ItemStack) {
+        val current = holder.inv.getItem(slot)
+        holder.inv.setItem(slot, item.clone().also { it.amount = if (isEmpty(current)) 1 else current!!.amount + 1 })
     }
 
-    /**
-     * 判断一个物品是否允许放进带 [MenuItemDef.require] 限制的宝石槽.
-     * Require 里写的是分类关键字(如 "红色符文" / "蓝宝石"), 依次拿 宝石ID / Name / Display / Tips
-     * 去做包含匹配, 任意一条命中即通过 (OR 语义). 完全不是本插件宝石的物品一律拒绝.
-     */
-    private fun gemSlotAccepts(def: MenuItemDef, item: ItemStack?): Boolean {
-        if (isEmpty(item)) return true
-        val gemId = ItemFactory.getGemId(item)
-        if (gemId == null) {
-            DebugUtil.log("Menu", "gemSlotAccepts: ${item!!.type} 没有 SnowyGems 的 NBT 标记, 拒绝")
-            return false
-        }
-        if (def.require.isEmpty()) {
-            DebugUtil.log("Menu", "gemSlotAccepts: 槽位 '${def.char}' 未设置 Require, 放行 $gemId")
-            return true
-        }
-        val cfg = GemRegistry.get(gemId)
-        val haystack = buildList {
-            add(gemId)
-            cfg?.let {
-                add(it.name)
-                add(it.display)
-                addAll(it.tips)
-            }
-        }
-        val ok = def.require.any { raw ->
-            val keyword = raw.trim()
-            if (keyword.isEmpty() || keyword.equals("ALL", true) || keyword.equals("GEM:ALL", true)) return@any true
-            haystack.any { it.contains(keyword) }
-        }
-        DebugUtil.log(
-            "Menu",
-            "gemSlotAccepts: 槽位 '${def.char}' require=${def.require} 待放入=$gemId 可匹配文本=$haystack -> $ok"
-        )
-        return ok
+    private fun stageCursorGem(player: Player, holder: MenuHolder, gem: ItemStack) {
+        val slot = findReceivingSlot(holder, gem, gemsOnly = true)
+        if (slot == null) { Lang.send(player, "menu.no-slot"); return }
+        addOne(holder, slot, gem)
+        player.setItemOnCursor(gem.clone().also { it.amount-- }.takeUnless(::isEmpty))
+        refreshNow(player, holder)
     }
 
-    /**
-     * 宝石槽的放入校验. 需要覆盖三种放入方式:
-     *  - 光标放置 / 与槽内物品对调 (PLACE_*, SWAP_WITH_CURSOR)
-     *  - 从背包 Shift+左键快速移入 (MOVE_TO_OTHER_INVENTORY, 此时点击的是背包侧, 见 onClick 入口)
-     *  - 数字键换位 (HOTBAR_SWAP)
-     * 取出方向(PICKUP_*)始终放行.
-     */
-    private fun handleGemSlotClick(e: InventoryClickEvent, def: MenuItemDef) {
-        val incoming = when (e.action) {
-            InventoryAction.HOTBAR_SWAP, InventoryAction.HOTBAR_MOVE_AND_READD ->
-                e.whoClicked.inventory.getItem(e.hotbarButton)
-            InventoryAction.PLACE_ONE, InventoryAction.PLACE_SOME, InventoryAction.PLACE_ALL,
-            InventoryAction.SWAP_WITH_CURSOR -> e.cursor
-            else -> null
+    private fun placeCursor(e: InventoryClickEvent, player: Player, holder: MenuHolder, def: MenuItemDef) {
+        val incoming = e.cursor?.takeUnless(::isEmpty) ?: return
+        val reason = MenuSlotRules.rejection(holder.layout, def, incoming)
+        if (reason != null) { Lang.sendRaw(player, reason); return }
+        val limit = MenuSlotRules.limit(def, incoming)
+        val current = e.currentItem?.takeUnless(::isEmpty)
+        if (current != null && !current.isSimilar(incoming)) {
+            if (incoming.amount > limit) { Lang.send(player, "menu.slot-limit", "limit" to limit); return }
+            holder.inv.setItem(e.rawSlot, incoming.clone())
+            player.setItemOnCursor(current.clone())
+        } else {
+            val space = limit - (current?.amount ?: 0)
+            val count = minOf(space, if (e.action == InventoryAction.PLACE_ONE) 1 else incoming.amount)
+            if (count <= 0) { Lang.send(player, "menu.slot-limit", "limit" to limit); return }
+            holder.inv.setItem(e.rawSlot, incoming.clone().also { it.amount = (current?.amount ?: 0) + count })
+            player.setItemOnCursor(incoming.clone().also { it.amount -= count }.takeUnless(::isEmpty))
         }
-        if (isEmpty(incoming)) return
-        if (!gemSlotAccepts(def, incoming)) {
-            e.isCancelled = true
-            val hint = def.require.firstOrNull()
-            val player = e.whoClicked as? Player
-            DebugUtil.log("Menu", "GEM_SLOT 拒绝放入: gemId=${ItemFactory.getGemId(incoming)} require=${def.require}")
-            if (player != null) {
-                if (hint.isNullOrBlank()) Lang.send(player, "menu.slot-only-gem")
-                else Lang.send(player, "menu.slot-require", "require" to hint)
-                player.updateInventory()
-            }
-        }
+        refreshNow(player, holder)
     }
 
-    private fun handleEquipClick(e: InventoryClickEvent, player: Player, layout: MenuLayout) {
-        val cursor = e.cursor
-        val current = e.currentItem
-        val cursorEmpty = isEmpty(cursor)
-        val currentEmpty = isEmpty(current)
-        DebugUtil.log("Menu", "EQUIP_SLOT 点击: cursorEmpty=$cursorEmpty currentEmpty=$currentEmpty action=${e.action}")
-
-        // 手持宝石点击装备槽: 配置里描述的"先点宝石, 再点装备"操作流程 —— 直接用光标上的宝石镶嵌
-        if (!cursorEmpty && !currentEmpty && ItemFactory.getGemId(cursor) != null) {
-            e.isCancelled = true
-            applyCursorGem(player, e.inventory, cursor!!, current!!, e.rawSlot)
-            return
-        }
-        // 光标为空且槽内有装备: 用本菜单内所有 GEM_SLOT 中的物品依次尝试镶嵌
-        if (cursorEmpty && !currentEmpty) {
-            e.isCancelled = true
-            applyAllGemSlots(player, e.inventory, layout, current!!, e.rawSlot)
-            return
-        }
-        // 光标上是普通装备/槽内为空: 放入或取出装备, 允许 vanilla 行为
-    }
-
-    /** 用光标上的宝石对装备槽内的装备执行一次镶嵌, 成功后就地更新装备并扣掉一个宝石 */
-    private fun applyCursorGem(player: Player, inv: Inventory, gemStack: ItemStack, equip: ItemStack, equipRawSlot: Int) {
-        DebugUtil.log(
-            "Menu",
-            "applyCursorGem: 用光标宝石(${gemStack.type}, GemId=${ItemFactory.getGemId(gemStack)}) 镶嵌 ${equip.type}"
-        )
-        val result = GemManager.applyToItem(player, gemStack, equip)
-        DebugUtil.log(
-            "Menu",
-            "applyCursorGem 结果: success=${result.success} consumed=${result.consumedGem} " +
-                "有新物品=${result.resultItem != null} msg=${result.message}"
-        )
-        Lang.sendRaw(player, result.message)
-        if (result.consumedGem) {
-            val left = gemStack.clone()
-            left.amount -= 1
-            player.setItemOnCursor(if (left.amount <= 0) null else left)
-            DebugUtil.log("Menu", "  光标宝石数量 ${gemStack.amount} -> ${left.amount.coerceAtLeast(0)}")
-        }
-        inv.setItem(equipRawSlot, result.resultItem ?: equip)
-        DebugUtil.log("Menu", "  已把装备写回槽位 $equipRawSlot")
-        // 事件被 cancel 后客户端会用服务端的旧快照重画界面, 这里强制同步一次,
-        // 否则玩家看到的光标/槽位内容会和服务端不一致(需要按 F3+T 或重开菜单才刷新)
-        player.updateInventory()
-    }
-
-    private fun applyAllGemSlots(player: Player, inv: Inventory, layout: MenuLayout, equip: ItemStack, equipRawSlot: Int) {
-        var current = equip
-        val gemSlots = WorkbenchMenu.gemSlots(inv, layout)
-        DebugUtil.log("Menu", "applyAllGemSlots: 本菜单共有 ${gemSlots.size} 个 GEM_SLOT: $gemSlots")
-        var attempted = false
+    private fun applyGemSlots(player: Player, holder: MenuHolder) {
+        val inv = holder.inv
+        val equipSlot = WorkbenchMenu.findEquipSlot(inv, holder.layout)
+        var target = if (equipSlot >= 0) inv.getItem(equipSlot)?.takeUnless(::isEmpty) else null
+        if (target == null) { Lang.send(player, "embed.need-equip"); return }
+        val gemSlots = WorkbenchMenu.gemSlots(inv, holder.layout).filter { !isEmpty(inv.getItem(it)) }
+        if (gemSlots.isEmpty()) { Lang.send(player, "embed.need-gem"); return }
+        // Refuse invalid input before any reward, random roll or cost.
         for (slot in gemSlots) {
-            val gemStack = inv.getItem(slot) ?: continue
-            if (gemStack.type == Material.AIR) continue
-            attempted = true
-            DebugUtil.log("Menu", "applyAllGemSlots: 尝试用槽位 $slot 的物品(${gemStack.type}, GemId=${ItemFactory.getGemId(gemStack)}) 镶嵌")
-            val result = GemManager.applyToItem(player, gemStack, current)
-            DebugUtil.log(
-                "Menu",
-                "applyAllGemSlots: 槽位 $slot 结果 success=${result.success} consumed=${result.consumedGem} msg=${result.message}"
-            )
+            val gem = inv.getItem(slot) ?: continue
+            val reason = MenuSlotRules.rejection(holder.layout, holder.slots.getValue(slot), gem)
+                ?: GemManager.validateApply(gem, target, holder.menuName)
+            if (reason != null) {
+                Lang.send(player, "menu.preview-invalid", "slot" to (slot + 1), "reason" to reason)
+                refreshNow(player, holder)
+                return
+            }
+        }
+        holder.processing = true
+        try {
+            var succeeded = 0
+            var failed = 0
+            for (slot in gemSlots) {
+                val gem = inv.getItem(slot)?.takeUnless(::isEmpty) ?: continue
+                val result = GemManager.applyToItem(player, gem, target!!, holder.menuName)
+                if (result.consumedGem) inv.setItem(slot, gem.clone().also { it.amount-- }.takeUnless(::isEmpty))
+                target = result.resultItem ?: target
+                // Commit each result, including failure-side changes, before the next attempt.
+                inv.setItem(equipSlot, target)
+                if (result.success) succeeded++ else failed++
+                Lang.sendRaw(player, result.message)
+                if (holder.closeRequested) break
+            }
+            Lang.send(player, "menu.batch-result", "success" to succeeded, "failed" to failed)
+        } finally {
+            finishOperation(player, holder)
+        }
+    }
+
+    private fun useButton(player: Player, holder: MenuHolder, gemId: String?) {
+        val cfg = gemId?.let(GemRegistry::get)
+        if (cfg == null) { Lang.send(player, "menu.button-gem-missing", "gem" to (gemId ?: "?")); return }
+        val slot = WorkbenchMenu.findEquipSlot(holder.inv, holder.layout)
+        val target = if (slot >= 0) holder.inv.getItem(slot)?.takeUnless(::isEmpty) else null
+        if (slot >= 0 && target == null) { Lang.send(player, "menu.need-target"); return }
+        if (target != null) {
+            val def = holder.slots.getValue(slot)
+            val reason = MenuSlotRules.rejection(holder.layout, def, target)
+            if (reason != null) { Lang.sendRaw(player, reason); return }
+            if (target.amount != 1) { Lang.send(player, "menu.slot-limit", "limit" to 1); return }
+        }
+        holder.processing = true
+        try {
+            val result = GemManager.executeButton(player, cfg, target)
+            if (target != null) holder.inv.setItem(slot, if (result.consumedGem) null else result.resultItem ?: target)
             Lang.sendRaw(player, result.message)
-            if (result.consumedGem) {
-                val left = gemStack.clone()
-                left.amount -= 1
-                inv.setItem(slot, if (left.amount <= 0) null else left)
-            }
-            if (result.success && result.resultItem != null) {
-                current = result.resultItem
-            }
+        } finally {
+            finishOperation(player, holder)
         }
-        if (!attempted) {
-            DebugUtil.log("Menu", "applyAllGemSlots: 所有 GEM_SLOT 都是空的, 没有可镶嵌的宝石")
-            Lang.send(player, "menu.select-gem")
-        }
-        inv.setItem(equipRawSlot, current)
+    }
+
+    private fun finishOperation(player: Player, holder: MenuHolder) {
+        holder.processing = false
+        if (holder.closeRequested) returnItems(player, holder) else refreshNow(player, holder)
+    }
+
+    private fun refreshNow(player: Player, holder: MenuHolder) {
+        WorkbenchMenu.refresh(holder)
         player.updateInventory()
     }
 
-    private fun handleUseGem(player: Player, inv: Inventory, layout: MenuLayout, gemId: String?) {
-        if (gemId == null) return
-        val cfg = GemRegistry.get(gemId) ?: run {
-            Lang.send(player, "menu.button-gem-missing", "gem" to gemId)
-            DebugUtil.log("Menu", "USE_GEM 按钮引用的宝石配置不存在: $gemId")
-            return
-        }
-        val equipRawSlot = WorkbenchMenu.findEquipSlot(inv, layout)
-        val equipItem = if (equipRawSlot >= 0) inv.getItem(equipRawSlot) else null
-        val hasEquip = !isEmpty(equipItem)
-        DebugUtil.log("Menu", "USE_GEM: gemId=$gemId equipRawSlot=$equipRawSlot hasEquip=$hasEquip")
-
-        // 该菜单存在装备槽却是空的: 说明这个按钮需要一个目标物品, 先提示玩家放入而不是空跑一次
-        if (equipRawSlot >= 0 && !hasEquip) {
-            val equipDef = WorkbenchMenu.charAt(layout, equipRawSlot)?.let { layout.items[it] }
-            val hint = equipDef?.require?.firstOrNull { !it.equals("GEM:ALL", true) && !it.equals("ALL", true) }
-            if (hint.isNullOrBlank()) Lang.send(player, "menu.need-target")
-            else Lang.send(player, "menu.need-target-named", "hint" to hint)
-            DebugUtil.log("Menu", "USE_GEM 被拒绝: 菜单有 EQUIP_SLOT($equipRawSlot) 但槽内为空")
-            return
-        }
-
-        val result = GemManager.executeButton(player, cfg, if (hasEquip) equipItem else null)
-        DebugUtil.log("Menu", "USE_GEM 执行结果: success=${result.success} msg=${result.message}")
-        Lang.sendRaw(player, result.message)
-        if (hasEquip) {
-            // 只有成功才消耗目标物品; 失败时把物品原样留在槽里, 避免玩家白丢东西
-            if (result.success) {
-                inv.setItem(equipRawSlot, null)
-                DebugUtil.log("Menu", "USE_GEM 成功, 已消耗装备槽内的目标物品")
-            } else {
-                // reward 可能改写过物品(如扣耐久), 有返回值就写回, 否则保持原物品
-                inv.setItem(equipRawSlot, result.resultItem ?: equipItem)
-                DebugUtil.log("Menu", "USE_GEM 失败, 目标物品保留在装备槽内")
-            }
+    private fun refreshLater(player: Player, holder: MenuHolder) {
+        submit(delay = 1) {
+            if (!holder.returned && player.openInventory.topInventory === holder.inv) refreshNow(player, holder)
         }
     }
 }

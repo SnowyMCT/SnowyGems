@@ -6,6 +6,9 @@ import mc233.`fun`.snowygems.config.GemType
 import mc233.`fun`.snowygems.reward.RewardContext
 import mc233.`fun`.snowygems.reward.RewardPhase
 import mc233.`fun`.snowygems.reward.ParsedReward
+import mc233.`fun`.snowygems.reward.AppliedReward
+import mc233.`fun`.snowygems.reward.RewardHistory
+import mc233.`fun`.snowygems.reward.impl.RewardFactory
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.Lang
@@ -16,10 +19,12 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.module.nms.ItemTagData
-import taboolib.module.nms.ItemTagList
-import taboolib.module.nms.getItemTag
+import org.bukkit.inventory.EquipmentSlot
+import mc233.`fun`.snowygems.util.ItemTagData
+import mc233.`fun`.snowygems.util.ItemTagList
+import mc233.`fun`.snowygems.util.getItemTag
 import kotlin.random.Random
+import java.util.Base64
 
 /** 一次镶嵌/强化/使用操作的结果, 供 GUI/命令层展示消息 */
 data class ApplyResult(
@@ -35,6 +40,13 @@ object GemManager {
 
     /** GUI 中 USE_GEM 按钮点击: 无视宝石声明的 Type, 直接以 [target](可为空) 为上下文执行一次 Rewards */
     fun executeButton(player: Player, cfg: GemConfig, target: ItemStack?): ApplyResult {
+        if (target != null && !target.type.isAir && target.amount != 1) {
+            return ApplyResult(false, Lang.get("gem.single-target"), false)
+        }
+        if (cfg.require.isNotEmpty() && (target == null || target.type.isAir ||
+                !ItemRequireMatcher.matches(cfg.require, target, target.itemMeta?.lore ?: emptyList()))) {
+            return ApplyResult(false, Lang.get("gem.require-failed"), false)
+        }
         val success = rollSuccess(cfg.success)
         DebugUtil.log(
             "GemManager",
@@ -42,18 +54,22 @@ object GemManager {
         )
         val working = target?.clone()
         val ctx = RewardContext(player, working, cfg, RewardPhase.APPLY, success)
-        if (success) runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
+        if (success) {
+            val execution = runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
+            if (execution.succeeded == 0) return ApplyResult(false, Lang.get("gem.no-effect"), execution.errors > 0, target)
+        }
         else DebugUtil.log("GemManager", "executeButton: 判定失败, 跳过全部 Rewards")
         val msg = if (success) {
-            cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.button-success")
+            cfg.successTip?.let(::renderTip) ?: Lang.get("gem.button-success")
         } else {
-            cfg.failTip?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.button-fail")
+            cfg.failTip?.let(::renderTip) ?: Lang.get("gem.button-fail")
         }
-        return ApplyResult(success, msg, true, ctx.item)
+        return ApplyResult(success, msg, success, ctx.item)
     }
 
     /** 给予玩家指定数量的宝石物品 */
     fun give(player: Player, gemId: String, amount: Int = 1): Boolean {
+        if (amount <= 0) return false
         val cfg = GemRegistry.get(gemId) ?: run {
             DebugUtil.log("GemManager", "give: 宝石配置不存在 $gemId (已加载=${GemRegistry.ids().size} 个)")
             return false
@@ -68,7 +84,26 @@ object GemManager {
         return true
     }
 
-    fun applyToItem(player: Player, gemStack: ItemStack, targetStack: ItemStack): ApplyResult {
+    /** 预览与实际执行共享的无副作用校验。 */
+    fun validateApply(gemStack: ItemStack, targetStack: ItemStack, menuName: String? = null): String? {
+        if (gemStack.type.isAir || gemStack.amount <= 0) return Lang.get("gem.not-gem")
+        val gemId = ItemFactory.getGemId(gemStack) ?: return Lang.get("gem.not-gem")
+        val cfg = GemRegistry.get(gemId) ?: return Lang.get("gem.config-missing")
+        if (cfg.type != GemType.NORMAL) return Lang.get("embed.wrong-type")
+        if (cfg.gui.isNotEmpty() && menuName !in cfg.gui) {
+            return Lang.get("embed.wrong-gui", "gui" to cfg.gui.joinToString(", "))
+        }
+        if (targetStack.type.isAir) return Lang.get("embed.need-equip")
+        if (targetStack.amount != 1) return Lang.get("gem.single-target")
+        if (ItemFactory.getGemId(targetStack) != null) return Lang.get("embed.equip-is-gem")
+        if (!ItemRequireMatcher.matches(cfg.require, targetStack, targetStack.itemMeta?.lore ?: emptyList())) {
+            return Lang.get("gem.require-failed")
+        }
+        return null
+    }
+
+    fun applyToItem(player: Player, gemStack: ItemStack, targetStack: ItemStack, menuName: String? = null): ApplyResult {
+        validateApply(gemStack, targetStack, menuName)?.let { return ApplyResult(false, it, false) }
         val gemId = ItemFactory.getGemId(gemStack)
         DebugUtil.log("GemManager", "applyToItem: 手持物品读取到的 GemId=$gemId (材质=${gemStack.type})")
         if (gemId == null) return ApplyResult(false, Lang.get("gem.not-gem"), false)
@@ -86,30 +121,67 @@ object GemManager {
         DebugUtil.log("GemManager", "applyToItem: Require 通过, 成功率=${cfg.success}% 本次判定=$success")
         val ctx = RewardContext(player, target, cfg, RewardPhase.APPLY, success)
         if (success) {
-            val (attempted, succeeded) = runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
+            val execution = runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
             // 概率判定成功, 但奖励一条都没真正生效(如附魔名解析失败) —— 不能假报成功,
             // 否则玩家会看到"镶嵌成功"却毫无变化. 此时不消耗宝石, 让玩家能重试/找管理员.
-            if (attempted > 0 && succeeded == 0) {
-                DebugUtil.log("GemManager", "applyToItem: 判定成功但 $attempted 条奖励全部未生效, 视为失败并保留宝石")
-                return ApplyResult(false, Lang.get("gem.no-effect"), false, target)
+            if (execution.succeeded == 0) {
+                DebugUtil.log("GemManager", "applyToItem: 奖励未生效, exceptions=${execution.errors}")
+                return ApplyResult(false, Lang.get("gem.no-effect"), execution.errors > 0, targetStack.clone())
             }
-            markApplied(ctx.item ?: target, cfg.id)
+            markApplied(ctx.item ?: target, cfg.id, execution.applied)
             DebugUtil.log("GemManager", "applyToItem: 镶嵌完成, 该装备现有宝石=${getAppliedGems(ctx.item ?: target)}")
-            val msg = cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
+            val msg = cfg.successTip?.let(::renderTip)
                 ?: Lang.get("gem.embed-success")
             return ApplyResult(true, msg, true, ctx.item ?: target)
         } else {
-            val msg = cfg.failTip?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.embed-fail")
+            val msg = cfg.failTip?.let(::renderTip) ?: Lang.get("gem.embed-fail")
             return ApplyResult(false, msg, true, target)
         }
     }
 
-    /** 玩家直接右键使用 PlayerGem / RandomGem (兑换券/药水/消耗品) */
+    /** 先预留使用的那一颗，再发奖，避免礼包抽中自身时覆盖新发放的物品。调用方不得再次扣减。 */
+    fun useHeld(player: Player, hand: EquipmentSlot = EquipmentSlot.HAND): ApplyResult {
+        require(hand == EquipmentSlot.HAND || hand == EquipmentSlot.OFF_HAND) { "Only hand slots can use gems" }
+        val inventory = player.inventory
+        val slot = if (hand == EquipmentSlot.HAND) inventory.heldItemSlot else 40
+        val held = inventory.getItem(slot)?.clone()
+            ?: return ApplyResult(false, Lang.get("gem.not-gem"), false)
+        if (held.type.isAir || held.amount <= 0) return ApplyResult(false, Lang.get("gem.not-gem"), false)
+        val gemId = ItemFactory.getGemId(held) ?: return ApplyResult(false, Lang.get("gem.not-gem"), false)
+        val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
+        if (cfg.type == GemType.NORMAL) return ApplyResult(false, Lang.get("gem.need-workbench"), false)
+        val reserved = held.clone().apply { amount = 1 }
+        inventory.setItem(slot, held.takeIf { it.amount > 1 }?.apply { amount-- })
+        val result = try {
+            useDirectly(player, reserved)
+        } catch (e: Exception) {
+            // 未知异常可能发生在外部插件已经发奖之后，不能返还凭证制造重复奖励。
+            DebugUtil.err("GemManager", "使用宝石 $gemId 发生异常", e)
+            ApplyResult(false, Lang.get("gem.no-effect"), true)
+        }
+        if (!result.consumedGem) {
+            val current = inventory.getItem(slot)
+            if (current == null || current.type.isAir) inventory.setItem(slot, reserved)
+            else if (current.isSimilar(reserved) && current.amount < current.maxStackSize) {
+                inventory.setItem(slot, current.clone().apply { amount++ })
+            } else {
+                inventory.addItem(reserved).values.forEach { player.world.dropItem(player.location, it) }
+            }
+        }
+        return result
+    }
+
+    /** 直接执行消费品逻辑；常规交互应使用 useHeld，让核心负责预留物品。 */
     fun useDirectly(player: Player, gemStack: ItemStack): ApplyResult {
         val gemId = ItemFactory.getGemId(gemStack)
         DebugUtil.log("GemManager", "useDirectly: 手持物品读取到的 GemId=$gemId (材质=${gemStack.type})")
         if (gemId == null) return ApplyResult(false, Lang.get("gem.not-gem"), false)
         val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
+
+        if (cfg.type == GemType.NORMAL) return ApplyResult(false, Lang.get("gem.need-workbench"), false)
+        if (!rollSuccess(cfg.success)) {
+            return ApplyResult(false, cfg.failTip?.let(::renderTip) ?: Lang.get("gem.use-fail"), true)
+        }
 
         DebugUtil.log("GemManager", "useDirectly: 宝石 ${cfg.id} 类型=${cfg.type} 成功率=${cfg.success}%")
         return when (cfg.type) {
@@ -129,7 +201,7 @@ object GemManager {
                     } else {
                         val loc = findSafeDropLocation(player)
                         if (loc != null) {
-                            player.world.dropItem(loc, item)
+                            leftover.values.forEach { player.world.dropItem(loc, it) }
                             DebugUtil.log("GemManager", "useDirectly: 礼包(${cfg.id})抽中 $picked 背包已满, 掉落在 $loc")
                             ApplyResult(true, Lang.get("gem.inventory-full", "gem" to gemName), true)
                         } else {
@@ -141,20 +213,22 @@ object GemManager {
                 } else {
                     // 旧行为: 当场执行子宝石的 Rewards (随机点券券等直接到账类随机宝石)
                     val ctx = RewardContext(player, null, subCfg, RewardPhase.APPLY, true)
-                    runRewards(ctx, subCfg.parsedRewards, RewardPhase.APPLY)
-                    val msg = subCfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) }
+                    val execution = runRewards(ctx, subCfg.parsedRewards, RewardPhase.APPLY)
+                    if (execution.succeeded == 0) return ApplyResult(false, Lang.get("gem.no-effect"), execution.errors > 0)
+                    val msg = subCfg.successTip?.let(::renderTip)
                         ?: Lang.get("gem.random-get", "gem" to subCfg.display.ifBlank { subCfg.name })
                     ApplyResult(true, msg, true)
                 }
             }
             GemType.PLAYER_GEM -> {
-                val success = rollSuccess(cfg.success)
+                val success = true
                 val ctx = RewardContext(player, null, cfg, RewardPhase.APPLY, success)
-                if (success) runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
+                val execution = runRewards(ctx, cfg.parsedRewards, RewardPhase.APPLY)
+                if (execution.succeeded == 0) return ApplyResult(false, Lang.get("gem.no-effect"), execution.errors > 0)
                 val msg = if (success) {
-                    cfg.successTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.use-success")
+                    cfg.successTip?.let(::renderTip) ?: Lang.get("gem.use-success")
                 } else {
-                    cfg.failTip?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.use-fail")
+                    cfg.failTip?.let(::renderTip) ?: Lang.get("gem.use-fail")
                 }
                 ApplyResult(success, msg, true)
             }
@@ -174,30 +248,52 @@ object GemManager {
      * 这里只负责"把宝石从装备上摘掉并撤销其效果".
      */
     fun removeFromItem(player: Player, targetStack: ItemStack, gemId: String): ApplyResult {
+        if (targetStack.type.isAir || targetStack.amount != 1) {
+            return ApplyResult(false, Lang.get("gem.single-target"), false)
+        }
+        if (gemId !in getAppliedGems(targetStack)) return ApplyResult(false, Lang.get("gem.not-applied"), false)
         DebugUtil.log("GemManager", "removeFromItem: 从 ${targetStack.type} 拆除 $gemId, 拆除前已镶嵌=${getAppliedGems(targetStack)}")
         val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
         val target = targetStack.clone()
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
-        // 1) 撤销该宝石所有奖励对装备造成的效果(属性/附魔)
+        val history = target.getItemTag()[historyKey(gemId)]?.value as? ItemTagList
+        val encoded = history?.lastOrNull()?.asString()
+        val applied = if (!encoded.isNullOrEmpty()) {
+            runCatching { RewardHistory.decode(encoded) }.getOrElse {
+                DebugUtil.err("GemManager", "宝石 $gemId 的撤销记录损坏，拒绝拆卸", it)
+                return ApplyResult(false, Lang.get("gem.no-effect"), false)
+            }
+        } else {
+            // 老物品没有执行历史，只兼容撤销 APPLY 奖励，绝不能撤销 onRemove。
+            cfg.parsedRewards.filter { it.matchesPhase(RewardPhase.APPLY) && it.reward != null }
+                .map { AppliedReward(it.call, emptyMap()) }
+        }
+        // 倒序撤销本颗宝石实际成功的奖励，用实际增量保留其他宝石贡献。
         var reverted = 0
-        for (parsed in cfg.parsedRewards) {
-            val reward = parsed.reward ?: continue
-            runCatching { if (reward.revert(ctx)) reverted++ }
-                .onFailure { DebugUtil.err("GemManager", "撤销奖励 ${parsed.call.name} 失败", it) }
+        for (record in applied.asReversed()) {
+            val reward = RewardFactory.create(record.call) ?: continue
+            ctx.undoData.clear()
+            ctx.undoData.putAll(record.undoData)
+            try {
+                if (reward.revert(ctx)) reverted++
+            } catch (e: Exception) {
+                DebugUtil.err("GemManager", "撤销奖励 ${record.call.name} 失败，保留原物品", e)
+                return ApplyResult(false, Lang.get("gem.no-effect"), false)
+            }
         }
         // 2) 再跑配置里显式标了 $onRemove 的奖励(如返还部分材料)
         runRewards(ctx, cfg.parsedRewards, RewardPhase.REMOVE)
         // 3) 从 NBT 已镶嵌列表里摘掉
         unmarkApplied(ctx.item ?: target, gemId)
         DebugUtil.log("GemManager", "removeFromItem: 撤销了 $reverted 条奖励效果, 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
-        val msg = cfg.removeTip?.takeIf { it != "none" }?.let { ColorUtil.colorize(it) } ?: Lang.get("gem.remove-success")
+        val msg = cfg.removeTip?.let(::renderTip) ?: Lang.get("gem.remove-success")
         return ApplyResult(true, msg, false, ctx.item ?: target)
     }
 
     /** 读取一件装备上已记录的所有宝石ID */
     fun getAppliedGems(item: ItemStack): List<String> {
         val tag = item.getItemTag()
-        val list = tag[APPLIED_LIST_KEY] as? ItemTagList ?: return emptyList()
+        val list = tag[APPLIED_LIST_KEY]?.value as? ItemTagList ?: return emptyList()
         return list.mapNotNull { it.asString() }
     }
 
@@ -205,27 +301,41 @@ object GemManager {
     fun getAppliedGemConfigs(item: ItemStack): List<GemConfig> =
         getAppliedGems(item).mapNotNull { GemRegistry.get(it) }
 
-    private fun markApplied(item: ItemStack, gemId: String) {
+    private fun historyKey(gemId: String): String = "SnowyGemsHistory_" +
+        Base64.getUrlEncoder().withoutPadding().encodeToString(gemId.toByteArray(Charsets.UTF_8))
+
+    private fun markApplied(item: ItemStack, gemId: String, applied: List<AppliedReward>) {
         val tag = item.getItemTag()
-        val list = (tag[APPLIED_LIST_KEY] as? ItemTagList) ?: ItemTagList()
-        if (list.none { it.asString() == gemId }) {
-            list.add(ItemTagData(gemId))
+        val list = (tag[APPLIED_LIST_KEY]?.value as? ItemTagList) ?: ItemTagList()
+        val history = (tag[historyKey(gemId)]?.value as? ItemTagList) ?: ItemTagList()
+        // 为旧版已有的同 ID 宝石补一个兼容占位，保持每颗记录与撤销历史对齐。
+        repeat((list.count { it.asString() == gemId } - history.size).coerceAtLeast(0)) {
+            history.add(ItemTagData(""))
         }
+        history.add(ItemTagData(RewardHistory.encode(applied)))
+        list.add(ItemTagData(gemId))
+        tag[historyKey(gemId)] = history
         tag[APPLIED_LIST_KEY] = list
         tag.saveTo(item)
     }
 
     private fun unmarkApplied(item: ItemStack, gemId: String) {
         val tag = item.getItemTag()
-        val list = (tag[APPLIED_LIST_KEY] as? ItemTagList) ?: return
-        // ⚠️ ItemTagList 底层是 CopyOnWriteArrayList, 其迭代器不支持 remove(),
-        //   直接 list.removeAll { } / removeIf { } 会抛 UnsupportedOperationException。
-        //   所以重建一个新列表, 只保留不等于 gemId 的项, 整体替换。
+        val list = (tag[APPLIED_LIST_KEY]?.value as? ItemTagList) ?: return
+        // 仅删除最后一次镶嵌，与下方历史记录的 dropLast(1) 保持一致。
+        val removeIndex = list.indexOfLast { it.asString() == gemId }
+        if (removeIndex < 0) return
         val kept = ItemTagList()
-        for (data in list) {
-            if (data.asString() != gemId) kept.add(data)
+        for ((index, data) in list.withIndex()) {
+            if (index != removeIndex) kept.add(data)
         }
         tag[APPLIED_LIST_KEY] = kept
+        val key = historyKey(gemId)
+        val history = tag[key]?.value as? ItemTagList
+        if (history != null) {
+            if (history.size <= 1) tag.remove(key)
+            else tag[key] = ItemTagList().apply { addAll(history.dropLast(1)) }
+        }
         tag.saveTo(item)
     }
 
@@ -234,11 +344,15 @@ object GemManager {
      * @return Pair(attempted, succeeded): attempted=尝试执行的奖励条数(已识别且匹配阶段),
      *         succeeded=其中 apply() 返回 true 的条数. 供调用方判断"是否真的产生了效果".
      */
-    private fun runRewards(ctx: RewardContext, parsedRewards: List<ParsedReward>, phase: RewardPhase): Pair<Int, Int> {
+    private data class RewardExecution(val succeeded: Int, val errors: Int, val applied: List<AppliedReward>)
+
+    private fun runRewards(ctx: RewardContext, parsedRewards: List<ParsedReward>, phase: RewardPhase): RewardExecution {
         DebugUtil.log("Reward", "开始执行 ${ctx.gem.id} 的 Rewards, 阶段=$phase 共 ${parsedRewards.size} 行")
         var attempted = 0
         var succeeded = 0
         var skipped = 0
+        var errors = 0
+        val applied = mutableListOf<AppliedReward>()
         for (parsed in parsedRewards) {
             if (!parsed.matchesPhase(phase)) {
                 skipped++
@@ -246,19 +360,31 @@ object GemManager {
                 continue
             }
             val reward = parsed.reward ?: continue
+            val before = ctx.item?.clone()
+            ctx.undoData.clear()
             try {
                 val ok = reward.apply(ctx)
                 attempted++
-                if (ok) succeeded++
+                if (ok) {
+                    succeeded++
+                    applied += AppliedReward(parsed.call, ctx.undoData.toMap())
+                } else {
+                    ctx.item = before
+                }
                 DebugUtil.log("Reward", "  ${parsed.call.name} 参数=${parsed.call.args} -> $ok")
             } catch (e: Exception) {
                 attempted++
+                errors++
+                ctx.item = before
                 DebugUtil.err("Reward", "  执行 ${parsed.call.name} 失败", e)
             }
         }
         DebugUtil.log("Reward", "Rewards 执行完毕: 尝试 $attempted 条, 生效 $succeeded 条, 阶段不匹配跳过 $skipped 条")
-        return attempted to succeeded
+        return RewardExecution(succeeded, errors, applied)
     }
+
+    internal fun renderTip(value: String): String =
+        if (value.equals("none", true)) "none:" else ColorUtil.colorize(value)
 
     private fun rollSuccess(chance: Int): Boolean {
         if (chance >= 100) return true
@@ -266,15 +392,16 @@ object GemManager {
         return Random.nextInt(100) < chance
     }
 
-    private fun weightedPick(pool: Map<String, Int>): String? {
-        val total = pool.values.sum()
+    internal fun weightedPick(pool: Map<String, Int>): String? {
+        val total = pool.values.sumOf { it.coerceAtLeast(0).toLong() }
         if (total <= 0) return null
-        var roll = Random.nextInt(total)
+        var roll = Random.nextLong(total)
         for ((k, w) in pool) {
+            if (w <= 0) continue
             if (roll < w) return k
             roll -= w
         }
-        return pool.keys.lastOrNull()
+        return null
     }
 
     /** 掉落物会被销毁/烧毁/冲走的方块类型: 岩浆(烧毁物品)、仙人掌(销毁物品)、水(冲走物品) */

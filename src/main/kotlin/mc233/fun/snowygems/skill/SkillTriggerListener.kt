@@ -38,7 +38,7 @@ import taboolib.platform.util.sendActionBar
  *   onShiftSwing   潜行 + 左键(三叉戟等没有可靠 AnimationEvent 的物品也能用)
  *   onAttack       近战攻击命中实体
  *   onKill         击杀实体
- *   onHit:类型     发射物命中, 类型为实体类型名(ARROW / TRIDENT / SPEAR / EGG …)
+ *   onHit:类型     发射物命中, 类型为实体类型名(ARROW / TRIDENT / EGG …)
  *   onHit          发射物命中(不限类型)
  *   onLaunch:类型  发射物射出
  *   onLaunch       发射物射出(不限类型)
@@ -46,8 +46,8 @@ import taboolib.platform.util.sendActionBar
  *   onDamaged      物品即将损失耐久
  *   onTimer        每秒轮询(由 BuffEngine 驱动)
  *
- * 多版本要点: 发射物类型不写死枚举, 直接取 `entity.type.name`这样 1.21.11 的矛(SPEAR)
- * 投出去后, 服主写 `~onHit:SPEAR` 就能用, 引擎不需要认识"矛"这个概念
+ * 多版本要点: 发射物类型不写死枚举, 直接取 `entity.type.name`。1.21.11 的矛是近战武器，
+ * 不会走 ProjectileLaunch/ProjectileHit；矛技能应使用 onUse、onShiftUse、onSwing 或 onAttack。
  */
 object SkillTriggerListener {
 
@@ -142,7 +142,7 @@ object SkillTriggerListener {
         val shooter = e.entity.shooter as? Player ?: return
         val item = projectileItems.remove(e.entity.uniqueId)?.first ?: shooter.inventory.itemInMainHand
         if (item.type == Material.AIR) return
-        // 类型名直接取自实体注册表, 因此新版本的新发射物(如 1.21.11 的矛)自动可用
+        // 类型名直接取自实体注册表，因此新版本新增的真正发射物自动可用
         val typeName = e.entity.type.name
         val hitLoc = e.hitBlock?.location ?: e.hitEntity?.location ?: e.entity.location
         DebugUtil.log("Skill", "${shooter.name} 的 $typeName 命中, 手持=${item.type}")

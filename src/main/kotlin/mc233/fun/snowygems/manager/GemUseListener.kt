@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.EquipmentSlot
+import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 
 /**
@@ -22,6 +23,7 @@ object GemUseListener {
     fun onInteract(e: PlayerInteractEvent) {
         if (e.hand != EquipmentSlot.HAND) return
         if (e.action != Action.RIGHT_CLICK_AIR && e.action != Action.RIGHT_CLICK_BLOCK) return
+        if (e.clickedBlock?.location?.let { MarkBlockManager.isBlockMarked(it) } == true) return
         val item = e.item ?: return
         val gemId = ItemFactory.getGemId(item)
         DebugUtil.log("GemUse", "玩家 ${e.player.name} 右键物品(${item.type}), 读取 GemId=$gemId")
@@ -43,33 +45,30 @@ object GemUseListener {
         consume(e.player, gemId)
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     fun onConsume(e: PlayerItemConsumeEvent) {
+        if (e.isCancelled) return
         val gemId = ItemFactory.getGemId(e.item) ?: return
         DebugUtil.log("GemUse", "${e.player.name} 食用/饮用物品(${e.item.type}), GemId=$gemId")
         val cfg = GemRegistry.get(gemId) ?: return
-        if (!cfg.eat) {
+        if (!cfg.eat || cfg.type == GemType.NORMAL) {
             DebugUtil.log("GemUse", "  宝石 $gemId 未配置 Eat=true, 忽略食用事件")
             return
         }
-        consume(e.player, gemId)
+        // 由 useHeld 统一扣除；取消原版吃喝，防止额外扣物品或把刚发放的奖励换成空瓶。
+        e.isCancelled = true
+        consume(e.player, gemId, e.hand)
     }
 
-    private fun consume(player: Player, gemId: String) {
-        val held = player.inventory.itemInMainHand
+    private fun consume(player: Player, gemId: String, hand: EquipmentSlot = EquipmentSlot.HAND) {
+        val held = player.inventory.getItem(hand)
         val heldId = ItemFactory.getGemId(held)
         if (heldId != gemId) {
             DebugUtil.log("GemUse", "  主手物品的 GemId=$heldId 与待使用的 $gemId 不一致(可能是副手触发), 取消")
             return
         }
-        val result = GemManager.useDirectly(player, held)
+        val result = GemManager.useHeld(player, hand)
         DebugUtil.log("GemUse", "  useDirectly 返回 success=${result.success} consumed=${result.consumedGem} msg=${result.message}")
         Lang.sendRaw(player, result.message)
-        if (result.consumedGem) {
-            val left = held.clone()
-            left.amount -= 1
-            player.inventory.setItemInMainHand(if (left.amount <= 0) null else left)
-            DebugUtil.log("GemUse", "  扣除 1 个宝石, 剩余 ${left.amount.coerceAtLeast(0)}")
-        }
     }
 }

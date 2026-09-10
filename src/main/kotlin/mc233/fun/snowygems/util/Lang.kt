@@ -96,7 +96,7 @@ object Lang {
     fun sendCommand(sender: CommandSender, key: String, vararg args: Pair<String, Any?>) {
         val text = text(key) ?: key
         // 前缀只加聊天栏, actionbar/title 不加
-        if (text.startsWith("actionbar:", true) || text.startsWith("title:", true)) {
+        if (text.startsWith("actionbar:", true) || text.startsWith("title:", true) || text.startsWith("none:", true)) {
             sendText(sender, text, args)
             return
         }

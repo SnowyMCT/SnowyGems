@@ -3,9 +3,11 @@ package mc233.`fun`.snowygems.manager
 import mc233.`fun`.snowygems.economy.MoneyEconomy
 import mc233.`fun`.snowygems.economy.PointsEconomy
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.entity.Player
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import taboolib.common.platform.function.severe
 import kotlin.random.Random
 
 /**
@@ -16,7 +18,7 @@ import kotlin.random.Random
  *   - 费用金额
  *   - 损坏概率: 拆卸时有概率不返还宝石(宝石损坏)
  *
- * 拆卸流程(由 [DismantleService.tryDismantle] 编排):
+ * 拆卸界面先验证物品，再调用本服务收费，失败时退款：
  *   1. 检查并扣除费用 —— 余额不足直接拒绝, 不动装备
  *   2. GemManager.removeFromItem 撤销属性/附魔, 把宝石从装备摘掉
  *   3. 掷骰子判定宝石是否损坏 —— 未损坏则返还宝石实体, 损坏则不返还
@@ -35,21 +37,27 @@ object DismantleService {
     private var costAmount = 100.0
     /** 宝石损坏概率(0~100), 0=永不损坏 */
     private var breakChance = 20
+    private var costValid = true
 
     fun resolve() {
         if (!::conf.isInitialized) return
+        conf.reload()
         costEnabled = conf.getBoolean("Dismantle.Cost.Enabled", true)
-        costType = (conf.getString("Dismantle.Cost.Type", "money") ?: "money").lowercase()
-        costAmount = conf.getDouble("Dismantle.Cost.Amount", 100.0)
+        costType = (conf.getString("Dismantle.Cost.Type", "money") ?: "money").trim().lowercase()
+        val configuredAmount = conf.getDouble("Dismantle.Cost.Amount", 100.0)
+        val normalized = normalizeCost(costType, configuredAmount)
+        costValid = normalized != null
+        costAmount = normalized ?: configuredAmount
+        if (costEnabled && !costValid) severe("拆卸费用无效：Type=$costType Amount=$configuredAmount，已禁止收费拆卸，请修正配置")
         breakChance = conf.getInt("Dismantle.BreakChance", 20).coerceIn(0, 100)
         DebugUtil.log("Dismantle", "配置就绪: 需费用=$costEnabled 类型=$costType 数额=$costAmount 损坏概率=$breakChance%")
     }
 
     /** 费用类型的中文名, 供提示展示 */
     fun costTypeName(): String = when (costType) {
-        "points", "point" -> "点券"
-        "exp", "explevel", "level" -> "经验等级"
-        else -> "金币"
+        "points", "point" -> Lang.get("dismantle.cost-points")
+        "exp", "explevel", "level" -> Lang.get("dismantle.cost-exp")
+        else -> Lang.get("dismantle.cost-money")
     }
 
     fun costEnabled() = costEnabled
@@ -58,7 +66,9 @@ object DismantleService {
 
     /** 玩家余额是否够拆卸费用 */
     fun canAfford(player: Player): Boolean {
-        if (!costEnabled || costAmount <= 0) return true
+        if (!costEnabled) return true
+        if (!costValid) return false
+        if (costAmount == 0.0) return true
         return when (costType) {
             "points", "point" -> PointsEconomy.get(player) >= costAmount
             "exp", "explevel", "level" -> player.level >= costAmount.toInt()
@@ -75,13 +85,13 @@ object DismantleService {
      * @return 是否扣费成功(余额不足返回 false)
      */
     fun charge(player: Player): Boolean {
-        if (!costEnabled || costAmount <= 0) return true
+        if (!costEnabled) return true
+        if (!costValid) return false
+        if (costAmount == 0.0) return true
         return when (costType) {
             "points", "point" -> {
                 if (PointsEconomy.get(player) < costAmount) return false
-                PointsEconomy.add(player, -costAmount)
-                DebugUtil.log("Dismantle", "扣除 ${player.name} $costAmount 点券")
-                true
+                PointsEconomy.tryAdd(player, -costAmount)
             }
             "exp", "explevel", "level" -> {
                 if (player.level < costAmount.toInt()) return false
@@ -95,6 +105,30 @@ object DismantleService {
                 DebugUtil.log("Dismantle", "扣除 ${player.name} $costAmount 金币 -> $ok")
                 ok
             }
+        }
+    }
+
+    fun refund(player: Player): Boolean {
+        if (!costEnabled || costAmount == 0.0) return true
+        if (!costValid) return false
+        return when (costType) {
+            "points", "point" -> PointsEconomy.tryAdd(player, costAmount)
+            "exp", "explevel", "level" -> {
+                player.giveExpLevels(costAmount.toInt())
+                true
+            }
+            else -> MoneyEconomy.add(player, costAmount)
+        }
+    }
+
+    /** 点券与经验采用整数，向上取整保证不足一单位的费用不会被截成免费。 */
+    internal fun normalizeCost(type: String, amount: Double): Double? {
+        if (!amount.isFinite() || amount < 0.0) return null
+        return when (type) {
+            "money" -> amount
+            "points", "point", "exp", "explevel", "level" ->
+                kotlin.math.ceil(amount).takeIf { it <= Int.MAX_VALUE }
+            else -> null
         }
     }
 

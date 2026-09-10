@@ -1,0 +1,84 @@
+# Ready-to-use examples for /sgem open 符文镶嵌台.
+# Gui restricts these runes to that custom workbench; Require still checks equipment.
+红色符文I:
+  Name: 红色符文I
+  Gui: [符文镶嵌台]
+  Require: [WEAPON, TOOL]
+  Display: '&c红色符文 I'
+  Material: RED_DYE
+  Glow: true
+  Success: 100
+  Tips:
+    - '&7一级符文 · 红色符文'
+    - '&7向物品添加 Lore 标记「强攻 I」；具体属性由其他插件读取'
+    - '&7前往 /sgem open 符文镶嵌台'
+  Rewards:
+    - LoreAdd{lore=&c强攻 I}
+
+蓝色符文I:
+  Name: 蓝色符文I
+  Gui: [符文镶嵌台]
+  Require: [WEAPON, TOOL, ARMOR]
+  Display: '&9蓝色符文 I'
+  Material: LAPIS_LAZULI
+  Glow: true
+  Success: 100
+  Tips:
+    - '&7一级符文 · 蓝色符文'
+    - '&7向物品添加 Lore 标记「坚韧 I」；具体属性由其他插件读取'
+    - '&7前往 /sgem open 符文镶嵌台'
+  Rewards:
+    - LoreAdd{lore=&9坚韧 I}
+
+绿色符文I:
+  Name: 绿色符文I
+  Gui: [符文镶嵌台]
+  Require: [WEAPON, TOOL, ARMOR]
+  Display: '&a绿色符文 I'
+  Material: LIME_DYE
+  Glow: true
+  Success: 100
+  Tips:
+    - '&7一级符文 · 绿色符文'
+    - '&7向物品添加 Lore 标记「耐久强化 I」；具体效果由其他插件读取'
+    - '&7前往 /sgem open 符文镶嵌台'
+  Rewards:
+    - LoreAdd{lore=&a耐久强化 I}
+
+技能符文I:
+  Name: 技能符文I
+  Gui: [符文镶嵌台]
+  Require: [WEAPON, TOOL]
+  Display: '&e技能符文 I'
+  Material: GLOWSTONE_DUST
+  Glow: true
+  Success: 100
+  Tips:
+    - '&7一级符文 · 技能符文'
+    - '&7向物品添加 Lore 标记「技能符文 I」；具体技能由其他插件读取'
+    - '&7前往 /sgem open 符文镶嵌台'
+  Rewards:
+    - LoreAdd{lore=&e技能符文 I}
+
+# Internal USE_GEM button recipe. The menu consumes the input only after a successful reward.
+符文分解券:
+  Name: 符文分解券
+  Gui: [符文分解台]
+  Require: ['LORE:一级符文']
+  Display: '&6符文分解配方'
+  Material: PAPER
+  Success: 100
+  SuccessTip: '&a已分解 1 颗一级符文，获得 10 个符文碎片'
+  Rewards:
+    - ItemGive{gem=符文碎片;amount=10}
+
+# A material for server-specific shops or recipes. It has no direct-use rewards.
+符文碎片:
+  Name: 符文碎片
+  Gui: [符文分解台]
+  Display: '&d符文碎片'
+  Material: PRISMARINE_SHARD
+  Tips:
+    - '&7通过符文分解台获得的材料'
+    - '&7兑换用途由服务器自行配置'
+  Rewards: []

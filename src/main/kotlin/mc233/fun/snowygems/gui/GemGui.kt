@@ -1,5 +1,6 @@
 package mc233.`fun`.snowygems.gui
 
+import mc233.`fun`.snowygems.Permissions
 import mc233.`fun`.snowygems.config.GemConfig
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.manager.DismantleService
@@ -7,13 +8,11 @@ import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Linked
@@ -30,9 +29,17 @@ import taboolib.platform.util.buildItem
  */
 object GemGui {
 
-    private class CategoryHolder : InventoryHolder {
-        lateinit var inv: Inventory
-        override fun getInventory(): Inventory = inv
+    private var sessionGeneration = 0L
+
+    fun invalidateSessions() { sessionGeneration++ }
+
+    /** Bukkit 禁止在背包点击事件中直接重开界面；下一 tick 且原界面仍打开时才执行。 */
+    private fun afterClick(player: Player, inventory: Inventory, generation: Long, action: () -> Unit) {
+        submit(delay = 1) {
+            if (player.isOnline && player.openInventory.topInventory === inventory && generation == sessionGeneration) {
+                action()
+            }
+        }
     }
 
     // ══════════════════════════════════════════════════════════
@@ -47,36 +54,31 @@ object GemGui {
             Lang.send(player, "view.no-gem")
             return
         }
-        val holder = CategoryHolder()
-        val size = (((categories.size - 1) / 9) + 1) * 9
-        val inv = Bukkit.createInventory(holder, size.coerceIn(9, 54), Lang.get("view.title"))
-        holder.inv = inv
-        categories.forEachIndexed { index, category ->
-            if (index >= inv.size) return@forEachIndexed
-            val count = GemRegistry.byCategory(category).size
-            inv.setItem(index, buildItem(XMaterial.CHEST) {
-                name = Lang.get("view.category-name", "category" to category)
-                lore.add(Lang.get("view.category-count", "count" to count))
-                lore.add(Lang.get("view.category-click"))
-            })
+        val generation = sessionGeneration
+        player.openMenu<Linked<String>>(Lang.get("view.title")) {
+            rows(6)
+            slots((0..44).toList())
+            elements { categories }
+            onGenerate { _, category, _, _ ->
+                buildItem(XMaterial.CHEST) {
+                    name = Lang.get("view.category-name", "category" to category)
+                    lore.add(Lang.get("view.category-count", "count" to GemRegistry.byCategory(category).size))
+                    lore.add(Lang.get("view.category-click"))
+                }
+            }
+            onClick { event, category ->
+                event.isCancelled = true
+                if (event.clickEvent().click == ClickType.LEFT) {
+                    afterClick(player, event.clickEvent().view.topInventory, generation) { openCategory(player, category) }
+                }
+            }
+            setNextPage(50) { _, hasNext -> pageIcon(hasNext, true) }
+            setPreviousPage(48) { _, hasPrev -> pageIcon(hasPrev, false) }
         }
-        player.openInventory(inv)
-    }
-
-    @SubscribeEvent
-    fun onCategoryClick(e: InventoryClickEvent) {
-        val holder = e.inventory.holder as? CategoryHolder ?: return
-        e.isCancelled = true
-        val player = e.whoClicked as? Player ?: return
-        val slot = e.rawSlot
-        if (slot < 0 || slot >= e.inventory.size) return
-        val categories = GemRegistry.categories()
-        DebugUtil.log("GUI", "${player.name} 点击分类面板 rawSlot=$slot (共 ${categories.size} 个分类)")
-        if (slot >= categories.size) return
-        openCategory(player, categories[slot])
     }
 
     private fun openCategory(player: Player, category: String) {
+        val generation = sessionGeneration
         val gems = GemRegistry.byCategory(category)
         DebugUtil.log("GUI", "为 ${player.name} 打开分类 $category, 共 ${gems.size} 个条目: ${gems.map { it.id }}")
         player.openMenu<Linked<GemConfig>>(Lang.get("view.category-title", "category" to category)) {
@@ -102,6 +104,8 @@ object GemGui {
 
             onClick { event, gem ->
                 event.isCancelled = true
+                if (generation != sessionGeneration || !player.hasPermission(Permissions.VIEW)) return@onClick
+                if (event.clickEvent().click !in listOf(ClickType.LEFT, ClickType.SHIFT_LEFT)) return@onClick
                 val amount = if (event.clickEvent().isShiftClick) 64 else 1
                 DebugUtil.log("GUI", "${player.name} 从分类 $category 领取 ${gem.id} x$amount (shift=${event.clickEvent().isShiftClick})")
                 GemManager.give(player, gem.id, amount)
@@ -111,7 +115,7 @@ object GemGui {
             // 返回按钮: 回到分类列表. 放在底部中间(slot 49).
             set(49, buildItem(XMaterial.BARRIER) { name = Lang.get("common.back") }) {
                 DebugUtil.log("GUI", "${player.name} 从分类 $category 点击返回, 回到分类列表")
-                open(player)
+                afterClick(player, clickEvent().view.topInventory, generation) { open(player) }
             }
 
             setNextPage(50) { _, hasNext -> pageIcon(hasNext, true) }
@@ -165,7 +169,9 @@ object GemGui {
     // ══════════════════════════════════════════════════════════
 
     fun openDismantle(player: Player) {
-        val held = player.inventory.itemInMainHand
+        val held = player.inventory.itemInMainHand.clone()
+        val heldSlot = player.inventory.heldItemSlot
+        val generation = sessionGeneration
         if (held.type.isAir) {
             DebugUtil.log("GUI", "${player.name} 打开 dismantle 失败: 手上没有物品")
             Lang.send(player, "dismantle.need-held")
@@ -206,7 +212,16 @@ object GemGui {
             }
             onClick { event, gem ->
                 event.isCancelled = true
-                doDismantle(player, gem.id)
+                if (event.clickEvent().click != ClickType.LEFT) return@onClick
+                afterClick(player, event.clickEvent().view.topInventory, generation) {
+                    if (!player.hasPermission(Permissions.DISMANTLE)) return@afterClick
+                    if (player.inventory.heldItemSlot != heldSlot || player.inventory.itemInMainHand != held) {
+                        Lang.send(player, "dismantle.item-changed")
+                        player.closeInventory()
+                    } else {
+                        doDismantle(player, gem.id)
+                    }
+                }
             }
             setNextPage(40) { _, hasNext -> pageIcon(hasNext, true) }
             setPreviousPage(38) { _, hasPrev -> pageIcon(hasPrev, false) }
@@ -228,6 +243,14 @@ object GemGui {
             player.closeInventory()
             return
         }
+        if (hand.amount != 1) {
+            Lang.send(player, "embed.single-equip")
+            return
+        }
+        if (GemRegistry.get(gemId) == null) {
+            Lang.send(player, "gem.config-missing")
+            return
+        }
         // 1) 扣费
         if (!DismantleService.canAfford(player)) {
             Lang.send(player, "dismantle.not-afford",
@@ -242,6 +265,11 @@ object GemGui {
         // 2) 撤销效果并摘掉
         val result = GemManager.removeFromItem(player, hand, gemId)
         DebugUtil.log("GUI", "${player.name} 拆卸 $gemId: success=${result.success} 有新物品=${result.resultItem != null}")
+        if (!result.success || result.resultItem == null) {
+            if (!DismantleService.refund(player)) Lang.send(player, "dismantle.refund-failed")
+            Lang.sendRaw(player, result.message)
+            return
+        }
         result.resultItem?.let { player.inventory.setItemInMainHand(it) }
         // 3) 损坏判定
         val broke = DismantleService.rollBreak()

@@ -2,6 +2,10 @@ package mc233.`fun`.snowygems.compat
 
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
+import mc233.`fun`.snowygems.config.GemType
+import mc233.`fun`.snowygems.config.MenuRegistry
+import mc233.`fun`.snowygems.gui.EmbedGui
+import mc233.`fun`.snowygems.reward.impl.RewardFactory
 import mc233.`fun`.snowygems.reward.RewardTokenParser
 import mc233.`fun`.snowygems.skill.SkillFunctions
 import mc233.`fun`.snowygems.skill.SkillLineParser
@@ -73,6 +77,19 @@ object ConfigValidator {
     private fun validateGems() {
         for (gem in GemRegistry.all()) {
             val where = "${gem.category}.yml -> ${gem.id}"
+            if (gem.success !in 0..100) mistake(where, "Success", "成功率必须在 0 到 100 之间")
+            for (menu in gem.gui) {
+                if (menu != EmbedGui.GUI_NAME && MenuRegistry.get(menu) == null) {
+                    mistake(where, "Gui: $menu", "菜单不存在，请检查 gui/ 中的顶层菜单名")
+                }
+            }
+            if (gem.type == GemType.RANDOM_GEM) {
+                if (gem.randomPool.values.none { it > 0 }) mistake(where, "Gems", "奖池必须至少包含一个正权重条目")
+                for ((id, weight) in gem.randomPool) {
+                    if (weight < 0) mistake(where, "Gems: $id", "权重不能是负数（0 表示不参与抽取）")
+                    if (GemRegistry.get(id) == null) mistake(where, "Gems: $id", "奖池引用的宝石不存在")
+                }
+            }
             for (entry in gem.require) {
                 validateRequire(where, entry)
             }
@@ -146,6 +163,10 @@ object ConfigValidator {
     private fun validateRewardLine(where: String, raw: String) {
         val call = runCatching { RewardTokenParser.parseLine(raw).call }.getOrElse {
             mistake(where, "Rewards: $raw", "这一行语法无法解析: ${it.message}")
+            return
+        }
+        if (RewardFactory.create(call) == null) {
+            mistake(where, "Rewards: $raw", "未知奖励函数或缺少必要参数，该行不会生效")
             return
         }
         val spec = SPECS[call.name.lowercase()] ?: return

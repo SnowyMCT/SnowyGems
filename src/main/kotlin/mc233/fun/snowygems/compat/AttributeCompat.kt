@@ -7,8 +7,8 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.meta.ItemMeta
-import taboolib.module.nms.ItemTagData
-import taboolib.module.nms.getItemTag
+import mc233.`fun`.snowygems.util.ItemTagData
+import mc233.`fun`.snowygems.util.getItemTag
 import java.util.UUID
 
 /**
@@ -171,19 +171,19 @@ object AttributeCompat {
      */
     fun preserveDefaultsIfNeeded(item: org.bukkit.inventory.ItemStack, meta: ItemMeta, slotName: String): Int {
         // 已经固化过就不再重复(用一个专属 NBT 标记)
-        val tag = runCatching { item.getItemTag() }.getOrNull()
-        if (tag != null && tag[DEFAULTS_KEPT_KEY]?.asString() == "1") return 0
+        val tag = item.getItemTag()
+        if (tag[DEFAULTS_KEPT_KEY]?.asString() == "1") return 0
         // meta 已带显式修饰符: 说明要么之前已固化, 要么本就是自定义装备, 不动它, 只打标记.
         // hasAttributeModifiers() 返回 Boolean, 避开直接引用 Guava Multimap 类型(编译期不在 classpath).
         val hasModifiers = runCatching { meta.hasAttributeModifiers() }.getOrDefault(false)
         if (hasModifiers) {
-            tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(item) }
+            tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(meta) }
             return 0
         }
         val defaults = defaultModifiersOf(item, slotName)
         if (defaults.isEmpty()) {
             // 该材质本就没有默认属性(如普通靴子除盔甲外无其它), 仍打标记避免每次都查
-            tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(item) }
+            tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(meta) }
             return 0
         }
         var kept = 0
@@ -193,7 +193,7 @@ object AttributeCompat {
                 kept++
             }.onFailure { DebugUtil.log("Compat", "固化默认属性 ${attr.key.key} 失败: ${it.message}") }
         }
-        tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(item) }
+        tag?.let { it[DEFAULTS_KEPT_KEY] = ItemTagData("1"); it.saveTo(meta) }
         DebugUtil.log("Compat", "为 ${item.type} 固化了 $kept 条默认属性(槽位=$slotName), 防止原生护甲/韧性丢失")
         return kept
     }

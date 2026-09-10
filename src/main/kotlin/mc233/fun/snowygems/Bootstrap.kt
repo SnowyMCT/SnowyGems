@@ -5,6 +5,11 @@ import mc233.`fun`.snowygems.compat.FeatureModules
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
+import mc233.`fun`.snowygems.config.ConfigurationHealth
+import mc233.`fun`.snowygems.gui.EmbedGui
+import mc233.`fun`.snowygems.gui.MenuHolder
+import mc233.`fun`.snowygems.gui.GemGui
+import mc233.`fun`.snowygems.rune.RuneRecipeRegistry
 import mc233.`fun`.snowygems.manager.DismantleService
 import mc233.`fun`.snowygems.manager.MarkBlockManager
 import mc233.`fun`.snowygems.skill.SkillExecutor
@@ -12,6 +17,7 @@ import mc233.`fun`.snowygems.update.UpdateChecker
 import mc233.`fun`.snowygems.util.Banner
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
+import org.bukkit.Bukkit
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
@@ -57,14 +63,17 @@ object Bootstrap {
 
     @Awake(LifeCycle.DISABLE)
     fun onDisable() {
+        closeWorkbenches()
         Banner.printShutdown()
     }
 
     fun reloadAll() {
+        closeWorkbenches()
         DebugUtil.reload()
         Lang.reload()
         FeatureModules.resolve()
         GemRegistry.reload()
+        RuneRecipeRegistry.reload()
         MenuRegistry.reload()
         SkillRegistry.reload()
         SkillExecutor.registerBuiltins()
@@ -72,5 +81,17 @@ object Bootstrap {
         MarkBlockManager.load()
         UpdateChecker.resolve()
         ConfigValidator.validate()
+        ConfigurationHealth.check()
+    }
+
+    /** 在注册表或监听器失效前触发关闭回收，避免重载和停服吞掉投入的物品。 */
+    private fun closeWorkbenches() {
+        GemGui.invalidateSessions()
+        RuneRecipeRegistry.invalidate()
+        Bukkit.getOnlinePlayers().forEach { player ->
+            when (player.openInventory.topInventory.holder) {
+                is MenuHolder, is EmbedGui.EmbedHolder -> player.closeInventory()
+            }
+        }
     }
 }

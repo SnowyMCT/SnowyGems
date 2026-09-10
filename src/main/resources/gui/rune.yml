@@ -1,32 +1,48 @@
-# 不可用
-
+# Dismantles an unused example rune, not a rune already embedded in equipment.
+# Use /sgem dismantle to remove an embedded gem from equipment.
 符文分解台:
-  Locations:
-  Title: "&8&l&k||&c&l符文分解台&8&l&k||"
-  Page: 1
+  Title: '&8符文分解台'
   Slots:
     - TTTTTTTTT
     - TGTTBTTIT
-    - TTTTTTTTT
+    - TQTTBTFXT
   Items:
     T:
       Type: TIP
-      Material: RED_STAINED_GLASS_PANE
-      Display: "&c在左侧放置符文, 点击按钮分解"
+      Material: BLACK_STAINED_GLASS_PANE
+      Display: ' '
     I:
       Type: TIP
-      Material: BOOK
-      Glow: true
-      Display: "&a分解材料表"
+      Material: ENCHANTED_BOOK
+      Display: '&d符文分解台'
       Tips:
-        - "&f分解 &6I   &f级符文, 可获得 &610  &f符文碎片"
+        - '&7左侧放入一颗未镶嵌的一级符文'
+        - '&7点击下方铁砧确认分解'
+        - '&8一级符文 → 10 个符文碎片'
     B:
       Type: USE_GEM
-      Material: ANVIL
+      Material: GRINDSTONE
       Glow: true
-      Display: "&c&l点击分解符文"
+      Display: '&c确认分解'
+      Tips: ['&7消耗 1 颗符文，获得 10 个符文碎片']
       Gem: 符文分解券
     G:
       Type: EQUIP_SLOT
       Require:
-        - GEM:ALL
+        - GEM:红色符文I
+        - GEM:蓝色符文I
+        - GEM:绿色符文I
+        - GEM:技能符文I
+    Q:
+      Type: PAGE_JUMP
+      Material: ENCHANTING_TABLE
+      Display: '&b返回符文镶嵌台'
+      Gui: 符文镶嵌台
+    X:
+      Type: CLOSE
+      Material: BARRIER
+      Display: '&c关闭并取回物品'
+    F:
+      Type: RUNE_FORGE
+      Material: SMITHING_TABLE
+      Display: '&d使用碎片锻造符文'

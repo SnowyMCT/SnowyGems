@@ -3,12 +3,13 @@ package mc233.`fun`.snowygems.reward.impl
 import mc233.`fun`.snowygems.reward.Reward
 import mc233.`fun`.snowygems.reward.RewardContext
 import mc233.`fun`.snowygems.reward.RewardPhase
+import mc233.`fun`.snowygems.reward.LoreMutation
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ExprUtil
 import mc233.`fun`.snowygems.util.LoreUtil
-import taboolib.module.nms.ItemTagData
-import taboolib.module.nms.getItemTag
+import mc233.`fun`.snowygems.util.ItemTagData
+import mc233.`fun`.snowygems.util.getItemTag
 import java.security.MessageDigest
 
 private fun withMeta(ctx: RewardContext, block: (org.bukkit.inventory.meta.ItemMeta, MutableList<String>) -> Unit): Boolean {
@@ -18,10 +19,23 @@ private fun withMeta(ctx: RewardContext, block: (org.bukkit.inventory.meta.ItemM
     }
     val meta = item.itemMeta ?: return false
     val lore = (meta.lore ?: mutableListOf()).toMutableList()
-    val before = lore.size
+    val before = lore.toList()
     block(meta, lore)
-    DebugUtil.log("Reward", "    Lore 行数 $before -> ${lore.size}")
+    if (before == lore) return false
+    ctx.undoData.putAll(LoreMutation.capture(before, lore))
+    DebugUtil.log("Reward", "    Lore 行数 ${before.size} -> ${lore.size}")
     meta.lore = lore
+    item.itemMeta = meta
+    ctx.item = item
+    return true
+}
+
+private fun revertLore(ctx: RewardContext): Boolean {
+    val item = ctx.item ?: return false
+    val meta = item.itemMeta ?: return false
+    val lines = meta.lore?.toMutableList() ?: return false
+    if (!LoreMutation.revert(lines, ctx.undoData)) return false
+    meta.lore = lines
     item.itemMeta = meta
     ctx.item = item
     return true
@@ -35,6 +49,7 @@ class LoreAddReward(
     private val limit: Int,
     private val force: Boolean
 ) : Reward {
+    override fun revert(ctx: RewardContext): Boolean = revertLore(ctx)
     override fun apply(ctx: RewardContext): Boolean = withMeta(ctx) { _, list ->
         val line = ColorUtil.colorize(lore)
         val loc = locator?.let { ColorUtil.colorize(it) }
@@ -49,6 +64,7 @@ class LoreReplaceReward(
     private val new: String,
     private val locator: String?
 ) : Reward {
+    override fun revert(ctx: RewardContext): Boolean = revertLore(ctx)
     override fun apply(ctx: RewardContext): Boolean = withMeta(ctx) { _, list ->
         DebugUtil.log("Reward", "    LoreReplace: \"$old\" -> \"$new\" locator=$locator")
         LoreUtil.replace(list, ColorUtil.colorize(old), ColorUtil.colorize(new), locator?.let { ColorUtil.colorize(it) })
