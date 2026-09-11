@@ -3,6 +3,7 @@ package mc233.`fun`.snowygems
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.manager.DismantleService
 import mc233.`fun`.snowygems.manager.GemManager
+import mc233.`fun`.snowygems.manager.MarkBlockManager
 import mc233.`fun`.snowygems.reward.AppliedReward
 import mc233.`fun`.snowygems.reward.FunctionCall
 import mc233.`fun`.snowygems.reward.LoreMutation
@@ -95,5 +96,21 @@ class RegressionTest {
         val changed = mutableListOf("外部编辑后的值")
         assertFalse(LoreMutation.revert(changed, replace))
         assertEquals(listOf("外部编辑后的值"), changed)
+    }
+
+    @Test fun `mark types resolve by id and keep stable ids for the save file`() {
+        // id 既是指令参数, 也是 MarkedBlocks.yml 里记录的字符串 —— 改名会让已有标记失效
+        assertEquals(listOf("embedder", "rune-forge"), MarkBlockManager.typeNames())
+        assertEquals(MarkBlockManager.MarkType.EMBEDDER, MarkBlockManager.MarkType.fromId("embedder"))
+        assertEquals(MarkBlockManager.MarkType.EMBEDDER, MarkBlockManager.MarkType.fromId(" EMBEDDER "))
+        assertEquals(MarkBlockManager.MarkType.RUNE_FORGE, MarkBlockManager.MarkType.fromId("rune-forge"))
+        assertEquals(MarkBlockManager.MarkType.RUNE_FORGE, MarkBlockManager.MarkType.fromId("RUNE-FORGE"))
+        // 右键动作挂在类型上
+        assertEquals("sgem embed", MarkBlockManager.MarkType.EMBEDDER.openCommand)
+        assertEquals("sgem open 符文镶嵌台", MarkBlockManager.MarkType.RUNE_FORGE.openCommand)
+        // 只认类型名本身, 别名一概不接受
+        for (bad in listOf(null, "", "   ", "forge", "rune_forge", "rune forge", "emoji", "石头")) {
+            assertNull(MarkBlockManager.MarkType.fromId(bad), "不应识别的类型: $bad")
+        }
     }
 }

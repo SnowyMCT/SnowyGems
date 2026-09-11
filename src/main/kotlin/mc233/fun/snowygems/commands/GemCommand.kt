@@ -57,11 +57,28 @@ object GemCommand {
         execute<Player> { sender, _, _ -> RuneForgeGui.open(sender) }
     }
 
+    //标记
     @CommandBody(permission = Permissions.MARK)
     val mark = subCommand {
+        dynamic("type") {
+            suggestion<CommandSender>(uncheck = true) { _, _ -> MarkBlockManager.typeNames() }
+            execute<Player> { sender, context, _ ->
+                val raw = context["type"]
+                val type = MarkBlockManager.MarkType.fromId(raw)
+                if (type == null) {
+                    DebugUtil.log("Command", "${sender.name} 执行 /sgem mark $raw -> 未知类型")
+                    Lang.sendCommand(sender, "command-mark-unknown-type",
+                        "type" to raw, "types" to MarkBlockManager.typeNames().joinToString(" / "))
+                    return@execute
+                }
+                DebugUtil.log("Command", "${sender.name} 执行 /sgem mark ${type.id}")
+                MarkBlockManager.markBlock(sender, type)
+            }
+        }
         execute<Player> { sender, _, _ ->
-            DebugUtil.log("Command", "${sender.name} 执行 /sgem mark")
-            MarkBlockManager.markBlock(sender)
+            // 兼容旧写法: 不带参数仍是镶嵌台
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem mark (默认 ${MarkBlockManager.MarkType.EMBEDDER.id})")
+            MarkBlockManager.markBlock(sender, MarkBlockManager.MarkType.EMBEDDER)
         }
     }
 

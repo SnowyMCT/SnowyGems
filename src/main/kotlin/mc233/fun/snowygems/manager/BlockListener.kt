@@ -28,15 +28,15 @@ object BlockListener {
         val action = event.action
         if (action != Action.RIGHT_CLICK_BLOCK) return
 
-        // 检查方块是否被标记
+        // 检查方块是否被标记, 并取出标记类型(镶嵌台 / 锻造台)
         val location = clickedBlock.location
-        if (!MarkBlockManager.isBlockMarked(location)) return
+        val markType = MarkBlockManager.getMarkType(location) ?: return
 
         // 取消默认交互
         event.isCancelled = true
 
-        // 执行命令
-        Bukkit.dispatchCommand(player, "sgem embed")
+        // 按标记类型执行对应指令, 与原版手打等价(该指令自己的权限判断照常生效)
+        Bukkit.dispatchCommand(player, markType.openCommand)
 
         // 播放点击特效
         player.world.playSound(

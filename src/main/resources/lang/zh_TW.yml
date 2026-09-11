@@ -81,6 +81,10 @@ dismantle-refund-failed: '&c拆卸失敗且費用未能自動退還，請聯絡�
 command-block-marked: '&e該方塊已被標記，正在更新紀錄'
 command-block-success: '&a已設定鑲嵌台 &f{material} &7（{x}, {y}, {z}）'
 command-block-hint: '&7右鍵此方塊即可開啟寶石鑲嵌台'
+# 標記類型寫錯時  佔位符: {type} 輸入  {types} 可用類型
+command-mark-unknown-type: '&c未知的標記類型: &f{type} &7(可用: {types})'
+command-rune-forge-success: '&a已設定鍛造台 &f{material} &7（{x}, {y}, {z}）'
+command-rune-forge-hint: '&7右鍵此方塊即可開啟符文鑲嵌台'
 
 # ── 通用 ──────────────────────────────────────────────────
 # 翻頁按鈕
@@ -116,6 +120,7 @@ command-no-air: '&c空氣不能被設定為鑲嵌臺'
 command-no-block: '&c準星處無方塊...'
 command-has-been-dug-up: '&e設定的鑲嵌臺方塊已被挖掘, 後續在該位置放置的方塊點選將不會開啟鑲嵌臺'
 command-block-not-allowed: '&c該方塊不被允許設定為鑲嵌臺, 請聯絡管理員'
+command-rune-forge-not-allowed: '&c該方塊不被允許設定為鍛造台, 請聯絡管理員'
 command-block-marbed: '&e該方塊已標記, 正在覆蓋'
 
 # ── 寶石核心邏輯 (鑲嵌 / 使用 / 拆除) ─────────────────────

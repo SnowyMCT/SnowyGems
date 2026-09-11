@@ -41,8 +41,9 @@ Lang: zh_CN
 Points:
   Provider: Internal
 
-# 可被标记成镶嵌台的方块种类白名单
-# 每行一个方块，可以添加或减少，注意拼写，不要重复
+#  功能方块标记 (/sgem mark <类型>)
+#  可被标记成镶嵌台的方块种类白名单
+#  每行一个方块，可以添加或减少，注意拼写，不要重复
 tagged-blocks:
   - STONE #石头
   - GRASS_BLOCK #草方块

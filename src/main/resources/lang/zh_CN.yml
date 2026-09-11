@@ -80,6 +80,10 @@ dismantle-refund-failed: '&c拆卸失败且费用未能自动退还，请联系�
 command-block-marked: '&e该方块已被标记，正在更新记录'
 command-block-success: '&a已设置镶嵌台 &f{material} &7（{x}, {y}, {z}）'
 command-block-hint: '&7右键此方块即可打开宝石镶嵌台'
+# 标记类型写错时  占位符: {type} 输入  {types} 可用类型
+command-mark-unknown-type: '&c未知的标记类型: &f{type} &7(可用: {types})'
+command-rune-forge-success: '&a已设置锻造台 &f{material} &7（{x}, {y}, {z}）'
+command-rune-forge-hint: '&7右键此方块即可打开符文镶嵌台'
 
 # ── 通用 ──────────────────────────────────────────────────
 # 翻页按钮
@@ -115,6 +119,7 @@ command-no-air: '&c空气不能被设置为镶嵌台'
 command-no-block: '&c准星处无方块...'
 command-has-been-dug-up: '&e设置的镶嵌台方块已被挖掘, 后续在该位置放置的方块点击将不会打开镶嵌台'
 command-block-not-allowed: '&c该方块不被允许设置为镶嵌台, 请联系管理员'
+command-rune-forge-not-allowed: '&c该方块不被允许设置为锻造台, 请联系管理员'
 command-block-marbed: '&e该方块已被标记，正在覆盖...'
 
 # ── 宝石核心逻辑 (镶嵌 / 使用 / 拆除) ─────────────────────
