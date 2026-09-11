@@ -13,8 +13,56 @@ import java.util.Date
 
 /**
  * 方块标记管理器
+ *
+ * 方块可以标记成两种功能方块, 类型记录在 MarkedBlocks.yml 每条记录的 type 字段里:
+ *   - [MarkType.EMBEDDER]   镶嵌台: 右键执行 /sgem embed
+ *   - [MarkType.RUNE_FORGE] 锻造台: 右键执行 /sgem open 符文镶嵌台
+ *
+ * 两种类型共用 config.yml 的 tagged-blocks 白名单, 方块被挖掉时标记自动取消。
  */
 object MarkBlockManager {
+
+    /** 两种类型共用的方块材质白名单节点 */
+    private const val BLOCK_LIST_NODE = "tagged-blocks"
+
+    /**
+     * 标记类型
+     *
+     * @param id          指令参数, 同时也是存档里记录的字符串
+     * @param openCommand 右键被标记方块时执行的指令。与玩家手打完全等价,
+     *                    所以该指令自己的权限判断照常生效
+     * @param successKey  标记成功的提示
+     * @param hintKey     标记后告诉玩家右键能干什么
+     * @param deniedKey   方块不在白名单时的提示
+     */
+    enum class MarkType(
+        val id: String,
+        val openCommand: String,
+        val successKey: String,
+        val hintKey: String,
+        val deniedKey: String
+    ) {
+        EMBEDDER(
+            "embedder", "sgem embed",
+            "command-block-success", "command-block-hint", "command-block-not-allowed"
+        ),
+        RUNE_FORGE(
+            // 符文镶嵌台 = gui/gui.yml 里的顶层菜单名
+            "rune-forge", "sgem open 符文镶嵌台",
+            "command-rune-forge-success", "command-rune-forge-hint", "command-rune-forge-not-allowed"
+        );
+
+        companion object {
+            /** 所有类型名(指令补全用) */
+            fun names(): List<String> = entries.map { it.id }
+
+            /** 按类型名取枚举(指令参数与存档字段共用), 不认识返回 null */
+            fun fromId(raw: String?): MarkType? {
+                val key = raw?.trim() ?: return null
+                return entries.firstOrNull { it.id.equals(key, true) }
+            }
+        }
+    }
 
     private val file by lazy { File(getDataFolder(), "MarkedBlocks.yml") }
     private val storage by lazy {
@@ -23,8 +71,8 @@ object MarkBlockManager {
         Configuration.loadFromFile(file)
     }
 
-    // 单条标记信息: 格式化后的时间 + 执行标记的玩家
-    private data class MarkedInfo(val time: String, val player: String)
+    // 单条标记信息: 格式化后的时间 + 执行标记的玩家 + 标记类型
+    private data class MarkedInfo(val time: String, val player: String, val type: MarkType)
 
     // 标记内存: world:x:y:z -> 标记信息
     private val markedBlocks = HashMap<String, MarkedInfo>()
@@ -34,49 +82,52 @@ object MarkBlockManager {
     private fun formatTime(millis: Long): String =
         Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).format(dateFormatter)
 
+    /** 所有类型名(指令补全用) */
+    fun typeNames(): List<String> = MarkType.names()
+
     // 加载
     fun load() {
         storage.reload()
         markedBlocks.clear()
         for (entry in storage.getMapList("marked")) {
             val key = entry["key"]?.toString() ?: continue
+            val type = MarkType.fromId(entry["type"]?.toString()) ?: continue
             val rawTime = entry["time"] ?: continue
             val time = when (rawTime) {
-                is Number -> formatTime(rawTime.toLong())
                 is Date -> formatTime(rawTime.time)
                 else -> rawTime.toString()
             }
             val player = entry["player"]?.toString()?.ifBlank { "?" } ?: "?"
-            markedBlocks[key] = MarkedInfo(time, player)
+            markedBlocks[key] = MarkedInfo(time, player, type)
         }
     }
 
     // 存
     private fun save() {
         storage.set("marked", markedBlocks.map { (k, v) ->
-            mapOf("key" to k, "time" to v.time, "player" to v.player)
+            mapOf("key" to k, "time" to v.time, "player" to v.player, "type" to v.type.id)
         })
         storage.saveToFile()
     }
 
-    // 标记玩家指的方块
-    fun markBlock(player: Player) {
+    // 把玩家准星所指的方块标记成指定类型的功能方块
+    fun markBlock(player: Player, type: MarkType) {
         val targetBlock = player.getTargetBlock(null, 6) ?: run {
-            Lang.send(player,"command.no-block")
+            Lang.send(player, "command.no-block")
             return
         }
 
         if (targetBlock.type.isAir) {
-            Lang.send(player,"command.no-air")
+            Lang.send(player, "command.no-air")
             return
         }
 
-        // 检查方块是否是 config.yml 文件中 tagged-blocks 中定义的方块类型
+        // 检查方块是否在 config.yml 的 tagged-blocks 白名单里(两种类型共用这一份)
         val allowedBlocks = Configuration.loadFromFile(File(getDataFolder(), "config.yml"))
-            .getStringList("tagged-blocks") ?: emptyList()
+            .getStringList(BLOCK_LIST_NODE) ?: emptyList()
         val material = targetBlock.type
-        if (material.name !in allowedBlocks.map { it.uppercase() }) {
-            Lang.send(player, "command.block-not-allowed")
+        if (allowedBlocks.isEmpty() || material.name !in allowedBlocks.map { it.uppercase() }) {
+            Lang.send(player, type.deniedKey)
             return
         }
 
@@ -84,25 +135,28 @@ object MarkBlockManager {
 
         // 检查是否已被标记
         if (isBlockMarked(location)) {
-            Lang.send(player, "command.block-marked")
+            Lang.send(player, "command-block-marked")
         }
 
         // 保存标记
-        saveMarkedBlock(location, player.name)
+        saveMarkedBlock(location, player.name, type)
 
-        Lang.send(player, "command.block-success", "material" to targetBlock.type.name,
+        Lang.send(player, type.successKey, "material" to material.name,
             "x" to location.blockX, "y" to location.blockY, "z" to location.blockZ)
-        Lang.send(player, "command.block-hint")
+        Lang.send(player, type.hintKey)
     }
 
-    //检查方块是否被标记
+    //检查方块是否被标记(任意类型)
     fun isBlockMarked(location: Location): Boolean =
         markedBlocks.containsKey(locationToKey(location))
 
+    //取方块的标记类型, 未标记返回 null
+    fun getMarkType(location: Location): MarkType? =
+        markedBlocks[locationToKey(location)]?.type
 
     //保存标记到持久化数据
-    fun saveMarkedBlock(location: Location, playerName: String) {
-        markedBlocks[locationToKey(location)] = MarkedInfo(formatTime(System.currentTimeMillis()), playerName)
+    fun saveMarkedBlock(location: Location, playerName: String, type: MarkType) {
+        markedBlocks[locationToKey(location)] = MarkedInfo(formatTime(System.currentTimeMillis()), playerName, type)
         save()
     }
 

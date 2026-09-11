@@ -77,6 +77,10 @@ dismantle-refund-failed: '&cDismantling failed and the fee could not be refunded
 command-block-marked: '&eThis block is already marked. Updating its record'
 command-block-success: '&aWorkbench set: &f{material} &7({x}, {y}, {z})'
 command-block-hint: '&7Right-click this block to open the gem workbench'
+# Unknown mark type   placeholders: {type} input  {types} available types
+command-mark-unknown-type: '&cUnknown mark type: &f{type} &7(available: {types})'
+command-rune-forge-success: '&aRune forge set: &f{material} &7({x}, {y}, {z})'
+command-rune-forge-hint: '&7Right-click this block to open the rune workbench'
 
 # ── Common ─────────────────────────────────────────────────
 # Page buttons
@@ -112,6 +116,7 @@ command-no-air: '&cAir cannot be set as a workbench block'
 command-no-block: '&cNo block in sight...'
 command-has-been-dug-up: '&eThe workbench block was broken; blocks placed here later will not open the workbench'
 command-block-not-allowed: '&cThis block is not allowed to be a workbench block, contact an admin'
+command-rune-forge-not-allowed: '&cThis block is not allowed to be a rune forge block, contact an admin'
 command-block-marbed: '&eThis block has been marked and is being overwritten...'
 
 # ── Gem core logic (embed / use / dismantle) ───────────────
