@@ -49,6 +49,7 @@ class LoreAddReward(
     private val limit: Int,
     private val force: Boolean
 ) : Reward {
+    override val reversible = true
     override fun revert(ctx: RewardContext): Boolean = revertLore(ctx)
     override fun apply(ctx: RewardContext): Boolean = withMeta(ctx) { _, list ->
         val line = ColorUtil.colorize(lore)
@@ -64,6 +65,7 @@ class LoreReplaceReward(
     private val new: String,
     private val locator: String?
 ) : Reward {
+    override val reversible = true
     override fun revert(ctx: RewardContext): Boolean = revertLore(ctx)
     override fun apply(ctx: RewardContext): Boolean = withMeta(ctx) { _, list ->
         DebugUtil.log("Reward", "    LoreReplace: \"$old\" -> \"$new\" locator=$locator")

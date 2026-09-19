@@ -41,6 +41,8 @@ data class GemConfig(
     val glow: Boolean = false,
     val success: Int = 100,
     val embed: Int = 0,
+    val exclusiveGroup: String = "",
+    val trackApplied: Boolean = true,
     val color: String? = null,
     val eat: Boolean = false,
     val successTip: String? = null,
@@ -100,5 +102,6 @@ data class SkillDef(
     /** 预解析后的 onTimer 行, BUFF 引擎每秒 tick 直接取用, 不再每次 filter */
     val timerLines: List<SkillLine> = emptyList(),
     /** [lore] 去色并 trim 后的触发标记, 触发匹配时直接 contains, 避免每次事件都重复去色 */
-    val loreClean: String = ""
+    val loreClean: String = "",
+    val slots: Set<String> = emptySet()
 )

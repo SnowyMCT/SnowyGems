@@ -10,37 +10,44 @@ import taboolib.common.platform.function.info
 import taboolib.common.platform.function.severe
 import taboolib.module.configuration.Configuration
 import java.io.File
-import java.util.concurrent.ConcurrentHashMap
 
 object SkillRegistry {
 
-    private val skills = ConcurrentHashMap<String, SkillDef>()
+    private var skills: Map<String, SkillDef> = emptyMap()
+    internal fun snapshot() = skills
+    internal fun restore(value: Map<String, SkillDef>) {
+        skills = value
+        withLoreCache = skills.values.filter { !it.lore.isNullOrBlank() }
+        timerCache = withLoreCache.filter { it.timerLines.isNotEmpty() }
+    }
 
     /** 带 Lore 标记的技能定义, 加载时算好缓存, 触发/BUFF 循环直接取用(避免每次事件重新 filter 分配) */
     private var withLoreCache: List<SkillDef> = emptyList()
+    private var timerCache: List<SkillDef> = emptyList()
+    fun timers(): List<SkillDef> = timerCache
 
     fun reload() {
-        skills.clear()
+        val loaded = linkedMapOf<String, SkillDef>()
         releaseResourceFolder("skills/", replace = false)
         val folder = File(getDataFolder(), "skills")
         val files = folder.listFiles { f -> f.isFile && f.extension.equals("yml", true) } ?: emptyArray()
         DebugUtil.log("Registry", "开始加载技能配置, 目录=${folder.absolutePath} 发现 ${files.size} 个文件: ${files.joinToString { it.name }}")
-        for (file in files) {
+        for (file in files.sortedBy { it.name }) {
             try {
-                val before = skills.size
-                loadFile(file)
-                DebugUtil.log("Registry", "  ${file.name} 加载了 ${skills.size - before} 个技能定义")
+                val before = loaded.size
+                loadFile(file, loaded)
+                DebugUtil.log("Registry", "  ${file.name} 加载了 ${loaded.size - before} 个技能定义")
             } catch (e: Exception) {
                 severe("加载技能配置文件失败: ${file.name} -> ${e.message}")
-                DebugUtil.err("Registry", "加载技能配置文件失败: ${file.name}", e)
+                throw IllegalArgumentException("${file.name}: ${e.message}", e)
             }
         }
-        withLoreCache = skills.values.filter { !it.lore.isNullOrBlank() }
+        restore(loaded.toMap())
         info("已加载 ${skills.size} 个技能/BUFF 定义")
         DebugUtil.log("Registry", "技能加载完毕, 带Lore标记可触发的共 ${withLoreCache.size} 个: ${withLoreCache.map { it.id }}")
     }
 
-    private fun loadFile(file: File) {
+    private fun loadFile(file: File, loaded: MutableMap<String, SkillDef>) {
         val cfg = Configuration.loadFromFile(file)
         // DefaultMMSkills.yml 顶层有一个 depend: MythicMobs 标记, 不是技能节点
         val dependOn = cfg.getString("depend")
@@ -61,7 +68,11 @@ object SkillRegistry {
             for (line in parsed) {
                 for (t in line.triggers) byTrigger.getOrPut(t) { ArrayList() }.add(line)
             }
+            val slots = sec.getStringList("Slot").map { it.lowercase() }.toSet()
+            require(slots.all { it in setOf("mainhand", "offhand", "head", "chest", "legs", "feet") }) { "Invalid Slot for $key" }
+            require(sec.getDouble("Cooldown", 0.0).let { it.isFinite() && it >= 0 }) { "Invalid Cooldown for $key" }
             val def = SkillDef(
+                slots = slots,
                 id = key,
                 lore = sec.getString("Lore"),
                 cooldown = sec.getDouble("Cooldown", 0.0),
@@ -72,7 +83,8 @@ object SkillRegistry {
                 timerLines = byTrigger["onTimer"] ?: emptyList(),
                 loreClean = sec.getString("Lore")?.let { ColorUtil.stripColor(it).trim() } ?: ""
             )
-            skills[key] = def
+            require(key !in loaded) { "重复技能 ID: $key" }
+            loaded[key] = def
             DebugUtil.log("Registry", "    解析技能 id=$key lore标记=${def.lore} 冷却=${def.cooldown}s 技能行=${def.skills.size}条")
             def.skills.forEach { DebugUtil.log("Registry", "      行: $it") }
         }

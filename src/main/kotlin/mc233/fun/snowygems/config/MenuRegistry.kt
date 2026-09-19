@@ -14,6 +14,9 @@ object MenuRegistry {
     @Volatile
     private var menus: Map<String, MenuLayout> = emptyMap()
 
+    internal fun snapshot() = menus
+    internal fun restore(value: Map<String, MenuLayout>) { menus = value }
+
     fun reload() {
         val loaded = LinkedHashMap<String, MenuLayout>()
         releaseResourceFolder("gui/", replace = false)
@@ -28,7 +31,7 @@ object MenuRegistry {
                 DebugUtil.log("Registry", "  ${file.name} 加载了 ${loaded.size - before} 个菜单")
             } catch (e: Exception) {
                 severe("加载菜单配置文件失败: ${file.name} -> ${e.message}")
-                DebugUtil.err("Registry", "加载菜单配置文件失败: ${file.name}", e)
+                throw IllegalArgumentException("${file.name}: ${e.message}", e)
             }
         }
         menus = loaded.toMap()
@@ -44,7 +47,7 @@ object MenuRegistry {
                 require(key !in loaded) { "重复菜单名 '$key'，保留先加载的定义" }
                 loaded[key] = parseMenu(key, sec)
             } catch (e: IllegalArgumentException) {
-                severe("跳过无效菜单 ${file.name}:$key -> ${e.message}")
+                throw IllegalArgumentException("${file.name}:$key -> ${e.message}", e)
             }
         }
     }

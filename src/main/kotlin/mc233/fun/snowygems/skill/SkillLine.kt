@@ -86,7 +86,7 @@ object SkillValue {
         // 而配置里的标签是纯文本 "[BUFF] 生命提升". 直接 contains 永远匹配不上,
         // 会退回默认值 -> 多等级药水永远读不到真实等级. 这里统一去色后再比较/提取.
         val needle = ColorUtil.stripColor(ColorUtil.colorize(label)).trim()
-        val lore = item?.itemMeta?.lore ?: emptyList()
+        val lore = item?.let(mc233.`fun`.snowygems.util.SkillLore::read) ?: emptyList()
         val strippedLine = lore.map { ColorUtil.stripColor(it) }
             .firstOrNull { it.contains(needle) } ?: return default
         // 只从标签之后的片段取数字, 避免标签本身若含数字造成误读

@@ -51,8 +51,16 @@ import taboolib.platform.util.sendActionBar
  */
 object SkillTriggerListener {
 
-    /** 冷却表按玩家会话存放, 玩家退出后由 TabooLib 自动清理, 不会随时间无限增长 */
-    private val cooldowns = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
+    /** Action deduplication is scoped to player sessions and a single server tick. */
+    private val actions = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
+    private var tick = 0L
+    @Schedule(period = 1)
+    fun advanceTick() { tick++ }
+
+    private fun duplicateSwing(player: Player, trigger: String): Boolean {
+        val map = actions.getOrCreate(player) ?: return false
+        return map.put(trigger, tick) == tick
+    }
 
     private val projectileItems = ConcurrentHashMap<UUID, Pair<ItemStack, Long>>()
 
@@ -89,6 +97,7 @@ object SkillTriggerListener {
             else -> "onUse"
         }
         DebugUtil.log("Skill", "${e.player.name} 触发 $trigger, 手持=${item.type}")
+        if (isShiftLeft && duplicateSwing(e.player, trigger)) return
         runMatchingSkills(e.player, item, trigger)
     }
 
@@ -99,6 +108,7 @@ object SkillTriggerListener {
         if (item.type == Material.AIR) return
         val trigger = if (player.isSneaking) "onShiftSwing" else "onSwing"
         DebugUtil.log("Skill", "${player.name} 挥臂触发 $trigger, 手持=${item.type}")
+        if (duplicateSwing(player, trigger)) return
         runMatchingSkills(player, item, trigger)
     }
 
@@ -106,6 +116,7 @@ object SkillTriggerListener {
 
     @SubscribeEvent
     fun onAttack(e: EntityDamageByEntityEvent) {
+        if (e.isCancelled) return
         val player = e.damager as? Player ?: return
         val item = player.inventory.itemInMainHand
         if (item.type == Material.AIR) return
@@ -127,32 +138,29 @@ object SkillTriggerListener {
 
     @SubscribeEvent
     fun onProjectileLaunch(e: ProjectileLaunchEvent) {
+        if (e.isCancelled) return
         val shooter = e.entity.shooter as? Player ?: return
         val item = shooter.inventory.itemInMainHand
         if (item.type == Material.AIR) return
         projectileItems[e.entity.uniqueId] = item.clone() to System.currentTimeMillis()
         // 发射瞬间也是一个可用的触发点(蓄力完成/消耗弹药/播放音效)
         val typeName = e.entity.type.name
-        runMatchingSkills(shooter, item, "onLaunch:$typeName")
-        runMatchingSkills(shooter, item, "onLaunch")
+        runMatchingSkills(shooter, item, "onLaunch:$typeName", extraTriggers = listOf("onLaunch"))
     }
 
     @SubscribeEvent
     fun onProjectileHit(e: ProjectileHitEvent) {
         val shooter = e.entity.shooter as? Player ?: return
-        val item = projectileItems.remove(e.entity.uniqueId)?.first ?: shooter.inventory.itemInMainHand
+        val item = projectileItems.remove(e.entity.uniqueId)?.first ?: return
         if (item.type == Material.AIR) return
         // 类型名直接取自实体注册表，因此新版本新增的真正发射物自动可用
         val typeName = e.entity.type.name
         val hitLoc = e.hitBlock?.location ?: e.hitEntity?.location ?: e.entity.location
         DebugUtil.log("Skill", "${shooter.name} 的 $typeName 命中, 手持=${item.type}")
-        runMatchingSkills(shooter, item, "onHit:$typeName", victim = e.hitEntity as? LivingEntity, hitLocation = hitLoc)
-        // 不带类型的通用命中标记
-        runMatchingSkills(shooter, item, "onHit", victim = e.hitEntity as? LivingEntity, hitLocation = hitLoc)
-        // 兼容老配置里写过的 onTridentHit
-        if (typeName == "TRIDENT") {
-            runMatchingSkills(shooter, item, "onTridentHit", hitLocation = hitLoc)
-        }
+        val extra = if (typeName == "TRIDENT") listOf("onHit", "onTridentHit") else listOf("onHit")
+        runMatchingSkills(shooter, item, "onHit:$typeName", victim = e.hitEntity as? LivingEntity,
+            hitLocation = hitLoc, extraTriggers = extra)
+
     }
 
     // ── 其它 ────────────────────────────────────────────────
@@ -160,6 +168,7 @@ object SkillTriggerListener {
     /** 挖方块触发: 可做"挖矿几率额外掉落""挖掘时加速" */
     @SubscribeEvent
     fun onBreak(e: BlockBreakEvent) {
+        if (e.isCancelled) return
         val item = e.player.inventory.itemInMainHand
         if (item.type == Material.AIR) return
         runMatchingSkills(e.player, item, "onBreak", hitLocation = e.block.location)
@@ -170,7 +179,18 @@ object SkillTriggerListener {
     fun onItemDamage(e: PlayerItemDamageEvent) {
         val item = e.item
         if (item.type == Material.AIR) return
-        runMatchingSkills(e.player, item, "onDamaged")
+        if (e.isCancelled) return
+        val inv = e.player.inventory
+        val slot = when (item) {
+            inv.itemInMainHand -> "mainhand"
+            inv.itemInOffHand -> "offhand"
+            inv.helmet -> "head"
+            inv.chestplate -> "chest"
+            inv.leggings -> "legs"
+            inv.boots -> "feet"
+            else -> return
+        }
+        runMatchingSkills(e.player, item, "onDamaged", sourceSlot = slot)
     }
 
     // ── 匹配与执行 ──────────────────────────────────────────
@@ -180,30 +200,37 @@ object SkillTriggerListener {
         item: ItemStack,
         trigger: String,
         victim: LivingEntity? = null,
-        hitLocation: org.bukkit.Location? = null
+        hitLocation: org.bukkit.Location? = null,
+        extraTriggers: List<String> = emptyList(),
+        sourceSlot: String = "mainhand"
     ) {
-        val lore = item.itemMeta?.lore ?: return
+        val lore = mc233.`fun`.snowygems.util.SkillLore.read(item)
         val strippedLore = lore.map { ColorUtil.stripColor(it).trim() }
         var matched = 0
         // 只遍历带 Lore 标记的定义(加载时已缓存); 技能行已按触发标记分组, O(1) 取用
         for (def in SkillRegistry.withLore()) {
+            if (!SkillRuntime.accepts(def, sourceSlot)) continue
             val marker = def.loreClean
             if (marker.isEmpty() || strippedLore.none { it.contains(marker) }) continue
-            val relevant = def.byTrigger[trigger].orEmpty()
+            val relevant = if (extraTriggers.isEmpty()) def.byTrigger[trigger].orEmpty()
+                else def.parsedSkills.filter { line -> trigger in line.triggers || extraTriggers.any { it in line.triggers } }
             if (relevant.isEmpty()) continue
             matched++
             DebugUtil.log(
                 "Skill",
                 "  命中技能定义 ${def.id} (Lore标记=${def.lore}), ${relevant.size}/${def.skills.size} 行响应 $trigger"
             )
-            val remaining = checkAndSetCooldown(player, def.id, def.cooldown)
+            val remaining = SkillRuntime.remaining(player, def)
             if (remaining != null) {
                 DebugUtil.log("Skill", "  技能 ${def.id} 仍在冷却中(${String.format("%.2f", remaining)}s), 跳过")
                 def.cooldownTip?.let { renderCooldownTip(player, it, remaining, def.cooldown) }
                 continue
             }
-            for (line in relevant) {
-                SkillExecutor.execute(player, item, line, victim, hitLocation, trigger)
+            SkillRuntime.cast(player, def) {
+                val budget = SkillBudget()
+                relevant.count { line ->
+                    SkillExecutor.execute(player, item, line, victim, hitLocation, trigger, budget)
+                } > 0
             }
         }
         if (matched == 0) {
@@ -212,20 +239,6 @@ object SkillTriggerListener {
                 "  ${item.type} 的 Lore 没有响应 $trigger 的技能定义 (已加载 ${SkillRegistry.all().size} 个定义, 相同内容不再重复输出)"
             )
         }
-    }
-
-    /** 返回 null=不在冷却中可以执行; 返回剩余秒数=冷却中 */
-    private fun checkAndSetCooldown(player: Player, skillId: String, cooldownSeconds: Double): Double? {
-        if (cooldownSeconds <= 0) return null
-        val map = cooldowns.getOrCreate(player) ?: return null
-        val now = System.currentTimeMillis()
-        val last = map[skillId] ?: 0L
-        val elapsed = (now - last) / 1000.0
-        if (elapsed < cooldownSeconds) {
-            return cooldownSeconds - elapsed
-        }
-        map[skillId] = now
-        return null
     }
 
     /** 解析 CooldownTip 表达式并渲染. 支持 ActionBar{...} / Chat{...} / Title{...} */

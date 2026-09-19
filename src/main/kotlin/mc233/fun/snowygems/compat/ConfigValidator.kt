@@ -34,10 +34,8 @@ import taboolib.common.platform.function.warning
  * 处理级别由 config.yml 的 `Compat.OnMissingFeature` 决定:
  *   skip   仅概要 + Debug 明细(默认)
  *   warn   MISTAKE 用 WARNING 输出, 排查配置时用
- *   strict MISTAKE 用 SEVERE 输出, 适合上线前自检
+ *   strict MISTAKE 报错并拒绝此次加载, 重载保留旧注册表
  *
- * 三种级别都**不阻止插件启动**: 宝石配置往往很大, 一条写错就拒绝启动会让整个服进不去,
- * 代价远高于收益; strict 的意义是"绝对不会被忽略的醒目报错"
  */
 object ConfigValidator {
 
@@ -250,7 +248,10 @@ object ConfigValidator {
         // 三种级别只差"用哪个函数输出", 所以先选函数再统一输出
         val header = "配置自检发现 ${errors.size} 处写错的条目(这些在任何版本都不会生效)"
         when (FeatureModules.onMissingFeature) {
-            "strict" -> report(::severe, "$header. 插件仍会启动, 但相关宝石/技能会静默跳过这些条目", errors)
+            "strict" -> {
+                report(::severe, "$header. 已拒绝本次配置加载", errors)
+                error(header)
+            }
             "warn" -> report(::warning, header, errors)
             else -> {
                 info("$header —— 用 /sgem compat all 或把 Compat.OnMissingFeature 改为 warn 查看明细")

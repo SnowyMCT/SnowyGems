@@ -1,0 +1,366 @@
+# ============================================================
+#  SnowyGems 언어 파일 - 한국어 (ko_KR)
+# ============================================================
+#  이 폴더(lang/)의 각 파일은 하나의 언어이며, 파일 이름이 곧
+#  언어 코드입니다:
+#    zh_CN.yml - 중국어 간체 (기본값)
+#    en_US.yml - 영어
+#  서버 언어는 config.yml 의 "Lang" 노드로 설정합니다.
+#  변경 후 /sgem reload 를 실행하면 즉시 적용되며,
+#  서버를 재시작할 필요가 없습니다.
+#
+#  이 파일들은 TabooLib 언어 모듈이 관리합니다:
+#    - 첫 실행 시 플러그인 폴더(lang/)에 자동 배포됩니다
+#    - 플러그인 업데이트로 추가된 새 노드는 병합되며, 수정한 내용은 유지됩니다
+#
+#  ── 키(Keys) ──────────────────────────────────────────────
+#    평면 구조만 사용합니다(중첩 없음). 계층은 대시로 연결합니다:
+#      예전 lang.yml 의 gem.embed-success  ->  여기서는 gem-embed-success
+#    코드에서는 두 표기 모두 동작하며, 점(.) 표기는 자동으로 변환됩니다.
+#
+#  ── 색상(Colors) ──────────────────────────────────────────
+#    &0-&9 &a-&f  색상    &l 굵게  &o 기울임  &n 밑줄
+#    &m 취소선  &k 난독화  &r 초기화
+#
+#  ── 플레이스홀더(Placeholders) ────────────────────────────
+#    {xxx}  이름 있는 플레이스홀더로, 실제 값으로 치환됩니다.
+#           각 메시지 아래 주석에 해당 플레이스홀더가 나열됩니다.
+#
+#  ── 전송 방식(Send prefix) ────────────────────────────────
+#    (없음)        일반 채팅 메시지
+#    actionbar:    단축바(hotbar) 위의 액션바
+#    title:        큰 타이틀 (메인/서브타이틀은 | 로 구분)
+#    none:         아무것도 보내지 않음 (해당 메시지 비활성화)
+#
+#  ── 접두사(Prefix) ────────────────────────────────────────
+#    "prefix" 는 명령어 응답 메시지(command.* 섹션 참고) 앞에
+#    자동으로 붙습니다.
+# ============================================================
+
+# 플러그인 메시지 접두사
+prefix: '&8[&bSnowyGems&8] &f'
+rune-title: '&8룬 제작대'
+rune-confirm-title: '&8룬 제작법 확인'
+rune-empty: '&c사용 가능한 룬 제작법이 없습니다. runes/forge.yml 을 확인하세요'
+rune-no-permission: '&c이 기능을 사용할 권한이 없습니다'
+rune-stale: '&e제작법이 다시 로드되었습니다. /sgem rune 을 다시 열어주세요'
+rune-changed: '&e인벤토리가 변경되었습니다. 재료는 소모되지 않았으니 다시 시도하세요'
+rune-no-space: '&c완성된 결과물을 넣을 공간이 부족합니다. 재료는 소모되지 않았습니다'
+rune-missing: '&c{gem} &cx{amount} 이(가) 부족합니다. 재료는 소모되지 않았습니다'
+rune-success: '&a{gem} &ax{amount} 을(를) 제작했습니다'
+rune-output: '&7결과물: {gem} &7x{amount}'
+rune-ingredients: '&e재료 (보유 / 필요)'
+rune-material-ok: '&a✓ {gem} &a{have} / {need}'
+rune-material-missing: '&c✗ {gem} &c{have} / {need}'
+rune-confirm: '&a좌클릭하면 위 재료로 1회 제작합니다'
+rune-details: '&e좌클릭하여 내용을 확인하고 진행하세요'
+rune-storage-only: '&7보관함 인벤토리만 사용하며, 왼손·방어구·커서 아이템은 제외됩니다'
+rune-guaranteed: '&7제작은 반드시 성공하며, 결과물이 들어가지 않으면 재료가 소모되지 않습니다'
+rune-refresh: '&e제작법과 재료 수량 새로고침'
+rune-embed: '&b룬 작업대 열기'
+dismantle-cost-points: '포인트'
+dismantle-cost-exp: '경험치 레벨'
+dismantle-cost-money: '골드'
+menu-slot-limit: '&c이 슬롯에는 최대 {limit} 개까지 넣을 수 있습니다'
+menu-returned: '&7작업대에서 {count} 스택을 돌려받았습니다. 초과분은 발밑에 떨어집니다'
+menu-preview-invalid: '&c슬롯 {slot}: {reason}'
+menu-batch-result: '&a성공: {success} &7/ &c실패: {failed}'
+menu-target-require: '&c장비 슬롯에 필요한 것: &f{require}'
+menu-preview-slot: '&7{slot}: &f{gem} &7· 성공률: {chance}%'
+menu-batch-cost: '&e사용 중인 슬롯마다 최대 보석 1개, 총 {count} 개를 소모합니다. 실패한 판정도 보석을 소모합니다'
+
+# 작업대 안전장치 및 피드백
+embed-single-equip: '&c장비 슬롯에는 아이템 1개만 넣을 수 있습니다. 시프트+클릭으로 1개씩 옮기세요'
+gem-single-target: '&c한 번에 아이템 1개만 처리할 수 있습니다. 먼저 스택을 나눠주세요'
+gem-not-applied: '&c이 보석은 더 이상 해당 아이템에 없습니다. 분해 메뉴를 다시 열어주세요'
+dismantle-refund-failed: '&c분해에 실패했고 비용도 환불되지 않았습니다. 관리자에게 문의하세요'
+command-block-marked: '&e이미 지정된 블록입니다. 기록을 갱신합니다'
+command-block-success: '&a작업대 지정 완료: &f{material} &7({x}, {y}, {z})'
+command-block-hint: '&7이 블록을 우클릭하면 보석 작업대가 열립니다'
+# 알 수 없는 지정 유형   플레이스홀더: {type} 입력값  {types} 사용 가능한 유형
+command-mark-unknown-type: '&c알 수 없는 지정 유형: &f{type} &7(사용 가능: {types})'
+command-rune-forge-success: '&a룬 제작대 지정 완료: &f{material} &7({x}, {y}, {z})'
+command-rune-forge-hint: '&7이 블록을 우클릭하면 룬 작업대가 열립니다'
+
+# ── 공통 ───────────────────────────────────────────────────
+# 페이지 버튼
+common-next-page: '&a다음 페이지 &7→'
+common-next-page-none: '&7마지막 페이지입니다'
+common-prev-page: '&7← &a이전 페이지'
+common-prev-page-none: '&7첫 페이지입니다'
+# 값 / 플레이스홀더
+common-any-item: '모든 아이템'
+# /sgem debug: "어떤 태그도 필터링하지 않음"
+common-scope-all: '전체'
+# 공통 GUI 뒤로가기 버튼
+common-back: '&e← 뒤로'
+
+# ── /sgem 명령어 응답 (접두사 자동 적용) ───────────────────
+# 설정 다시 로드됨   플레이스홀더: {time} 경과 밀리초
+command-reload: '&a설정을 다시 로드했습니다 &7({time}ms)'
+# 손에 아무것도 없이 /sgem use 사용
+command-no-held-gem: '&c먼저 사용할 보석을 손에 들어주세요'
+# 대상 플레이어 오프라인   플레이스홀더: {player}
+command-no-player: '&c플레이어가 접속 중이 아닙니다: &f{player}'
+# 알 수 없는 보석 ID   플레이스홀더: {gem}
+command-no-gem: '&c알 수 없는 보석 설정: &f{gem}'
+# 지급 성공   플레이스홀더: {player} {gem} {amount}
+command-give: '&a{player} &a에게 &f{gem} &7×&f{amount} &a을(를) 지급했습니다'
+# 디버그 토글
+command-debug-on: '&a디버그 모드를 임시로 활성화했습니다. 범위: &f{scope} &7(리로드 시 config.yml 값으로 복귀)'
+command-debug-off: '&7디버그 모드를 임시로 비활성화했습니다'
+command-debug-scope: '&a디버그 범위 설정: &f{scope}'
+command-debug-scope-all: '&a디버그 범위 설정: &f전체'
+# 작업대 블록 설정
+command-no-air: '&c공기는 작업대 블록으로 지정할 수 없습니다'
+command-no-block: '&c시야에 블록이 없습니다...'
+command-has-been-dug-up: '&e작업대 블록이 파괴되었습니다. 이후 이 위치에 설치한 블록으로는 작업대가 열리지 않습니다'
+command-block-not-allowed: '&c이 블록은 작업대 블록으로 허용되지 않습니다. 관리자에게 문의하세요'
+command-rune-forge-not-allowed: '&c이 블록은 룬 제작대 블록으로 허용되지 않습니다. 관리자에게 문의하세요'
+command-block-marbed: '&e이미 지정된 블록이라 덮어쓰는 중입니다...'
+
+# ── 보석 핵심 로직 (장착 / 사용 / 분해) ────────────────────
+# 손/슬롯의 아이템이 이 플러그인의 보석이 아님
+gem-not-gem: '&c올바른 보석이 아닙니다'
+# 아이템에 보석 태그가 있지만 설정에 해당 ID가 더 이상 없음
+gem-config-missing: '&c보석 설정을 찾을 수 없습니다. 관리자에게 문의하세요'
+# Require 조건을 만족하지 않는 아이템
+gem-require-failed: '&c이 아이템은 해당 보석의 사용 조건을 충족하지 않습니다'
+# 판정은 성공했지만 Rewards 중 아무것도 적용되지 않음 (보통 오래된 인챈트/속성 이름)
+gem-no-effect: '&c장착이 아무 효과도 내지 못했습니다...'
+# 장착 결과 (보석 설정의 SuccessTip / FailTip 이 우선함)
+gem-embed-success: '&a장착 성공! 아이템이 강화되었습니다'
+gem-embed-fail: '&c죄송합니다. 강화에 실패했습니다'
+# USE_GEM 버튼 결과
+gem-button-success: '&a성공'
+gem-button-fail: '&c실패'
+# 즉시 사용형 보석 (우클릭)
+gem-use-success: '&a사용 성공!'
+gem-use-fail: '&c사용 실패!'
+gem-need-workbench: '&c이 보석은 작업대에서 아이템에 장착해야 합니다'
+# 랜덤 풀   플레이스홀더: {gem} 뽑힌 보석 이름
+gem-random-get: '&a{gem} &a을(를) 획득했습니다'
+gem-pool-empty: '&c이 랜덤 풀이 비어 있습니다. 관리자에게 문의하세요'
+gem-pool-invalid: '&c랜덤 풀이 존재하지 않는 보석을 참조합니다. 관리자에게 문의하세요'
+# 인벤토리가 가득 찼을 때의 선물 상자 랜덤 보석 (GiveItem=true)   플레이스홀더: {gem} 뽑힌 보석 이름
+gem-inventory-full: '&c인벤토리가 가득 찼습니다! &f{gem} &c을(를) 주변 안전한 위치에 떨어뜨렸으니 서둘러 주우세요'
+gem-no-safe-spot: '&c인벤토리가 가득 찼고 보석을 떨어뜨릴 안전한 위치도 근처에 없습니다 (용암/선인장/물). 공간을 비우고 다시 시도하세요'
+# 분해
+gem-remove-success: '&a보석을 분해했습니다'
+# 보호: 보석은 블록으로 설치하거나 액자에 넣을 수 없음
+gem-protect-place: '&c보석은 월드에 설치할 수 없습니다. 설치하면 파괴됩니다'
+# 보호: 보석은 먹을 수 없음
+gem-protect-eat: '&c보석은 먹을 수 없습니다'
+
+# ── 보상 공용 메시지 (자원을 지급하는 교환권) ──────────────
+# 포인트 획득   플레이스홀더: {amount}
+reward-point-gain: '&a포인트 &9{amount} &a을(를) 획득했습니다'
+# 골드 획득   플레이스홀더: {amount}
+reward-money-gain: '&a골드 &e{amount} &a을(를) 획득했습니다'
+
+# ── 보석 작업대 /sgem embed ────────────────────────────────
+# GUI 제목
+embed-title: '&8&l&k||&b&l보석 작업대&8&l&k||'
+# 슬롯 라벨
+embed-label-equip-top: '&a&l↓ 아래에 아이템을 넣으세요 ↓'
+embed-label-equip-bottom: '&a아이템 슬롯'
+embed-label-gem-top: '&b&l↓ 아래에 보석을 넣으세요 ↓'
+embed-label-gem-bottom: '&b보석 슬롯'
+# 점유된 슬롯으로 시프트 이동
+embed-equip-slot-occupied: '&c아이템 슬롯이 이미 사용 중입니다'
+embed-gem-slot-occupied: '&c보석 슬롯이 이미 사용 중입니다'
+# 확인 버튼 - 조건이 충족되지 않았을 때의 사유
+embed-need-equip: '&7먼저 강화할 아이템을 &a아이템 슬롯&7에 넣어주세요'
+embed-need-gem: '&7그다음 보석을 &b보석 슬롯&7에 넣어주세요'
+embed-not-gem: '&c보석 슬롯의 아이템이 이 플러그인의 보석이 아닙니다'
+embed-gem-missing: '&c보석 설정을 찾을 수 없습니다: &f{gem}'
+embed-wrong-type: '&c이 종류의 보석은 우클릭으로 사용하며, 장착할 필요가 없습니다'
+embed-wrong-gui: '&c이 보석은 &f{gui}&c 에서 사용해야 합니다'
+embed-equip-is-gem: '&c아이템 슬롯에 보석이 들어 있습니다. 강화할 아이템을 넣어주세요'
+embed-out-of-scope: '&c이 아이템은 해당 보석의 적용 대상이 아닙니다 &7(필요: &f{scope}&7)'
+# 확인 버튼 외형
+embed-button-ready-name: '&a&l클릭하여 장착'
+embed-button-locked-name: '&7아직 장착할 수 없습니다'
+embed-button-equip: '&7아이템: &f{equip}'
+embed-button-cost: '&e장착 시 보석 1개를 소모합니다'
+# 버튼 설명(lore)에 표시되는 보석 정보
+embed-info-gem: '&7보석: &f{gem}'
+embed-info-scope: '&7적용 대상: &f{scope}'
+embed-info-chance: '&7성공률: &f{chance}&7%'
+embed-info-may-fail: '&c실패하면 보석이 소모되고 아무 효과도 없습니다'
+
+# ── 작업대 메뉴 (gui.yml / rune.yml) ───────────────────────
+# 잘못된 메뉴 이름   플레이스홀더: {menu}
+menu-not-found: '&c메뉴를 찾을 수 없습니다: &f{menu}'
+# 빈 슬롯이 없을 때의 시프트 이동
+menu-no-slot: '&c이 아이템을 넣을 빈 슬롯이 없습니다'
+# 아이템 슬롯은 점유되었지만 모든 보석 슬롯이 비어 있음
+menu-select-gem: '&7먼저 보석 슬롯에 보석을 넣거나, 보석을 들고 아이템을 클릭하세요'
+# 보석 슬롯 Require 제한
+menu-slot-only-gem: '&c이 슬롯에는 이 플러그인의 보석만 넣을 수 있습니다'
+menu-slot-require: '&c이 슬롯에는 &f{require} &c보석만 넣을 수 있습니다'
+# USE_GEM 버튼이 존재하지 않는 보석을 참조함   플레이스홀더: {gem}
+menu-button-gem-missing: '&c이 버튼이 참조하는 보석이 없습니다: &f{gem}'
+# USE_GEM 버튼에 대상 아이템이 필요하지만 아이템 슬롯이 비어 있음
+menu-need-target: '&c먼저 작업할 아이템을 왼쪽 슬롯에 넣어주세요'
+menu-need-target-named: '&c먼저 &f{hint} &c을(를) 왼쪽 슬롯에 넣어주세요'
+
+# ── /sgem view 보석 브라우저 ───────────────────────────────
+view-title: '&b보석 브라우저'
+view-category-title: '&b카테고리: &f{category}'
+# 첫 페이지의 카테고리 아이콘   플레이스홀더: {category} {count}
+view-category-name: '&e&l{category}'
+view-category-count: '&7&f{count} &7개 보석/아이템'
+view-category-click: '&a클릭하여 보기'
+# 두 번째 페이지의 보석 아이콘
+view-gem-id: '&7ID: &f{id}'
+view-gem-click: '&a좌클릭: 1개 받기 &7/ &a시프트+좌클릭: 한 스택 받기'
+# 수령 완료   플레이스홀더: {gem} {amount}
+view-claimed: '&a{gem} &7×&f{amount} &a을(를) 받았습니다'
+# 로드된 보석 설정이 전혀 없음
+view-no-gem: '&c로드된 보석 설정이 없습니다. gems/ 폴더를 확인하세요'
+
+# ── /sgem inspect (읽기 전용) ──────────────────────────────
+inspect-title: '&b장착된 보석 &7- &f{item}'
+inspect-need-held: '&c먼저 확인할 아이템을 손에 들어주세요'
+inspect-no-embed: '&7이 아이템에는 장착된 보석이 없습니다'
+# 읽기 전용: 클릭해도 아무 동작도 하지 않음. 분해하려면 /sgem dismantle 사용
+inspect-readonly-hint: '&7보기 전용 &8· &7보석 분해는 &f/sgem dismantle'
+
+# ── /sgem dismantle ────────────────────────────────────────
+# 비용을 지불하며 보석이 파괴될 수 있습니다. 규칙은 config.yml 의 Dismantle 참고.
+dismantle-title: '&c보석 분해 &7- &f{item}'
+dismantle-need-held: '&c먼저 보석을 분해할 아이템을 손에 들어주세요'
+dismantle-no-embed: '&7이 아이템에는 분해할 보석이 없습니다'
+# 각 보석 아이콘 아래의 텍스트   줄별 플레이스홀더
+dismantle-cost-line: '&7분해 비용: &e{amount} &7{type}'     # {amount} 수량  {type} 골드/포인트/경험치 레벨
+dismantle-break-line: '&c&e{chance}&c% 확률로 보석이 파괴됩니다 (반환되지 않음)'  # {chance} 파괴 확률
+dismantle-click-hint: '&a클릭하여 이 보석을 분해'
+# 결과   플레이스홀더: {gem} 보석 이름
+dismantle-success: '&a{gem}&a 을(를) 분해했고 보석은 인벤토리로 돌아왔습니다'
+dismantle-broke: '&c죄송합니다. {gem} &c이(가) 분해 중 파괴되어 사라졌습니다'
+# 잔액 부족   플레이스홀더: {amount} {type}
+dismantle-not-afford: '&c분해 비용은 &e{amount} &f{type}&c 이며, 잔액이 부족합니다'
+# GUI 를 연 뒤 손에 든 아이템이 변경됨
+dismantle-item-changed: '&c손에 든 아이템이 변경되었습니다. 분해 GUI 를 다시 열어주세요'
+
+# ── 스킬 / BUFF ────────────────────────────────────────────
+# 스킬에 CooldownTip 이 없을 때의 기본 문구   플레이스홀더: {time} 남은 초
+skill-cooldown: '&c스킬 재사용 대기 중: &f{time}초'
+# CooldownTip 이 m 파라미터 없는 Chat{} / Title{} 일 때의 기본 문구
+skill-cooldown-chat: '&c스킬 재사용 대기 중'
+skill-cooldown-title: '&c재사용 대기 중'
+# 모드 전환   플레이스홀더: {mode} 새 모드 이름
+skill-switch: '&7모드 전환: &f{mode}'
+
+# ── 업데이트 확인 및 공지 ──────────────────────────────────
+# 시작 후 조용히 확인하며, 관리자는 접속할 때도 안내를 받습니다
+# 콘솔: 로컬 버전이 원격과 다름 (모든 불일치)   플레이스홀더: {current} {latest} {date}
+update-console-available: '&e[SnowyGems] &f현재 버전 &7{current} &f이(가) 공식 버전 &a{latest} &7({date})&f 과(와) 다릅니다. 업데이트해 주세요~'
+# 콘솔: 공식 버전과 일치   플레이스홀더: {current}
+update-console-latest: '&8[SnowyGems] &7현재 버전 &f{current} &7은(는) 최신입니다'
+# 콘솔: 공식 버전 조회 실패 (네트워크/프록시 문제, 예: GitHub 용 JVM 프록시 미설정). 최신이라는 뜻은 아님
+update-console-failed: '&c[SnowyGems] &f공식 버전을 가져오지 못했습니다. 네트워크/프록시를 확인하세요 (최신 버전이라는 뜻은 아닙니다)'
+# 관리자 접속 시   플레이스홀더: {current} {latest} {date}
+update-player-available: '&e[SnowyGems] &f현재 버전 &7{current} &f이(가) 공식 버전 &a{latest} &7({date})&f 과(와) 다릅니다. 업데이트해 주세요~'
+# 공지 장식 (본문은 원격 ann.txt 에서 가져옴)
+update-announce-header: '&b&m        &r &b&l공지 &b&m        '
+update-announce-footer: '&b&m                                '
+
+# ── /sgem compat 버전 리포트 ───────────────────────────────
+compat-divider: '&8&m                                                  '
+compat-title: '&bSnowyGems &f호환성 리포트'
+compat-server: '&7서버: &f{server}'
+compat-version: '&7MC 버전: &f{mc} &8(versionId={id})'
+compat-registry: '&7레지스트리: &f{registry}'
+compat-attribute-api: '&7속성 API: &f{api}'
+# 플레이스홀더: {ok} 지원 개수  {missing} 미지원 개수
+compat-summary: '&a✔ &f{ok} &a지원  &c✘ &f{missing} &c미지원'
+compat-entry-ok: '  &a✔ &f{name}'
+# 플레이스홀더: {name} 기능  {since} 필요 버전
+compat-entry-missing: '  &c✘ &7{name} &8({since} 필요)'
+compat-missing-brief: '&7누락: &f{list}'
+compat-more-hint: '&8전체 목록은 /sgem compat all 로 확인하세요'
+compat-functions: '&7스킬 함수: &a{ok} 개 사용 가능&7, &c{bad} 개 사용 불가'
+# 설정 자체 점검 (/sgem compat all 에서 상세 표시)
+compat-check-clean: '&7설정 점검: &a문제 없음'
+compat-check-mistakes: '&c설정 점검: {count} 개 오류 &7(어떤 버전에서도 동작하지 않음)'
+compat-check-skips: '&7설정 점검: &f{count} &7개 항목이 이 버전에서 미지원이라 건너뜀 &8(정상)'
+compat-check-entry: '  &c● &f{text}'
+compat-check-skip-entry: '  &8● &7{text}'
+# 기능 모듈 (config.yml Compat.Modules)
+compat-modules-title: '&7기능 모듈:'
+compat-module-on: '  &a● &f{name} &7활성화'
+compat-module-off: '  &8● &7{name} &8비활성화'
+compat-modules-brief: '&7비활성화된 모듈: &f{list} &8(config.yml 의 Compat.Modules 참고)'
+
+# ── /sgem skills 기능 레퍼런스 ─────────────────────────────
+skills-divider: '&8&m                                                  '
+# 플레이스홀더: {shown} 표시된 줄 수  {total} 전체 줄 수
+skills-title: '&b스킬 함수 &7({shown}/{total})'
+skills-title-keyword: '&b스킬 함수 &7({shown}/{total}) &8키워드: &f{keyword}'
+skills-empty: '&7일치하는 함수가 없습니다. 전체 목록은 /sgem skills 를 사용하세요'
+# 플레이스홀더: {mark} 사용 가능 표시  {name} 함수 이름  {usage} 예시 인자
+skills-entry: '{mark} &f{name}&7{usage}'
+skills-entry-desc: '   &8{desc}'
+skills-entry-aliases: '   &8별칭: {aliases}'
+skills-entry-unavailable: '   &c이 버전에서 사용 불가: {requires}'
+skills-mark-ok: '&a✔'
+skills-mark-bad: '&c✘'
+skills-footer: '&8발동 마크: &f/sgem triggers  &8버전 지원 기능: &f/sgem compat'
+
+# ── /sgem triggers 레퍼런스 ────────────────────────────────
+# 문서 전용이며, 이 파일을 수정해도 엔진 동작은 바뀌지 않습니다.
+# 각 줄은 그대로 출력됩니다. 자유롭게 추가/삭제/문구 수정하세요.
+triggers-divider: '&8&m                                                  '
+triggers-title: '&b발동 마크 &7(스킬 줄 끝에 표기, 예: &f~onUse&7)'
+triggers-list:
+  - '  &a~onUse &8- &7우클릭 사용'
+  - '  &a~onShiftUse &8- &7웅크리기 + 우클릭'
+  - '  &a~onSwing &8- &7좌클릭 휘두르기'
+  - '  &a~onShiftSwing &8- &7웅크리기 + 좌클릭 (삼지창/창도 동작)'
+  - '  &a~onAttack &8- &7근접 공격이 개체에 명중'
+  - '  &a~onKill &8- &7개체 처치'
+  - '  &a~onHit &8- &7발사체 명중 (모든 종류)'
+  - '  &a~onHit:type &8- &7특정 종류의 발사체 명중, 예: onHit:ARROW / onHit:TRIDENT / onHit:EGG (창은 발사체가 아님)'
+  - '  &a~onLaunch &8- &7발사체 발사 (모든 종류)'
+  - '  &a~onLaunch:type &8- &7특정 종류의 발사체 발사'
+  - '  &a~onBreak &8- &7블록 파괴'
+  - '  &a~onDamaged &8- &7내구도가 소모되려는 순간'
+  - '  &a~onTimer &8- &7매초 폴링 (영구 BUFF 용)'
+triggers-footer: '&8스킬 함수: &f/sgem skills  &8버전 지원 기능: &f/sgem compat'
+
+# Safety, catalog and operation journal
+gem-embed-limit: "&c이 보석의 장착 한도 {limit}에 도달했습니다."
+gem-exclusive-group: "&c상호 배타 그룹 {group}의 다른 보석이 이미 장착되어 있습니다."
+gem-remove-hiding-first: "&c다른 보석을 변경하기 전에 스킬 숨김 가루를 제거하세요."
+gem-not-reversible: "&c되돌릴 수 없는 효과가 있어 보석을 반환할 수 없습니다."
+gem-undo-conflict: "&c효과가 변경되었거나 복원 기록이 없어 분해를 취소했습니다."
+command-reload-failed: "&c설정을 불러오지 못했습니다. 이전 보석, 메뉴, 스킬 및 제작법을 유지합니다. 콘솔을 확인하세요."
+audit-recent-hint: "&7이번 실행의 최근 기록입니다. 영구 로그: logs/operations-*.log"
+audit-empty: "&7해당 플레이어의 최근 기록이 없습니다."
+catalog-title: "&8보석 도감"
+catalog-scope: "&7적용 대상: &f{scope}"
+catalog-limit: "&7동일 보석 한도: &f{limit}"
+catalog-group: "&7상호 배타 그룹: &f{group}"
+catalog-removable: "&a복원 기록이 유효하면 분해할 수 있습니다"
+catalog-consumable: "&e소모성 효과 또는 기록 비활성화: 반환이 보장되지 않습니다"
+catalog-chance: "&7성공 확률: &f{chance}%"
+
+# Compact history display
+audit-header: "&6작업 기록 &8| &f{player} &7최근 {count}개"
+audit-entry: "&8{time} &b{action} &f{subject} &8— {result}"
+audit-footer: "&8이번 실행의 최근 작업이며 최신 기록이 먼저 표시됩니다."
+audit-unknown-item: "알 수 없는 아이템"
+audit-action-use: "사용"
+audit-action-embed: "장착"
+audit-action-button: "작업대"
+audit-action-forge: "제작"
+audit-action-dismantle: "분해"
+audit-result-success: "&a성공"
+audit-result-failed-consumed: "&c실패, 소모됨"
+audit-result-rejected: "&7미적용, 소모 없음"
+audit-result-refunded: "&e취소, 비용 환불됨"
+audit-result-refund-failed: "&c환불 실패, 로그 확인 필요"
+audit-result-broken: "&e분해됨, 보석 파손"
+audit-result-returned: "&a분해됨, 보석 반환됨"

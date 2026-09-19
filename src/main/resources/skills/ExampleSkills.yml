@@ -31,14 +31,14 @@
 # ============================================================
 
 
-# ── 1. 条件技能: 濒死时自动保命 ─────────────────────────────
+# ── 1. 条件技能: 装备损耗耐久时检查低生命 ─────────────────────────────
 # If 的条件变量: health(生命比例0~1) / raw_health / food / level / y / target_health
 濒死守护:
   Lore: "&c濒死守护"
   Cooldown: 30.0
   CooldownTip: ActionBar{p=&c守护冷却;s=&c%.2fs;empty=&8|;full=&c|;length=40}
   Skills:
-    # 被打到 30% 以下时, 回血 + 抗性 + 击退周围
+    # onDamaged 是装备耐久损耗事件，不是玩家受到任意伤害；生命低于 30% 时尝试回血与抗性。
     - If{c=health<0.3;All{Heal{amount=20};Potion{type=RESISTANCE;level=3;duration=6};Sound{name=ITEM_TOTEM_USE}}} ~onDamaged
     - If{c=health<0.3;Title{m=&c&l守护发动;s=&7生命已恢复}} ~onDamaged
 

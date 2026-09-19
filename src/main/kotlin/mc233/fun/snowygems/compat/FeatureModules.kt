@@ -113,6 +113,16 @@ object FeatureModules {
     var reportOnStartup: Boolean = true
         private set
 
+    internal data class Snapshot(val enabled: Map<String, Boolean>, val policy: String, val report: Boolean)
+    internal fun snapshot() = Snapshot(enabled, onMissingFeature, reportOnStartup)
+    internal fun restore(state: Snapshot) {
+        enabled = state.enabled
+        onMissingFeature = state.policy
+        reportOnStartup = state.report
+        buildOwnerIndex()
+        ItemCategories.invalidate()
+    }
+
     fun resolve() {
         if (!::conf.isInitialized) {
             DebugUtil.log("Compat", "config.yml 尚未注入, 全部模块按 auto 处理")

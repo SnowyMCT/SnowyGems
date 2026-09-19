@@ -15,5 +15,5 @@ object SnowyGems : Plugin() {
     val plugin: BukkitPlugin get() = BukkitPlugin.getInstance()
 
     /** 重新读取全部配置(供 /sgem reload 与启用阶段共用, 保证两边顺序一致) */
-    fun reloadAll() = Bootstrap.reloadAll()
+    fun reloadAll(): Boolean = Bootstrap.reloadAll()
 }

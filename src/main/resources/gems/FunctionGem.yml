@@ -22,6 +22,7 @@
     - Unbreakable
 
 原版耐久修复石:
+  TrackApplied: false
   Name: 修复宝石
   Require:
     - WEAPON

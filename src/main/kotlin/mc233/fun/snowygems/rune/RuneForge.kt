@@ -48,6 +48,7 @@ object RuneForge {
         }.toTypedArray()
         if (!snapshot.contentEquals(player.inventory.storageContents)) { Lang.send(player, "rune.changed"); return false }
         player.inventory.storageContents = result
+        mc233.`fun`.snowygems.manager.OperationAudit.record(player, "forge", "recipe=$id ingredients=${recipe.ingredients} result=${recipe.result} amount=${recipe.amount}", subject = "${name(recipe.result)} x${recipe.amount}", outcome = "success")
         DebugUtil.log("Rune", "${player.name} 完成配方 $id: ${recipe.ingredients} -> ${recipe.result} x${recipe.amount}")
         Lang.send(player, "rune.success", "gem" to name(recipe.result), "amount" to recipe.amount)
         return true

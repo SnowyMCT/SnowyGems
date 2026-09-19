@@ -37,7 +37,7 @@ Lang: zh_CN
 
 # 点券系统使用的后端:
 #   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认) 不推荐在正式服务器中使用
-#   PlayerPoints - 对接 PlayerPoints 插件 (需要服务器已安装 PlayerPoints)
+#   PlayerPoints - 对接 PlayerPoints 插件；不可用时暂停交易，不切换内置账户
 Points:
   Provider: Internal
 
@@ -63,7 +63,7 @@ tagged-blocks:
 #  拆卸宝石 (/sgem dismantle)
 # ============================================================
 #  玩家用 /sgem dismantle 打开拆卸界面, 点击已镶嵌的宝石即可拆下。
-#  拆卸会撤销该宝石对装备的全部加成(属性/附魔), 并按下列规则收费与判定损坏。
+#  仅支持具备完整撤销能力和有效记录的宝石；一次性效果不能拆卸返还。
 # ============================================================
 Dismantle:
   # 拆卸费用

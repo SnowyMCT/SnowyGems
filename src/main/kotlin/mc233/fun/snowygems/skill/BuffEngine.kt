@@ -34,22 +34,25 @@ object BuffEngine {
         }
     }
 
-    private fun equipmentOf(player: Player): List<ItemStack> {
-        val list = ArrayList<ItemStack>()
-        list.add(player.inventory.itemInMainHand)
-        list.add(player.inventory.itemInOffHand)
-        player.inventory.armorContents.forEach { it?.let { i -> list.add(i) } }
-        return list.filter { it.type != Material.AIR }
-    }
+    private fun equipmentOf(player: Player): List<Pair<String, ItemStack>> = listOfNotNull(
+        "mainhand" to player.inventory.itemInMainHand,
+        "offhand" to player.inventory.itemInOffHand,
+        player.inventory.helmet?.let { "head" to it },
+        player.inventory.chestplate?.let { "chest" to it },
+        player.inventory.leggings?.let { "legs" to it },
+        player.inventory.boots?.let { "feet" to it }
+    ).filter { !it.second.type.isAir }
 
     private fun tick(player: Player) {
         // 带 Lore 标记的 BUFF 定义加载时已缓存; onTimer 行也已预分组, tick 内零解析零 filter 分配
-        val buffDefs = SkillRegistry.withLore()
-        for (item in equipmentOf(player)) {
-            val lore = item.itemMeta?.lore ?: continue
+        val buffDefs = SkillRegistry.timers()
+        val applied = mutableSetOf<String>()
+        for ((slot, item) in equipmentOf(player)) {
+            val lore = mc233.`fun`.snowygems.util.SkillLore.read(item)
             // 每件装备只去色一次, 全部技能定义共用
             val strippedLore = lore.map { ColorUtil.stripColor(it).trim() }
             for (def in buffDefs) {
+                if (def.id in applied || !SkillRuntime.accepts(def, slot)) continue
                 val marker = def.loreClean
                 // 用去色+trim 的容错匹配: BUFF 标记尾部常带空格(如 "生命提升 "), 而写进装备的行
                 // 是 "生命提升4"(数字紧贴), 直接 contains 带色带空格的 marker 会匹配失败 -> buff 从不触发
@@ -60,10 +63,10 @@ object BuffEngine {
                     "Buff", "match:${player.uniqueId}:${item.type}:${def.id}",
                     "${player.name} 的 ${item.type} 命中 BUFF 定义 ${def.id}, ${timerLines.size} 行 onTimer (相同内容不再重复输出)"
                 )
-                for (line in timerLines) {
-                    // 交给统一的函数表执行, BUFF 和主动技能共享全部函数
-                    SkillExecutor.execute(player, item, line, trigger = "onTimer")
-                }
+                if (SkillRuntime.cast(player, def) {
+                    val budget = SkillBudget()
+                    timerLines.count { SkillExecutor.execute(player, item, it, trigger = "onTimer", budget = budget) } > 0
+                }) applied.add(def.id)
             }
         }
     }

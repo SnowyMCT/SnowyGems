@@ -333,3 +333,38 @@ triggers-list:
   - '  &a~onDamaged &8- &7物品即将损失耐久'
   - '  &a~onTimer &8- &7每秒轮询(常驻 BUFF 用)'
 triggers-footer: '&8技能函数见 &f/sgem skills  &8版本能力见 &f/sgem compat'
+
+# Safety, catalog and operation journal
+gem-embed-limit: "&c同类宝石已达到镶嵌上限 {limit}。"
+gem-exclusive-group: "&c已镶嵌互斥组 {group} 中的另一种宝石。"
+gem-remove-hiding-first: "&c请先拆下技能隐藏粉尘，再修改装备上的宝石。"
+gem-not-reversible: "&c此记录包含不可撤销的效果，无法拆卸返还。"
+gem-undo-conflict: "&c效果已改变或缺少撤销记录，拆卸已取消。"
+command-reload-failed: "&c配置加载失败，已保留旧宝石、菜单、技能和配方。请查看控制台。"
+audit-recent-hint: "&7显示本次启动以来缓存的最近记录；持久日志位于插件 logs/operations-*.log。"
+audit-empty: "&7没有此玩家的近期操作记录。"
+catalog-title: "&8宝石图鉴"
+catalog-scope: "&7适用范围：&f{scope}"
+catalog-limit: "&7同类镶嵌上限：&f{limit}"
+catalog-group: "&7互斥组：&f{group}"
+catalog-removable: "&a支持拆卸；以装备实际撤销记录为准"
+catalog-consumable: "&e含一次性效果或未启用拆卸记录，不保证返还"
+catalog-chance: "&7成功率：&f{chance}%"
+
+# Compact history display
+audit-header: "&6操作记录 &8| &f{player} &7最近 {count} 条"
+audit-entry: "&8{time} &b{action} &f{subject} &8— {result}"
+audit-footer: "&8仅显示本次启动后的近期操作，最新记录在前。"
+audit-unknown-item: "未知物品"
+audit-action-use: "使用"
+audit-action-embed: "镶嵌"
+audit-action-button: "工作台"
+audit-action-forge: "合成"
+audit-action-dismantle: "拆卸"
+audit-result-success: "&a成功"
+audit-result-failed-consumed: "&c失败，已消耗"
+audit-result-rejected: "&7未执行，未消耗"
+audit-result-refunded: "&e取消，费用已退"
+audit-result-refund-failed: "&c退款失败，请核查"
+audit-result-broken: "&e已拆卸，宝石损坏"
+audit-result-returned: "&a已拆卸，宝石返还"

@@ -1,3 +1,5 @@
+# 兼容配置：保留旧 ID、Lore 标记和效果，避免改变旧物品。
+# 新默认玩法见 ArtisanGem.yml、ExpeditionRune.yml 与 ExpeditionSkills.yml。
 向前闪现:
   Cooldown: 10.0
   Lore: "右键即可闪现"

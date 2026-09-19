@@ -36,6 +36,11 @@
 #
 #  ── Rewards 可用函数 ────────────────────────────────────
 #    Attribute{name=;operation=;slot=;var=;limit=}   属性加成(可叠加/可回退)
+#       v      = 本插件在这件装备上为该属性已累计加的值(不含装备自带, 从 0 起累计)
+#       limit  = 这个累计值的同方向上限(负增益宝石的 limit 要写负数, 如 scale 缩小 -0.3)
+#       镶嵌结果 = 装备自带值 + 累计值, 并且与装备自带的同名属性合并成一条显示
+#                 例: 下界合金胸甲自带盔甲韧性 3, 每颗宝石 +1, 镶 4 颗后装备上只有一条 "+7 盔甲韧性"
+#                 拆卸宝石时按顺序扣回, 自带值原样还给装备
 #    Enchant{name=;level=;limit=}                    附魔增删
 #    LoreAdd{lore=;mode=;locator=;limit=;force=}     加一行 lore
 #    LoreVar{lore=前缀;var=;format=;limit=;mode=}     加带数字的 lore(可叠加)

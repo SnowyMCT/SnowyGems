@@ -1,3 +1,5 @@
+# 兼容配置：保留旧 ID、Lore 标记和效果，避免改变旧物品。
+# 新默认玩法见 ArtisanGem.yml、ExpeditionRune.yml 与 ExpeditionSkills.yml。
 # Ready-to-use examples for /sgem open 符文镶嵌台.
 # Gui restricts these runes to that custom workbench; Require still checks equipment.
 红色符文I:

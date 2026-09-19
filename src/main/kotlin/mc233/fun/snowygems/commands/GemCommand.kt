@@ -57,6 +57,29 @@ object GemCommand {
         execute<Player> { sender, _, _ -> RuneForgeGui.open(sender) }
     }
 
+    @CommandBody(permission = Permissions.CATALOG)
+    val catalog = subCommand {
+        execute<Player> { sender, _, _ -> GemGui.openCatalog(sender) }
+    }
+
+    @CommandBody(permission = Permissions.HISTORY)
+    val history = subCommand {
+        dynamic("player") {
+            execute<CommandSender> { sender, context, _ ->
+                val lines = mc233.`fun`.snowygems.manager.OperationAudit.recent(context["player"])
+                if (lines.isEmpty()) {
+                    Lang.sendCommand(sender, "audit.empty")
+                    return@execute
+                }
+                Lang.sendCommand(sender, "audit.header", "player" to context["player"], "count" to lines.size)
+                lines.forEach { entry ->
+                    sender.sendMessage(mc233.`fun`.snowygems.manager.AuditChat.render(entry, { Lang.get(it) }))
+                }
+                Lang.send(sender, "audit.footer")
+            }
+        }
+    }
+
     //标记
     @CommandBody(permission = Permissions.MARK)
     val mark = subCommand {
@@ -217,7 +240,10 @@ object GemCommand {
             val start = System.currentTimeMillis()
             DebugUtil.log("Command", "${sender.name} 执行 /sgem reload")
             // 统一走主类的 reloadAll, 避免命令层和主类两份重载顺序不一致
-            SnowyGems.reloadAll()
+            if (!SnowyGems.reloadAll()) {
+                Lang.sendCommand(sender, "command.reload-failed")
+                return@execute
+            }
             val cost = System.currentTimeMillis() - start
             DebugUtil.log("Command", "重载完成, 耗时 ${cost}ms")
             Lang.sendCommand(sender, "command.reload", "time" to cost)

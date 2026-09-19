@@ -123,6 +123,30 @@ object GemGui {
         }
     }
 
+    /** Public read-only catalog. No item granting callbacks. */
+    fun openCatalog(player: Player) {
+        val gems = GemRegistry.all().sortedBy { it.id }
+        player.openMenu<Linked<GemConfig>>(Lang.get("catalog.title")) {
+            rows(6)
+            slots((0..44).toList())
+            elements { gems }
+            onGenerate { _, gem, _, _ ->
+                val material = if (!gem.texture.isNullOrBlank()) XMaterial.PLAYER_HEAD
+                    else XMaterial.matchXMaterial(gem.material ?: "PAPER").orElse(XMaterial.PAPER)
+                buildItem(material) {
+                    if (!gem.texture.isNullOrBlank()) skullTexture = taboolib.platform.util.SkullTexture(gem.texture)
+                    name = ColorUtil.colorize(gem.display.ifBlank { gem.name })
+                    lore.addAll(ColorUtil.colorize(gem.tips))
+                    lore.addAll(mc233.`fun`.snowygems.util.GemDescription.lines(gem))
+                    if (gem.glow) shiny()
+                }
+            }
+            onClick { event, _ -> event.isCancelled = true }
+            setNextPage(50) { _, has -> pageIcon(has, true) }
+            setPreviousPage(48) { _, has -> pageIcon(has, false) }
+        }
+    }
+
     // ══════════════════════════════════════════════════════════
     //  /sgem inspect —— 只读查看已镶嵌宝石(不做修改)
     // ══════════════════════════════════════════════════════════
@@ -263,10 +287,18 @@ object GemGui {
             return
         }
         // 2) 撤销效果并摘掉
-        val result = GemManager.removeFromItem(player, hand, gemId)
+        mc233.`fun`.snowygems.manager.OperationAudit.record(player, "dismantle-charged", "gem=$gemId cost=${DismantleService.costAmount()} type=${DismantleService.costTypeName()}", subject = gemId, outcome = "pending")
+        val result = try { GemManager.removeFromItem(player, hand, gemId) } catch (e: Exception) {
+            val refunded = DismantleService.refund(player)
+            mc233.`fun`.snowygems.manager.OperationAudit.record(player, "dismantle-error", "gem=$gemId refunded=$refunded error=${e.message}", subject = gemId, outcome = if (refunded) "refunded" else "refund-failed")
+            Lang.send(player, if (refunded) "gem.undo-conflict" else "dismantle.refund-failed")
+            return
+        }
         DebugUtil.log("GUI", "${player.name} 拆卸 $gemId: success=${result.success} 有新物品=${result.resultItem != null}")
         if (!result.success || result.resultItem == null) {
-            if (!DismantleService.refund(player)) Lang.send(player, "dismantle.refund-failed")
+            val refunded = DismantleService.refund(player)
+            mc233.`fun`.snowygems.manager.OperationAudit.record(player, "dismantle-refund", "gem=$gemId refunded=$refunded reason=${result.message}", subject = gemId, outcome = if (refunded) "refunded" else "refund-failed")
+            if (!refunded) Lang.send(player, "dismantle.refund-failed")
             Lang.sendRaw(player, result.message)
             return
         }
@@ -281,6 +313,7 @@ object GemGui {
             Lang.send(player, "dismantle.success", "gem" to gemName(gemId))
             DebugUtil.log("GUI", "  宝石 $gemId 拆卸成功并返还")
         }
+        mc233.`fun`.snowygems.manager.OperationAudit.record(player, "dismantle", "gem=$gemId broken=$broke returned=${!broke}", subject = gemId, outcome = if (broke) "broken" else "returned")
         // 刷新界面
         player.closeInventory()
         openDismantle(player)

@@ -1,0 +1,204 @@
+# 0.0.6 新默认内容：独立 ID，不替换旧配置；已有同名文件不会覆盖。
+# 不要改动已发放物品对应的 ID。修改数值不会回写既有装备的属性。
+# Enabled: false 可停用本文件全部新配方，保留旧 forge.yml。
+# 回收值低于合成成本；不接入旧碎片经济，不自动向玩家发放物品。
+Enabled: true
+Recipes:
+  expedition-craft-star-i:
+    Display: '&b锻造 远征星锋符文I'
+    Result: 远征星锋符文I
+    Amount: 1
+    Ingredients:
+      远征符砂: 24
+  expedition-recycle-star-i:
+    Display: '&6回收 远征星锋符文I'
+    Result: 远征符砂
+    Amount: 8
+    Ingredients:
+      远征星锋符文I: 1
+  expedition-upgrade-star-ii:
+    Display: '&b锻造 远征星锋符文II'
+    Result: 远征星锋符文II
+    Amount: 1
+    Ingredients:
+      远征星锋符文I: 3
+      远征符砂: 16
+  expedition-recycle-star-ii:
+    Display: '&6回收 远征星锋符文II'
+    Result: 远征符砂
+    Amount: 24
+    Ingredients:
+      远征星锋符文II: 1
+  expedition-craft-stone-i:
+    Display: '&b锻造 远征磐岩符文I'
+    Result: 远征磐岩符文I
+    Amount: 1
+    Ingredients:
+      远征符砂: 24
+  expedition-recycle-stone-i:
+    Display: '&6回收 远征磐岩符文I'
+    Result: 远征符砂
+    Amount: 8
+    Ingredients:
+      远征磐岩符文I: 1
+  expedition-upgrade-stone-ii:
+    Display: '&b锻造 远征磐岩符文II'
+    Result: 远征磐岩符文II
+    Amount: 1
+    Ingredients:
+      远征磐岩符文I: 3
+      远征符砂: 16
+  expedition-recycle-stone-ii:
+    Display: '&6回收 远征磐岩符文II'
+    Result: 远征符砂
+    Amount: 24
+    Ingredients:
+      远征磐岩符文II: 1
+  expedition-craft-vitality-i:
+    Display: '&b锻造 远征生息符文I'
+    Result: 远征生息符文I
+    Amount: 1
+    Ingredients:
+      远征符砂: 24
+  expedition-recycle-vitality-i:
+    Display: '&6回收 远征生息符文I'
+    Result: 远征符砂
+    Amount: 8
+    Ingredients:
+      远征生息符文I: 1
+  expedition-upgrade-vitality-ii:
+    Display: '&b锻造 远征生息符文II'
+    Result: 远征生息符文II
+    Amount: 1
+    Ingredients:
+      远征生息符文I: 3
+      远征符砂: 16
+  expedition-recycle-vitality-ii:
+    Display: '&6回收 远征生息符文II'
+    Result: 远征符砂
+    Amount: 24
+    Ingredients:
+      远征生息符文II: 1
+  expedition-craft-agility-i:
+    Display: '&b锻造 远征轻捷符文I'
+    Result: 远征轻捷符文I
+    Amount: 1
+    Ingredients:
+      远征符砂: 24
+  expedition-recycle-agility-i:
+    Display: '&6回收 远征轻捷符文I'
+    Result: 远征符砂
+    Amount: 8
+    Ingredients:
+      远征轻捷符文I: 1
+  expedition-upgrade-agility-ii:
+    Display: '&b锻造 远征轻捷符文II'
+    Result: 远征轻捷符文II
+    Amount: 1
+    Ingredients:
+      远征轻捷符文I: 3
+      远征符砂: 16
+  expedition-recycle-agility-ii:
+    Display: '&6回收 远征轻捷符文II'
+    Result: 远征符砂
+    Amount: 24
+    Ingredients:
+      远征轻捷符文II: 1
+  expedition-craft-vein-i:
+    Display: '&b锻造 远征矿脉符文I'
+    Result: 远征矿脉符文I
+    Amount: 1
+    Ingredients:
+      远征符砂: 24
+  expedition-recycle-vein-i:
+    Display: '&6回收 远征矿脉符文I'
+    Result: 远征符砂
+    Amount: 8
+    Ingredients:
+      远征矿脉符文I: 1
+  expedition-upgrade-vein-ii:
+    Display: '&b锻造 远征矿脉符文II'
+    Result: 远征矿脉符文II
+    Amount: 1
+    Ingredients:
+      远征矿脉符文I: 3
+      远征符砂: 16
+  expedition-recycle-vein-ii:
+    Display: '&6回收 远征矿脉符文II'
+    Result: 远征符砂
+    Amount: 24
+    Ingredients:
+      远征矿脉符文II: 1
+  expedition-craft-stride-i:
+    Display: '&b锻造 远征疾行符文I'
+    Result: 远征疾行符文I
+    Amount: 1
+    Ingredients:
+      远征符砂: 24
+  expedition-recycle-stride-i:
+    Display: '&6回收 远征疾行符文I'
+    Result: 远征符砂
+    Amount: 8
+    Ingredients:
+      远征疾行符文I: 1
+  expedition-upgrade-stride-ii:
+    Display: '&b锻造 远征疾行符文II'
+    Result: 远征疾行符文II
+    Amount: 1
+    Ingredients:
+      远征疾行符文I: 3
+      远征符砂: 16
+  expedition-recycle-stride-ii:
+    Display: '&6回收 远征疾行符文II'
+    Result: 远征符砂
+    Amount: 24
+    Ingredients:
+      远征疾行符文II: 1
+  expedition-craft-night:
+    Display: '&b锻造 远征夜航符文'
+    Result: 远征夜航符文
+    Amount: 1
+    Ingredients:
+      远征符砂: 32
+  expedition-recycle-night:
+    Display: '&6回收 远征夜航符文'
+    Result: 远征符砂
+    Amount: 10
+    Ingredients:
+      远征夜航符文: 1
+  expedition-craft-tide:
+    Display: '&b锻造 远征潮息符文'
+    Result: 远征潮息符文
+    Amount: 1
+    Ingredients:
+      远征符砂: 32
+  expedition-recycle-tide:
+    Display: '&6回收 远征潮息符文'
+    Result: 远征符砂
+    Amount: 10
+    Ingredients:
+      远征潮息符文: 1
+  expedition-craft-purify:
+    Display: '&b锻造 远征净毒符文'
+    Result: 远征净毒符文
+    Amount: 1
+    Ingredients:
+      远征符砂: 32
+  expedition-recycle-purify:
+    Display: '&6回收 远征净毒符文'
+    Result: 远征符砂
+    Amount: 10
+    Ingredients:
+      远征净毒符文: 1
+  expedition-craft-feather:
+    Display: '&b锻造 远征轻羽符文'
+    Result: 远征轻羽符文
+    Amount: 1
+    Ingredients:
+      远征符砂: 32
+  expedition-recycle-feather:
+    Display: '&6回收 远征轻羽符文'
+    Result: 远征符砂
+    Amount: 10
+    Ingredients:
+      远征轻羽符文: 1

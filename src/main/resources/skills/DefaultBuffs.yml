@@ -1,3 +1,5 @@
+# 兼容配置：保留旧 ID、Lore 标记和效果，避免改变旧物品。
+# 新默认玩法见 ArtisanGem.yml、ExpeditionRune.yml 与 ExpeditionSkills.yml。
 # 不写nbt时, 技能名将作为默认的nbt识别名
 # 如果一个技能同时还有匹配的NBT技能, 则两者能够用宝石互相转换
 发光:

@@ -1,3 +1,5 @@
+# 兼容配置：保留旧 ID、Lore 标记和效果，避免改变旧物品。
+# 新默认玩法见 ArtisanGem.yml、ExpeditionRune.yml 与 ExpeditionSkills.yml。
 # 独立文件便于旧服务器自动获得新定义，避免覆盖上一版 RuneGem.yml。
 红色符文II:
   Name: 红色符文II

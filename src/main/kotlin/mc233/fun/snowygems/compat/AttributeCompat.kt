@@ -28,6 +28,12 @@ import java.util.UUID
  *   新 API 用 NamespacedKey("snowygems", "attr_<属性名>")
  *   旧 API 用由同一字符串派生的确定性 UUID
  * 两者都能保证"同一个宝石属性重复镶嵌时替换而不是叠加无数条"
+ *
+ * 装备自带属性的合并:
+ *   1.20.5+ 起物品自带的护甲/韧性/击退抗性等是物品自己的属性修饰符(attribute_modifiers 组件),
+ *   往物品上再加一条本插件的修饰符就会显示成两条同名属性. [baselineModifiers] 负责把这类
+ *   "自带"修饰符识别出来交给 [AttributeReward] 合并, [describe]/[rebuild] 负责在 NBT 里留备份
+ *   并在拆卸时原样还原
  */
 object AttributeCompat {
 
@@ -97,6 +103,103 @@ object AttributeCompat {
     }
 
     /**
+     * 该修饰符是否出自本插件: 新 API 认 snowygems 命名空间, 旧 API 认同名前缀的 name
+     *
+     * 注意: 1.21.x 上旧 API(UUID 身份)创建出来的修饰符, getName() 返回的是 UUID 文本、
+     * getKey() 是 minecraft:<UUID>, 只能靠 [isOwnIdentifier] 按 UUID 判定
+     */
+    fun isOwnModifier(modifier: AttributeModifier): Boolean {
+        val key = runCatching { modifier.key }.getOrNull()
+        if (key != null && key.namespace == NAMESPACE) return true
+        return runCatching { modifier.name.startsWith("$NAMESPACE:") }.getOrDefault(false)
+    }
+
+    /**
+     * 该修饰符是不是本插件为 [ids] 里某个标识写下的(新旧两套身份都查).
+     * 用来把"库里老版本留下的自己的修饰符"和"装备自带属性"区分开
+     */
+    fun isOwnIdentifier(modifier: AttributeModifier, vararg ids: String): Boolean {
+        for (id in ids) {
+            if (runCatching { modifier.key == keyOf(id) }.getOrDefault(false)) return true
+            if (runCatching {
+                    @Suppress("DEPRECATION")
+                    modifier.uniqueId == uuidOf(id)
+                }.getOrDefault(false)
+            ) return true
+        }
+        return false
+    }
+
+    /**
+     * 取物品上"装备自带"(或其它插件写入)的同类修饰符 —— 同属性、同计算方式、同槽位, 且不是本插件写的.
+     *
+     * 这些就是宝石要"在原有数值上添加"的基数: 镶嵌时合并进本插件那一条(物品上只留一条同名属性),
+     * 拆卸时按 [describe] 留下的备份原样还回去
+     *
+     * 拿不准身份的一律不碰:
+     *   - [ownIds] 是本插件可能用过的标识, 命中即视为自己的, 不并进基数
+     *   - 槽位语义不同(护甲位 vs 任意位)合并会改变生效范围, 只保留原样
+     *
+     * @param ownIds 本插件在这件物品上可能用过的修饰符标识(如 modifierId 与旧版的属性名)
+     */
+    fun baselineModifiers(
+        meta: ItemMeta,
+        attribute: Attribute,
+        operation: AttributeModifier.Operation,
+        slotName: String,
+        vararg ownIds: String
+    ): List<AttributeModifier> {
+        val existing = runCatching { meta.getAttributeModifiers(attribute) }.getOrNull() ?: return emptyList()
+        return existing.filter { modifier ->
+            modifier != null &&
+                !isOwnModifier(modifier) &&
+                !isOwnIdentifier(modifier, *ownIds) &&
+                describe(modifier) != null &&
+                runCatching { modifier.operation == operation }.getOrDefault(false) &&
+                sameSlot(modifier, slotName)
+        }
+    }
+
+    /**
+     * 把修饰符压成一行备份文本 `命名空间|键|数值`, 供拆卸还原; 身份没法记下时返回 null(这类修饰符就不合并)
+     *
+     * 旧 API(UUID 身份)的修饰符在 1.21.x 上 getKey() 会给 minecraft:<UUID>, 备份/还原后会变成
+     * 同一命名空间+键的修饰符 —— 数值、计算方式、槽位都不变, 游戏侧效果完全一致
+     */
+    fun describe(modifier: AttributeModifier): String? {
+        val amount = runCatching { modifier.amount }.getOrNull() ?: return null
+        if (!amount.isFinite()) return null
+        val key = runCatching { modifier.key }.getOrNull() ?: return null
+        if (runCatching { NamespacedKey(key.namespace, key.key) }.isFailure) return null
+        return "${key.namespace}|${key.key}|$amount"
+    }
+
+    /**
+     * 还原 [describe] 记下的修饰符
+     * @return 失败返回 null(只记日志, 不抛异常 —— 还原失败不该让整次拆卸中断)
+     */
+    fun rebuild(text: String, operation: AttributeModifier.Operation, slotName: String): AttributeModifier? {
+        // 按首尾分隔符切: 键本身允许含 '|'(虽然极少见), 数值固定在最后一段
+        val first = text.indexOf('|')
+        val last = text.lastIndexOf('|')
+        if (first <= 0 || last <= first) return null
+        val amount = text.substring(last + 1).toDoubleOrNull() ?: return null
+        val key = runCatching { NamespacedKey(text.substring(0, first), text.substring(first + 1, last)) }.getOrNull()
+            ?: return null
+        return runCatching { AttributeModifier(key, amount, operation, slotGroupOf(slotName)) }
+            .onFailure { DebugUtil.log("Compat", "还原装备自带属性 ${key} 失败: ${it.message}") }
+            .getOrNull()
+    }
+
+    /** 槽位语义是否一致: 新 API 比 EquipmentSlotGroup, 旧 API 退化成比 EquipmentSlot */
+    private fun sameSlot(modifier: AttributeModifier, slotName: String): Boolean {
+        val group = runCatching { modifier.slotGroup }.getOrNull()
+        if (group != null) return runCatching { group == slotGroupOf(slotName) }.getOrDefault(false)
+        val slot = runCatching { modifier.slot }.getOrNull() ?: return false
+        return runCatching { slot == slotOf(slotName) }.getOrDefault(false)
+    }
+
+    /**
      * 创建一个修饰符. 新版本走 EquipmentSlotGroup, 老版本走 EquipmentSlot
      * @param slotName 槽位名(head/chest/legs/feet/hand/off_hand/any/armor)
      * @return 失败返回 null, 由调用方按"未生效"处理
@@ -156,14 +259,17 @@ object AttributeCompat {
      * 把物品的"默认属性"固化进 meta —— 修复"镶嵌属性宝石后, 装备自带护甲/韧性消失"的核心方法.
      *
      * 原理: Minecraft 的物品有两层属性:
-     *   1) 隐式默认属性: 下界合金胸甲自带 +8 护甲 +3 韧性, 钻石剑自带攻击力等. 这些不在 NBT 里,
-     *      是原版按材质动态附加的.
-     *   2) 显式 AttributeModifier: 写进物品 NBT 的.
-     * 原版规则: **一旦物品带有任何显式 AttributeModifier, 隐式默认属性全部不再生效**. 所以我们给
-     * 盔甲加一条 max_health 修饰符后, 它自带的护甲/韧性就凭空没了.
+     *   1) 材质自带的属性修饰符: 下界合金胸甲自带 +8 护甲 +3 韧性 +0.1 击退抗性, 钻石剑自带攻击力等.
+     *      1.20.5+ 它们写在物品的 attribute_modifiers 组件里, 但只要物品上还没有显式修饰符,
+     *      这一层就由材质提供, 并随时可被"写入显式修饰符"顶掉(实测 1.21.4 上 addAttributeModifier
+     *      会把组件替换成只剩我们这一条, 自带护甲/韧性直接消失).
+     *   2) 显式 AttributeModifier: 已经写进物品 NBT 的.
      *
      * 解决: 在写入我们的修饰符之前, 若 meta 尚无任何属性修饰符, 就把该材质在对应槽位的全部默认属性
      * 显式拷进 meta. 之后再叠加我们自己的, 两者共存.
+     *
+     * 固化下来的"同类属性"随后会被 [AttributeReward] 合并进宝石那一行(见 baselineModifiers), 所以
+     * 玩家看到的是"自带 + 宝石"合成一条, 而不是两条同名属性.
      *
      * 只在"首次给这件物品加修饰符"时做一次(用 NBT 标记去重), 避免重复镶嵌时反复累加默认属性.
      *
