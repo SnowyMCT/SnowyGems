@@ -139,6 +139,7 @@ object WorkbenchMenu {
                 if (gems.isEmpty()) add(Lang.get("embed.need-gem"))
                 for ((gemSlot, item) in gems) {
                     val cfg = ItemFactory.getGemId(item)?.let(GemRegistry::get)
+                    if (cfg != null) addAll(mc233.`fun`.snowygems.util.GemDescription.lines(cfg))
                     val slotDef = holder.slots[gemSlot]
                     val slotLabel = slotDef?.let { runeSlotLabel(it.require) } ?: "槽位"
                     add(Lang.get("menu.preview-slot", "slot" to slotLabel, "gem" to displayName(item),

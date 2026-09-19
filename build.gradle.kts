@@ -50,6 +50,13 @@ dependencies {
     testImplementation(kotlin("test-junit"))
     // Unit tests exercise plugin classes outside Bukkit; production dependencies remain compile-only.
     testRuntimeOnly(files(configurations.compileClasspath))
+    // 少数用例需要直接构造 Bukkit 的值对象(NamespacedKey / AttributeModifier / EquipmentSlotGroup),
+    // 它们不依赖服务端; 只补测试编译期, 主代码依旧 compileOnly
+    testCompileOnly(files(configurations.compileClasspath))
+    // 值对象的运行时依赖(NamespacedKey 内部用 Guava), 版本与服务端自带的一致
+    testRuntimeOnly("com.google.guava:guava:33.3.1-jre")
+    // TabooLib color parsing uses the chat API supplied by the server.
+    testRuntimeOnly("net.md-5:bungeecord-chat:1.21-R0.4")
 }
 
 tasks.withType<JavaCompile> {

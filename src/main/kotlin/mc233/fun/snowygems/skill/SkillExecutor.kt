@@ -48,8 +48,9 @@ object SkillExecutor {
         line: SkillLine,
         victim: LivingEntity? = null,
         hitLocation: Location? = null,
-        trigger: String = ""
-    ): Boolean = dispatch(SkillContext(player, item, line, trigger, victim, hitLocation))
+        trigger: String = "",
+        budget: SkillBudget = SkillBudget()
+    ): Boolean = dispatch(SkillContext(player, item, line, trigger, victim, hitLocation, budget))
 
     /**
      * 执行一个嵌套函数字符串(如 `Chat{m=...}`), 复用调用方的上下文.
@@ -58,9 +59,10 @@ object SkillExecutor {
      * 统一放这里, 免得每个函数域各写一份
      */
     fun runNested(ctx: SkillContext, nestedRaw: String): Boolean =
-        dispatch(ctx.copy(line = SkillLineParser.parse(nestedRaw)))
+        dispatch(ctx.copy(line = SkillLineParser.parse(nestedRaw), depth = ctx.depth + 1))
 
     private fun dispatch(ctx: SkillContext): Boolean {
+        if (ctx.generation != SkillRuntime.generation || !ctx.budget.consume(ctx.depth)) return false
         val line = ctx.line
         val function = SkillFunctions.find(line.name) ?: run {
             val suggestion = SkillFunctions.suggest(line.name)

@@ -45,7 +45,10 @@ object Bootstrap {
     @Awake(LifeCycle.ENABLE)
     fun onEnable() {
         Permissions.register()
-        reloadAll()
+        if (!reloadAll()) {
+            taboolib.common.platform.function.severe("SnowyGems 配置加载失败，请修正配置后重新启用")
+            Bukkit.getPluginManager().disablePlugin(SnowyGems.plugin)
+        }
     }
 
     /** 服务器完全启动: 数字此时才是最终值, 汇报一次加载结果, 并静默检测更新/公告 */
@@ -64,24 +67,48 @@ object Bootstrap {
     @Awake(LifeCycle.DISABLE)
     fun onDisable() {
         closeWorkbenches()
+        mc233.`fun`.snowygems.skill.SkillRuntime.invalidate()
+        mc233.`fun`.snowygems.manager.OperationAudit.close()
         Banner.printShutdown()
     }
 
-    fun reloadAll() {
+    fun reloadAll(): Boolean {
         closeWorkbenches()
-        DebugUtil.reload()
-        Lang.reload()
-        FeatureModules.resolve()
-        GemRegistry.reload()
-        RuneRecipeRegistry.reload()
-        MenuRegistry.reload()
-        SkillRegistry.reload()
-        SkillExecutor.registerBuiltins()
-        DismantleService.resolve()
-        MarkBlockManager.load()
-        UpdateChecker.resolve()
-        ConfigValidator.validate()
-        ConfigurationHealth.check()
+        mc233.`fun`.snowygems.skill.SkillRuntime.invalidate()
+        val features = FeatureModules.snapshot()
+        val gems = GemRegistry.snapshot()
+        val menus = MenuRegistry.snapshot()
+        val skills = SkillRegistry.snapshot()
+        val recipes = RuneRecipeRegistry.snapshot()
+        return try {
+            DebugUtil.reload()
+            Lang.reload()
+            FeatureModules.resolve()
+            SkillExecutor.registerBuiltins()
+            GemRegistry.reload()
+            RuneRecipeRegistry.reload()
+            MenuRegistry.reload()
+            SkillRegistry.reload()
+            // Broken references are never safe to publish, regardless of version compatibility policy.
+            GemRegistry.all().forEach { gem ->
+                require(gem.randomPool.keys.all { GemRegistry.get(it) != null }) { "${gem.id}: 奖池引用不存在" }
+                require(gem.gui.all { it == EmbedGui.GUI_NAME || MenuRegistry.get(it) != null }) { "${gem.id}: 菜单引用不存在" }
+            }
+            ConfigValidator.validate()
+            DismantleService.resolve()
+            MarkBlockManager.load()
+            UpdateChecker.resolve()
+            ConfigurationHealth.check()
+            true
+        } catch (e: Exception) {
+            FeatureModules.restore(features)
+            GemRegistry.restore(gems)
+            MenuRegistry.restore(menus)
+            SkillRegistry.restore(skills)
+            RuneRecipeRegistry.restore(recipes)
+            taboolib.common.platform.function.severe("SnowyGems 配置加载失败，已保留上次宝石/菜单/技能/配方: ${e.message}")
+            false
+        }
     }
 
     /** 在注册表或监听器失效前触发关闭回收，避免重载和停服吞掉投入的物品。 */

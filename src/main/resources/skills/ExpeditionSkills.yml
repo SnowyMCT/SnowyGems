@@ -1,0 +1,46 @@
+# 0.0.6 新默认内容：独立 ID，不替换旧配置；已有同名文件不会覆盖。
+# 不要改动已发放物品对应的 ID。修改数值不会回写既有装备的属性。
+# 使用独立 Lore 标记避免触发旧技能；矿脉/疾行两等级共用技能 ID。
+# 卸下装备停止续加 BUFF，已施加效果等待到期；主动冷却按玩家和技能 ID 共享。
+远征/矿脉:
+  Lore: '&b[BUFF] 远征/矿脉 '
+  Slot:
+  - mainhand
+  Cooldown: 0
+  Skills:
+  - Potion{type=HASTE;level=$LORE:[BUFF] 远征/矿脉?1$;duration=5} ~onTimer @Self
+远征/疾行:
+  Lore: '&b[技能] 远征/疾行 '
+  Slot:
+  - mainhand
+  Cooldown: 12
+  Skills:
+  - Potion{type=SPEED;level=$LORE:[技能] 远征/疾行?1$;duration=5} ~onShiftUse @Self
+远征/夜航:
+  Lore: '&b[BUFF] 远征/夜航'
+  Slot:
+  - head
+  Cooldown: 0
+  Skills:
+  - Potion{type=NIGHT_VISION;level=1;duration=12} ~onTimer @Self
+远征/潮息:
+  Lore: '&b[BUFF] 远征/潮息'
+  Slot:
+  - head
+  Cooldown: 0
+  Skills:
+  - Potion{type=WATER_BREATHING;level=1;duration=5} ~onTimer @Self
+远征/净毒:
+  Lore: '&b[技能] 远征/净毒'
+  Slot:
+  - mainhand
+  Cooldown: 10
+  Skills:
+  - ClearPotion{type=POISON} ~onShiftUse @Self
+远征/轻羽:
+  Lore: '&b[技能] 远征/轻羽'
+  Slot:
+  - mainhand
+  Cooldown: 16
+  Skills:
+  - Potion{type=SLOW_FALLING;level=1;duration=6} ~onShiftUse @Self

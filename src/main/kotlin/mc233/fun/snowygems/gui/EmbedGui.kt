@@ -135,6 +135,7 @@ object EmbedGui {
 
     /** 把宝石的成功率/适用范围/效果说明写到按钮 Lore 上 */
     private fun appendGemInfo(lore: MutableList<String>, cfg: GemConfig) {
+        lore.addAll(mc233.`fun`.snowygems.util.GemDescription.lines(cfg))
         lore.add(Lang.get("embed.info.gem", "gem" to cfg.display.ifBlank { cfg.name }))
         lore.add(Lang.get("embed.info.scope", "scope" to scopeOf(cfg)))
         lore.add(Lang.get("embed.info.chance", "chance" to cfg.success))
@@ -319,6 +320,7 @@ object EmbedGui {
                 inv.setItem(GEM_SLOT, if (left.amount <= 0) null else left)
                 DebugUtil.log("Embed", "  宝石数量 ${gem.amount} -> ${left.amount.coerceAtLeast(0)}")
             }
+            mc233.`fun`.snowygems.manager.OperationAudit.record(player, "embed", "gem=${ItemFactory.getGemId(gem)} success=${result.success} consumed=${result.consumedGem}", subject = ItemFactory.getGemId(gem) ?: "", outcome = if (result.success) "success" else if (result.consumedGem) "failed-consumed" else "rejected")
             refreshConfirm(inv)
             player.updateInventory()
         } finally {

@@ -20,7 +20,10 @@ data class SkillContext(
     val line: SkillLine,
     val trigger: String,
     val victim: LivingEntity? = null,
-    val hitLocation: Location? = null
+    val hitLocation: Location? = null,
+    val budget: SkillBudget = SkillBudget(),
+    val depth: Int = 0,
+    val generation: Long = SkillRuntime.generation
 ) {
 
     val target: LivingEntity
@@ -37,7 +40,7 @@ data class SkillContext(
     fun str(vararg keys: String): String? = keys.firstNotNullOfOrNull { line.args[it] }
 
     fun num(vararg keys: String): Double? =
-        str(*keys)?.let { SkillValue.resolveDouble(it, item, Double.NaN).takeUnless(Double::isNaN) }
+        str(*keys)?.let { SkillValue.resolveDouble(it, item, Double.NaN).takeIf(Double::isFinite) }
 
     fun int(vararg keys: String): Int? = num(*keys)?.toInt()
 

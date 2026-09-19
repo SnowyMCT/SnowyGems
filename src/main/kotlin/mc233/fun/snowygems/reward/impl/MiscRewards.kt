@@ -21,6 +21,7 @@ import mc233.`fun`.snowygems.util.getItemTag
 
 /** Enchant{name=DURABILITY;limit=7} 或 Enchant{name=RIPTIDE;level=0} */
 class EnchantReward(private val name: String, private val level: Int?, private val limit: Int?) : Reward {
+    override val reversible = true
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: run {
             DebugUtil.log("Reward", "    Enchant($name) 失败: 本次操作没有目标物品")
@@ -222,10 +223,22 @@ class ExpLevelReward(private val amount: Int) : Reward {
 }
 
 class UnbreakableReward : Reward {
+    override val reversible = true
+    override fun revert(ctx: RewardContext): Boolean {
+        require(ctx.undoData["unbreakableBefore"] == "false") { "Missing unbreakable history" }
+        val item = ctx.item ?: return false
+        val meta = item.itemMeta ?: return false
+        if (!meta.isUnbreakable) return false
+        meta.isUnbreakable = false
+        item.itemMeta = meta
+        return true
+    }
+
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
         val meta = item.itemMeta ?: return false
         if (meta.isUnbreakable) return false
+        ctx.undoData["unbreakableBefore"] = "false"
         meta.isUnbreakable = true
         item.itemMeta = meta
         ctx.item = item
@@ -248,6 +261,18 @@ class DurabilityReward(private val amount: Int) : Reward {
 
 /** ItemFlag{HIDE_ENCHANTS} 一次可加一个 flag(重复调用叠加多个) */
 class ItemFlagReward(private val flagName: String) : Reward {
+    override val reversible = true
+    override fun revert(ctx: RewardContext): Boolean {
+        require(ctx.undoData["addedFlag"] == flagName.uppercase()) { "Missing flag history" }
+        val item = ctx.item ?: return false
+        val meta = item.itemMeta ?: return false
+        val flag = ItemFlag.valueOf(flagName.uppercase())
+        if (!meta.hasItemFlag(flag)) return false
+        meta.removeItemFlags(flag)
+        item.itemMeta = meta
+        return true
+    }
+
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
         val meta = item.itemMeta ?: return false
@@ -258,6 +283,7 @@ class ItemFlagReward(private val flagName: String) : Reward {
             return false
         }
         if (meta.hasItemFlag(flag)) return false
+        ctx.undoData["addedFlag"] = flag.name
         meta.addItemFlags(flag)
         item.itemMeta = meta
         ctx.item = item
@@ -270,27 +296,36 @@ class ItemFlagReward(private val flagName: String) : Reward {
  * 真实内容以 NBT 列表形式暂存, 达到"技能隐藏粉尘"的效果.
  */
 class SkillToNbtReward : Reward {
+    override val reversible = true
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
         val meta = item.itemMeta ?: return false
         val tag = item.getItemTag()
-        val hiddenKey = "SnowyGemsHiddenSkillLore"
-        val lore = (meta.lore ?: mutableListOf()).toMutableList()
-        val hidden = tag[hiddenKey]
-        if (hidden == null) {
-            val toHide = lore.filter { it.contains("[技能]") || it.contains("[BUFF]") }
-            if (toHide.isEmpty()) return false
-            lore.removeAll(toHide)
-            tag[hiddenKey] = ItemTagData(toHide.joinToString("\n"))
-        } else {
-            val restored = hidden.asString().split("\n").filter { it.isNotEmpty() }
-            lore.addAll(restored)
-            tag.remove(hiddenKey)
-        }
+        val key = mc233.`fun`.snowygems.util.SkillLore.KEY
+        if (tag[key] != null) return false
+        val lore = (meta.lore ?: emptyList()).toMutableList()
+        val hidden = lore.filter(mc233.`fun`.snowygems.util.SkillLore::isSkillLine)
+        if (hidden.isEmpty()) return false
+        lore.removeAll(hidden.toSet())
+        ctx.undoData["hiddenLore"] = hidden.joinToString("\n")
         meta.lore = lore
         item.itemMeta = meta
+        tag[key] = ItemTagData(hidden.joinToString("\n"))
         tag.saveTo(item)
-        ctx.item = item
+        return true
+    }
+
+    override fun revert(ctx: RewardContext): Boolean {
+        val item = ctx.item ?: return false
+        val tag = item.getItemTag()
+        val key = mc233.`fun`.snowygems.util.SkillLore.KEY
+        val hidden = tag[key]?.asString() ?: return false
+        require(ctx.undoData["hiddenLore"] == hidden) { "Hidden lore changed or missing history" }
+        val meta = item.itemMeta ?: return false
+        meta.lore = (meta.lore ?: emptyList()) + hidden.split("\n")
+        item.itemMeta = meta
+        tag.remove(key)
+        tag.saveTo(item)
         return true
     }
 }
@@ -301,6 +336,8 @@ class SkillToNbtReward : Reward {
  * 提取其后紧跟的数字(或罗马数字, roman=true 时)进行比较.
  */
 class ConditionalReward(private val condition: String, private val roman: Boolean, private val nested: String) : Reward {
+
+    override val reversible: Boolean get() = nestedReward?.reversible == true
 
     private val parsed by lazy { RewardTokenParser.parseLine(nested) }
     private val nestedReward by lazy { RewardFactory.create(parsed.call) }

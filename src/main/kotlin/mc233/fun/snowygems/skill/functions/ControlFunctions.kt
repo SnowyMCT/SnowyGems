@@ -73,9 +73,10 @@ object ControlFunctions {
             description = "延迟若干 tick 后执行嵌套函数, 可做连招/持续效果",
             usage = "{t=20;Damage{amount=5}}  20 tick = 1 秒"
         ) { ctx ->
-            val ticks = ctx.intOr(20, "t", "ticks", "delay").toLong()
+            val ticks = ctx.intOr(20, "t", "ticks", "delay").coerceIn(0, 72000).toLong()
             withNested(ctx) { nested ->
                 ctx.log("延迟 $ticks tick 后执行")
+                if (!ctx.budget.reserveTask()) return@withNested false
                 submit(delay = ticks) { runIfOnline(ctx, nested) }
                 true
             }
@@ -89,13 +90,20 @@ object ControlFunctions {
         ) { ctx ->
             // 上限 100: 防止服主手滑写 times=99999 把主线程卡死
             val times = ctx.intOr(1, "times", "n").coerceIn(1, 100)
-            val interval = ctx.intOr(0, "interval", "i").toLong()
+            val interval = ctx.intOr(0, "interval", "i").coerceIn(0, 72000).toLong()
             withNested(ctx) { nested ->
                 ctx.log("重复 $times 次, 间隔 $interval tick")
                 if (interval <= 0) {
-                    repeat(times) { SkillExecutor.runNested(ctx, nested) }
+                    return@withNested (0 until times).count { SkillExecutor.runNested(ctx, nested) } > 0
                 } else {
-                    repeat(times) { i -> submit(delay = interval * i) { runIfOnline(ctx, nested) } }
+                    var scheduled = 0
+                    repeat(times) { i ->
+                        if (ctx.budget.reserveTask()) {
+                            submit(delay = interval * i) { runIfOnline(ctx, nested) }
+                            scheduled++
+                        }
+                    }
+                    if (scheduled == 0) return@withNested false
                 }
                 true
             }
@@ -108,7 +116,7 @@ object ControlFunctions {
     }
 
     private fun runIfOnline(ctx: SkillContext, nested: String) {
-        if (ctx.player.isOnline) SkillExecutor.runNested(ctx, nested)
+        if (ctx.player.isOnline && !ctx.player.isDead && ctx.victim?.isValid != false) SkillExecutor.runNested(ctx, nested)
     }
 
     private fun SkillContext.miss(what: String): Boolean {

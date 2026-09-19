@@ -1,0 +1,153 @@
+# 0.0.6 新默认内容：独立 ID，不替换旧配置；已有同名文件不会覆盖。
+# 不要改动已发放物品对应的 ID。修改数值不会回写既有装备的属性。
+# 修复石不记录拆卸；其他条目只使用有撤销凭据的奖励。
+匠心修复石:
+  Name: 匠心修复石
+  Display: '&b匠心修复石'
+  Material: PRISMARINE_CRYSTALS
+  Glow: true
+  Require:
+  - WEAPON
+  - ARMOR
+  - TOOL
+  - SHIELD
+  Success: 100
+  TrackApplied: false
+  Tips:
+  - '&7修复最多 300 点已损失耐久；一次性消耗'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Durability{amount=300}
+匠心隐技粉尘:
+  Name: 匠心隐技粉尘
+  Display: '&b匠心隐技粉尘'
+  Material: GLOWSTONE_DUST
+  Glow: true
+  Require:
+  - WEAPON
+  - ARMOR
+  - TOOL
+  - SHIELD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7隐藏 [技能]/[BUFF] 文字但保留效果；拆其他宝石前先拆粉尘'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - SkillToNBT
+匠心恒久宝石:
+  Name: 匠心恒久宝石
+  Display: '&b匠心恒久宝石'
+  Material: DIAMOND
+  Glow: true
+  Require:
+  - WEAPON
+  - ARMOR
+  - TOOL
+  - SHIELD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7使装备无法破坏；凭据完整时支持拆卸撤销'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Unbreakable
+匠心隐纹宝石:
+  Name: 匠心隐纹宝石
+  Display: '&b匠心隐纹宝石'
+  Material: INK_SAC
+  Glow: true
+  Require:
+  - WEAPON
+  - ARMOR
+  - TOOL
+  - SHIELD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7隐藏原版附魔说明，不移除附魔效果'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - ItemFlag{HIDE_ENCHANTS}
+匠心韧性宝石:
+  Name: 匠心韧性宝石
+  Display: '&b匠心韧性宝石'
+  Material: QUARTZ
+  Glow: true
+  Require:
+  - ARMOR
+  Success: 100
+  Embed: 2
+  TrackApplied: true
+  Tips:
+  - '&7穿戴对应盔甲时护甲韧性 +1；每件最多两颗'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Attribute{name=toughness;operation=0;slot=auto;var=v+1;limit=2}
+匠心轻落宝石:
+  Name: 匠心轻落宝石
+  Display: '&d匠心轻落宝石'
+  Material: AMETHYST_SHARD
+  Glow: true
+  Require:
+  - BOOTS
+  Success: 100
+  Embed: 3
+  TrackApplied: true
+  Tips:
+  - '&7穿戴靴子时安全落地距离 +2；不是完全免疫摔落'
+  - '&8需要服务端支持对应属性；/sgem compat all 查看'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Attribute{name=safe_fall;operation=0;slot=auto;var=v+2;limit=6}
+匠心延伸宝石:
+  Name: 匠心延伸宝石
+  Display: '&d匠心延伸宝石'
+  Material: AMETHYST_SHARD
+  Glow: true
+  Require:
+  - PICKAXE
+  Success: 100
+  Embed: 3
+  TrackApplied: true
+  Tips:
+  - '&7主手持镐时方块交互距离 +0.5，不改变实体攻击距离'
+  - '&8需要服务端支持对应属性；/sgem compat all 查看'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Attribute{name=block_reach;operation=0;slot=auto;var=v+0.5;limit=1.5}
+匠心精工宝石:
+  Name: 匠心精工宝石
+  Display: '&d匠心精工宝石'
+  Material: AMETHYST_SHARD
+  Glow: true
+  Require:
+  - PICKAXE
+  Success: 100
+  Embed: 3
+  TrackApplied: true
+  Tips:
+  - '&7主手持镐时挖掘效率属性 +1，不是固定百分比加速'
+  - '&8需要服务端支持对应属性；/sgem compat all 查看'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Attribute{name=mining_efficiency;operation=0;slot=auto;var=v+1;limit=3}
+匠心微缩宝石:
+  Name: 匠心微缩宝石
+  Display: '&d匠心微缩宝石'
+  Material: AMETHYST_SHARD
+  Glow: true
+  Require:
+  - CHESTPLATE
+  Success: 100
+  Embed: 2
+  TrackApplied: true
+  Tips:
+  - '&7穿戴胸甲时体型属性减少 0.1；每件最多两颗'
+  - '&8需要服务端支持对应属性；/sgem compat all 查看'
+  - '&7使用 /sgem embed 镶嵌'
+  Rewards:
+  - Attribute{name=scale;operation=0;slot=auto;var=v-0.1;limit=-0.2}

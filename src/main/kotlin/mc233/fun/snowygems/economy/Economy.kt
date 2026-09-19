@@ -15,23 +15,13 @@ import java.util.UUID
 
 /**
  * 通过反射对接 PlayerPoints 插件, 避免在编译期强制依赖它的 jar
- * 服务器未安装 PlayerPoints 时 [available] 为 false, 会自动回退到内置点券系统
+ * 服务器未安装 PlayerPoints 时 [available] 为 false, 暂停点券交易
  */
 object PlayerPointsBridge {
 
-    private val plugin by lazy { Bukkit.getPluginManager().getPlugin("PlayerPoints") }
-
-    private val api: Any? by lazy {
-        try {
-            plugin?.javaClass?.getMethod("getAPI")?.invoke(plugin)
-        } catch (e: Exception) {
-            DebugUtil.log("PlayerPoints", "获取 PlayerPointsAPI 失败: ${e.message}")
-            null
-        }
-    }
-
-    val available: Boolean
-        get() = plugin != null && plugin!!.isEnabled && api != null
+    private val plugin get() = Bukkit.getPluginManager().getPlugin("PlayerPoints")?.takeIf { it.isEnabled }
+    private val api: Any? get() = runCatching { plugin?.let { it.javaClass.getMethod("getAPI").invoke(it) } }.getOrNull()
+    val available: Boolean get() = api != null
 
     fun look(uuid: UUID): Long? {
         return try {
@@ -69,7 +59,7 @@ object PlayerPointsBridge {
  * 点券账户系统, 支持两种后端(由 config.yml 中 Points.Provider 决定):
  *  - Internal:      内置的 data/points.yml 简易账户系统(默认)
  *  - PlayerPoints:  对接已安装的 PlayerPoints 插件
- * 若配置为 PlayerPoints 但插件未安装/不可用, 会自动回退到 Internal 并输出一次警告
+ * 若配置为 PlayerPoints 但插件未安装/不可用, 暂停交易并输出一次警告
  */
 object PointsEconomy {
 
@@ -80,17 +70,23 @@ object PointsEconomy {
         Configuration.loadFromFile(file)
     }
 
-    private fun usePlayerPoints(): Boolean {
-        if (!DebugUtil.pointsProvider.equals("PlayerPoints", true)) return false
-        if (PlayerPointsBridge.available) return true
-        severe("[SnowyGems] Points.Provider 配置为 PlayerPoints, 但未检测到可用的 PlayerPoints 插件, 已回退到内置点券系统")
-        return false
+    private var warnedProvider: String? = null
+    private fun provider(): PointsProvider {
+        val name = DebugUtil.pointsProvider
+        val selected = selectPointsProvider(name, name.trim().equals("PlayerPoints", true) && PlayerPointsBridge.available)
+        if (selected == PointsProvider.UNAVAILABLE) {
+            if (warnedProvider != name) severe("[SnowyGems] 点券后端 $name 不可用，暂停点券交易；不会切换到内置账户")
+            warnedProvider = name
+        } else warnedProvider = null
+        return selected
     }
 
     @Synchronized
     fun get(player: OfflinePlayer): Double {
-        if (usePlayerPoints()) {
-            return PlayerPointsBridge.look(player.uniqueId)?.toDouble() ?: 0.0
+        when (provider()) {
+            PointsProvider.UNAVAILABLE -> return Double.NaN
+            PointsProvider.PLAYER_POINTS -> return PlayerPointsBridge.look(player.uniqueId)?.toDouble() ?: Double.NaN
+            PointsProvider.INTERNAL -> Unit
         }
         return storage.getDouble(player.uniqueId.toString(), 0.0)
     }
@@ -106,7 +102,9 @@ object PointsEconomy {
     fun tryAdd(player: OfflinePlayer, amount: Double): Boolean {
         if (!amount.isFinite()) return false
         if (amount == 0.0) return true
-        if (usePlayerPoints()) {
+        val provider = provider()
+        if (provider == PointsProvider.UNAVAILABLE) return false
+        if (provider == PointsProvider.PLAYER_POINTS) {
             if (kotlin.math.abs(amount) > Int.MAX_VALUE || amount != amount.toLong().toDouble()) return false
             val amountLong = amount.toLong()
             val ok = if (amountLong >= 0) PlayerPointsBridge.give(player.uniqueId, amountLong)
@@ -146,4 +144,11 @@ object MoneyEconomy {
         DebugUtil.log("Money", "Vault ${if (amount >= 0) "deposit" else "withdraw"} ${player.name} amount=$amount -> $ok")
         return ok
     }
+}
+
+internal enum class PointsProvider { INTERNAL, PLAYER_POINTS, UNAVAILABLE }
+internal fun selectPointsProvider(name: String, available: Boolean): PointsProvider = when (name.trim().lowercase()) {
+    "internal" -> PointsProvider.INTERNAL
+    "playerpoints" -> if (available) PointsProvider.PLAYER_POINTS else PointsProvider.UNAVAILABLE
+    else -> PointsProvider.UNAVAILABLE
 }

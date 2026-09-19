@@ -329,3 +329,38 @@ triggers-list:
   - '  &a~onDamaged &8- &7item about to lose durability'
   - '  &a~onTimer &8- &7poll every second (for permanent BUFFs)'
 triggers-footer: '&8Skill functions: &f/sgem skills  &8version capabilities: &f/sgem compat'
+
+# Safety, catalog and operation journal
+gem-embed-limit: "&cThis gem has reached its limit of {limit}."
+gem-exclusive-group: "&cAnother gem in exclusive group {group} is already installed."
+gem-remove-hiding-first: "&cRemove the skill-hiding powder before modifying installed gems."
+gem-not-reversible: "&cThis record contains irreversible effects and cannot be dismantled."
+gem-undo-conflict: "&cThe effect changed or undo data is missing. Dismantle cancelled."
+command-reload-failed: "&cConfiguration rejected. Previous gems, menus, skills and recipes retained. Check console."
+audit-recent-hint: "&7Recent cached records from this session; persistent journal: logs/operations-*.log."
+audit-empty: "&7No recent records for this player."
+catalog-title: "&8Gem catalog"
+catalog-scope: "&7Applies to: &f{scope}"
+catalog-limit: "&7Per-gem limit: &f{limit}"
+catalog-group: "&7Exclusive group: &f{group}"
+catalog-removable: "&aDismantle supported, subject to valid undo history"
+catalog-consumable: "&eConsumable effects or tracking disabled; return not guaranteed"
+catalog-chance: "&7Success chance: &f{chance}%"
+
+# Compact history display
+audit-header: "&6History &8| &f{player} &7Last {count} records"
+audit-entry: "&8{time} &b{action} &f{subject} &8— {result}"
+audit-footer: "&8Recent operations from this session, newest first."
+audit-unknown-item: "Unknown item"
+audit-action-use: "Use"
+audit-action-embed: "Embed"
+audit-action-button: "Workbench"
+audit-action-forge: "Forge"
+audit-action-dismantle: "Dismantle"
+audit-result-success: "&aSuccess"
+audit-result-failed-consumed: "&cFailed, consumed"
+audit-result-rejected: "&7Not applied, not consumed"
+audit-result-refunded: "&eCancelled, fee refunded"
+audit-result-refund-failed: "&cRefund failed, check logs"
+audit-result-broken: "&eRemoved, gem broken"
+audit-result-returned: "&aRemoved, gem returned"

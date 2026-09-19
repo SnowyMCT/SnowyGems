@@ -1,0 +1,279 @@
+# 0.0.6 新默认内容：独立 ID，不替换旧配置；已有同名文件不会覆盖。
+# 不要改动已发放物品对应的 ID。修改数值不会回写既有装备的属性。
+# 新符文使用 /sgem embed；旧颜色符文台的分类槽位可能不接受这些新符文。
+# I/II 同系互斥；主动符文共用互斥组；升级消耗未镶嵌物品，不就地升级装备。
+远征星锋符文I:
+  Name: 远征星锋符文I
+  Display: '&b远征星锋符文I'
+  Material: AMETHYST_SHARD
+  Glow: true
+  Require: &id001
+  - SWORD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，攻击力 +1；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=damage;operation=0;slot=auto;var=v+1;limit=2}
+  ExclusiveGroup: expedition-星锋
+远征星锋符文II:
+  Name: 远征星锋符文II
+  Display: '&b远征星锋符文II'
+  Material: AMETHYST_SHARD
+  Glow: true
+  Require: *id001
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，攻击力 +2；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=damage;operation=0;slot=auto;var=v+2;limit=2}
+  ExclusiveGroup: expedition-星锋
+远征磐岩符文I:
+  Name: 远征磐岩符文I
+  Display: '&b远征磐岩符文I'
+  Material: IRON_INGOT
+  Glow: true
+  Require: &id002
+  - ARMOR
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，护甲 +1；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=2}
+  ExclusiveGroup: expedition-磐岩
+远征磐岩符文II:
+  Name: 远征磐岩符文II
+  Display: '&b远征磐岩符文II'
+  Material: IRON_INGOT
+  Glow: true
+  Require: *id002
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，护甲 +2；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=armor;operation=0;slot=auto;var=v+2;limit=2}
+  ExclusiveGroup: expedition-磐岩
+远征生息符文I:
+  Name: 远征生息符文I
+  Display: '&b远征生息符文I'
+  Material: REDSTONE
+  Glow: true
+  Require: &id003
+  - ARMOR
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，生命上限 +2；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=health;operation=0;slot=auto;var=v+2;limit=4}
+  ExclusiveGroup: expedition-生息
+远征生息符文II:
+  Name: 远征生息符文II
+  Display: '&b远征生息符文II'
+  Material: REDSTONE
+  Glow: true
+  Require: *id003
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，生命上限 +4；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=health;operation=0;slot=auto;var=v+4;limit=4}
+  ExclusiveGroup: expedition-生息
+远征轻捷符文I:
+  Name: 远征轻捷符文I
+  Display: '&b远征轻捷符文I'
+  Material: FEATHER
+  Glow: true
+  Require: &id004
+  - BOOTS
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，移动速度数值 +0.01；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=move;operation=0;slot=auto;var=v+0.01;limit=0.02}
+  ExclusiveGroup: expedition-轻捷
+远征轻捷符文II:
+  Name: 远征轻捷符文II
+  Display: '&b远征轻捷符文II'
+  Material: FEATHER
+  Glow: true
+  Require: *id004
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7装备于对应槽位时，移动速度数值 +0.02；同系只能选一个等级'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - Attribute{name=move;operation=0;slot=auto;var=v+0.02;limit=0.02}
+  ExclusiveGroup: expedition-轻捷
+远征矿脉符文I:
+  Name: 远征矿脉符文I
+  Display: '&b远征矿脉符文I'
+  Material: GOLD_NUGGET
+  Glow: true
+  Require: &id005
+  - PICKAXE
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7主手持镐持续获得急迫 I'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[BUFF] 远征/矿脉 1;limit=1}
+  ExclusiveGroup: expedition-矿脉
+远征矿脉符文II:
+  Name: 远征矿脉符文II
+  Display: '&b远征矿脉符文II'
+  Material: GOLD_NUGGET
+  Glow: true
+  Require: *id005
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7主手持镐持续获得急迫 II'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[BUFF] 远征/矿脉 2;limit=1}
+  ExclusiveGroup: expedition-矿脉
+远征疾行符文I:
+  Name: 远征疾行符文I
+  Display: '&b远征疾行符文I'
+  Material: SUGAR
+  Glow: true
+  Require: &id006
+  - SWORD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7主手持剑潜行右键获得速度 I，持续 5 秒，冷却 12 秒'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[技能] 远征/疾行 1;limit=1}
+  ExclusiveGroup: expedition-active
+远征疾行符文II:
+  Name: 远征疾行符文II
+  Display: '&b远征疾行符文II'
+  Material: SUGAR
+  Glow: true
+  Require: *id006
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7主手持剑潜行右键获得速度 II，持续 5 秒，冷却 12 秒'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[技能] 远征/疾行 2;limit=1}
+  ExclusiveGroup: expedition-active
+远征夜航符文:
+  Name: 远征夜航符文
+  Display: '&b远征夜航符文'
+  Material: GOLDEN_CARROT
+  Glow: true
+  Require:
+  - HELMET
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7戴在头上时持续获得夜视'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[BUFF] 远征/夜航;limit=1}
+  ExclusiveGroup: expedition-夜航
+远征潮息符文:
+  Name: 远征潮息符文
+  Display: '&b远征潮息符文'
+  Material: PRISMARINE_CRYSTALS
+  Glow: true
+  Require:
+  - HELMET
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7戴在头上时持续获得水下呼吸'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[BUFF] 远征/潮息;limit=1}
+  ExclusiveGroup: expedition-潮息
+远征净毒符文:
+  Name: 远征净毒符文
+  Display: '&b远征净毒符文'
+  Material: MILK_BUCKET
+  Glow: true
+  Require:
+  - SWORD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7主手持剑潜行右键清除中毒；成功后冷却 10 秒'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[技能] 远征/净毒;limit=1}
+  ExclusiveGroup: expedition-active
+远征轻羽符文:
+  Name: 远征轻羽符文
+  Display: '&b远征轻羽符文'
+  Material: PHANTOM_MEMBRANE
+  Glow: true
+  Require:
+  - SWORD
+  Success: 100
+  Embed: 1
+  TrackApplied: true
+  Tips:
+  - '&7主手持剑潜行右键获得 6 秒缓降；冷却 16 秒'
+  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  Rewards:
+  - LoreAdd{lore=&b[技能] 远征/轻羽;limit=1}
+  ExclusiveGroup: expedition-active
+远征符砂:
+  Name: 远征符砂
+  Display: '&d远征符砂'
+  Material: PRISMARINE_SHARD
+  Tips:
+  - '&7远征符文锻造材料；通过服务器活动或商店发放'
+  - '&7使用 /sgem rune 合成；不与旧符文碎片自动兑换'
+  Rewards: []
+远征符文匣:
+  Name: 远征符文匣
+  Type: RandomGem
+  Display: '&6远征符文匣'
+  Material: CHEST
+  Success: 100
+  GiveItem: true
+  Tips:
+  - '&7右键随机获得一颗远征基础符文'
+  - '&7六种基础符文等权重，获得物品后自行镶嵌'
+  Gems:
+    远征星锋符文I: 1
+    远征磐岩符文I: 1
+    远征生息符文I: 1
+    远征轻捷符文I: 1
+    远征矿脉符文I: 1
+    远征疾行符文I: 1

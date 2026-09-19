@@ -240,6 +240,7 @@ object MenuListener {
                 target = result.resultItem ?: target
                 // Commit each result, including failure-side changes, before the next attempt.
                 inv.setItem(equipSlot, target)
+                mc233.`fun`.snowygems.manager.OperationAudit.record(player, "embed", "gem=${ItemFactory.getGemId(gem)} success=${result.success} consumed=${result.consumedGem}", subject = ItemFactory.getGemId(gem) ?: "", outcome = if (result.success) "success" else if (result.consumedGem) "failed-consumed" else "rejected")
                 if (result.success) succeeded++ else failed++
                 Lang.sendRaw(player, result.message)
                 if (holder.closeRequested) break
@@ -266,6 +267,7 @@ object MenuListener {
         try {
             val result = GemManager.executeButton(player, cfg, target)
             if (target != null) holder.inv.setItem(slot, if (result.consumedGem) null else result.resultItem ?: target)
+            mc233.`fun`.snowygems.manager.OperationAudit.record(player, "button", "gem=$gemId success=${result.success} consumed=${result.consumedGem}", subject = cfg.id, outcome = if (result.success) "success" else if (result.consumedGem) "failed-consumed" else "rejected")
             Lang.sendRaw(player, result.message)
         } finally {
             finishOperation(player, holder)

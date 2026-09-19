@@ -22,6 +22,9 @@ class RewardContext(
 }
 
 interface Reward {
+    /** Only rewards with an implemented undo contract may return a reusable gem. */
+    val reversible: Boolean get() = false
+
     fun apply(ctx: RewardContext): Boolean
 
     /**

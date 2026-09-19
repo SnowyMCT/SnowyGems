@@ -95,6 +95,11 @@ object GemManager {
         }
         if (targetStack.type.isAir) return Lang.get("embed.need-equip")
         if (targetStack.amount != 1) return Lang.get("gem.single-target")
+        mc233.`fun`.snowygems.config.EmbedRules.rejection(cfg, getAppliedGems(targetStack), GemRegistry::get)
+            ?.let { return Lang.get(it, "limit" to cfg.embed, "group" to cfg.exclusiveGroup) }
+        if (targetStack.getItemTag()[mc233.`fun`.snowygems.util.SkillLore.KEY] != null) {
+            return Lang.get("gem.remove-hiding-first")
+        }
         if (ItemFactory.getGemId(targetStack) != null) return Lang.get("embed.equip-is-gem")
         if (!ItemRequireMatcher.matches(cfg.require, targetStack, targetStack.itemMeta?.lore ?: emptyList())) {
             return Lang.get("gem.require-failed")
@@ -128,7 +133,10 @@ object GemManager {
                 DebugUtil.log("GemManager", "applyToItem: 奖励未生效, exceptions=${execution.errors}")
                 return ApplyResult(false, Lang.get("gem.no-effect"), execution.errors > 0, targetStack.clone())
             }
-            markApplied(ctx.item ?: target, cfg.id, execution.applied)
+            // Pure consumables (repair, currency, etc.) cannot become reusable dismantle rewards.
+            if (cfg.trackApplied && execution.applied.any { RewardFactory.create(it.call)?.reversible == true }) {
+                markApplied(ctx.item ?: target, cfg.id, execution.applied)
+            }
             DebugUtil.log("GemManager", "applyToItem: 镶嵌完成, 该装备现有宝石=${getAppliedGems(ctx.item ?: target)}")
             val msg = cfg.successTip?.let(::renderTip)
                 ?: Lang.get("gem.embed-success")
@@ -168,6 +176,7 @@ object GemManager {
                 inventory.addItem(reserved).values.forEach { player.world.dropItem(player.location, it) }
             }
         }
+        OperationAudit.record(player, "use", "gem=$gemId success=${result.success} consumed=${result.consumedGem}", subject = gemId, outcome = if (result.success) "success" else if (result.consumedGem) "failed-consumed" else "rejected")
         return result
     }
 
@@ -268,6 +277,13 @@ object GemManager {
             cfg.parsedRewards.filter { it.matchesPhase(RewardPhase.APPLY) && it.reward != null }
                 .map { AppliedReward(it.call, emptyMap()) }
         }
+        if (applied.isEmpty() || applied.any { RewardFactory.create(it.call)?.reversible != true }) {
+            return ApplyResult(false, Lang.get("gem.not-reversible"), false)
+        }
+        if (target.getItemTag()[mc233.`fun`.snowygems.util.SkillLore.KEY] != null &&
+            applied.none { it.undoData.containsKey("hiddenLore") }) {
+            return ApplyResult(false, Lang.get("gem.remove-hiding-first"), false)
+        }
         // 倒序撤销本颗宝石实际成功的奖励，用实际增量保留其他宝石贡献。
         var reverted = 0
         for (record in applied.asReversed()) {
@@ -275,7 +291,8 @@ object GemManager {
             ctx.undoData.clear()
             ctx.undoData.putAll(record.undoData)
             try {
-                if (reward.revert(ctx)) reverted++
+                if (!reward.revert(ctx)) return ApplyResult(false, Lang.get("gem.undo-conflict"), false)
+                reverted++
             } catch (e: Exception) {
                 DebugUtil.err("GemManager", "撤销奖励 ${record.call.name} 失败，保留原物品", e)
                 return ApplyResult(false, Lang.get("gem.no-effect"), false)
