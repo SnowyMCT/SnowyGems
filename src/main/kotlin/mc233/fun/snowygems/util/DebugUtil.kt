@@ -3,8 +3,11 @@ package mc233.`fun`.snowygems.util
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
+import taboolib.common.platform.function.getDataFolder
+import taboolib.common.platform.function.severe
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import java.io.File
 
 /**
  * 调试日志系统, 通过 config.yml 中的 Debug: true/false 总开关控制.
@@ -19,11 +22,14 @@ object DebugUtil {
     @Config(value = "config.yml", autoReload = true, migrate = true)
     lateinit var conf: Configuration
 
-    var enabled: Boolean = false
+    @Volatile var enabled: Boolean = false
         private set
 
     /** 为空表示不过滤, 输出全部 tag */
-    private var tagFilter: Set<String> = emptySet()
+    @Volatile private var tagFilter: Set<String> = emptySet()
+    @Volatile private var runtimeEnabled: Boolean? = null
+    @Volatile private var runtimeTags: Set<String>? = null
+    private var boundToConfig = false
 
     /** Internal 或 PlayerPoints */
     var pointsProvider: String = "Internal"
@@ -35,46 +41,72 @@ object DebugUtil {
      */
     @Awake(LifeCycle.ENABLE)
     fun bindAutoReload() {
-        // @Config 的注入发生在更早的阶段, 但 ENABLE 阶段各方法的执行顺序不保证,
-        // 所以这里仍然守一道 isInitialized, 避免抢跑时抛 UninitializedPropertyAccessException
-        if (!::conf.isInitialized) return
-        conf.onReload { readFields() }
-        readFields()
+        bindIfReady()
+    }
+
+    @Awake(LifeCycle.ACTIVE)
+    fun bindAfterStartup() = bindIfReady()
+
+    private fun bindIfReady() {
+        if (!::conf.isInitialized || boundToConfig) return
+        conf.onReload { readFields(conf) }
+        boundToConfig = true
+        readFields(conf)
     }
 
     fun reload() {
         try {
             if (::conf.isInitialized) {
+                bindIfReady()
                 conf.reload()
-                readFields()
+                readFields(conf)
+            } else {
+                val file = File(getDataFolder(), "config.yml")
+                if (file.isFile) readFields(Configuration.loadFromFile(file))
+                else severe("调试配置尚未注入且 config.yml 不存在，保留当前 Debug 状态")
             }
         } catch (e: Exception) {
-            enabled = false
-            tagFilter = emptySet()
+            severe("读取 Debug/DebugTags 失败，保留当前状态: ${e.javaClass.simpleName}: ${e.message}")
         }
         lastByKey.clear()
     }
 
-    private fun readFields() {
-        enabled = conf.getBoolean("Debug", false)
-        tagFilter = conf.getStringList("DebugTags").map { it.trim().lowercase() }.filter { it.isNotEmpty() }.toSet()
-        pointsProvider = conf.getString("Points.Provider", "Internal") ?: "Internal"
+    private fun readFields(source: Configuration) {
+        val wasEnabled = enabled
+        val oldTags = tagFilter
+        enabled = runtimeEnabled ?: source.getBoolean("Debug", false)
+        tagFilter = runtimeTags ?: source.getStringList("DebugTags")
+            .map { it.trim().lowercase() }.filter { it.isNotEmpty() }.toSet()
+        pointsProvider = source.getString("Points.Provider", "Internal") ?: "Internal"
+        if (enabled != wasEnabled || tagFilter != oldTags) lastByKey.clear()
     }
 
-    /** 运行时临时开关(不写回 config.yml, /sgem reload 后以配置文件为准) */
+    /** Commands override config.yml for this server session, including plugin config reloads. */
     fun toggle(): Boolean {
         enabled = !enabled
+        runtimeEnabled = enabled
+        if (enabled) lastByKey.clear()
         return enabled
     }
 
-    /** 运行时临时设置 tag 白名单, 传空表示输出全部 */
+    /** A scoped debug command also turns logging on. Empty tags mean all categories. */
+    fun enable(tags: List<String>) {
+        setTags(tags)
+        runtimeEnabled = true
+        enabled = true
+        lastByKey.clear()
+    }
+
+    /** 运行时设置 tag 白名单, 传空表示输出全部 */
     fun setTags(tags: List<String>) {
         tagFilter = tags.map { it.trim().lowercase() }.filter { it.isNotEmpty() }.toSet()
+        runtimeTags = tagFilter
+        lastByKey.clear()
     }
 
     fun tags(): Set<String> = tagFilter
 
-    private fun accept(tag: String): Boolean =
+    internal fun accepts(tag: String): Boolean =
         enabled && (tagFilter.isEmpty() || tagFilter.contains(tag.lowercase()))
 
     fun log(message: String) {
@@ -84,7 +116,7 @@ object DebugUtil {
     }
 
     fun log(tag: String, message: String) {
-        if (!accept(tag)) return
+        if (!accepts(tag)) return
         console().sendMessage(ColorUtil.colorize("&8[&bSnowyGems-Debug&8]&e[$tag] &7$message"))
     }
 
@@ -96,7 +128,7 @@ object DebugUtil {
      * 避免同一条信息把控制台刷爆.
      */
     fun logChanged(tag: String, key: String, message: String) {
-        if (!accept(tag)) return
+        if (!accepts(tag)) return
         if (lastByKey.put(key, message) == message) return
         log(tag, message)
     }
@@ -114,7 +146,7 @@ object DebugUtil {
 
     /** 便捷方法: 记录一次带返回值的操作 */
     fun <T> trace(tag: String, what: String, block: () -> T): T {
-        if (!accept(tag)) return block()
+        if (!accepts(tag)) return block()
         val start = System.nanoTime()
         return try {
             val result = block()

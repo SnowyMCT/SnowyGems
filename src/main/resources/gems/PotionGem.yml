@@ -12,12 +12,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加发光BUFF"
-    - "&7可花费1000点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDY3ZGYzNWI3YTgwMjdkZGM4M2M5MTlkNzNmMGEzOTk4YWQ1NGViMGQ5NzNlZjcxNmFlNTA1YzY3NTU4MTBmNyJ9fX0=
   SuccessTip: "&f你使用了&e&l发光药水&f, 装备添加&e&l发光&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l发光}
-    - Point{amount=-1000} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l发光"
 缓降药水:
   Name: 缓降药水
   Embed: 1
@@ -31,12 +30,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加缓降BUFF"
-    - "&7可花费500点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjAxYzI5M2RmNGM5ZGIzYjZmNjNlMzQzNDIwMWU2ZjQ1NGRkMmRkZjAxMDkyZDFhMjQ3NjczZDAzMDBiMjJiOCJ9fX0=
   SuccessTip: "&f你使用了&7&l缓降药水&f, 装备添加&7&l缓降&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l缓降}
-    - Point{amount=-500} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l缓降"
 潮涌能量药水:
   Name: 潮涌能量药水
   Embed: 1
@@ -50,12 +48,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加潮涌能量BUFF"
-    - "&7可花费2000点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2FmNmRjNjdjZTc1YjcyMjJhYzM5ZTA1MzZlMDkwNzI0OWY4NTUxNmVmZDEzODViZWM5MGJlMzNkZDUzZGUwNyJ9fX0=
   SuccessTip: "&f你使用了&9&l潮涌能量药水&f, 装备添加&9&l潮涌能量&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l潮涌能量}
-    - Point{amount=-2000} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l潮涌能量"
 防火药水:
   Name: 防火药水
   Embed: 1
@@ -67,12 +64,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入盔甲与此药水, 点击中间确认"
     - "&7即可为装备添加防火BUFF"
-    - "&7可花费5000点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTRiOTNmNDE1MzJmYzI3ZWY3ZGY5MzNjMTgxYWMzMTY2ZDU2MDM3ZDVjNWZmNzVkMmU4NWFmZTM3Y2EyNTdkMyJ9fX0=
   SuccessTip: "&f你使用了&6&l防火药水&f, 装备添加&6&l防火&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l防火}
-    - Point{amount=-5000} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l防火"
 水下呼吸药水:
   Name: 水下呼吸药水
   Embed: 1
@@ -86,12 +82,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加水下呼吸BUFF"
-    - "&7可花费2000点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWRjOWZmMTg0YWU3NjdkM2NiZmQ5YzNhYTJjN2U4OGIxMGY5YjU5MTI5N2ZmNjc2ZGE2MzlmYjQ0NDYyMzhjOCJ9fX0=
   SuccessTip: "&f你使用了&b&l水下呼吸药水&f, 装备添加&b&l水下呼吸&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l水下呼吸}
-    - Point{amount=-2000} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l水下呼吸"
 夜视药水:
   Name: 夜视药水
   Embed: 1
@@ -105,12 +100,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加夜视BUFF"
-    - "&7可花费2000点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYyOWEzZDNmNTE5ZGNkMzg1YjU5OTJlZjM0YmZhOGE2OGMzNzQ0NDc1MGI5NGVkZTVjMmY1MjFlMTczNDIifX19
   SuccessTip: "&f你使用了&9&l夜视药水&f, 装备添加&9&l夜视&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l夜视}
-    - Point{amount=-2000} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l夜视"
 隐身药水:
   Name: 隐身药水
   Embed: 1
@@ -124,12 +118,11 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加隐身BUFF"
-    - "&7可花费500点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjJmZDQ4MWU2OTNmYzgyNTRmZDYyNWI1ZDE2NjMwYTA2YTZmZGY2MTIwZDA2YjIzNDVlM2U2ZGRiNTE0N2Y5YSJ9fX0=
   SuccessTip: "&f你使用了&7&l隐身药水&f, 装备添加&7&l隐身&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l隐身}
-    - Point{amount=-500} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l隐身"
 生命恢复药水1:
   Name: 生命恢复药水1
   Require:
@@ -142,11 +135,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命恢复BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFlN2ViMmU0NjFlOTZlNjMxY2JhMGMwY2RhYTU0NDg4MDYzMDJlZGFlOTFiNjFkYWZjMjgxYWU1ODRkOCJ9fX0=
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命恢复"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 生命恢复药水2:
   Name: 生命恢复药水2
   Success: 80
@@ -160,11 +157,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命恢复BUFF"
-    - "&7成功率 &a80%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFlN2ViMmU0NjFlOTZlNjMxY2JhMGMwY2RhYTU0NDg4MDYzMDJlZGFlOTFiNjFkYWZjMjgxYWU1ODRkOCJ9fX0=
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命恢复"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 生命恢复药水3:
   Name: 生命恢复药水3
   Success: 60
@@ -178,11 +179,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命恢复BUFF"
-    - "&7成功率 &e60%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFlN2ViMmU0NjFlOTZlNjMxY2JhMGMwY2RhYTU0NDg4MDYzMDJlZGFlOTFiNjFkYWZjMjgxYWU1ODRkOCJ9fX0=
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=3;format=%.0f;limit=v<3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命恢复"
+      var: "3"
+      format: "%.0f"
+      limit: "v<3"
+      mode: "last"
 #  Rewards:
 #    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
 生命恢复药水4:
@@ -198,11 +203,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命恢复BUFF"
-    - "&7成功率 &660%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFlN2ViMmU0NjFlOTZlNjMxY2JhMGMwY2RhYTU0NDg4MDYzMDJlZGFlOTFiNjFkYWZjMjgxYWU1ODRkOCJ9fX0=
   SuccessTip: "&f你使用了&c&l生命恢复药水&f, 装备添加&c&l生命恢复IV&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命恢复 ;var=v<4?4:5;format=%.0f;limit=v<=4;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命恢复"
+      var: "v<4?4:5"
+      format: "%.0f"
+      limit: "v<=4"
+      mode: "last"
 抗性提升药水1:
   Name: 抗性提升药水1
   Require:
@@ -215,11 +224,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加抗性提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRhNGU3OWVlZDEzODY1NjcwOGJjMzI1YzQ0MjE5Mjc1MTdjMWMwOGNjOTM5YTc2MDNiOGQxNWE5ZjI0ODU0ZCJ9fX0=
   SuccessTip: "&f你使用了&7&l抗性提升药水&f, 装备添加&7&l抗性提升&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l抗性提升"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 抗性提升药水2:
   Name: 抗性提升药水2
   Success: 90
@@ -233,12 +246,16 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加抗性提升BUFF"
-    - "&7成功率 &a90%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRhNGU3OWVlZDEzODY1NjcwOGJjMzI1YzQ0MjE5Mjc1MTdjMWMwOGNjOTM5YTc2MDNiOGQxNWE5ZjI0ODU0ZCJ9fX0=
   SuccessTip: "&f你使用了&7&l抗性提升药水&f, 装备添加&7&l抗性提升II&fBUFF"
   FailTip: "&c抗性提升II药水使用失败……脸有点黑呀"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l抗性提升"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 抗性提升药水3:
   Name: 抗性提升药水3
   Success: 50
@@ -252,12 +269,16 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加抗性提升BUFF"
-    - "&7成功率 &e50%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRhNGU3OWVlZDEzODY1NjcwOGJjMzI1YzQ0MjE5Mjc1MTdjMWMwOGNjOTM5YTc2MDNiOGQxNWE5ZjI0ODU0ZCJ9fX0=
   SuccessTip: "&f你使用了&8&l抗性提升药水&f, 装备添加&8&l抗性提升III&fBUFF"
   FailTip: "&c抗性提升药水使用失败, 再接再厉!"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l抗性提升"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 抗性提升药水4:
   Name: 抗性提升药水4
   Success: 10
@@ -271,13 +292,20 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加抗性提升BUFF"
-    - "&7成功率 &c10%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRhNGU3OWVlZDEzODY1NjcwOGJjMzI1YzQ0MjE5Mjc1MTdjMWMwOGNjOTM5YTc2MDNiOGQxNWE5ZjI0ODU0ZCJ9fX0=
   SuccessTip: "&f你使用了&8&l抗性提升药水&f, 装备添加&8&l抗性提升IV&fBUFF"
   FailTip: "&c抗性提升IV使用失败, 请下次再来!"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l抗性提升 ;var=v<4?4:5;format=%.0f;limit=v<=4;mode=last}
-    - Command{commands=bc 恭喜 %player_name% 成功为装备添加抗性提升IV!;console=true} $onSuccess
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l抗性提升"
+      var: "v<4?4:5"
+      format: "%.0f"
+      limit: "v<=4"
+      mode: "last"
+    - action: Command
+      command: "bc 恭喜 %player_name% 成功为装备添加抗性提升IV!"
+      as: console
+      requireEffect: true
 英雄的信物1:
   Name: 英雄的信物
   Require:
@@ -290,11 +318,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可使装备村庄英雄BUFF+1(上限3)"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDU0MzVjMzdlZGFmZTE2NWM5MmFlMzczNmUxNWM0NjRhZDYyMWQ2MTIyMDQzNWQxYTM5YWRiNDcwNWZiODg2In19fQ==
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l村庄英雄"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 英雄的信物2:
   Name: 英雄的信物2
   Success: 70
@@ -308,11 +340,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可使装备村庄英雄BUFF+1(上限5)"
-    - "&7成功率 &a70%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDU0MzVjMzdlZGFmZTE2NWM5MmFlMzczNmUxNWM0NjRhZDYyMWQ2MTIyMDQzNWQxYTM5YWRiNDcwNWZiODg2In19fQ==
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=5;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l村庄英雄"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=5"
+      mode: "last"
 英雄的信物3:
   Name: 英雄的信物3
   Success: 40
@@ -326,11 +362,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可使装备村庄英雄BUFF+1(上限8)"
-    - "&7成功率 &640%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDU0MzVjMzdlZGFmZTE2NWM5MmFlMzczNmUxNWM0NjRhZDYyMWQ2MTIyMDQzNWQxYTM5YWRiNDcwNWZiODg2In19fQ==
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=8;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l村庄英雄"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=8"
+      mode: "last"
 英雄的信物4:
   Name: 英雄的信物4
   Success: 20
@@ -344,11 +384,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可使装备村庄英雄BUFF+1(上限10)"
-    - "&7成功率 &c20%&7, &c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDU0MzVjMzdlZGFmZTE2NWM5MmFlMzczNmUxNWM0NjRhZDYyMWQ2MTIyMDQzNWQxYTM5YWRiNDcwNWZiODg2In19fQ==
   SuccessTip: "&f你使用了&8&l英雄的信物&f, 装备&8&l村庄英雄&fBUFF等级&8+1"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l村庄英雄 ;var=v+1;format=%.0f;limit=v<=10;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l村庄英雄"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=10"
+      mode: "last"
 跳跃提升药水1:
   Name: 跳跃提升药水1
   Require:
@@ -361,11 +405,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加跳跃提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjNkMzU2Yjg2MTE4ZmY4YzQ4YzExOWVmM2QyYWM5MGMxYWQxMzkyODkzMDIyZjgwYjlkYzE2OGMzNmRiMmE1NiJ9fX0=
   SuccessTip: "&f你使用了&d&l跳跃提升药水&f, 装备添加&d&l跳跃提升&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l跳跃提升 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l跳跃提升"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 跳跃提升药水2:
   Name: 跳跃提升药水2
   Require:
@@ -378,11 +426,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加跳跃提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjNkMzU2Yjg2MTE4ZmY4YzQ4YzExOWVmM2QyYWM5MGMxYWQxMzkyODkzMDIyZjgwYjlkYzE2OGMzNmRiMmE1NiJ9fX0=
   SuccessTip: "&f你使用了&d&l跳跃提升药水&f, 装备添加&d&l跳跃提升II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l跳跃提升 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l跳跃提升"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 跳跃提升药水3:
   Name: 跳跃提升药水3
   Require:
@@ -395,11 +447,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加跳跃提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjNkMzU2Yjg2MTE4ZmY4YzQ4YzExOWVmM2QyYWM5MGMxYWQxMzkyODkzMDIyZjgwYjlkYzE2OGMzNmRiMmE1NiJ9fX0=
   SuccessTip: "&f你使用了&d&l跳跃提升药水&f, 装备添加&d&l跳跃提升III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l跳跃提升 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l跳跃提升"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 速度药水1:
   Name: 速度药水1
   Require:
@@ -412,11 +468,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加速度BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzNmYTkxZGUzMWUyZGRkYTI5Y2E0MTljMDhiMzRhNWEyZDZiNGIxYTFiNTliMjM2Y2RjMTRjYjEzMWRjYjgwNyJ9fX0=
   SuccessTip: "&f你使用了&a&l速度药水&f, 装备添加&a&l速度&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l速度 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l速度"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 速度药水2:
   Name: 速度药水2
   Require:
@@ -429,11 +489,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加速度BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzNmYTkxZGUzMWUyZGRkYTI5Y2E0MTljMDhiMzRhNWEyZDZiNGIxYTFiNTliMjM2Y2RjMTRjYjEzMWRjYjgwNyJ9fX0=
   SuccessTip: "&f你使用了&a&l速度药水&f, 装备添加&a&l速度II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l速度 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l速度"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 速度药水3:
   Name: 速度药水3
   Require:
@@ -446,11 +510,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加速度BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzNmYTkxZGUzMWUyZGRkYTI5Y2E0MTljMDhiMzRhNWEyZDZiNGIxYTFiNTliMjM2Y2RjMTRjYjEzMWRjYjgwNyJ9fX0=
   SuccessTip: "&f你使用了&a&l速度药水&f, 装备添加&a&l速度III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l速度 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l速度"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 急迫药水1:
   Name: 急迫药水1
   Require:
@@ -463,11 +531,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加急迫BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhNjQ0NDdkNGI3N2U1ZTEwNTU2MWM3MjgyMTZlNjAwNjE3ZmI0Zjg1N2YxYTE1MGY1MmM5MTdhODVjYTc0MyJ9fX0=
   SuccessTip: "&f你使用了&6&l急迫药水&f, 装备添加&6&l急迫&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l急迫 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l急迫"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 急迫药水2:
   Name: 急迫药水2
   Require:
@@ -480,11 +552,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加急迫BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhNjQ0NDdkNGI3N2U1ZTEwNTU2MWM3MjgyMTZlNjAwNjE3ZmI0Zjg1N2YxYTE1MGY1MmM5MTdhODVjYTc0MyJ9fX0=
   SuccessTip: "&f你使用了&6&l急迫药水&f, 装备添加&6&l急迫II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l急迫 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l急迫"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 急迫药水3:
   Name: 急迫药水3
   Require:
@@ -497,11 +573,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加急迫BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhNjQ0NDdkNGI3N2U1ZTEwNTU2MWM3MjgyMTZlNjAwNjE3ZmI0Zjg1N2YxYTE1MGY1MmM5MTdhODVjYTc0MyJ9fX0=
   SuccessTip: "&f你使用了&6&l急迫药水&f, 装备添加&6&l急迫III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l急迫 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l急迫"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 力量药水1:
   Name: 力量药水1
   Require:
@@ -514,11 +594,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加力量BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBhMTRhOGNmMDkyZDBjZDE2OTMzYmUyZGM5ZDQ0MGZiMzBiNTE1OTIxZmM2YjY4Y2RjYzE5YWJmODY0NmZjZiJ9fX0=
   SuccessTip: "&f你使用了&c&l力量药水&f, 装备添加&c&l力量&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l力量 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l力量"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 力量药水2:
   Name: 力量药水2
   Require:
@@ -531,11 +615,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加力量BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBhMTRhOGNmMDkyZDBjZDE2OTMzYmUyZGM5ZDQ0MGZiMzBiNTE1OTIxZmM2YjY4Y2RjYzE5YWJmODY0NmZjZiJ9fX0=
   SuccessTip: "&f你使用了&c&l力量药水&f, 装备添加&c&l力量II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l力量 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l力量"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 力量药水3:
   Name: 力量药水3
   Require:
@@ -548,11 +636,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加力量BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBhMTRhOGNmMDkyZDBjZDE2OTMzYmUyZGM5ZDQ0MGZiMzBiNTE1OTIxZmM2YjY4Y2RjYzE5YWJmODY0NmZjZiJ9fX0=
   SuccessTip: "&f你使用了&c&l力量药水&f, 装备添加&c&l力量III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l力量 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l力量"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 生命提升药水1:
   Name: 生命提升药水1
   Require:
@@ -565,11 +657,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBhMTRhOGNmMDkyZDBjZDE2OTMzYmUyZGM5ZDQ0MGZiMzBiNTE1OTIxZmM2YjY4Y2RjYzE5YWJmODY0NmZjZiJ9fX0=
   SuccessTip: "&f你使用了&c&l生命提升药水&f, 装备添加&c&l生命提升&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命提升 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命提升"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 生命提升药水2:
   Name: 生命提升药水2
   Require:
@@ -582,11 +678,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBhMTRhOGNmMDkyZDBjZDE2OTMzYmUyZGM5ZDQ0MGZiMzBiNTE1OTIxZmM2YjY4Y2RjYzE5YWJmODY0NmZjZiJ9fX0=
   SuccessTip: "&f你使用了&c&l生命提升药水&f, 装备添加&c&l生命提升II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命提升 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命提升"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 生命提升药水3:
   Name: 生命提升药水3
   Require:
@@ -599,11 +699,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加生命提升BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBhMTRhOGNmMDkyZDBjZDE2OTMzYmUyZGM5ZDQ0MGZiMzBiNTE1OTIxZmM2YjY4Y2RjYzE5YWJmODY0NmZjZiJ9fX0=
   SuccessTip: "&f你使用了&c&l生命提升药水&f, 装备添加&c&l生命提升III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l生命提升 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l生命提升"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 伤害吸收药水1:
   Name: 伤害吸收药水1
   Require:
@@ -616,11 +720,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加伤害吸收BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDlmNDBlZjc3ZmYzMzlhN2MzYWNhOGVlYWRmMTVlNjMyYmU2YzI1NzRlNmNiYTJlNzFjMmNjNzBkYzNiYmU2NCJ9fX0=
   SuccessTip: "&f你使用了&e&l伤害吸收药水&f, 装备添加&e&l伤害吸收&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l伤害吸收 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l伤害吸收"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 伤害吸收药水2:
   Name: 伤害吸收药水2
   Require:
@@ -633,11 +741,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加伤害吸收BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDlmNDBlZjc3ZmYzMzlhN2MzYWNhOGVlYWRmMTVlNjMyYmU2YzI1NzRlNmNiYTJlNzFjMmNjNzBkYzNiYmU2NCJ9fX0=
   SuccessTip: "&f你使用了&e&l伤害吸收药水&f, 装备添加&e&l伤害吸收II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l伤害吸收 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l伤害吸收"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 伤害吸收药水3:
   Name: 伤害吸收药水3
   Require:
@@ -650,11 +762,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加伤害吸收BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDlmNDBlZjc3ZmYzMzlhN2MzYWNhOGVlYWRmMTVlNjMyYmU2YzI1NzRlNmNiYTJlNzFjMmNjNzBkYzNiYmU2NCJ9fX0=
   SuccessTip: "&f你使用了&e&l伤害吸收药水&f, 装备添加&e&l伤害吸收III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l伤害吸收 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l伤害吸收"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 幸运药水1:
   Name: 幸运药水1
   Require:
@@ -667,11 +783,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加幸运BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlkYWVmN2VmNjExMDU3YWZkOWY5NDA0NDRjMzBmZmJkNWQ1NDY1OGQzYjFjNjczNjJhNTc5NzY1ZTI4NzIzNSJ9fX0=
   SuccessTip: "&f你使用了&2&l幸运药水&f, 装备添加&2&l幸运&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l幸运 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l幸运"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 幸运药水2:
   Name: 幸运药水2
   Require:
@@ -684,11 +804,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加幸运BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlkYWVmN2VmNjExMDU3YWZkOWY5NDA0NDRjMzBmZmJkNWQ1NDY1OGQzYjFjNjczNjJhNTc5NzY1ZTI4NzIzNSJ9fX0=
   SuccessTip: "&f你使用了&2&l幸运药水&f, 装备添加&2&l幸运II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l幸运 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l幸运"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 幸运药水3:
   Name: 幸运药水3
   Require:
@@ -701,11 +825,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加幸运BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlkYWVmN2VmNjExMDU3YWZkOWY5NDA0NDRjMzBmZmJkNWQ1NDY1OGQzYjFjNjczNjJhNTc5NzY1ZTI4NzIzNSJ9fX0=
   SuccessTip: "&f你使用了&2&l幸运药水&f, 装备添加&2&l幸运III&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l幸运 ;var=v<3?3:4;format=%.0f;limit=v<=3;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l幸运"
+      var: "v<3?3:4"
+      format: "%.0f"
+      limit: "v<=3"
+      mode: "last"
 海豚的恩惠1:
   Name: 海豚的恩惠1
   Require:
@@ -718,11 +846,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加海豚的恩惠BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWMzODIxZDRmNjFiMTdmODJmMGQ3YThlNTMxMjYwOGZmNTBlZGUyOWIxYjRkYzg5ODQ3YmU5NDI3ZDM2In19fQ==
   SuccessTip: "&f你使用了&b&l海豚的恩惠药水&f, 装备添加&b&l海豚的恩惠&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠 ;var=v+1;format=%.0f;limit=v<=1;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=1"
+      mode: "last"
 海豚的恩惠2:
   Name: 海豚的恩惠2
   Require:
@@ -735,11 +867,15 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加海豚的恩惠BUFF"
-    - "&c不可拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWMzODIxZDRmNjFiMTdmODJmMGQ3YThlNTMxMjYwOGZmNTBlZGUyOWIxYjRkYzg5ODQ3YmU5NDI3ZDM2In19fQ==
   SuccessTip: "&f你使用了&b&l海豚的恩惠药水&f, 装备添加&b&l海豚的恩惠II&fBUFF"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠 ;var=v<2?2:3;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l海豚的恩惠"
+      var: "v<2?2:3"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 饱和药水:
   Name: 饱和药水
   Embed: 1
@@ -753,9 +889,8 @@
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7放入装备与此药水, 点击中间确认"
     - "&7即可为装备添加饱和BUFF"
-    - "&7可花费2000点券拆卸"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE1N2Y5MzRkMzM4MTllYTdjYzkxNTJhNWRjNzU4YzM4MmQwZjdmNmRhZTk0YWY4M2ZkNzk2YTJkY2I2MDNhZCJ9fX0=
   SuccessTip: "&f你使用了&6&l饱和药水&f, 装备添加&6&l饱和&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l饱和}
-    - Point{amount=-2000} $onRemove
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l饱和"

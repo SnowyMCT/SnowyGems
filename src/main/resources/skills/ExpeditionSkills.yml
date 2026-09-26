@@ -8,39 +8,67 @@
   - mainhand
   Cooldown: 0
   Skills:
-  - Potion{type=HASTE;level=$LORE:[BUFF] 远征/矿脉?1$;duration=5} ~onTimer @Self
+  - action: "Potion"
+    type: "HASTE"
+    level: "$LORE:[BUFF] 远征/矿脉?1$"
+    duration: "5"
+    trigger: "onTimer"
+    target: "Self"
 远征/疾行:
   Lore: '&b[技能] 远征/疾行 '
   Slot:
   - mainhand
   Cooldown: 12
   Skills:
-  - Potion{type=SPEED;level=$LORE:[技能] 远征/疾行?1$;duration=5} ~onShiftUse @Self
+  - action: "Potion"
+    type: "SPEED"
+    level: "$LORE:[技能] 远征/疾行?1$"
+    duration: "5"
+    trigger: "onShiftUse"
+    target: "Self"
 远征/夜航:
   Lore: '&b[BUFF] 远征/夜航'
   Slot:
   - head
   Cooldown: 0
   Skills:
-  - Potion{type=NIGHT_VISION;level=1;duration=12} ~onTimer @Self
+  - action: "Potion"
+    type: "NIGHT_VISION"
+    level: "1"
+    duration: "12"
+    trigger: "onTimer"
+    target: "Self"
 远征/潮息:
   Lore: '&b[BUFF] 远征/潮息'
   Slot:
   - head
   Cooldown: 0
   Skills:
-  - Potion{type=WATER_BREATHING;level=1;duration=5} ~onTimer @Self
+  - action: "Potion"
+    type: "WATER_BREATHING"
+    level: "1"
+    duration: "5"
+    trigger: "onTimer"
+    target: "Self"
 远征/净毒:
   Lore: '&b[技能] 远征/净毒'
   Slot:
   - mainhand
   Cooldown: 10
   Skills:
-  - ClearPotion{type=POISON} ~onShiftUse @Self
+  - action: "ClearPotion"
+    type: "POISON"
+    trigger: "onShiftUse"
+    target: "Self"
 远征/轻羽:
   Lore: '&b[技能] 远征/轻羽'
   Slot:
   - mainhand
   Cooldown: 16
   Skills:
-  - Potion{type=SLOW_FALLING;level=1;duration=6} ~onShiftUse @Self
+  - action: "Potion"
+    type: "SLOW_FALLING"
+    level: "1"
+    duration: "6"
+    trigger: "onShiftUse"
+    target: "Self"

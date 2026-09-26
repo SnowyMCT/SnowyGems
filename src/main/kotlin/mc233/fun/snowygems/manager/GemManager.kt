@@ -248,32 +248,29 @@ object GemManager {
     /**
      * 从目标物品上拆除一个已应用的宝石.
      *
-     * 与旧版的关键区别:
-     *   - 旧版只跑 $onRemove 奖励(几乎没有宝石写了), 于是属性/附魔根本没被撤销 -> "拆了跟没拆一样".
-     *   - 新版真正调用每条 Reward 的 [Reward.revert] 撤销其对装备造成的效果(移除属性修饰符/降附魔),
-     *     再跑一遍配置里显式写的 $onRemove 奖励(如给回材料).
-     *
-     * 费用与损坏由 config.yml 的 Dismantle 一节控制, 已在调用方 [DismantleService] 处理,
-     * 这里只负责"把宝石从装备上摘掉并撤销其效果".
+     * 只撤销应用时真正成功的效果。价格与返还成功率由独立拆卸方案计算。
      */
-    fun removeFromItem(player: Player, targetStack: ItemStack, gemId: String): ApplyResult {
+    fun removeFromItem(player: Player, targetStack: ItemStack, gemId: String, occurrenceIndex: Int? = null): ApplyResult {
         if (targetStack.type.isAir || targetStack.amount != 1) {
             return ApplyResult(false, Lang.get("gem.single-target"), false)
         }
-        if (gemId !in getAppliedGems(targetStack)) return ApplyResult(false, Lang.get("gem.not-applied"), false)
+        val appliedIds = getAppliedGems(targetStack)
+        val selectedIndex = occurrenceIndex ?: appliedIds.indexOfLast { it == gemId }
+        if (appliedIds.getOrNull(selectedIndex) != gemId) return ApplyResult(false, Lang.get("gem.not-applied"), false)
+        val historyIndex = appliedIds.take(selectedIndex + 1).count { it == gemId } - 1
         DebugUtil.log("GemManager", "removeFromItem: 从 ${targetStack.type} 拆除 $gemId, 拆除前已镶嵌=${getAppliedGems(targetStack)}")
         val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
         val target = targetStack.clone()
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
         val history = target.getItemTag()[historyKey(gemId)]?.value as? ItemTagList
-        val encoded = history?.lastOrNull()?.asString()
+        val encoded = history?.getOrNull(historyIndex)?.asString()
         val applied = if (!encoded.isNullOrEmpty()) {
             runCatching { RewardHistory.decode(encoded) }.getOrElse {
                 DebugUtil.err("GemManager", "宝石 $gemId 的撤销记录损坏，拒绝拆卸", it)
                 return ApplyResult(false, Lang.get("gem.no-effect"), false)
             }
         } else {
-            // 老物品没有执行历史，只兼容撤销 APPLY 奖励，绝不能撤销 onRemove。
+            // 老物品没有执行历史，只兼容撤销 APPLY 奖励。
             cfg.parsedRewards.filter { it.matchesPhase(RewardPhase.APPLY) && it.reward != null }
                 .map { AppliedReward(it.call, emptyMap()) }
         }
@@ -298,12 +295,10 @@ object GemManager {
                 return ApplyResult(false, Lang.get("gem.no-effect"), false)
             }
         }
-        // 2) 再跑配置里显式标了 $onRemove 的奖励(如返还部分材料)
-        runRewards(ctx, cfg.parsedRewards, RewardPhase.REMOVE)
-        // 3) 从 NBT 已镶嵌列表里摘掉
-        unmarkApplied(ctx.item ?: target, gemId)
+        // 2) 从 NBT 已镶嵌列表里摘掉。旧配置的 onRemove 奖励不再执行，避免重复收费。
+        unmarkApplied(ctx.item ?: target, gemId, selectedIndex, historyIndex)
         DebugUtil.log("GemManager", "removeFromItem: 撤销了 $reverted 条奖励效果, 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
-        val msg = cfg.removeTip?.let(::renderTip) ?: Lang.get("gem.remove-success")
+        val msg = Lang.get("gem.remove-success")
         return ApplyResult(true, msg, false, ctx.item ?: target)
     }
 
@@ -336,12 +331,10 @@ object GemManager {
         tag.saveTo(item)
     }
 
-    private fun unmarkApplied(item: ItemStack, gemId: String) {
+    private fun unmarkApplied(item: ItemStack, gemId: String, removeIndex: Int, historyIndex: Int) {
         val tag = item.getItemTag()
         val list = (tag[APPLIED_LIST_KEY]?.value as? ItemTagList) ?: return
-        // 仅删除最后一次镶嵌，与下方历史记录的 dropLast(1) 保持一致。
-        val removeIndex = list.indexOfLast { it.asString() == gemId }
-        if (removeIndex < 0) return
+        if (list.getOrNull(removeIndex)?.asString() != gemId) return
         val kept = ItemTagList()
         for ((index, data) in list.withIndex()) {
             if (index != removeIndex) kept.add(data)
@@ -351,7 +344,9 @@ object GemManager {
         val history = tag[key]?.value as? ItemTagList
         if (history != null) {
             if (history.size <= 1) tag.remove(key)
-            else tag[key] = ItemTagList().apply { addAll(history.dropLast(1)) }
+            else tag[key] = ItemTagList().apply {
+                history.forEachIndexed { index, data -> if (index != historyIndex) add(data) }
+            }
         }
         tag.saveTo(item)
     }
@@ -384,6 +379,7 @@ object GemManager {
                 attempted++
                 if (ok) {
                     succeeded++
+                    ctx.successfulRewards++
                     applied += AppliedReward(parsed.call, ctx.undoData.toMap())
                 } else {
                     ctx.item = before

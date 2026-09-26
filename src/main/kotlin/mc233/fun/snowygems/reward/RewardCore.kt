@@ -19,6 +19,8 @@ class RewardContext(
 ) {
     /** 本条奖励的撤销凭据，只保存本次实际变化，不持有玩家或物品引用。 */
     val undoData: MutableMap<String, String> = linkedMapOf()
+    /** Number of rewards that have actually applied in this execution. */
+    var successfulRewards: Int = 0
 }
 
 interface Reward {

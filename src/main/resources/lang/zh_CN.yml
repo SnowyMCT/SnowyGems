@@ -110,8 +110,9 @@ command-no-gem: '&c未知的宝石配置: &f{gem}'
 # 给予成功  占位符: {player} {gem} {amount}
 command-give: '&a已给予 &f{player} &7×&f{amount} &a个 &f{gem}'
 # 调试开关
-command-debug-on: '&a调试模式已临时开启, 输出范围: &f{scope} &7(重载后以 config.yml 为准)'
-command-debug-off: '&7调试模式已临时关闭'
+command-debug-on: '&a调试已开启，范围: &f{scope} &7(输出在服务器控制台；本次运行期间重载仍有效)'
+command-debug-active: '&a调试已开启，范围: &f{scope} &7(输出在服务器控制台；本次运行期间重载仍有效)'
+command-debug-off: '&7调试已关闭'
 command-debug-scope: '&a调试输出范围已设为: &f{scope}'
 command-debug-scope-all: '&a调试输出范围已设为: &f全部'
 # 镶嵌台设置
@@ -231,19 +232,21 @@ inspect-no-embed: '&7这件装备上还没有镶嵌任何宝石'
 inspect-readonly-hint: '&7仅供查看 &8· &7拆卸请用 &f/sgem dismantle'
 
 # ── /sgem dismantle 拆卸装备上的宝石 ──────────────────────
-# 拆卸需要费用且有概率损坏宝石, 规则在 config.yml 的 Dismantle 一节配置。
+# 价格与返还成功率由 dismantle/ 目录下的方案分别计算。
 dismantle-title: '&c拆卸宝石 &7- &f{item}'
 dismantle-need-held: '&c请先手持要拆卸宝石的装备'
 dismantle-no-embed: '&7这件装备上没有可拆卸的宝石'
 # 每个宝石图标下方的说明  占位符见各行
-dismantle-cost-line: '&7拆卸费用: &e{amount} &7{type}'     # {amount} 数额  {type} 金币/点券/经验等级
-dismantle-break-line: '&c有 &e{chance}&c% 概率损坏宝石(不返还)'  # {chance} 损坏概率
+dismantle-cost-free: '免费'
+dismantle-cost-summary: '&7拆卸价格: &e{cost}'
+dismantle-success-rate: '&7宝石返还成功率: &a{chance}%'
+dismantle-plan-error: '&c拆卸方案计算失败，请联系管理员检查配置'
 dismantle-click-hint: '&a点击拆卸此宝石'
 # 拆卸结果  占位符: {gem} 宝石名
 dismantle-success: '&a已拆卸 {gem}&a, 宝石已返还背包'
 dismantle-broke: '&c很遗憾, {gem} &c在拆卸时损坏了, 未能返还'
 # 费用不足  占位符: {amount} {type}
-dismantle-not-afford: '&c拆卸需要 &e{amount} &f{type}&c, 你的余额不足'
+dismantle-not-afford-multi: '&c拆卸需要 &e{cost}&c，余额不足或支付失败'
 # 手持物品在打开界面后发生了变化
 dismantle-item-changed: '&c手持的装备已改变, 请重新打开拆卸界面'
 

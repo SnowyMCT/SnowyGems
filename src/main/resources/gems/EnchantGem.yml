@@ -20,7 +20,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTExNWRjODhlMzIxNGMzODI0M2Q3ODJkNjNlZGIwYTZlMDYyOTFlYjZkYThlNjAwYzdlMmVhMzZlN2Y2MWIzMSJ9fX0=
   SuccessTip: "&f你使用了&b&l耐久宝石&f, 物品耐久等级&b&l+1"
   Rewards:
-    - Enchant{name=DURABILITY;limit=7}
+    - action: Enchant
+      name: "DURABILITY"
+      limit: "7"
 
 真耐久宝石:
   Name: 真·耐久宝石
@@ -40,7 +42,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTExNWRjODhlMzIxNGMzODI0M2Q3ODJkNjNlZGIwYTZlMDYyOTFlYjZkYThlNjAwYzdlMmVhMzZlN2Y2MWIzMSJ9fX0=
   SuccessTip: "&f你使用了&b&l真·耐久宝石&f, 物品耐久等级&b&l+1"
   Rewards:
-    - Enchant{name=DURABILITY;limit=15}
+    - action: Enchant
+      name: "DURABILITY"
+      limit: "15"
 
 时运宝石:
   Name: 时运宝石
@@ -55,7 +59,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=
   SuccessTip: "&f你使用了&d&l时运宝石&f, 工具时运等级&d&l+1"
   Rewards:
-    - Enchant{name=LOOT_BONUS_BLOCKS;limit=15}
+    - action: Enchant
+      name: "LOOT_BONUS_BLOCKS"
+      limit: "15"
 
 真时运宝石:
   Name: 真·时运宝石
@@ -70,7 +76,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=
   SuccessTip: "&f你使用了&d&l真·时运宝石&f, 工具时运等级&d&l+1"
   Rewards:
-    - Enchant{name=LOOT_BONUS_BLOCKS;limit=40}
+    - action: Enchant
+      name: "LOOT_BONUS_BLOCKS"
+      limit: "40"
 
 神时运宝石:
   Name: 神·时运宝石
@@ -87,7 +95,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=
   SuccessTip: "&f你使用了&d&l神·时运宝石&f, 工具时运等级&d&l+1"
   Rewards:
-    - Enchant{name=LOOT_BONUS_BLOCKS;limit=512}
+    - action: Enchant
+      name: "LOOT_BONUS_BLOCKS"
+      limit: "512"
 
 锋利宝石:
   Name: 锋利宝石
@@ -105,7 +115,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIwNTVjODEwYmRkZmQxNjI2NGVjOGQ0MzljNDMyODNlMzViY2E3MWE1MDk4M2UxNWUzNjRjZDhhYjdjNjY4ZiJ9fX0=
   SuccessTip: "&f你使用了&c&l锋利宝石&f, 剑/斧锋利等级&c&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_ALL;limit=15}
+    - action: Enchant
+      name: "DAMAGE_ALL"
+      limit: "15"
 
 真锋利宝石:
   Name: 真·锋利宝石
@@ -123,7 +135,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIwNTVjODEwYmRkZmQxNjI2NGVjOGQ0MzljNDMyODNlMzViY2E3MWE1MDk4M2UxNWUzNjRjZDhhYjdjNjY4ZiJ9fX0=
   SuccessTip: "&f你使用了&c&l真·锋利宝石&f, 剑/斧锋利等级&c&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_ALL;limit=40}
+    - action: Enchant
+      name: "DAMAGE_ALL"
+      limit: "40"
 
 神锋利宝石:
   Name: 神·锋利宝石
@@ -143,7 +157,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIwNTVjODEwYmRkZmQxNjI2NGVjOGQ0MzljNDMyODNlMzViY2E3MWE1MDk4M2UxNWUzNjRjZDhhYjdjNjY4ZiJ9fX0=
   SuccessTip: "&f你使用了&c&l神·锋利宝石&f, 剑/斧锋利等级&c&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_ALL}
+    - action: Enchant
+      name: "DAMAGE_ALL"
 
 抢夺宝石:
   Name: 抢夺宝石
@@ -161,7 +176,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI0MDcwYzliNjY1OWVkMjViMmNhMTI2OTE1ZjRkODgyMGZhZmNlNDMyNGVkOWE4ZjRiOGE1MDYzNDUzMDdmIn19fQ==
   SuccessTip: "&f你使用了&8&l抢夺宝石&f, 剑/斧抢夺等级&8&l+1"
   Rewards:
-    - Enchant{name=LOOT_BONUS_MOBS;limit=15}
+    - action: Enchant
+      name: "LOOT_BONUS_MOBS"
+      limit: "15"
 
 真抢夺宝石:
   Name: 真·抢夺宝石
@@ -179,7 +196,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI0MDcwYzliNjY1OWVkMjViMmNhMTI2OTE1ZjRkODgyMGZhZmNlNDMyNGVkOWE4ZjRiOGE1MDYzNDUzMDdmIn19fQ==
   SuccessTip: "&f你使用了&8&l真·抢夺宝石&f, 武器抢夺等级&8&l+1"
   Rewards:
-    - Enchant{name=LOOT_BONUS_MOBS;limit=30}
+    - action: Enchant
+      name: "LOOT_BONUS_MOBS"
+      limit: "30"
 
 神抢夺宝石:
   Name: 神·抢夺宝石
@@ -199,7 +218,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI0MDcwYzliNjY1OWVkMjViMmNhMTI2OTE1ZjRkODgyMGZhZmNlNDMyNGVkOWE4ZjRiOGE1MDYzNDUzMDdmIn19fQ==
   SuccessTip: "&f你使用了&8&l神·抢夺宝石&f, 武器抢夺等级&8&l+1"
   Rewards:
-    - Enchant{name=LOOT_BONUS_MOBS}
+    - action: Enchant
+      name: "LOOT_BONUS_MOBS"
 
 力量宝石:
   Name: 力量宝石
@@ -214,7 +234,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIwNzE2MjAzZGEwMzljYWZjYTI0YmJkOWYzZTliZDVjNjk4NWMzYzI1NTI3YmNkNTA2ZDM4OGU5OWJiN2FmZSJ9fX0=
   SuccessTip: "&f你使用了&e&l力量宝石&f, 弓力量等级&e&l+1"
   Rewards:
-    - Enchant{name=ARROW_DAMAGE;limit=15}
+    - action: Enchant
+      name: "ARROW_DAMAGE"
+      limit: "15"
 
 真力量宝石:
   Name: 真·力量宝石
@@ -229,7 +251,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIwNzE2MjAzZGEwMzljYWZjYTI0YmJkOWYzZTliZDVjNjk4NWMzYzI1NTI3YmNkNTA2ZDM4OGU5OWJiN2FmZSJ9fX0=
   SuccessTip: "&f你使用了&e&l真·力量宝石&f, 弓力量等级&e&l+1"
   Rewards:
-    - Enchant{name=ARROW_DAMAGE;limit=40}
+    - action: Enchant
+      name: "ARROW_DAMAGE"
+      limit: "40"
 
 神力量宝石:
   Name: 神·力量宝石
@@ -246,7 +270,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIwNzE2MjAzZGEwMzljYWZjYTI0YmJkOWYzZTliZDVjNjk4NWMzYzI1NTI3YmNkNTA2ZDM4OGU5OWJiN2FmZSJ9fX0=
   SuccessTip: "&f你使用了&e&l神·力量宝石&f, 弓力量等级&e&l+1"
   Rewards:
-    - Enchant{name=ARROW_DAMAGE}
+    - action: Enchant
+      name: "ARROW_DAMAGE"
 
 荆棘宝石:
   Name: 荆棘宝石
@@ -261,7 +286,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc1N2NmYzdjMTFiMWU2ZjEwMjhiODA0NjJkMWU0MzAyZGNhNWFiODU5MjIyNWVhOGM4Yjc2MzljNzBlNjFmOSJ9fX0=
   SuccessTip: "&f你使用了&2&l荆棘宝石&f, 盔甲荆棘等级&2&l+1"
   Rewards:
-    - Enchant{name=THORNS;limit=10}
+    - action: Enchant
+      name: "THORNS"
+      limit: "10"
 
 真荆棘宝石:
   Name: 真·荆棘宝石
@@ -276,7 +303,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc1N2NmYzdjMTFiMWU2ZjEwMjhiODA0NjJkMWU0MzAyZGNhNWFiODU5MjIyNWVhOGM4Yjc2MzljNzBlNjFmOSJ9fX0=
   SuccessTip: "&f你使用了&2&l真·荆棘宝石&f, 盔甲荆棘等级&2&l+1"
   Rewards:
-    - Enchant{name=THORNS;limit=30}
+    - action: Enchant
+      name: "THORNS"
+      limit: "30"
 
 神荆棘宝石:
   Name: 神·荆棘宝石
@@ -293,7 +322,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc1N2NmYzdjMTFiMWU2ZjEwMjhiODA0NjJkMWU0MzAyZGNhNWFiODU5MjIyNWVhOGM4Yjc2MzljNzBlNjFmOSJ9fX0=
   SuccessTip: "&f你使用了&2&l神·荆棘宝石&f, 盔甲荆棘等级&2&l+1"
   Rewards:
-    - Enchant{name=THORNS}
+    - action: Enchant
+      name: "THORNS"
 
 激流宝石:
   Name: 激流宝石
@@ -308,7 +338,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA5NjcxOTAzZDcwZDhhMWQ1ZDliY2Q1ODI0MWQ1ZGMxYTIzZjEzN2QyNTNjMjgyNTYxOTc2YTY4NTEyODMifX19
   SuccessTip: "&f你使用了&9&l激流宝石&f, 三叉戟激流等级&9&l+1"
   Rewards:
-    - Enchant{name=RIPTIDE;limit=15}
+    - action: Enchant
+      name: "RIPTIDE"
+      limit: "15"
 
 真激流宝石:
   Name: 真·激流宝石
@@ -323,7 +355,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA5NjcxOTAzZDcwZDhhMWQ1ZDliY2Q1ODI0MWQ1ZGMxYTIzZjEzN2QyNTNjMjgyNTYxOTc2YTY4NTEyODMifX19
   SuccessTip: "&f你使用了&9&l真·激流宝石&f, 三叉戟激流等级&9&l+1"
   Rewards:
-    - Enchant{name=RIPTIDE;limit=40}
+    - action: Enchant
+      name: "RIPTIDE"
+      limit: "40"
 
 保护宝石:
   Name: 保护宝石
@@ -338,7 +372,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzI0ZDIzZjBiYjNlNzUwYWU0ZmUxMGEyYTg0OTBlOGEwMjg4MDZiOGE5NTRjNDU3YmUzNzlkMDJiN2Q0NjUwMiJ9fX0=
   SuccessTip: "&f你使用了&3&l保护宝石&f, 盔甲保护等级&3&l+1"
   Rewards:
-    - Enchant{name=PROTECTION_ENVIRONMENTAL;limit=10}
+    - action: Enchant
+      name: "PROTECTION_ENVIRONMENTAL"
+      limit: "10"
 
 真保护宝石:
   Name: 真·保护宝石
@@ -353,7 +389,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzI0ZDIzZjBiYjNlNzUwYWU0ZmUxMGEyYTg0OTBlOGEwMjg4MDZiOGE5NTRjNDU3YmUzNzlkMDJiN2Q0NjUwMiJ9fX0=
   SuccessTip: "&f你使用了&3&l真·保护宝石&f, 盔甲保护等级&3&l+1"
   Rewards:
-    - Enchant{name=PROTECTION_ENVIRONMENTAL;limit=20}
+    - action: Enchant
+      name: "PROTECTION_ENVIRONMENTAL"
+      limit: "20"
 
 冰霜行者宝石:
   Name: 冰霜行者宝石
@@ -368,7 +406,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5ZTBhYmEzNWQ2ODUzZWU1NGM4Njc5OWY3NTRhZTE2NjlkZDM5YTBlMmYzZDY5NzMxZjMzMWFkZWRlIn19fQ==
   SuccessTip: "&f你使用了&9&l冰霜行者宝石&f, 靴子冰霜行者等级&9&l+1"
   Rewards:
-    - Enchant{name=FROST_WALKER;limit=7}
+    - action: Enchant
+      name: "FROST_WALKER"
+      limit: "7"
 真冰霜行者宝石:
   Name: 真·冰霜行者宝石
   Require:
@@ -382,7 +422,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5ZTBhYmEzNWQ2ODUzZWU1NGM4Njc5OWY3NTRhZTE2NjlkZDM5YTBlMmYzZDY5NzMxZjMzMWFkZWRlIn19fQ==
   SuccessTip: "&f你使用了&9&l真·冰霜行者宝石&f, 靴子冰霜行者等级&9&l+1"
   Rewards:
-    - Enchant{name=FROST_WALKER;limit=14}
+    - action: Enchant
+      name: "FROST_WALKER"
+      limit: "14"
 
 海之眷顾宝石:
   Name: 海之眷顾宝石
@@ -397,7 +439,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWY5ZjMwMTZjN2U1NzAzOThkNWIwODVhY2Y2YmMxYjJjMTA5NWVmZTBmNTFhN2I2MDVjODFmOTIwOWZiMzc2NyJ9fX0=
   SuccessTip: "&f你使用了&9&l海之眷顾宝石&f, 钓竿海之眷顾等级&9&l+1"
   Rewards:
-    - Enchant{name=LUCK;limit=10}
+    - action: Enchant
+      name: "LUCK"
+      limit: "10"
 
 真海之眷顾宝石:
   Name: 真·海之眷顾宝石
@@ -412,7 +456,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWY5ZjMwMTZjN2U1NzAzOThkNWIwODVhY2Y2YmMxYjJjMTA5NWVmZTBmNTFhN2I2MDVjODFmOTIwOWZiMzc2NyJ9fX0=
   SuccessTip: "&f你使用了&9&l真·海之眷顾宝石&f, 钓竿海之眷顾等级&9&l+1"
   Rewards:
-    - Enchant{name=LUCK;limit=24}
+    - action: Enchant
+      name: "LUCK"
+      limit: "24"
 
 效率宝石:
   Name: 效率宝石
@@ -428,7 +474,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg1YmNmN2Y4MmQzNGRiODlhOTVhZGRmOGU1MzI1M2UyZDk1NTRjNmZkMmYyZTM5ZTI0MzYyZDI0M2EwY2NmNyJ9fX0=
   SuccessTip: "&f你使用了&a&l效率宝石&f, 工具效率等级&a&l+1"
   Rewards:
-    - Enchant{name=DIG_SPEED;limit=10}
+    - action: Enchant
+      name: "DIG_SPEED"
+      limit: "10"
 
 真效率宝石:
   Name: 真·效率宝石
@@ -444,7 +492,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg1YmNmN2Y4MmQzNGRiODlhOTVhZGRmOGU1MzI1M2UyZDk1NTRjNmZkMmYyZTM5ZTI0MzYyZDI0M2EwY2NmNyJ9fX0=
   SuccessTip: "&f你使用了&a&l真·效率宝石&f, 工具效率等级&a&l+1"
   Rewards:
-    - Enchant{name=DIG_SPEED;limit=33}
+    - action: Enchant
+      name: "DIG_SPEED"
+      limit: "33"
 
 火焰附加宝石:
   Name: 火焰附加宝石
@@ -461,7 +511,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzBhNDRkNTFlY2M3OWY2OTRjZmQ2MDIyOGM4ODQyODg0OGNhNjE4ZTM2YTY1OWE0MTZlOTI0NmQ4NDFhZWM4In19fQ==
   SuccessTip: "&f你使用了&6&l火焰附加宝石&f, 剑火焰附加等级&6&l+1"
   Rewards:
-    - Enchant{name=FIRE_ASPECT;limit=10}
+    - action: Enchant
+      name: "FIRE_ASPECT"
+      limit: "10"
 
 真火焰附加宝石:
   Name: 真·火焰附加宝石
@@ -478,7 +530,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzBhNDRkNTFlY2M3OWY2OTRjZmQ2MDIyOGM4ODQyODg0OGNhNjE4ZTM2YTY1OWE0MTZlOTI0NmQ4NDFhZWM4In19fQ==
   SuccessTip: "&f你使用了&6&l真·火焰附加宝石&f, 剑火焰附加等级&6&l+1"
   Rewards:
-    - Enchant{name=FIRE_ASPECT;limit=25}
+    - action: Enchant
+      name: "FIRE_ASPECT"
+      limit: "25"
 
 神火焰附加宝石:
   Name: 神·火焰附加宝石
@@ -497,7 +551,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzBhNDRkNTFlY2M3OWY2OTRjZmQ2MDIyOGM4ODQyODg0OGNhNjE4ZTM2YTY1OWE0MTZlOTI0NmQ4NDFhZWM4In19fQ==
   SuccessTip: "&f你使用了&6&l神·火焰附加宝石&f, 剑火焰附加等级&6&l+1"
   Rewards:
-    - Enchant{name=FIRE_ASPECT}
+    - action: Enchant
+      name: "FIRE_ASPECT"
 
 穿刺宝石:
   Name: 穿刺宝石
@@ -512,7 +567,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWVjZDk3MjdlOWQ5ZjJjMDczOTkzNGVmMWU2M2QxZDg5YzkyMzY5NDIxY2FmYmFlYTczM2NjZTM1YzNiNjc2OCJ9fX0=
   SuccessTip: "&f你使用了&3&l穿刺宝石&f, 三叉戟穿刺等级&3&l+1"
   Rewards:
-    - Enchant{name=CHANNELING;limit=20}
+    - action: Enchant
+      name: "CHANNELING"
+      limit: "20"
 
 忠诚宝石:
   Name: 忠诚宝石
@@ -527,7 +584,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=
   SuccessTip: "&f你使用了&3&l忠诚宝石&f, 三叉戟忠诚等级&3&l+1"
   Rewards:
-    - Enchant{name=LOYALTY;limit=15}
+    - action: Enchant
+      name: "LOYALTY"
+      limit: "15"
 
 击退宝石:
   Name: 击退宝石
@@ -545,7 +604,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ZjI4MzMyYmNjMzQ5ZjQyMDIzYzI5ZTZlNjQxZjRiMTBhNmIxZTQ4NzE4Y2FlNTU3NDY2ZDUxZWI5MjIifX19
   SuccessTip: "&f你使用了&8&l击退宝石&f, 剑/斧击退等级&8&l+1"
   Rewards:
-    - Enchant{name=KNOCKBACK;limit=15}
+    - action: Enchant
+      name: "KNOCKBACK"
+      limit: "15"
 
 真击退宝石:
   Name: 真·击退宝石
@@ -563,7 +624,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ZjI4MzMyYmNjMzQ5ZjQyMDIzYzI5ZTZlNjQxZjRiMTBhNmIxZTQ4NzE4Y2FlNTU3NDY2ZDUxZWI5MjIifX19
   SuccessTip: "&f你使用了&8&l真·击退宝石&f, 剑/斧击退等级&8&l+1"
   Rewards:
-    - Enchant{name=KNOCKBACK;limit=30}
+    - action: Enchant
+      name: "KNOCKBACK"
+      limit: "30"
 
 冲击宝石:
   Name: 冲击宝石
@@ -578,7 +641,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0Nzk1MTA0MjJiMWM1ZGNjNzdmNzVmZGMzMzQ2ZWQ0ZDlkYmJjYzFlODg1YjRhMjk5MmEyNzM3MzM2NDZhOSJ9fX0=
   SuccessTip: "&f你使用了&8&l冲击宝石&f, 弓冲击等级&8&l+1"
   Rewards:
-    - Enchant{name=ARROW_KNOCKBACK;limit=15}
+    - action: Enchant
+      name: "ARROW_KNOCKBACK"
+      limit: "15"
 
 真冲击宝石:
   Name: 真·冲击宝石
@@ -593,7 +658,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0Nzk1MTA0MjJiMWM1ZGNjNzdmNzVmZGMzMzQ2ZWQ0ZDlkYmJjYzFlODg1YjRhMjk5MmEyNzM3MzM2NDZhOSJ9fX0=
   SuccessTip: "&f你使用了&8&l真·冲击宝石&f, 弓冲击等级&8&l+1"
   Rewards:
-    - Enchant{name=ARROW_KNOCKBACK;limit=30}
+    - action: Enchant
+      name: "ARROW_KNOCKBACK"
+      limit: "30"
 
 水下呼吸宝石:
   Name: 水下呼吸宝石
@@ -608,7 +675,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwZjFkMGE3NDU5OTFlNjYxNGZmZDdkYzlmODBlMzc0NTU5NmU4MTg5Nzc5NmYyODAyNjJmMTJmMTVlYjRhZCJ9fX0=
   SuccessTip: "&f你使用了&b&l水下呼吸宝石&f, 头盔水下呼吸等级&b&l+1"
   Rewards:
-    - Enchant{name=OXYGEN;limit=6}
+    - action: Enchant
+      name: "OXYGEN"
+      limit: "6"
 
 真水下呼吸宝石:
   Name: 真·水下呼吸宝石
@@ -623,7 +692,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwZjFkMGE3NDU5OTFlNjYxNGZmZDdkYzlmODBlMzc0NTU5NmU4MTg5Nzc5NmYyODAyNjJmMTJmMTVlYjRhZCJ9fX0=
   SuccessTip: "&f你使用了&b&l真·水下呼吸宝石&f, 头盔水下呼吸等级&b&l+1"
   Rewards:
-    - Enchant{name=OXYGEN;limit=15}
+    - action: Enchant
+      name: "OXYGEN"
+      limit: "15"
 
 亡灵杀手宝石:
   Name: 亡灵杀手宝石
@@ -641,7 +712,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRmODVkNmFlNzdlMTJlNTFlZTQzYWRlZjQzYzNjMzI0ZTRlMzc4NDg5OWI5MDM3NjE4MmZlN2Y0N2E1ZSJ9fX0=
   SuccessTip: "&f你使用了&7&l亡灵杀手宝石&f, 武器亡灵杀手等级&7&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_UNDEAD;limit=15}
+    - action: Enchant
+      name: "DAMAGE_UNDEAD"
+      limit: "15"
 
 真亡灵杀手宝石:
   Name: 真·亡灵杀手宝石
@@ -659,7 +732,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRmODVkNmFlNzdlMTJlNTFlZTQzYWRlZjQzYzNjMzI0ZTRlMzc4NDg5OWI5MDM3NjE4MmZlN2Y0N2E1ZSJ9fX0=
   SuccessTip: "&f你使用了&7&l真·亡灵杀手宝石&f, 武器亡灵杀手等级&7&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_UNDEAD;limit=40}
+    - action: Enchant
+      name: "DAMAGE_UNDEAD"
+      limit: "40"
 
 神亡灵杀手宝石:
   Name: 神·亡灵杀手宝石
@@ -679,7 +754,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRmODVkNmFlNzdlMTJlNTFlZTQzYWRlZjQzYzNjMzI0ZTRlMzc4NDg5OWI5MDM3NjE4MmZlN2Y0N2E1ZSJ9fX0=
   SuccessTip: "&f你使用了&7&l神·亡灵杀手宝石&f, 武器亡灵杀手等级&7&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_UNDEAD}
+    - action: Enchant
+      name: "DAMAGE_UNDEAD"
 
 节肢杀手宝石:
   Name: 节肢杀手宝石
@@ -697,7 +773,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhkYWY1NGFjOGMwNjFhODMzMjY5N2ZkMDM4YjlmM2FmOGVjMzhkMTY4NDllNTI3MTI1ZDI5NzNkZTYyZTliIn19fQ==
   SuccessTip: "&f你使用了&8&l节肢杀手宝石&f, 武器节肢杀手等级&8&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_ARTHROPODS;limit=15}
+    - action: Enchant
+      name: "DAMAGE_ARTHROPODS"
+      limit: "15"
 
 真节肢杀手宝石:
   Name: 真·节肢杀手宝石
@@ -715,7 +793,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhkYWY1NGFjOGMwNjFhODMzMjY5N2ZkMDM4YjlmM2FmOGVjMzhkMTY4NDllNTI3MTI1ZDI5NzNkZTYyZTliIn19fQ==
   SuccessTip: "&f你使用了&8&l真·节肢杀手宝石&f, 武器节肢杀手等级&8&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_ARTHROPODS;limit=40}
+    - action: Enchant
+      name: "DAMAGE_ARTHROPODS"
+      limit: "40"
 
 神节肢杀手宝石:
   Name: 神·节肢杀手宝石
@@ -735,7 +815,8 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhkYWY1NGFjOGMwNjFhODMzMjY5N2ZkMDM4YjlmM2FmOGVjMzhkMTY4NDllNTI3MTI1ZDI5NzNkZTYyZTliIn19fQ==
   SuccessTip: "&f你使用了&8&l神·节肢杀手宝石&f, 武器节肢杀手等级&8&l+1"
   Rewards:
-    - Enchant{name=DAMAGE_ARTHROPODS}
+    - action: Enchant
+      name: "DAMAGE_ARTHROPODS"
 
 横扫之刃宝石:
   Name: 横扫之刃宝石
@@ -750,7 +831,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTVkNzZkOTBiMzc4MDgzZDE0Nzc1NjgwNTA1ZGRiMWU2YzJjNmRjZjRkZGU3ZjliMWY1ODgwOWJlYzZjNjVjOCJ9fX0=
   SuccessTip: "&f你使用了&c&l横扫之刃宝石&f, 武器横扫之刃等级&c&l+1"
   Rewards:
-    - Enchant{name=SWEEPING_EDGE;limit=10}
+    - action: Enchant
+      name: "SWEEPING_EDGE"
+      limit: "10"
 
 灵魂疾行宝石:
   Name: 灵魂疾行宝石
@@ -765,7 +848,9 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7ImlkIjoiOTM4NDM1M2E0YWUwNGZlNDkzOTcxYjU4N2RmNzdmMTIiLCJ0eXBlIjoiU0tJTiIsInVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCIsInByb2ZpbGVJZCI6IjgwMThhYjAwYjJhZTQ0Y2FhYzliZjYwZWY5MGY0NWU1IiwidGV4dHVyZUlkIjoiOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCJ9fSwiY2FwZSI6bnVsbCwic2tpbiI6eyJpZCI6IjkzODQzNTNhNGFlMDRmZTQ5Mzk3MWI1ODdkZjc3ZjEyIiwidHlwZSI6IlNLSU4iLCJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QiLCJwcm9maWxlSWQiOiI4MDE4YWIwMGIyYWU0NGNhYWM5YmY2MGVmOTBmNDVlNSIsInRleHR1cmVJZCI6Ijk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QifX0=
   SuccessTip: "&f你使用了&3&l灵魂疾行宝石&f, 靴子灵魂疾行等级&3&l+1"
   Rewards:
-    - Enchant{name=SOUL_SPEED;limit=10}
+    - action: Enchant
+      name: "SOUL_SPEED"
+      limit: "10"
 
 真灵魂疾行宝石:
   Name: 真·灵魂疾行宝石
@@ -780,4 +865,6 @@
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7ImlkIjoiOTM4NDM1M2E0YWUwNGZlNDkzOTcxYjU4N2RmNzdmMTIiLCJ0eXBlIjoiU0tJTiIsInVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCIsInByb2ZpbGVJZCI6IjgwMThhYjAwYjJhZTQ0Y2FhYzliZjYwZWY5MGY0NWU1IiwidGV4dHVyZUlkIjoiOTU4MGU1Y2Q5NzBjMWRlZDk3M2QwYzEzOWJlNDE4YjA3NTVlMDcxMzM0NWQ3MTZlZDU5NDI0NGE1M2U2ZTEzZCJ9fSwiY2FwZSI6bnVsbCwic2tpbiI6eyJpZCI6IjkzODQzNTNhNGFlMDRmZTQ5Mzk3MWI1ODdkZjc3ZjEyIiwidHlwZSI6IlNLSU4iLCJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QiLCJwcm9maWxlSWQiOiI4MDE4YWIwMGIyYWU0NGNhYWM5YmY2MGVmOTBmNDVlNSIsInRleHR1cmVJZCI6Ijk1ODBlNWNkOTcwYzFkZWQ5NzNkMGMxMzliZTQxOGIwNzU1ZTA3MTMzNDVkNzE2ZWQ1OTQyNDRhNTNlNmUxM2QifX0=
   SuccessTip: "&f你使用了&3&l真·灵魂疾行宝石&f, 靴子灵魂疾行等级&3&l+1"
   Rewards:
-    - Enchant{name=SOUL_SPEED;limit=30}
+    - action: Enchant
+      name: "SOUL_SPEED"
+      limit: "30"

@@ -14,15 +14,15 @@ object ConfigurationHealth {
     private val expectedFiles = listOf(
         "config.yml",
         "lang/zh_CN.yml", "lang/zh_TW.yml", "lang/en_US.yml",
-        "gui/gui.yml", "gui/rune.yml",
-        "gems/RuneGem.yml", "runes/forge.yml"
+        "gui/gui.yml", "gui/rune.yml", "gui/editor.yml", "gui/dis.yml",
+        "gems/RuneGem.yml", "runes/forge.yml", "dismantle/default.yml"
     )
 
     fun check() {
         val folder = getDataFolder()
         val missing = expectedFiles.filter { !File(folder, it).isFile }
         if (missing.isEmpty()) {
-            info("SnowyGems 配置自检通过：核心配置、语言、菜单与符文文件齐全（已有配置不会被覆盖）")
+            info("SnowyGems 配置自检通过：核心配置、语言、菜单、符文与拆卸方案文件齐全（已有配置不会被覆盖）")
             return
         }
         warning("SnowyGems 配置自检发现缺失文件：${missing.joinToString(", ")}")

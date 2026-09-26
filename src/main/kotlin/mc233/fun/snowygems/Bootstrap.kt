@@ -80,6 +80,7 @@ object Bootstrap {
         val menus = MenuRegistry.snapshot()
         val skills = SkillRegistry.snapshot()
         val recipes = RuneRecipeRegistry.snapshot()
+        val dismantle = DismantleService.snapshot()
         return try {
             DebugUtil.reload()
             Lang.reload()
@@ -88,6 +89,8 @@ object Bootstrap {
             GemRegistry.reload()
             RuneRecipeRegistry.reload()
             MenuRegistry.reload()
+            mc233.`fun`.snowygems.gui.EditorTheme.reload()
+            mc233.`fun`.snowygems.gui.DismantleGui.reload()
             SkillRegistry.reload()
             // Broken references are never safe to publish, regardless of version compatibility policy.
             GemRegistry.all().forEach { gem ->
@@ -106,6 +109,7 @@ object Bootstrap {
             MenuRegistry.restore(menus)
             SkillRegistry.restore(skills)
             RuneRecipeRegistry.restore(recipes)
+            DismantleService.restore(dismantle)
             taboolib.common.platform.function.severe("SnowyGems 配置加载失败，已保留上次宝石/菜单/技能/配方: ${e.message}")
             false
         }
@@ -117,7 +121,7 @@ object Bootstrap {
         RuneRecipeRegistry.invalidate()
         Bukkit.getOnlinePlayers().forEach { player ->
             when (player.openInventory.topInventory.holder) {
-                is MenuHolder, is EmbedGui.EmbedHolder -> player.closeInventory()
+                is MenuHolder, is EmbedGui.EmbedHolder, is mc233.`fun`.snowygems.gui.DismantleGui.Holder -> player.closeInventory()
             }
         }
     }

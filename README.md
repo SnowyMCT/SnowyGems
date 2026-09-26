@@ -1,6 +1,18 @@
 # SnowyGems
 
-基于 TabooLib 的宝石与符文插件。源码构建版本为 `0.0.6`
+基于 TabooLib 的宝石与符文插件。源码构建版本为 `0.0.7`。
+
+0.0.7 修复随机点券兑换券对接 PlayerPoints 时因小数被拒绝的问题，并修复极小随机数的科学计数法解析。`Point` 表达式只求值一次，发放或扣除前向零取整，提示显示实际交易整数；Internal 与 PlayerPoints 使用相同奖励数额。旧配置 `100+2900*$RANDOM()` 可直接继续使用，实际发放 100～2999 点券。取整为 0、非有限数或绝对值超过 2147483647 的结果不生效。
+
+0.0.7 支持对象式 YAML 动作配置。例如 `Rewards` 中依次写 `action: Attribute`、`name: health`、`var: "v+1"`；`Skills` 中用 `trigger: onTimer` 指定触发。旧文本行继续兼容。管理员可执行 `/sgem migrate` 备份并转换旧动作配置，或用 `/sgem editor` 在游戏内创建、修改、删除宝石与符文锻造配方。权限分别为 `snowygems.migrate`、`snowygems.edit`，包含在 `snowygems.admin` 中。
+
+0.0.7 将拆卸价格与宝石返还成功率集中到 `dismantle/*.yml`。方案可按宝石 ID、分类、装备类别、珍贵程度、数量、耐久与附魔状态计算；金币、点券、经验分别计价并可组合。旧宝石文件的 `RemoveTip`、`phase: remove` / `$onRemove` 不再执行，旧 `config.yml` 的 `Dismantle` 节点也已忽略。
+
+0.0.7 将游戏内编辑器改为全 GUI 操作：按分类管理宝石和符文配方，支持分类创建、条目移动、字段编辑、材料和奖励动作编辑，以及 GUI 删除确认。文字和数字在铁砧界面输入，不使用聊天输入。编辑器外观可在 `gui/editor.yml` 中调整。
+
+0.0.7 补齐嵌套技能与 `Conditional` 嵌套奖励的对象式写法。`Chance`、`If`、`All` 等控制流使用 `then` 子动作，`/sgem migrate` 可将旧嵌套行递归转换，并检查转换前后解析结果一致。
+
+`/sgem debug all` 会直接开启全部控制台调试日志；`/sgem debug <tag>` 开启指定范围，`/sgem debug off` 关闭。本次运行期间的调试状态不会因编辑器保存或 `/sgem reload` 丢失。
 
 ## 工作台入口
 
@@ -8,7 +20,7 @@
 - `/sgem rune`：预览并确认符文合成、升级和二级回收，旧配方位于 `runes/forge.yml`，扩展配方位于 `runes/packs/`；玩家权限 `snowygems.rune`。
 - `/sgem open 符文镶嵌台`：按颜色放入符文，确认后每个非空槽尝试一颗。
 - `/sgem open 符文分解台`：将未镶嵌的示例一级符文分解为 10 个碎片。
-- `/sgem inspect`、`/sgem dismantle`：查看与拆卸主手装备上的宝石。
+- `/sgem inspect`：查看主手装备上的宝石；`/sgem dismantle`：打开拆卸台，放入装备后逐颗选择拆卸。
 
 旧颜色符文在 `src/main/resources/gems/RuneGem.yml`，保留其原有 Lore 材料用途。已有服务器的 `gui/gui.yml` 和 `gui/rune.yml` 不会自动覆盖，更新布局时需要合并新确认按钮；旧菜单可空光标 Shift+右键装备进行镶嵌。
 

@@ -14,7 +14,8 @@
     - '&7向物品添加 Lore 标记「强攻 II」；具体属性由其他插件读取'
     - '&7通过 /sgem rune 锻造或回收'
   Rewards:
-    - LoreAdd{lore=&c强攻 II}
+    - action: LoreAdd
+      lore: "&c强攻 II"
 
 蓝色符文II:
   Name: 蓝色符文II
@@ -29,7 +30,8 @@
     - '&7向物品添加 Lore 标记「坚韧 II」；具体属性由其他插件读取'
     - '&7通过 /sgem rune 锻造或回收'
   Rewards:
-    - LoreAdd{lore=&9坚韧 II}
+    - action: LoreAdd
+      lore: "&9坚韧 II"
 
 绿色符文II:
   Name: 绿色符文II
@@ -44,4 +46,5 @@
     - '&7向物品添加 Lore 标记「耐久强化 II」；具体效果由其他插件读取'
     - '&7通过 /sgem rune 锻造或回收'
   Rewards:
-    - LoreAdd{lore=&a耐久强化 II}
+    - action: LoreAdd
+      lore: "&a耐久强化 II"

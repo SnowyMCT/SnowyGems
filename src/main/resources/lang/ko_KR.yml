@@ -107,8 +107,9 @@ command-no-gem: '&c알 수 없는 보석 설정: &f{gem}'
 # 지급 성공   플레이스홀더: {player} {gem} {amount}
 command-give: '&a{player} &a에게 &f{gem} &7×&f{amount} &a을(를) 지급했습니다'
 # 디버그 토글
-command-debug-on: '&a디버그 모드를 임시로 활성화했습니다. 범위: &f{scope} &7(리로드 시 config.yml 값으로 복귀)'
-command-debug-off: '&7디버그 모드를 임시로 비활성화했습니다'
+command-debug-on: '&a디버그 활성화, 범위: &f{scope} &7(서버 콘솔 출력; 이번 실행 중 리로드 후에도 유지)'
+command-debug-active: '&a디버그 활성화, 범위: &f{scope} &7(서버 콘솔 출력; 이번 실행 중 리로드 후에도 유지)'
+command-debug-off: '&7디버그 비활성화'
 command-debug-scope: '&a디버그 범위 설정: &f{scope}'
 command-debug-scope-all: '&a디버그 범위 설정: &f전체'
 # 작업대 블록 설정
@@ -233,14 +234,16 @@ dismantle-title: '&c보석 분해 &7- &f{item}'
 dismantle-need-held: '&c먼저 보석을 분해할 아이템을 손에 들어주세요'
 dismantle-no-embed: '&7이 아이템에는 분해할 보석이 없습니다'
 # 각 보석 아이콘 아래의 텍스트   줄별 플레이스홀더
-dismantle-cost-line: '&7분해 비용: &e{amount} &7{type}'     # {amount} 수량  {type} 골드/포인트/경험치 레벨
-dismantle-break-line: '&c&e{chance}&c% 확률로 보석이 파괴됩니다 (반환되지 않음)'  # {chance} 파괴 확률
+dismantle-cost-free: '무료'
+dismantle-cost-summary: '&7분해 가격: &e{cost}'
+dismantle-success-rate: '&7보석 반환 성공률: &a{chance}%'
+dismantle-plan-error: '&c분해 계획을 계산할 수 없습니다. 관리자에게 설정을 확인해 달라고 요청하세요.'
 dismantle-click-hint: '&a클릭하여 이 보석을 분해'
 # 결과   플레이스홀더: {gem} 보석 이름
 dismantle-success: '&a{gem}&a 을(를) 분해했고 보석은 인벤토리로 돌아왔습니다'
 dismantle-broke: '&c죄송합니다. {gem} &c이(가) 분해 중 파괴되어 사라졌습니다'
 # 잔액 부족   플레이스홀더: {amount} {type}
-dismantle-not-afford: '&c분해 비용은 &e{amount} &f{type}&c 이며, 잔액이 부족합니다'
+dismantle-not-afford-multi: '&c분해에는 &e{cost}&c 이(가) 필요합니다. 잔액 부족 또는 결제 실패'
 # GUI 를 연 뒤 손에 든 아이템이 변경됨
 dismantle-item-changed: '&c손에 든 아이템이 변경되었습니다. 분해 GUI 를 다시 열어주세요'
 

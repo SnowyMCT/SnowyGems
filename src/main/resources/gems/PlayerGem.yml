@@ -9,7 +9,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTc4NDRhNDU1NGY5MzYzZDY1OTkwNmQ2MzEyODE4YTExMjJhMWY5YTkyYTIzMjYyYjFlNjc3MDIyMzJiYjcifX19
   Rewards:
-    - Point{amount=500} $onSuccess
+    - action: Point
+      amount: "500"
 
 点券兑换券-1000:
   Name: 点券兑换券-1000
@@ -21,7 +22,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTc4NDRhNDU1NGY5MzYzZDY1OTkwNmQ2MzEyODE4YTExMjJhMWY5YTkyYTIzMjYyYjFlNjc3MDIyMzJiYjcifX19
   Rewards:
-    - Point{amount=1000} $onSuccess
+    - action: Point
+      amount: "1000"
 
 点券兑换券-2000:
   Name: 点券兑换券-2000
@@ -33,7 +35,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTc4NDRhNDU1NGY5MzYzZDY1OTkwNmQ2MzEyODE4YTExMjJhMWY5YTkyYTIzMjYyYjFlNjc3MDIyMzJiYjcifX19
   Rewards:
-    - Point{amount=2000} $onSuccess
+    - action: Point
+      amount: "2000"
 
 点券兑换券-10000:
   Name: 点券兑换券-10000
@@ -45,7 +48,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTc4NDRhNDU1NGY5MzYzZDY1OTkwNmQ2MzEyODE4YTExMjJhMWY5YTkyYTIzMjYyYjFlNjc3MDIyMzJiYjcifX19
   Rewards:
-    - Point{amount=10000} $onSuccess
+    - action: Point
+      amount: "10000"
 
 随机点券兑换券:
   Name: 随机点券兑换券-500-10000
@@ -76,7 +80,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTc4NDRhNDU1NGY5MzYzZDY1OTkwNmQ2MzEyODE4YTExMjJhMWY5YTkyYTIzMjYyYjFlNjc3MDIyMzJiYjcifX19
   Rewards:
-    - Point{amount=100+2900*$RANDOM()} $onSuccess
+    - action: Point
+      amount: "100+2900*$RANDOM()"
 
 金币兑换券-1000:
   Name: 金币兑换券-1000
@@ -88,7 +93,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM3Y2FlNWM1MWViMTU1OGVhODI4ZjU4ZTBkZmY4ZTZiN2IwYjFhMTgzZDczN2VlY2Y3MTQ2NjE3NjEifX19
   Rewards:
-    - Money{amount=1000} $onSuccess
+    - action: Money
+      amount: "1000"
 
 金币兑换券-2000:
   Name: 金币兑换券-2000
@@ -100,7 +106,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM3Y2FlNWM1MWViMTU1OGVhODI4ZjU4ZTBkZmY4ZTZiN2IwYjFhMTgzZDczN2VlY2Y3MTQ2NjE3NjEifX19
   Rewards:
-    - Money{amount=2000} $onSuccess
+    - action: Money
+      amount: "2000"
 
 金币兑换券-5000:
   Name: 金币兑换券-5000
@@ -112,7 +119,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM3Y2FlNWM1MWViMTU1OGVhODI4ZjU4ZTBkZmY4ZTZiN2IwYjFhMTgzZDczN2VlY2Y3MTQ2NjE3NjEifX19
   Rewards:
-    - Money{amount=5000} $onSuccess
+    - action: Money
+      amount: "5000"
 
 金币兑换券-10000:
   Name: 金币兑换券-10000
@@ -124,7 +132,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM3Y2FlNWM1MWViMTU1OGVhODI4ZjU4ZTBkZmY4ZTZiN2IwYjFhMTgzZDczN2VlY2Y3MTQ2NjE3NjEifX19
   Rewards:
-    - Money{amount=10000} $onSuccess
+    - action: Money
+      amount: "10000"
 
 金币兑换券-100000:
   Name: 金币兑换券-100000
@@ -136,7 +145,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM3Y2FlNWM1MWViMTU1OGVhODI4ZjU4ZTBkZmY4ZTZiN2IwYjFhMTgzZDczN2VlY2Y3MTQ2NjE3NjEifX19
   Rewards:
-    - Money{amount=100000} $onSuccess
+    - action: Money
+      amount: "100000"
 
 随机金币兑换券:
   Name: 随机金币兑换券-1000-100000
@@ -167,7 +177,8 @@
   SuccessTip: "none"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM3Y2FlNWM1MWViMTU1OGVhODI4ZjU4ZTBkZmY4ZTZiN2IwYjFhMTgzZDczN2VlY2Y3MTQ2NjE3NjEifX19
   Rewards:
-    - Money{amount=1000+9000*$RANDOM()} $onSuccess
+    - action: Money
+      amount: "1000+9000*$RANDOM()"
 
 蛇胆:
   Name: 蛇胆
@@ -181,7 +192,9 @@
   Eat: true
   SuccessTip: "&f您饮用了&c&l蛇胆&f, 生命上限永久&c&l+1"
   Rewards:
-    - MaxHealth{amount=1;limit=30} $onSuccess
+    - action: MaxHealth
+      amount: "1"
+      limit: "30"
 
 龙胆:
   Name: 龙胆
@@ -195,7 +208,9 @@
   Eat: true
   SuccessTip: "&f您饮用了&6&l龙胆&f, 生命上限永久&6&l+2"
   Rewards:
-    - MaxHealth{amount=2;limit=60} $onSuccess
+    - action: MaxHealth
+      amount: "2"
+      limit: "60"
 
 经验药水:
   Name: 经验药水
@@ -208,4 +223,5 @@
   Eat: true
   SuccessTip: "&f您饮用了&a&l经验药水&f, 经验等级&a&l+50"
   Rewards:
-    - ExpLevel{amount=50} $onSuccess
+    - action: ExpLevel
+      amount: "50"

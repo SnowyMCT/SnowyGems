@@ -107,8 +107,9 @@ command-no-gem: '&cUnknown gem config: &f{gem}'
 # Give success   Placeholders: {player} {gem} {amount}
 command-give: '&aGiven &f{player} &7×&f{amount} &aof &f{gem}'
 # Debug toggle
-command-debug-on: '&aDebug mode enabled temporarily, scope: &f{scope} &7(back to config.yml on reload)'
-command-debug-off: '&7Debug mode disabled temporarily'
+command-debug-on: '&aDebug enabled, scope: &f{scope} &7(server console; persists through reloads this session)'
+command-debug-active: '&aDebug enabled, scope: &f{scope} &7(server console; persists through reloads this session)'
+command-debug-off: '&7Debug disabled'
 command-debug-scope: '&aDebug scope set to: &f{scope}'
 command-debug-scope-all: '&aDebug scope set to: &fAll'
 # Workbench block setup
@@ -233,14 +234,16 @@ dismantle-title: '&cRemove gems &7- &f{item}'
 dismantle-need-held: '&cHold the item to remove gems from first'
 dismantle-no-embed: '&7This item has no gems to remove'
 # Text under each gem icon   Placeholders per line
-dismantle-cost-line: '&7Remove cost: &e{amount} &7{type}'     # {amount} amount  {type} gold/points/exp levels
-dismantle-break-line: '&c&e{chance}&c% chance the gem breaks (not returned)'  # {chance} break chance
+dismantle-cost-free: 'free'
+dismantle-cost-summary: '&7Removal price: &e{cost}'
+dismantle-success-rate: '&7Gem return chance: &a{chance}%'
+dismantle-plan-error: '&cCould not calculate the removal plan. Ask an admin to check the configuration.'
 dismantle-click-hint: '&aClick to remove this gem'
 # Result   Placeholder: {gem} gem name
 dismantle-success: '&aRemoved {gem}&a, gem returned to your inventory'
 dismantle-broke: '&cSorry, {gem} &cbroke during removal and was lost'
 # Not enough money   Placeholders: {amount} {type}
-dismantle-not-afford: '&cRemoval costs &e{amount} &f{type}&c, your balance is too low'
+dismantle-not-afford-multi: '&cRemoval requires &e{cost}&c; balance is insufficient or payment failed'
 # Held item changed after opening the GUI
 dismantle-item-changed: '&cThe held item changed, reopen the removal GUI'
 

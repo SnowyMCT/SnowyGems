@@ -21,7 +21,7 @@ object MenuRegistry {
         val loaded = LinkedHashMap<String, MenuLayout>()
         releaseResourceFolder("gui/", replace = false)
         val folder = File(getDataFolder(), "gui")
-        val files = folder.listFiles { f -> f.isFile && f.extension.lowercase() in setOf("yml", "yaml") }
+        val files = folder.listFiles { f -> f.isFile && f.nameWithoutExtension.lowercase() !in setOf("editor", "dis") && f.extension.lowercase() in setOf("yml", "yaml") }
             ?.sortedBy { it.name } ?: emptyList()
         DebugUtil.log("Registry", "开始加载菜单配置, 目录=${folder.absolutePath} 发现 ${files.size} 个文件: ${files.joinToString { it.name }}")
         for (file in files) {

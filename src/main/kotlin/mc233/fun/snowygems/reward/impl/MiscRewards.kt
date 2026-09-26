@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.meta.Damageable
 import mc233.`fun`.snowygems.util.ItemTagData
 import mc233.`fun`.snowygems.util.getItemTag
+import org.bukkit.Bukkit
 
 /** Enchant{name=DURABILITY;limit=7} 或 Enchant{name=RIPTIDE;level=0} */
 class EnchantReward(private val name: String, private val level: Int?, private val limit: Int?) : Reward {
@@ -172,16 +173,28 @@ class ItemTakeReward(val gemId: String, val amount: Int) : Reward {
 class PointReward(private val amountExpr: String) : Reward {
     override fun apply(ctx: RewardContext): Boolean {
         val player = ctx.player ?: return false
-        val amount = ExprUtil.eval(amountExpr)
-        DebugUtil.log("Reward", "    Point: 表达式 $amountExpr -> $amount 点券, 目标=${player.name}")
-        if (!PointsEconomy.tryAdd(player, amount)) return false
-        // 主动提示玩家获得了多少(取整展示, 因为点券是整数量级)
+        val evaluated = ExprUtil.eval(amountExpr)
+        val amount = pointRewardAmount(evaluated) ?: run {
+            DebugUtil.log("Reward", "    Point: 表达式 $amountExpr -> $evaluated，取整后为 0、非有限数或超出点券范围，未生效")
+            return false
+        }
+        DebugUtil.log("Reward", "    Point: 表达式 $amountExpr -> $evaluated，实际交易=$amount 点券, 目标=${player.name}")
+        if (!PointsEconomy.tryAdd(player, amount.toDouble())) return false
+        // 提示与实际交易使用同一个整数，随机表达式只求值一次。
         runCatching { mc233.`fun`.snowygems.util.Lang.send(
             player, "reward.point-gain",
-            "amount" to if (amount == amount.toLong().toDouble()) amount.toLong().toString() else amount.toString()
+            "amount" to amount.toString()
         ) }
         return true
     }
+}
+
+/** 点券奖励向零取整；在转换前检查范围，避免 toInt 的饱和转换造成错误发放。 */
+internal fun pointRewardAmount(evaluated: Double): Int? {
+    if (!evaluated.isFinite()) return null
+    val whole = kotlin.math.truncate(evaluated)
+    if (whole == 0.0 || kotlin.math.abs(whole) > Int.MAX_VALUE.toDouble()) return null
+    return whole.toInt()
 }
 
 class MoneyReward(private val amountExpr: String) : Reward {
@@ -196,6 +209,25 @@ class MoneyReward(private val amountExpr: String) : Reward {
             runCatching { mc233.`fun`.snowygems.util.Lang.send(player, "reward.money-gain", "amount" to shown) }
         }
         return ok
+    }
+}
+
+/** Execute a configured command after the gem reward is applied. Commands are not reversible. */
+class CommandReward(
+    private val command: String,
+    private val asConsole: Boolean,
+    private val requireEffect: Boolean
+) : Reward {
+    override fun apply(ctx: RewardContext): Boolean {
+        if (requireEffect && ctx.successfulRewards == 0) return false
+        val player = ctx.player ?: return false
+        val parsed = command.trim().removePrefix("/")
+            .replace("%player_name%", player.name)
+            .replace("%player%", player.name)
+            .replace("%uuid%", player.uniqueId.toString())
+        if (parsed.isBlank()) return false
+        val sender = if (asConsole) Bukkit.getConsoleSender() else player
+        return Bukkit.dispatchCommand(sender, parsed)
     }
 }
 

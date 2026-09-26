@@ -91,8 +91,8 @@ object ConfigValidator {
             for (entry in gem.require) {
                 validateRequire(where, entry)
             }
-            for (raw in gem.rewards) {
-                if (raw.isNotBlank()) validateRewardLine(where, raw)
+            for ((index, parsed) in gem.parsedRewards.withIndex()) {
+                validateRewardLine(where, "Rewards #${index + 1}", parsed.call)
             }
         }
     }
@@ -158,11 +158,7 @@ object ConfigValidator {
     }
 
     /** 检查一行 Rewards. 只做"名字能不能解析"的静态检查, 不执行任何逻辑 */
-    private fun validateRewardLine(where: String, raw: String) {
-        val call = runCatching { RewardTokenParser.parseLine(raw).call }.getOrElse {
-            mistake(where, "Rewards: $raw", "这一行语法无法解析: ${it.message}")
-            return
-        }
+    private fun validateRewardLine(where: String, raw: String, call: mc233.`fun`.snowygems.reward.FunctionCall) {
         if (RewardFactory.create(call) == null) {
             mistake(where, "Rewards: $raw", "未知奖励函数或缺少必要参数，该行不会生效")
             return
@@ -189,17 +185,13 @@ object ConfigValidator {
     private fun validateSkills() {
         for (def in SkillRegistry.all()) {
             val where = "skills -> ${def.id}"
-            for (raw in def.skills) {
-                if (raw.isNotBlank()) validateSkillLine(where, raw)
+            for ((index, line) in def.parsedSkills.withIndex()) {
+                validateSkillLine(where, "Skills #${index + 1}", line)
             }
         }
     }
 
-    private fun validateSkillLine(where: String, raw: String) {
-        val line = runCatching { SkillLineParser.parse(raw) }.getOrElse {
-            mistake(where, raw, "这一行语法无法解析: ${it.message}")
-            return
-        }
+    private fun validateSkillLine(where: String, raw: String, line: mc233.`fun`.snowygems.skill.SkillLine) {
         // RewardSwitch 是形态切换的容器, 由 Switch 自己解释, 不参与函数表校验
         if (line.name.equals("RewardSwitch", true)) return
 

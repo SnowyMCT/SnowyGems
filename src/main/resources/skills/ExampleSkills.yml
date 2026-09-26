@@ -17,7 +17,7 @@
 #    Lore         物品 lore 里出现这段文字, 就会绑定这个技能(去色比较, 可含颜色码)
 #    Cooldown     冷却秒数, 不写或 0 表示无冷却
 #    CooldownTip  冷却中的提示, 本身也是一个函数表达式
-#    Skills       技能行列表, 每行格式: 函数名{参数} ~触发标记 @作用目标
+#    Skills       技能动作列表，推荐 action / trigger / target；控制流子动作写在 then 下
 #
 #  ── 作用目标 @ ──────────────────────────────────────────
 #    @Self      (默认) 作用于自己
@@ -39,8 +39,27 @@
   CooldownTip: ActionBar{p=&c守护冷却;s=&c%.2fs;empty=&8|;full=&c|;length=40}
   Skills:
     # onDamaged 是装备耐久损耗事件，不是玩家受到任意伤害；生命低于 30% 时尝试回血与抗性。
-    - If{c=health<0.3;All{Heal{amount=20};Potion{type=RESISTANCE;level=3;duration=6};Sound{name=ITEM_TOTEM_USE}}} ~onDamaged
-    - If{c=health<0.3;Title{m=&c&l守护发动;s=&7生命已恢复}} ~onDamaged
+    - action: "If"
+      c: "health<0.3"
+      then:
+        action: "All"
+        then:
+          - action: "Heal"
+            amount: "20"
+          - action: "Potion"
+            type: "RESISTANCE"
+            level: "3"
+            duration: "6"
+          - action: "Sound"
+            name: "ITEM_TOTEM_USE"
+      trigger: "onDamaged"
+    - action: "If"
+      c: "health<0.3"
+      then:
+        action: "Title"
+        m: "&c&l守护发动"
+        s: "&7生命已恢复"
+      trigger: "onDamaged"
 
 
 # ── 2. 概率技能: 攻击时几率触发额外效果 ─────────────────────
@@ -48,9 +67,26 @@
   Lore: "&b雷霆之刃"
   Skills:
     # 20% 概率召唤闪电 + 30% 概率点燃
-    - Chance{p=0.2;Lightning{damage=true}} ~onAttack @Entity
-    - Chance{p=0.3;Fire{ticks=80}} ~onAttack @Entity
-    - Chance{p=0.2;ActionBar{m=&e&l雷霆!}} ~onAttack
+    - action: "Chance"
+      p: "0.2"
+      then:
+        action: "Lightning"
+        damage: "true"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "Chance"
+      p: "0.3"
+      then:
+        action: "Fire"
+        ticks: "80"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "Chance"
+      p: "0.2"
+      then:
+        action: "ActionBar"
+        m: "&e&l雷霆!"
+      trigger: "onAttack"
 
 
 # ── 3. 连招: 延迟与重复 ─────────────────────────────────────
@@ -59,8 +95,22 @@
   Lore: "&6三段斩"
   Cooldown: 8.0
   Skills:
-    - Repeat{times=3;interval=6;All{Damage{amount=4};Particle{name=SWEEP_ATTACK;count=8}}} ~onAttack @Entity
-    - Sound{name=ENTITY_PLAYER_ATTACK_SWEEP} ~onAttack
+    - action: "Repeat"
+      times: "3"
+      interval: "6"
+      then:
+        action: "All"
+        then:
+          - action: "Damage"
+            amount: "4"
+          - action: "Particle"
+            name: "SWEEP_ATTACK"
+            count: "8"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "Sound"
+      name: "ENTITY_PLAYER_ATTACK_SWEEP"
+      trigger: "onAttack"
 
 
 # ── 4. 击杀与挖掘触发 ───────────────────────────────────────
@@ -68,16 +118,32 @@
   Lore: "&2猎手之证"
   Skills:
     # 击杀回血
-    - Heal{amount=4} ~onKill
-    - ActionBar{m=&a猎杀回复 &f4 &a生命} ~onKill
+    - action: "Heal"
+      amount: "4"
+      trigger: "onKill"
+    - action: "ActionBar"
+      m: "&a猎杀回复 &f4 &a生命"
+      trigger: "onKill"
 
 矿工之友:
   Lore: "&e矿工之友"
   Skills:
     # 挖矿 10% 概率给急迫, 让连续挖掘更顺
-    - Chance{p=0.1;Potion{type=HASTE;level=2;duration=8}} ~onBreak
+    - action: "Chance"
+      p: "0.1"
+      then:
+        action: "Potion"
+        type: "HASTE"
+        level: "2"
+        duration: "8"
+      trigger: "onBreak"
     # 5% 概率不消耗耐久(直接把耐久修回来 1 点)
-    - Chance{p=0.05;Repair{amount=1}} ~onDamaged
+    - action: "Chance"
+      p: "0.05"
+      then:
+        action: "Repair"
+        amount: "1"
+      trigger: "onDamaged"
 
 
 # ── 5. 位移: 冲刺与击飞 ─────────────────────────────────────
@@ -86,17 +152,31 @@
   Cooldown: 6.0
   CooldownTip: ActionBar{p=&b疾风冷却;s=&b%.2fs;empty=&8|;full=&b|;length=40}
   Skills:
-    - Velocity{forward=1.8;up=0.35} ~onShiftUse
-    - Particle{name=CLOUD;count=30} ~onShiftUse
-    - Sound{name=ENTITY_ENDER_DRAGON_FLAP;pitch=1.6} ~onShiftUse
+    - action: "Velocity"
+      forward: "1.8"
+      up: "0.35"
+      trigger: "onShiftUse"
+    - action: "Particle"
+      name: "CLOUD"
+      count: "30"
+      trigger: "onShiftUse"
+    - action: "Sound"
+      name: "ENTITY_ENDER_DRAGON_FLAP"
+      pitch: "1.6"
+      trigger: "onShiftUse"
 
 # 击飞对手: 给受害者一个向上的速度
 上挑:
   Lore: "&6上挑"
   Cooldown: 5.0
   Skills:
-    - Velocity{up=0.9} ~onAttack @Entity
-    - Sound{name=ENTITY_PLAYER_ATTACK_KNOCKBACK} ~onAttack
+    - action: "Velocity"
+      up: "0.9"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "Sound"
+      name: "ENTITY_PLAYER_ATTACK_KNOCKBACK"
+      trigger: "onAttack"
 
 
 # ============================================================
@@ -112,10 +192,27 @@
   Cooldown: 10.0
   Skills:
     # 命中给对手挂上试炼系负面效果 —— 1.21 以下会跳过这三行
-    - Potion{type=oozing;duration=6;level=1} ~onAttack @Entity
-    - Potion{type=weaving;duration=6;level=1} ~onAttack @Entity
-    - Potion{type=infested;duration=6;level=1} ~onAttack @Entity
-    - ActionBar{m=&5试炼诅咒已施加} ~onAttack
+    - action: "Potion"
+      type: "oozing"
+      duration: "6"
+      level: "1"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "Potion"
+      type: "weaving"
+      duration: "6"
+      level: "1"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "Potion"
+      type: "infested"
+      duration: "6"
+      level: "1"
+      trigger: "onAttack"
+      target: "Entity"
+    - action: "ActionBar"
+      m: "&5试炼诅咒已施加"
+      trigger: "onAttack"
 
 # 蓄风: 打人时给自己叠蓄风, 配合风爆附魔
 蓄风战锤:
@@ -123,8 +220,21 @@
   Lore: "&3蓄风战锤"
   Cooldown: 4.0
   Skills:
-    - Potion{type=wind_charged;duration=10;level=1} ~onAttack
-    - Chance{p=0.35;All{Velocity{up=0.6};Sound{name=ENTITY_WIND_CHARGE_WIND_BURST}}} ~onAttack
+    - action: "Potion"
+      type: "wind_charged"
+      duration: "10"
+      level: "1"
+      trigger: "onAttack"
+    - action: "Chance"
+      p: "0.35"
+      then:
+        action: "All"
+        then:
+          - action: "Velocity"
+            up: "0.6"
+          - action: "Sound"
+            name: "ENTITY_WIND_CHARGE_WIND_BURST"
+      trigger: "onAttack"
 
 
 # ── 7. 1.21.11+ 矛(SPEAR) ───────────────────────────────────
@@ -136,10 +246,18 @@
   CooldownTip: ActionBar{p=&f长矛冷却;s=&f%.2fs;empty=&8|;full=&f|;length=40}
   Skills:
     # 右键/蓄力准备反馈；实际突刺伤害由原版战斗系统处理
-    - ActionBar{m=&f长矛已准备} ~onUse
-    - ActionBar{m=&e长矛蓄力中} ~onShiftUse
+    - action: "ActionBar"
+      m: "&f长矛已准备"
+      trigger: "onUse"
+    - action: "ActionBar"
+      m: "&e长矛蓄力中"
+      trigger: "onShiftUse"
     # 命中实体时给出视觉反馈，不额外调用 Damage，避免重复结算伤害
-    - Particle{name=CRIT;count=8} ~onAttack @Entity
+    - action: "Particle"
+      name: "CRIT"
+      count: "8"
+      trigger: "onAttack"
+      target: "Entity"
 
 
 # ── 8. 1.20.5+ / 1.21.2+ 新属性(用 Attribute 奖励, 不是技能函数) ──
@@ -161,7 +279,7 @@
 
 
 # ── 9. 形态切换: 引擎自动反推当前形态 ───────────────────────
-# 只要两个形态各自用 RewardSwitch{Enchant{...;level=restore}} 声明自己的特征附魔,
+# 只要两个形态各自用 RewardSwitch 的 then: Enchant 声明自己的特征附魔,
 # 引擎就能在物品没有状态标记时(旧物品/手动加的 Lore)判断出当前处于哪个形态
 # 因此你新增任意一组切换都不需要改代码
 #
@@ -171,16 +289,41 @@
   Cooldown: 4.0
   CooldownTip: ActionBar{p=&6切换冷却;s=&6%.2fs;empty=&8|;full=&6|;length=40}
   Skills:
-    - Switch{s=火焰形态;击退形态} ~onShiftUse
+    - action: Switch
+      from: "火焰形态"
+      to: "击退形态"
+      trigger: onShiftUse
 
 火焰形态:
   Skills:
-    - RewardSwitch{Enchant{name=knockback;level=0}}
-    - RewardSwitch{Enchant{name=fire_aspect;level=restore}}
-    - RewardSwitch{ActionBar{m=&6&l切换为火焰形态}}
+    - action: "RewardSwitch"
+      then:
+        action: "Enchant"
+        name: "knockback"
+        level: "0"
+    - action: "RewardSwitch"
+      then:
+        action: "Enchant"
+        name: "fire_aspect"
+        level: "restore"
+    - action: "RewardSwitch"
+      then:
+        action: "ActionBar"
+        m: "&6&l切换为火焰形态"
 
 击退形态:
   Skills:
-    - RewardSwitch{Enchant{name=fire_aspect;level=0}}
-    - RewardSwitch{Enchant{name=knockback;level=restore}}
-    - RewardSwitch{ActionBar{m=&f&l切换为击退形态}}
+    - action: "RewardSwitch"
+      then:
+        action: "Enchant"
+        name: "fire_aspect"
+        level: "0"
+    - action: "RewardSwitch"
+      then:
+        action: "Enchant"
+        name: "knockback"
+        level: "restore"
+    - action: "RewardSwitch"
+      then:
+        action: "ActionBar"
+        m: "&f&l切换为击退形态"

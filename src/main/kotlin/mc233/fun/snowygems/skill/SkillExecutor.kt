@@ -10,6 +10,7 @@ import org.bukkit.Location
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * 技能执行器 —— 只负责查表和分派, 不含任何具体技能的实现
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack
  *   3. 版本不支持时给出明确提示而不是静默失败
  */
 object SkillExecutor {
+    private val nestedCache = ConcurrentHashMap<String, SkillLine>()
 
     /**
      * 注册内置技能函数.
@@ -30,6 +32,7 @@ object SkillExecutor {
      * 因此由 [mc233.fun.snowygems.Bootstrap.reloadAll] 显式按顺序调用
      */
     fun registerBuiltins() {
+        nestedCache.clear()
         SkillFunctions.clear()
         BasicFunctions.registerAll()
         PotionFunctions.registerAll()
@@ -59,7 +62,7 @@ object SkillExecutor {
      * 统一放这里, 免得每个函数域各写一份
      */
     fun runNested(ctx: SkillContext, nestedRaw: String): Boolean =
-        dispatch(ctx.copy(line = SkillLineParser.parse(nestedRaw), depth = ctx.depth + 1))
+        dispatch(ctx.copy(line = nestedCache.computeIfAbsent(nestedRaw, SkillLineParser::parse), depth = ctx.depth + 1))
 
     private fun dispatch(ctx: SkillContext): Boolean {
         if (ctx.generation != SkillRuntime.generation || !ctx.budget.consume(ctx.depth)) return false

@@ -1,0 +1,46 @@
+# /sgem dismantle 的专属界面。首次启动释放，已有文件不会覆盖；修改后 /sgem reload。
+# 每行必须 9 个字符。E 恰好一个装备槽；G 可重复，是宝石列表与翻页区域。
+拆卸台:
+  Title: '&8◆ 宝石拆卸台'
+  Slots:
+    - TTTTTTTTT
+    - TTQTTGGGT
+    - TTETTGGGT
+    - TTQTTGGGT
+    - TTTTTGGGT
+    - TXTTTPNTT
+  Items:
+    T:
+      Type: FILLER
+      Material: BLACK_STAINED_GLASS_PANE
+      Display: ' '
+    Q:
+      Type: TIP
+      Material: LIGHT_BLUE_STAINED_GLASS_PANE
+      Display: '&b装备槽'
+      Tips: ['&7把一件已镶嵌宝石的装备放入中间空格', '&7右侧逐颗显示拆卸价格与返还概率']
+    E:
+      Type: EQUIP_SLOT
+    G:
+      Type: GEM_LIST
+      Material: AUTO
+      Display: '{gem}'
+      Tips:
+        - '&7拆卸价格：&f{cost}'
+        - '&7返还概率：&f{chance}%'
+        - '&8第 {index} 颗宝石'
+        - '&e左键拆卸这一颗'
+    P:
+      Type: PAGE_PREV
+      Material: ARROW
+      Display: '&e上一页'
+      Tips: ['&7当前第 {page}/{pages} 页']
+    N:
+      Type: PAGE_NEXT
+      Material: ARROW
+      Display: '&e下一页'
+      Tips: ['&7当前第 {page}/{pages} 页']
+    X:
+      Type: CLOSE
+      Material: BARRIER
+      Display: '&c关闭并取回装备'

@@ -1,7 +1,6 @@
 package mc233.`fun`.snowygems
 
 import mc233.`fun`.snowygems.config.MenuRegistry
-import mc233.`fun`.snowygems.manager.DismantleService
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.manager.MarkBlockManager
 import mc233.`fun`.snowygems.reward.AppliedReward
@@ -21,18 +20,6 @@ class RegressionTest {
         for (rows in listOf(emptyList(), List(7) { "TTTTTTTTT" }, listOf("short"), listOf("1234567890"))) {
             assertFailsWith<IllegalArgumentException> { MenuRegistry.validateRows(rows) }
         }
-    }
-
-    @Test fun `integer fees cannot truncate to free and invalid fees fail closed`() {
-        assertEquals(1.0, DismantleService.normalizeCost("exp", 0.1))
-        assertEquals(101.0, DismantleService.normalizeCost("points", 100.1))
-        assertEquals(0.1, DismantleService.normalizeCost("money", 0.1))
-        assertEquals(0.0, DismantleService.normalizeCost("money", 0.0))
-        for (value in listOf(-1.0, Double.NaN, Double.POSITIVE_INFINITY)) {
-            assertNull(DismantleService.normalizeCost("money", value))
-        }
-        assertNull(DismantleService.normalizeCost("points", Int.MAX_VALUE.toDouble() + 1))
-        assertNull(DismantleService.normalizeCost("typo", 10.0))
     }
 
     @Test fun `random pools ignore disabled weights and cannot overflow int totals`() {

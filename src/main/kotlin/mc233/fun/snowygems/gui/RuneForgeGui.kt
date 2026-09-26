@@ -6,6 +6,7 @@ import mc233.`fun`.snowygems.rune.RuneForge
 import mc233.`fun`.snowygems.rune.RuneRecipe
 import mc233.`fun`.snowygems.rune.RuneRecipeRegistry
 import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.entity.Player
@@ -23,6 +24,7 @@ object RuneForgeGui {
         if (!player.hasPermission(Permissions.RUNE)) { Lang.send(player, "rune.no-permission"); return }
         val recipes = RuneRecipeRegistry.all()
         if (recipes.isEmpty()) { Lang.send(player, "rune.empty"); return }
+        DebugUtil.log("Rune", "${player.name} 打开符文锻造，配方数=${recipes.size}")
         val generation = RuneRecipeRegistry.generation
         player.openMenu<Linked<RuneRecipe>>(Lang.get("rune.title")) {
             rows(6)
@@ -50,6 +52,7 @@ object RuneForgeGui {
     }
 
     private fun confirm(player: Player, recipe: RuneRecipe, generation: Long) {
+        DebugUtil.log("Rune", "${player.name} 查看配方 ${recipe.id}，材料=${recipe.ingredients}")
         player.openMenu<Linked<RuneRecipe>>(Lang.get("rune.confirm-title")) {
             rows(3)
             slots(listOf(13))

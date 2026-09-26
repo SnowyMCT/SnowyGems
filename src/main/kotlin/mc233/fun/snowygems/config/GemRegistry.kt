@@ -7,6 +7,7 @@ import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.severe
+import taboolib.common.platform.function.warning
 import taboolib.module.configuration.Configuration
 import java.io.File
 
@@ -42,10 +43,12 @@ object GemRegistry {
     private fun loadFile(file: File, loaded: MutableMap<String, GemConfig>) {
         val cfg = Configuration.loadFromFile(file)
         val category = file.nameWithoutExtension
+        var legacyDismantle = 0
         for (key in cfg.getKeys(false)) {
             if (key.equals("Version", true)) continue
             val sec = cfg.getConfigurationSection(key) ?: continue
             val gem = parse(key, sec, category)
+            if (sec.contains("RemoveTip") || gem.parsedRewards.any { "onRemove" in it.flags }) legacyDismantle++
             require(key !in loaded) { "重复宝石 ID: $key" }
             require(gem.embed >= 0 && gem.success in 0..100) { "$key: Embed / Success 无效" }
             loaded[key] = gem
@@ -56,6 +59,7 @@ object GemRegistry {
                     "success=${gem.success} embed=${gem.embed} rewards=${gem.rewards.size}条 randomPool=${gem.randomPool.keys}"
             )
         }
+        if (legacyDismantle > 0) warning("${file.name} 中 $legacyDismantle 个宝石含旧拆卸字段/奖励，现已忽略；请将价格和成功率移入 dismantle/ 目录")
     }
 
     private fun parse(id: String, sec: taboolib.library.configuration.ConfigurationSection, category: String): GemConfig {
@@ -65,7 +69,15 @@ object GemRegistry {
                 randomPool[k] = gs.getInt(k, 1)
             }
         }
-        val rawRewards = sec.getStringList("Rewards")
+        val rewardEntries = ActionSyntax.entries(sec, "Rewards")
+        val rawRewards = rewardEntries.map { it.toString() }
+        val parsedRewards = rewardEntries.mapIndexed { index, entry ->
+            try {
+                ActionSyntax.reward(entry).also { it.reward = RewardFactory.create(it.call) }
+            } catch (e: Exception) {
+                throw IllegalArgumentException("$id Rewards 第 ${index + 1} 条: ${e.message}", e)
+            }
+        }
         return GemConfig(
             id = id,
             name = sec.getString("Name", id) ?: id,
@@ -83,18 +95,11 @@ object GemRegistry {
             color = sec.getString("Color"),
             eat = sec.getBoolean("Eat", false),
             successTip = sec.getString("SuccessTip"),
-            removeTip = sec.getString("RemoveTip"),
             failTip = sec.getString("FailTip"),
             rewards = rawRewards,
             // 一次性预解析: 每次镶嵌/使用直接取用, 不再重复解析配置行;
             // 顺带创建并缓存 Reward 实例(全部实现为不可变配置持有者, 可安全共享), 运行时零分配
-            parsedRewards = rawRewards.mapNotNull { raw ->
-                if (raw.isBlank()) null
-                else runCatching { RewardTokenParser.parseLine(raw) }
-                    .onFailure { DebugUtil.err("Registry", "宝石 $id 的奖励行解析失败: $raw", it) }
-                    .getOrNull()
-                    ?.also { it.reward = RewardFactory.create(it.call) }
-            },
+            parsedRewards = parsedRewards,
             randomPool = randomPool,
             randomGiveItem = sec.getBoolean("GiveItem", false),
             gui = sec.getStringList("Gui"),

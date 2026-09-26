@@ -44,9 +44,11 @@ object Permissions {
     const val SKILLS = "snowygems.skills"
     const val TRIGGERS = "snowygems.triggers"
     const val MARK = "snowygems.mark"
+    const val MIGRATE = "snowygems.migrate"
+    const val EDIT = "snowygems.edit"
 
     private val USER_NODES = listOf(BASE, EMBED, INSPECT, DISMANTLE, USE, OPEN, RUNE, CATALOG)
-    private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS, MARK, HISTORY)
+    private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS, MARK, HISTORY, MIGRATE, EDIT)
 
     /**
      * 在 ENABLE 阶段注册权限父子关系. 重复注册(reload)会先移除旧的再重建, 保持幂等。

@@ -124,6 +124,12 @@ object ExprUtil {
             val start = pos
             while (pos < src.length && (src[pos].isDigit() || src[pos] == '.')) pos++
             if (start == pos) return 0.0
+            // Double.toString() 会把很小的 RANDOM 结果写成科学计数法，必须一起读取指数。
+            if (pos < src.length && (src[pos] == 'e' || src[pos] == 'E')) {
+                pos++
+                if (pos < src.length && (src[pos] == '+' || src[pos] == '-')) pos++
+                while (pos < src.length && src[pos].isDigit()) pos++
+            }
             return src.substring(start, pos).toDoubleOrNull() ?: 0.0
         }
 

@@ -222,5 +222,7 @@ depend: MythicMobs
   Lore: "[技能] 终焉剑意"
   Cooldown: 60.0
   Skills:
-    - skill{s=终焉剑意} ~onUse
+    - action: skill
+      s: "终焉剑意"
+      trigger: "onUse"
 

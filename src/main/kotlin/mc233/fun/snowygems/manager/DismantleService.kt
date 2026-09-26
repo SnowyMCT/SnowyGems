@@ -1,141 +1,92 @@
 package mc233.`fun`.snowygems.manager
 
+import mc233.`fun`.snowygems.config.GemConfig
 import mc233.`fun`.snowygems.economy.MoneyEconomy
 import mc233.`fun`.snowygems.economy.PointsEconomy
-import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import mc233.`fun`.snowygems.util.Lang
+import mc233.`fun`.snowygems.util.DebugUtil
 import org.bukkit.entity.Player
-import taboolib.module.configuration.Config
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
+import taboolib.common.platform.function.getDataFolder
+import taboolib.common.platform.function.releaseResourceFolder
+import taboolib.common.platform.function.warning
 import taboolib.module.configuration.Configuration
-import taboolib.common.platform.function.severe
+import java.io.File
+import java.util.Locale
 import kotlin.random.Random
 
-/**
- * 拆卸宝石的费用 & 损坏规则.
- *
- * 全部由 config.yml 的 Dismantle 一节配置:
- *   - 费用类型: money(金币) / points(点券) / exp(经验等级)
- *   - 费用金额
- *   - 损坏概率: 拆卸时有概率不返还宝石(宝石损坏)
- *
- * 拆卸界面先验证物品，再调用本服务收费，失败时退款：
- *   1. 检查并扣除费用 —— 余额不足直接拒绝, 不动装备
- *   2. GemManager.removeFromItem 撤销属性/附魔, 把宝石从装备摘掉
- *   3. 掷骰子判定宝石是否损坏 —— 未损坏则返还宝石实体, 损坏则不返还
- */
+/** Independent dismantle plans. Gems contain only their application effects. */
 object DismantleService {
+    @Volatile private var pricing: DismantlePricing? = null
 
-    @Config(value = "config.yml", autoReload = true, migrate = true)
-    lateinit var conf: Configuration
-
-    // ── 配置字段(resolve 时读取) ─────────────────────────────
-    /** 拆卸是否需要费用 */
-    private var costEnabled = true
-    /** money / points / exp */
-    private var costType = "money"
-    /** 费用数额 */
-    private var costAmount = 100.0
-    /** 宝石损坏概率(0~100), 0=永不损坏 */
-    private var breakChance = 20
-    private var costValid = true
+    internal fun snapshot() = pricing
+    internal fun restore(value: DismantlePricing?) { pricing = value }
 
     fun resolve() {
-        if (!::conf.isInitialized) return
-        conf.reload()
-        costEnabled = conf.getBoolean("Dismantle.Cost.Enabled", true)
-        costType = (conf.getString("Dismantle.Cost.Type", "money") ?: "money").trim().lowercase()
-        val configuredAmount = conf.getDouble("Dismantle.Cost.Amount", 100.0)
-        val normalized = normalizeCost(costType, configuredAmount)
-        costValid = normalized != null
-        costAmount = normalized ?: configuredAmount
-        if (costEnabled && !costValid) severe("拆卸费用无效：Type=$costType Amount=$configuredAmount，已禁止收费拆卸，请修正配置")
-        breakChance = conf.getInt("Dismantle.BreakChance", 20).coerceIn(0, 100)
-        DebugUtil.log("Dismantle", "配置就绪: 需费用=$costEnabled 类型=$costType 数额=$costAmount 损坏概率=$breakChance%")
-    }
-
-    /** 费用类型的中文名, 供提示展示 */
-    fun costTypeName(): String = when (costType) {
-        "points", "point" -> Lang.get("dismantle.cost-points")
-        "exp", "explevel", "level" -> Lang.get("dismantle.cost-exp")
-        else -> Lang.get("dismantle.cost-money")
-    }
-
-    fun costEnabled() = costEnabled
-    fun costAmount() = costAmount
-    fun breakChance() = breakChance
-
-    /** 玩家余额是否够拆卸费用 */
-    fun canAfford(player: Player): Boolean {
-        if (!costEnabled) return true
-        if (!costValid) return false
-        if (costAmount == 0.0) return true
-        return when (costType) {
-            "points", "point" -> PointsEconomy.get(player) >= costAmount
-            "exp", "explevel", "level" -> player.level >= costAmount.toInt()
-            else -> {
-                // Money 没有可靠的"只查询"接口, 用扣0再补的方式不优雅; 直接尝试扣, 失败即余额不足.
-                // 这里改为在实际扣费时判定, canAfford 对 money 返回 true, 由 charge 负责真实校验.
-                true
-            }
+        val oldGlobal = File(getDataFolder(), "config.yml")
+        if (oldGlobal.isFile && Configuration.loadFromFile(oldGlobal).contains("Dismantle")) {
+            warning("config.yml 的旧 Dismantle 节点已忽略；请将价格与返还成功率配置在 dismantle/ 目录")
         }
+        releaseResourceFolder("dismantle/", replace = false)
+        val folder = File(getDataFolder(), "dismantle")
+        val files = folder.listFiles { f -> f.isFile && f.extension.lowercase() in setOf("yml", "yaml") }
+            ?.toList() ?: emptyList()
+        pricing = DismantlePlanFiles.load(files)
     }
 
-    /**
-     * 扣除拆卸费用.
-     * @return 是否扣费成功(余额不足返回 false)
-     */
-    fun charge(player: Player): Boolean {
-        if (!costEnabled) return true
-        if (!costValid) return false
-        if (costAmount == 0.0) return true
-        return when (costType) {
-            "points", "point" -> {
-                if (PointsEconomy.get(player) < costAmount) return false
-                PointsEconomy.tryAdd(player, -costAmount)
-            }
-            "exp", "explevel", "level" -> {
-                if (player.level < costAmount.toInt()) return false
-                player.giveExpLevels(-costAmount.toInt())
-                DebugUtil.log("Dismantle", "扣除 ${player.name} ${costAmount.toInt()} 级经验")
-                true
-            }
-            else -> {
-                // MoneyEconomy.add(负数) 走 withdrawBalance, 余额不足会返回 false
-                val ok = MoneyEconomy.add(player, -costAmount)
-                DebugUtil.log("Dismantle", "扣除 ${player.name} $costAmount 金币 -> $ok")
-                ok
-            }
+    fun quote(gem: GemConfig, item: ItemStack): DismantleQuote {
+        val plan = pricing ?: error("拆卸方案尚未加载")
+        val applied = GemManager.getAppliedGems(item)
+        require(gem.id in applied) { "该装备没有此宝石" }
+        val meta = item.itemMeta
+        val damage = if (meta is Damageable && item.type.maxDurability > 0)
+            meta.damage.toDouble() * 100.0 / item.type.maxDurability.toDouble() else 0.0
+        val metrics = DismantleMetrics(applied.size, applied.count { it == gem.id },
+            damage.coerceIn(0.0, 100.0), item.enchantments.size, meta?.isUnbreakable == true)
+        val quote = plan.quote(gem.id, gem.category, metrics) { entries ->
+            ItemRequireMatcher.matches(entries, item, meta?.lore ?: emptyList())
         }
+        DebugUtil.log("Dismantle", "报价 gem=${gem.id} total=${metrics.total} same=${metrics.same} -> ${describe(quote.cost)}; 返还=${format(quote.success)}%")
+        return quote
     }
 
-    fun refund(player: Player): Boolean {
-        if (!costEnabled || costAmount == 0.0) return true
-        if (!costValid) return false
-        return when (costType) {
-            "points", "point" -> PointsEconomy.tryAdd(player, costAmount)
-            "exp", "explevel", "level" -> {
-                player.giveExpLevels(costAmount.toInt())
-                true
-            }
-            else -> MoneyEconomy.add(player, costAmount)
+    fun describe(cost: DismantleCost): String {
+        val parts = ArrayList<String>(3)
+        if (cost.money > 0) parts += "${format(cost.money)} ${Lang.get("dismantle.cost-money")}"
+        if (cost.points > 0) parts += "${cost.points} ${Lang.get("dismantle.cost-points")}"
+        if (cost.exp > 0) parts += "${cost.exp} ${Lang.get("dismantle.cost-exp")}"
+        return if (parts.isEmpty()) Lang.get("dismantle.cost-free") else parts.joinToString(" + ")
+    }
+
+    fun format(value: Double): String = if (value == value.toLong().toDouble()) value.toLong().toString()
+        else String.format(Locale.ROOT, "%.2f", value)
+
+    internal fun charge(player: Player, cost: DismantleCost): DismantlePayment.Attempt =
+        DismantlePayment.charge(cost, wallet(player)).also {
+            DebugUtil.log("Dismantle", "${player.name} 扣费 ${describe(cost)} -> paid=${it.paid} rollbackFailed=${it.rollbackFailed}")
         }
+
+    /** Called only after a successful charge when the item mutation fails. */
+    fun refund(player: Player, cost: DismantleCost): Boolean = DismantlePayment.refund(cost, wallet(player)).also {
+        DebugUtil.log("Dismantle", "${player.name} 退款 ${describe(cost)} -> $it")
     }
 
-    /** 点券与经验采用整数，向上取整保证不足一单位的费用不会被截成免费。 */
-    internal fun normalizeCost(type: String, amount: Double): Double? {
-        if (!amount.isFinite() || amount < 0.0) return null
-        return when (type) {
-            "money" -> amount
-            "points", "point", "exp", "explevel", "level" ->
-                kotlin.math.ceil(amount).takeIf { it <= Int.MAX_VALUE }
-            else -> null
+    private fun wallet(player: Player): DismantlePayment.Wallet = object : DismantlePayment.Wallet {
+        override fun points() = PointsEconomy.get(player)
+        override fun levels() = player.level
+        override fun debitMoney(amount: Double) = MoneyEconomy.add(player, -amount)
+        override fun debitPoints(amount: Int) = PointsEconomy.tryAdd(player, -amount.toDouble())
+        override fun debitLevels(amount: Int): Boolean {
+            if (player.level < amount) return false
+            player.giveExpLevels(-amount)
+            return true
         }
+        override fun creditMoney(amount: Double) = MoneyEconomy.add(player, amount)
+        override fun creditPoints(amount: Int) = PointsEconomy.tryAdd(player, amount.toDouble())
+        override fun creditLevels(amount: Int): Boolean { player.giveExpLevels(amount); return true }
     }
 
-    /** 掷骰子: true=宝石损坏(不返还) */
-    fun rollBreak(): Boolean {
-        if (breakChance <= 0) return false
-        if (breakChance >= 100) return true
-        return Random.nextInt(100) < breakChance
-    }
+    fun rollSuccess(quote: DismantleQuote): Boolean = Random.nextDouble(100.0) < quote.success
 }

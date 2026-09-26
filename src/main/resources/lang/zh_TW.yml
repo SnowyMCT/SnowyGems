@@ -111,8 +111,9 @@ command-no-gem: '&c未知的寶石配置: &f{gem}'
 # 給予成功  佔位符: {player} {gem} {amount}
 command-give: '&a已給予 &f{player} &7×&f{amount} &a個 &f{gem}'
 # 除錯開關
-command-debug-on: '&a除錯模式已臨時開啟, 輸出範圍: &f{scope} &7(重新載入後以 config.yml 為準)'
-command-debug-off: '&7除錯模式已臨時關閉'
+command-debug-on: '&a除錯已開啟，範圍: &f{scope} &7(輸出在伺服器主控台；本次執行期間重新載入仍有效)'
+command-debug-active: '&a除錯已開啟，範圍: &f{scope} &7(輸出在伺服器主控台；本次執行期間重新載入仍有效)'
+command-debug-off: '&7除錯已關閉'
 command-debug-scope: '&a除錯輸出範圍已設為: &f{scope}'
 command-debug-scope-all: '&a除錯輸出範圍已設為: &f全部'
 # 鑲嵌臺設定
@@ -237,14 +238,16 @@ dismantle-title: '&c拆卸寶石 &7- &f{item}'
 dismantle-need-held: '&c請先手持要拆卸寶石的裝備'
 dismantle-no-embed: '&7這件裝備上沒有可拆卸的寶石'
 # 每個寶石圖示下方的說明  佔位符見各行
-dismantle-cost-line: '&7拆卸費用: &e{amount} &7{type}'     # {amount} 數額  {type} 金幣/點券/經驗等級
-dismantle-break-line: '&c有 &e{chance}&c% 機率損壞寶石(不返還)'  # {chance} 損壞機率
+dismantle-cost-free: '免費'
+dismantle-cost-summary: '&7拆卸價格: &e{cost}'
+dismantle-success-rate: '&7寶石返還成功率: &a{chance}%'
+dismantle-plan-error: '&c拆卸方案計算失敗，請聯絡管理員檢查設定'
 dismantle-click-hint: '&a點選拆卸此寶石'
 # 拆卸結果  佔位符: {gem} 寶石名
 dismantle-success: '&a已拆卸 {gem}&a, 寶石已返還背包'
 dismantle-broke: '&c很遺憾, {gem} &c在拆卸時損壞了, 未能返還'
 # 費用不足  佔位符: {amount} {type}
-dismantle-not-afford: '&c拆卸需要 &e{amount} &f{type}&c, 你的餘額不足'
+dismantle-not-afford-multi: '&c拆卸需要 &e{cost}&c，餘額不足或付款失敗'
 # 手持物品在開啟介面後發生了變化
 dismantle-item-changed: '&c手持的裝備已改變, 請重新開啟拆卸介面'
 

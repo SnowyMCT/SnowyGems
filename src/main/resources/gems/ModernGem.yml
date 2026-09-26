@@ -22,7 +22,6 @@
 #    Eat          true 则需要"饮用/食用"而非右键
 #    Success      成功率 1-100, 默认 100
 #    Embed        占用镶嵌位权重, 0=不占位(非镶嵌类)
-#    SuccessTip   成功提示; RemoveTip 拆卸提示; FailTip 失败提示
 #    Rewards      真正干活的部分, 见下
 #
 #  ── Require 写法 ────────────────────────────────────────
@@ -40,7 +39,6 @@
 #       limit  = 这个累计值的同方向上限(负增益宝石的 limit 要写负数, 如 scale 缩小 -0.3)
 #       镶嵌结果 = 装备自带值 + 累计值, 并且与装备自带的同名属性合并成一条显示
 #                 例: 下界合金胸甲自带盔甲韧性 3, 每颗宝石 +1, 镶 4 颗后装备上只有一条 "+7 盔甲韧性"
-#                 拆卸宝石时按顺序扣回, 自带值原样还给装备
 #    Enchant{name=;level=;limit=}                    附魔增删
 #    LoreAdd{lore=;mode=;locator=;limit=;force=}     加一行 lore
 #    LoreVar{lore=前缀;var=;format=;limit=;mode=}     加带数字的 lore(可叠加)
@@ -55,7 +53,6 @@
 #
 #  ── Rewards 标记 ────────────────────────────────────────
 #    $onSuccess   仅镶嵌成功时执行(默认)
-#    $onRemove    仅拆卸时执行(常用来收取拆卸费)
 #      这一条失败不影响整次镶嵌
 #
 #  ── Attribute 的 operation ──────────────────────────────
@@ -94,7 +91,12 @@
   Glow: true
   SuccessTip: "&f你使用了&d&l缩小宝石&f, 体型&d&l-10%"
   Rewards:
-    - Attribute{name=scale;operation=0;slot=any;var=v-0.1;limit=-0.3}
+    - action: Attribute
+      name: "scale"
+      operation: "0"
+      slot: "any"
+      var: "v-0.1"
+      limit: "-0.3"
 
 放大宝石:
   Name: 放大宝石
@@ -109,7 +111,12 @@
   Glow: true
   SuccessTip: "&f你使用了&5&l放大宝石&f, 体型&5&l+10%"
   Rewards:
-    - Attribute{name=scale;operation=0;slot=any;var=v+0.1;limit=0.5}
+    - action: Attribute
+      name: "scale"
+      operation: "0"
+      slot: "any"
+      var: "v+0.1"
+      limit: "0.5"
 
 # ── block_interaction_range 方块交互距离 (1.20.5+) ────────
 # 原版默认 4.5 格这颗宝石让你能放/挖更远的方块
@@ -128,7 +135,12 @@
   Glow: true
   SuccessTip: "&f你使用了&b&l延伸之瞳&f, 方块交互距离&b&l+1格"
   Rewards:
-    - Attribute{name=block_interaction_range;operation=0;slot=hand;var=v+1;limit=3}
+    - action: Attribute
+      name: "block_interaction_range"
+      operation: "0"
+      slot: "hand"
+      var: "v+1"
+      limit: "3"
 
 # ── entity_interaction_range 实体交互距离 (1.20.5+) ───────
 # 也就是"攻击距离", 别名 attack_reach 同样可用
@@ -147,7 +159,12 @@
   Glow: true
   SuccessTip: "&f你使用了&c&l猎手之瞳&f, 攻击距离&c&l+0.5格"
   Rewards:
-    - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+0.5;limit=2}
+    - action: Attribute
+      name: "entity_interaction_range"
+      operation: "0"
+      slot: "hand"
+      var: "v+0.5"
+      limit: "2"
 
 # ── submerged_mining_speed 水下挖掘速度 (1.21.2+) ─────────
 # 原版水下挖掘速度是陆地的 1/5(值为 0.2)加到 1.0 就等于不受水影响,
@@ -166,7 +183,12 @@
   Glow: true
   SuccessTip: "&f你使用了&3&l深海矿工宝石&f, 水下挖掘速度&3&l+20%"
   Rewards:
-    - Attribute{name=submerged_mining_speed;operation=0;slot=hand;var=v+0.2;limit=0.8}
+    - action: Attribute
+      name: "submerged_mining_speed"
+      operation: "0"
+      slot: "hand"
+      var: "v+0.2"
+      limit: "0.8"
 
 # ── mining_efficiency 挖掘效率 (1.21.2+) ──────────────────
 # 与"效率"附魔叠加计算, 是纯数值加成
@@ -185,7 +207,12 @@
   Material: GOLD_NUGGET
   SuccessTip: "&f你使用了&e&l迅掘宝石&f, 挖掘效率&e&l+1"
   Rewards:
-    - Attribute{name=mining_efficiency;operation=0;slot=hand;var=v+1;limit=5}
+    - action: Attribute
+      name: "mining_efficiency"
+      operation: "0"
+      slot: "hand"
+      var: "v+1"
+      limit: "5"
 
 # ── gravity 重力 (1.20.5+) ────────────────────────────────
 # 默认 0.08调低后下落变慢、跳得更高, 像在月球上
@@ -202,7 +229,12 @@
   Glow: true
   SuccessTip: "&f你使用了&f&l月步靴石&f, 重力&f&l-0.02"
   Rewards:
-    - Attribute{name=gravity;operation=0;slot=feet;var=v-0.02;limit=-0.05}
+    - action: Attribute
+      name: "gravity"
+      operation: "0"
+      slot: "feet"
+      var: "v-0.02"
+      limit: "-0.05"
 
 # ── jump_strength 跳跃力 (1.20.5+ 玩家也可用) ─────────────
 弹簧靴石:
@@ -218,7 +250,12 @@
   Glow: true
   SuccessTip: "&f你使用了&a&l弹簧靴石&f, 跳跃力&a&l+10%"
   Rewards:
-    - Attribute{name=jump_strength;operation=1;slot=feet;var=v+0.1;limit=0.5}
+    - action: Attribute
+      name: "jump_strength"
+      operation: "1"
+      slot: "feet"
+      var: "v+0.1"
+      limit: "0.5"
 
 # ── safe_fall_distance 安全落地距离 (1.20.5+) ─────────────
 缓冲靴石:
@@ -233,7 +270,12 @@
   Material: HAY_BLOCK
   SuccessTip: "&f你使用了&9&l缓冲靴石&f, 安全落地距离&9&l+2格"
   Rewards:
-    - Attribute{name=safe_fall;operation=0;slot=feet;var=v+2;limit=10}
+    - action: Attribute
+      name: "safe_fall"
+      operation: "0"
+      slot: "feet"
+      var: "v+2"
+      limit: "10"
 
 # ── max_absorption 吸收上限 (1.20.5+) ─────────────────────
 金心宝石:
@@ -249,7 +291,12 @@
   Glow: true
   SuccessTip: "&f你使用了&6&l金心宝石&f, 吸收上限&6&l+2"
   Rewards:
-    - Attribute{name=absorption;operation=0;slot=armor;var=v+2;limit=10}
+    - action: Attribute
+      name: "absorption"
+      operation: "0"
+      slot: "armor"
+      var: "v+2"
+      limit: "10"
 
 # ── burning_time 燃烧时长 (1.21.2+) ───────────────────────
 # 默认 1.0, 降低后着火持续时间变短
@@ -265,7 +312,12 @@
   Material: MAGMA_CREAM
   SuccessTip: "&f你使用了&c&l阻燃宝石&f, 燃烧时长&c&l-20%"
   Rewards:
-    - Attribute{name=burning_time;operation=0;slot=armor;var=v-0.2;limit=-0.6}
+    - action: Attribute
+      name: "burning_time"
+      operation: "0"
+      slot: "armor"
+      var: "v-0.2"
+      limit: "-0.6"
 
 # ── oxygen_bonus 氧气加成 (1.21.2+) ───────────────────────
 鱼鳃宝石:
@@ -280,7 +332,12 @@
   Material: KELP
   SuccessTip: "&f你使用了&3&l鱼鳃宝石&f, 氧气加成&3&l+1"
   Rewards:
-    - Attribute{name=oxygen_bonus;operation=0;slot=head;var=v+1;limit=5}
+    - action: Attribute
+      name: "oxygen_bonus"
+      operation: "0"
+      slot: "head"
+      var: "v+1"
+      limit: "5"
 
 # ── sweeping_damage_ratio 横扫伤害比 (1.21+) ──────────────
 横扫宝石:
@@ -295,7 +352,12 @@
   Material: IRON_SWORD
   SuccessTip: "&f你使用了&7&l横扫宝石&f, 横扫伤害比&7&l+10%"
   Rewards:
-    - Attribute{name=sweeping;operation=0;slot=hand;var=v+0.1;limit=1}
+    - action: Attribute
+      name: "sweeping"
+      operation: "0"
+      slot: "hand"
+      var: "v+0.1"
+      limit: "1"
 
 # ── 26.x 路径点属性 ──────────────────────────────────────
 # 这两个属性只有 26.x 才有, 低版本会跳过
@@ -312,7 +374,12 @@
   Glow: true
   SuccessTip: "&f你使用了&b&l信标宝石&f, 路径点广播距离&b&l+64格"
   Rewards:
-    - Attribute{name=waypoint_transmit_range;operation=0;slot=any;var=v+64;limit=512}
+    - action: Attribute
+      name: "waypoint_transmit_range"
+      operation: "0"
+      slot: "any"
+      var: "v+64"
+      limit: "512"
 
 
 # ════════════════════════════════════════════════════════════
@@ -335,7 +402,9 @@
   Glow: true
   SuccessTip: "&f你使用了&8&l密度宝石&f, 密度等级&8&l+1"
   Rewards:
-    - Enchant{name=density;limit=5}
+    - action: Enchant
+      name: "density"
+      limit: "5"
 
 穿透宝石:
   Name: 穿透宝石
@@ -351,7 +420,9 @@
   Glow: true
   SuccessTip: "&f你使用了&6&l穿透宝石&f, 穿透等级&6&l+1"
   Rewards:
-    - Enchant{name=breach;limit=4}
+    - action: Enchant
+      name: "breach"
+      limit: "4"
 
 风爆宝石:
   Name: 风爆宝石
@@ -367,7 +438,9 @@
   Glow: true
   SuccessTip: "&f你使用了&f&l风爆宝石&f, 风爆等级&f&l+1"
   Rewards:
-    - Enchant{name=wind_burst;limit=3}
+    - action: Enchant
+      name: "wind_burst"
+      limit: "3"
 
 
 # ════════════════════════════════════════════════════════════
@@ -393,15 +466,13 @@
     - "&a&l渗浆药水 &7品质: &a&l传说"
     - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
     - "&7死亡时会生成史莱姆"
-    - "&7可花费500点券拆卸"
     - "&8需要 1.21+ 服务端"
   Material: SLIME_BALL
   Glow: true
   SuccessTip: "&f你使用了&a&l渗浆药水&f, 装备添加&a&l渗浆&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l渗浆}
-    - Point{amount=-500} $onRemove
-
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l渗浆"
 盘丝药水:
   Name: 盘丝药水
   Embed: 1
@@ -413,15 +484,13 @@
   Tips:
     - "&f&l盘丝药水 &7品质: &a&l传说"
     - "&7死亡时会生成蜘蛛网"
-    - "&7可花费500点券拆卸"
     - "&8需要 1.21+ 服务端"
   Material: COBWEB
   Glow: true
   SuccessTip: "&f你使用了&f&l盘丝药水&f, 装备添加&f&l盘丝&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l盘丝}
-    - Point{amount=-500} $onRemove
-
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l盘丝"
 寄生药水:
   Name: 寄生药水
   Embed: 1
@@ -433,15 +502,13 @@
   Tips:
     - "&7&l寄生药水 &7品质: &a&l传说"
     - "&7受伤时会生成蠹虫"
-    - "&7可花费500点券拆卸"
     - "&8需要 1.21+ 服务端"
   Material: INFESTED_STONE
   Glow: true
   SuccessTip: "&f你使用了&7&l寄生药水&f, 装备添加&7&l寄生&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l寄生}
-    - Point{amount=-500} $onRemove
-
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l寄生"
 蓄风药水:
   Name: 蓄风药水
   Embed: 1
@@ -453,15 +520,13 @@
   Tips:
     - "&b&l蓄风药水 &7品质: &a&l传说"
     - "&7跳跃高度提升, 落地产生风爆"
-    - "&7可花费1000点券拆卸"
     - "&8需要 1.21+ 服务端"
   Material: WIND_CHARGE
   Glow: true
   SuccessTip: "&f你使用了&b&l蓄风药水&f, 装备添加&b&l蓄风&fBUFF"
   Rewards:
-    - LoreAdd{lore=&6&l[&c&lBUFF&6&l] &b&l蓄风}
-    - Point{amount=-1000} $onRemove
-
+    - action: LoreAdd
+      lore: "&6&l[&c&lBUFF&6&l] &b&l蓄风"
 # ── 可叠加等级的 BUFF: 用 LoreVar 而不是 LoreAdd ──────────
 # LoreVar 会在 lore 上写"标记 + 数字", 重复镶嵌时数字递增
 # BUFF 定义那边用 $LORE:标记?默认值$ 把这个数字读回来当等级
@@ -480,7 +545,12 @@
   Glow: true
   SuccessTip: "&f你使用了&b&l蓄风药水·强化&f, 蓄风等级&b&l+1"
   Rewards:
-    - LoreVar{lore=&6&l[&c&lBUFF&6&l] &b&l蓄风等级 ;var=v+1;format=%.0f;limit=v<=2;mode=last}
+    - action: LoreVar
+      lore: "&6&l[&c&lBUFF&6&l] &b&l蓄风等级"
+      var: "v+1"
+      format: "%.0f"
+      limit: "v<=2"
+      mode: "last"
 
 
 # ════════════════════════════════════════════════════════════
@@ -504,8 +574,18 @@
   Glow: true
   SuccessTip: "&f你使用了&f&l长矛精通宝石&f, 矛已强化"
   Rewards:
-    - Attribute{name=damage;operation=0;slot=hand;var=v+2;limit=10}
-    - Attribute{name=entity_interaction_range;operation=0;slot=hand;var=v+1;limit=3}
+    - action: Attribute
+      name: "damage"
+      operation: "0"
+      slot: "hand"
+      var: "v+2"
+      limit: "10"
+    - action: Attribute
+      name: "entity_interaction_range"
+      operation: "0"
+      slot: "hand"
+      var: "v+1"
+      limit: "3"
 
 # ── 突进宝石: 矛专属附魔「突进」(lunge, 1.21.11+) ──────────
 # lunge 是矛在 1.21.11 的专属附魔, 只能附在矛上
@@ -524,7 +604,9 @@
   Glow: true
   SuccessTip: "&f你使用了&e&l突进宝石&f, 矛突进等级&e&l+1"
   Rewards:
-    - Enchant{name=lunge;limit=3}
+    - action: Enchant
+      name: "lunge"
+      limit: "3"
 
 真突进宝石:
   Name: 真·突进宝石
@@ -543,7 +625,9 @@
   Glow: true
   SuccessTip: "&f你使用了&e&l真·突进宝石&f, 矛突进等级&e&l+1"
   Rewards:
-    - Enchant{name=lunge;limit=10}
+    - action: Enchant
+      name: "lunge"
+      limit: "10"
 
 # ── 铜装备 (1.21.9+) ─────────────────────────────────────
 # 用 COPPER_* 通配匹配整套铜装, 不必逐个列出
@@ -560,8 +644,15 @@
   Material: COPPER_INGOT
   SuccessTip: "&f你使用了&6&l铜匠宝石&f, 铜装备已强化"
   Rewards:
-    - Enchant{name=unbreaking;limit=5}
-    - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=4}
+    - action: Enchant
+      name: "unbreaking"
+      limit: "5"
+    - action: Attribute
+      name: "armor"
+      operation: "0"
+      slot: "auto"
+      var: "v+1"
+      limit: "4"
 
 # ── 锤(MACE, 1.21+) ──────────────────────────────────────
 # 锤的伤害随下落高度增长, 这颗宝石强化它的落地生存能力
@@ -581,10 +672,21 @@
   SuccessTip: "&f你使用了&8&l战锤大师宝石&f, 锤已成为神话武器"
   FailTip: "&c&l战锤大师宝石&f镶嵌失败了..."
   Rewards:
-    - Enchant{name=density;limit=5}
-    - Enchant{name=breach;limit=4}
-    - Enchant{name=wind_burst;limit=3}
-    - Attribute{name=safe_fall;operation=0;slot=hand;var=v+3;limit=9}
+    - action: Enchant
+      name: "density"
+      limit: "5"
+    - action: Enchant
+      name: "breach"
+      limit: "4"
+    - action: Enchant
+      name: "wind_burst"
+      limit: "3"
+    - action: Attribute
+      name: "safe_fall"
+      operation: "0"
+      slot: "hand"
+      var: "v+3"
+      limit: "9"
 
 
 # ════════════════════════════════════════════════════════════
@@ -606,7 +708,9 @@
   Eat: true
   SuccessTip: "&f您饮用了&5&l巨人药剂&f, 生命上限永久&c&l+4"
   Rewards:
-    - MaxHealth{amount=4;limit=60} $onSuccess
+    - action: MaxHealth
+      amount: "4"
+      limit: "60"
 
 
 # ════════════════════════════════════════════════════════════
