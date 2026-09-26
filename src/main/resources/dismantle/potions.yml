@@ -1,0 +1,42 @@
+# 原药水宝石的拆卸点券价格统一迁到这里。
+# 保留原有 100 金币基础费 + 各自点券费；不再从 Rewards 扣点券。
+Rules:
+  potion-500:
+    Priority: 100
+    Match:
+      GemIds: ["渗浆药水", "盘丝药水", "寄生药水", "隐身药水"]
+    Rarity: 2
+    Cost:
+      Money: 100
+      Points: 500
+    Success: 80
+
+  potion-1000:
+    Priority: 100
+    Match:
+      GemIds: ["蓄风药水"]
+    Rarity: 2
+    Cost:
+      Money: 100
+      Points: 1000
+    Success: 80
+
+  potion-2000:
+    Priority: 100
+    Match:
+      GemIds: ["潮涌能量药水", "水下呼吸药水", "夜视药水", "饱和药水"]
+    Rarity: 3
+    Cost:
+      Money: 100
+      Points: 2000
+    Success: 80
+
+  potion-5000:
+    Priority: 100
+    Match:
+      GemIds: ["防火药水"]
+    Rarity: 4
+    Cost:
+      Money: 100
+      Points: 5000
+    Success: 80

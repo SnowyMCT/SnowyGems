@@ -15,7 +15,8 @@
     - '&7向物品添加 Lore 标记「强攻 I」；具体属性由其他插件读取'
     - '&7前往 /sgem open 符文镶嵌台'
   Rewards:
-    - LoreAdd{lore=&c强攻 I}
+    - action: LoreAdd
+      lore: "&c强攻 I"
 
 蓝色符文I:
   Name: 蓝色符文I
@@ -30,7 +31,8 @@
     - '&7向物品添加 Lore 标记「坚韧 I」；具体属性由其他插件读取'
     - '&7前往 /sgem open 符文镶嵌台'
   Rewards:
-    - LoreAdd{lore=&9坚韧 I}
+    - action: LoreAdd
+      lore: "&9坚韧 I"
 
 绿色符文I:
   Name: 绿色符文I
@@ -45,7 +47,8 @@
     - '&7向物品添加 Lore 标记「耐久强化 I」；具体效果由其他插件读取'
     - '&7前往 /sgem open 符文镶嵌台'
   Rewards:
-    - LoreAdd{lore=&a耐久强化 I}
+    - action: LoreAdd
+      lore: "&a耐久强化 I"
 
 技能符文I:
   Name: 技能符文I
@@ -60,7 +63,8 @@
     - '&7向物品添加 Lore 标记「技能符文 I」；具体技能由其他插件读取'
     - '&7前往 /sgem open 符文镶嵌台'
   Rewards:
-    - LoreAdd{lore=&e技能符文 I}
+    - action: LoreAdd
+      lore: "&e技能符文 I"
 
 # Internal USE_GEM button recipe. The menu consumes the input only after a successful reward.
 符文分解券:
@@ -72,7 +76,9 @@
   Success: 100
   SuccessTip: '&a已分解 1 颗一级符文，获得 10 个符文碎片'
   Rewards:
-    - ItemGive{gem=符文碎片;amount=10}
+    - action: ItemGive
+      gem: "符文碎片"
+      amount: "10"
 
 # A material for server-specific shops or recipes. It has no direct-use rewards.
 符文碎片:

@@ -58,10 +58,12 @@ object SkillRegistry {
         for (key in cfg.getKeys(false)) {
             if (key.equals("depend", true)) continue
             val sec = cfg.getConfigurationSection(key) ?: continue
-            val rawSkills = sec.getStringList("Skills")
+            val skillEntries = ActionSyntax.entries(sec, "Skills")
+            val rawSkills = skillEntries.map { it.toString() }
             // 一次性预解析: 触发事件里直接取用, 不再每次重复解析配置行
-            val parsed = rawSkills.mapNotNull { raw ->
-                if (raw.isBlank()) null else runCatching { SkillLineParser.parse(raw) }.getOrNull()
+            val parsed = skillEntries.mapIndexed { index, entry ->
+                try { ActionSyntax.skill(entry) }
+                catch (e: Exception) { throw IllegalArgumentException("$key Skills 第 ${index + 1} 条: ${e.message}", e) }
             }
             // 按触发标记分组(一行可挂多个 ~trigger, 会出现在多组); 无触发标记的行不参与
             val byTrigger = HashMap<String, MutableList<SkillLine>>()

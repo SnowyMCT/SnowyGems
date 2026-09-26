@@ -24,6 +24,7 @@ object MenuListener {
         val holder = e.inventory.holder as? MenuHolder ?: return
         val player = e.whoClicked as? Player ?: return
         if (e.isCancelled) return
+        DebugUtil.log("Menu", "${player.name} 点击 ${holder.menuName} rawSlot=${e.rawSlot} action=${e.action} click=${e.click}")
         // Double-click collection searches the entire view, including decorative icons.
         if (holder.returned || holder.processing || e.action in setOf(
                 InventoryAction.COLLECT_TO_CURSOR, InventoryAction.CLONE_STACK, InventoryAction.UNKNOWN)) {
@@ -117,6 +118,7 @@ object MenuListener {
         val holder = e.inventory.holder as? MenuHolder ?: return
         val player = e.whoClicked as? Player ?: return
         if (e.isCancelled) return
+        DebugUtil.log("Menu", "${player.name} 拖拽 ${holder.menuName} 目标槽=${e.rawSlots.filter { it < holder.inv.size }}")
         if (holder.returned || holder.processing) { e.isCancelled = true; return }
         var changed = false
         for ((slot, item) in e.newItems) {
@@ -217,6 +219,7 @@ object MenuListener {
         var target = if (equipSlot >= 0) inv.getItem(equipSlot)?.takeUnless(::isEmpty) else null
         if (target == null) { Lang.send(player, "embed.need-equip"); return }
         val gemSlots = WorkbenchMenu.gemSlots(inv, holder.layout).filter { !isEmpty(inv.getItem(it)) }
+        DebugUtil.log("Menu", "${player.name} 确认 ${holder.menuName} 装备=${target.type} 宝石槽=$gemSlots")
         if (gemSlots.isEmpty()) { Lang.send(player, "embed.need-gem"); return }
         // Refuse invalid input before any reward, random roll or cost.
         for (slot in gemSlots) {
@@ -246,12 +249,14 @@ object MenuListener {
                 if (holder.closeRequested) break
             }
             Lang.send(player, "menu.batch-result", "success" to succeeded, "failed" to failed)
+            DebugUtil.log("Menu", "${player.name} 批量镶嵌完成 success=$succeeded failed=$failed")
         } finally {
             finishOperation(player, holder)
         }
     }
 
     private fun useButton(player: Player, holder: MenuHolder, gemId: String?) {
+        DebugUtil.log("Menu", "${player.name} 点击 ${holder.menuName} 的 USE_GEM 按钮 gem=$gemId")
         val cfg = gemId?.let(GemRegistry::get)
         if (cfg == null) { Lang.send(player, "menu.button-gem-missing", "gem" to (gemId ?: "?")); return }
         val slot = WorkbenchMenu.findEquipSlot(holder.inv, holder.layout)

@@ -1,0 +1,135 @@
+# /sgem editor 的独立外观配置；/sgem reload 后生效。
+# Material 使用 Bukkit/XMaterial 名称；未知材质会回退到内置图标。
+# Display 与 Tips 可用 {name} 引用图标原文；标题可用 {id}、{category}、{group}、{index}。
+Titles:
+  Home: '&8◆ SnowyGems 编辑台'
+  CategoriesGem: '&8◆ 宝石分类'
+  CategoriesRune: '&8◆ 配方分类'
+  Entries: '&8◆ {category}'
+  Detail: '&8◆ {id}'
+  Fields: '&8◆ {id} · {group}'
+  Move: '&8◆ 移动 {id}'
+  Actions: '&8◆ {id} · 奖励'
+  ChooseAction: '&8◆ 选择奖励动作'
+  ActionDetail: '&8◆ 动作 #{index}'
+  Pool: '&8◆ {id} · 奖池'
+  ChoosePool: '&8◆ 选择奖池宝石'
+  Ingredients: '&8◆ {id} · 材料'
+  ChooseIngredient: '&8◆ 选择材料宝石'
+  Confirm: '&8◆ 确认操作'
+  Input: '&8◆ {name}'
+
+# 六行列表页的位置。不要与下面四个导航按钮重叠。
+ContentSlots: [10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43]
+Slots:
+  Back: 45
+  Previous: 48
+  Add: 49
+  Next: 50
+  HomeGem: 11
+  HomeRune: 15
+  HomeHelp: 22
+  DetailSummary: 4
+  DetailBack: 27
+  DetailMove: 29
+  DetailFields: 31
+  DetailDelete: 35
+  ConfirmYes: 11
+  ConfirmInfo: 13
+  ConfirmNo: 15
+
+Icons:
+  Border:
+    Material: BLACK_STAINED_GLASS_PANE
+    Display: ' '
+  Back:
+    Material: ARROW
+    Display: '{name}'
+  Add:
+    Material: LIME_DYE
+    Display: '{name}'
+  Previous:
+    Material: ARROW
+    Display: '&e上一页'
+  PreviousDisabled:
+    Material: GRAY_STAINED_GLASS_PANE
+    Display: '&8已经是第一页'
+  Next:
+    Material: ARROW
+    Display: '&e下一页'
+  NextDisabled:
+    Material: GRAY_STAINED_GLASS_PANE
+    Display: '&8已经是最后一页'
+  HomeGem:
+    Material: DIAMOND
+    Display: '&b◆ 宝石管理'
+    Tips: ['&7按分类浏览宝石', '&e点击进入']
+  HomeRune:
+    Material: SMITHING_TABLE
+    Display: '&d◆ 符文配方'
+    Tips: ['&7按配方包浏览', '&e点击进入']
+  HomeHelp:
+    Material: BOOK
+    Display: '&e操作提示'
+    Tips: ['&7所有输入都在铁砧界面完成', '&7红色按钮会进入确认界面']
+  CategoryGem:
+    Material: CHEST
+    Display: '&b◆ {category}'
+    Tips: ['&7条目 &f{count}', '&e左键 &7打开分类', '&c右键 &7删除空分类']
+  CategoryRune:
+    Material: BOOKSHELF
+    Display: '&b◆ {category}'
+    Tips: ['&7条目 &f{count}', '&e左键 &7打开分类', '&c右键 &7删除空分类']
+  EntryGem:
+    Display: '{name}'
+  EntryRune:
+    Material: ENCHANTED_BOOK
+    Display: '{name}'
+  MoveCategory:
+    Material: CHEST
+  GroupBasic:
+    Material: WRITABLE_BOOK
+  GroupAppearance:
+    Material: PAINTING
+  GroupLimit:
+    Material: IRON_CHESTPLATE
+  GroupRewards:
+    Material: ENCHANTED_BOOK
+  GroupPool:
+    Material: ENDER_CHEST
+  GroupIngredients:
+    Material: CHEST
+  DetailSummary:
+    Display: '{name}'
+  DetailMove:
+    Material: HOPPER
+  DetailFields:
+    Material: BOOK
+  DetailDelete:
+    Material: BARRIER
+  Field:
+    Display: '{name}'
+  Action:
+    Material: ENCHANTED_BOOK
+  ActionChoice:
+    Display: '{name}'
+  ActionField:
+    Material: PAPER
+  PoolEntry:
+    Material: ENDER_EYE
+  IngredientEntry:
+    Material: DIAMOND
+  Selection:
+    Material: DIAMOND
+  ConfirmYes:
+    Material: LIME_CONCRETE
+  ConfirmInfo:
+    Material: PAPER
+  ConfirmNo:
+    Material: RED_CONCRETE
+  InputText:
+    Material: PAPER
+  InputCancel:
+    Material: BARRIER
+  InputSave:
+    Material: EMERALD

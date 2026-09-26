@@ -27,11 +27,31 @@
   Material: PAPER
   Glow: true
   Rewards:
-    - Conditional{condition="$LORE:符文等级:$==1";roman=true;reward=ItemSet{Gem=符文碎片;Amount=10}}    $ignorable
-    - Conditional{condition="$LORE:符文等级:$==2";roman=true;reward=ItemSet{Gem=符文碎片;Amount=20}}    $ignorable
-    - Conditional{condition="$LORE:符文等级:$==3";roman=true;reward=ItemSet{Gem=符文碎片;Amount=50}}    $ignorable
-    - Conditional{condition="$LORE:符文等级:$==4";roman=true;reward=ItemSet{Gem=符文碎片;Amount=200}}   $ignorable
-    - Conditional{condition="$LORE:符文等级:$==5";roman=true;reward=ItemSet{Gem=符文碎片;Amount=800}}   $ignorable
+    - action: Conditional
+      condition: "$LORE:符文等级:$==1"
+      roman: true
+      then: {action: ItemSet, Gem: 符文碎片, Amount: 10}
+      ignorable: true
+    - action: Conditional
+      condition: "$LORE:符文等级:$==2"
+      roman: true
+      then: {action: ItemSet, Gem: 符文碎片, Amount: 20}
+      ignorable: true
+    - action: Conditional
+      condition: "$LORE:符文等级:$==3"
+      roman: true
+      then: {action: ItemSet, Gem: 符文碎片, Amount: 50}
+      ignorable: true
+    - action: Conditional
+      condition: "$LORE:符文等级:$==4"
+      roman: true
+      then: {action: ItemSet, Gem: 符文碎片, Amount: 200}
+      ignorable: true
+    - action: Conditional
+      condition: "$LORE:符文等级:$==5"
+      roman: true
+      then: {action: ItemSet, Gem: 符文碎片, Amount: 800}
+      ignorable: true
   SuccessTip: "none"
 
 内置-合成红色符文强攻1:

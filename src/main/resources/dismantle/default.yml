@@ -1,0 +1,36 @@
+# 拆卸方案独立于 gems/。每次只计算被点击的那一颗宝石。
+# 所有规则按 Priority 从低到高叠加；后匹配的字段覆盖前一个字段。
+# Money / Points / Exp / Success 各自独立，未写的字段继承上一层。
+# 变量：rarity 珍贵程度、total 装备上宝石总数、same 同 ID 数量、
+#       damage 装备损坏百分比(0..100)、enchants 附魔种数、unbreakable 0或1。
+# 表达式支持 + - * / () 和 min(a,b)、max(a,b)、clamp(value,min,max)。
+
+Default:
+  Rarity: 1
+  Cost:
+    Money: "100 + (rarity - 1) * 25 + (total - 1) * 10 + damage * 0.5 + enchants * 20"
+    Points: 0
+    Exp: 0
+  Success: "80 - (rarity - 1) * 3 - (total - 1) * 2"
+
+Rules:
+  # 特定珍贵宝石：金币、点券和经验同时收费，各自单独计算。
+  precious-gems:
+    Priority: 100
+    Match:
+      GemIds: ["神生命宝石", "神速度宝石"]
+    Rarity: 4
+    Cost:
+      Money: "100 + rarity * 50 + total * 20 + enchants * 20"
+      Points: "rarity * 100 + same * 50"
+      Exp: "rarity + total"
+    Success: "85 - rarity * 5 - damage * 0.05"
+
+  # 装备类别也可参与规则匹配。开启后仅对盔甲生效。
+  armor-example:
+    Enabled: false
+    Priority: 200
+    Match:
+      Equipment: [ARMOR]
+    Cost:
+      Exp: "total + enchants"

@@ -46,7 +46,6 @@ data class GemConfig(
     val color: String? = null,
     val eat: Boolean = false,
     val successTip: String? = null,
-    val removeTip: String? = null,
     val failTip: String? = null,
     val rewards: List<String> = emptyList(),
     /**

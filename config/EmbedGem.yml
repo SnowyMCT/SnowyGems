@@ -22,7 +22,11 @@ Version: 1.05
   Glow: true
   SuccessTip: "&f您为装备开启了&9&l蓝宝石&f槽"
   Rewards:
-    - LoreAdd{lore=&f&l[&9蓝宝石&f&l]&7&l⬛&7&l⬛&7&l⬛;mode=after;locator="宝石槽";limit=1}
+    - action: LoreAdd
+      lore: "&f&l[&9蓝宝石&f&l]&7&l⬛&7&l⬛&7&l⬛"
+      mode: "after"
+      locator: "\"宝石槽\""
+      limit: "1"
 
 内置-单格槽位开槽粉尘:
   Name: 单格槽位开槽粉尘
@@ -41,7 +45,12 @@ Version: 1.05
   Glow: true
   SuccessTip: "&f您为装备开启了一个&9&l蓝宝石槽"
   Rewards:
-    - LoreAdd{lore=&7&l⬛;mode=line;locator=&f&l[&9蓝宝石&f&l];limit=7;force=false}
+    - action: LoreAdd
+      lore: "&7&l⬛"
+      mode: "line"
+      locator: "&f&l[&9蓝宝石&f&l]"
+      limit: "7"
+      force: "false"
 
 内置-行内暴击几率蓝宝石:
   Name: 行内暴击几率蓝宝石
@@ -59,7 +68,11 @@ Version: 1.05
   SuccessTip: "&f你使用了&9&l暴击几率蓝宝石&f, 装备暴击几率&9&l+10%"
   Embed: 8
   Rewards:
-    - LoreReplace{old=&7&l⬛;lore=&9&l⬛;mode=line;locator=&f&l[&9蓝宝石&f&l]}
+    - action: LoreReplace
+      old: "&7&l⬛"
+      lore: "&9&l⬛"
+      mode: "line"
+      locator: "&f&l[&9蓝宝石&f&l]"
     - "LoreVar{lore=&7&l■ 暴击几率: +&a&l;locator=宝石属性;mode=after;var=v+10;inv=v-10;format=%.2f%%}"
 
 内置-行内物理伤害蓝宝石:
@@ -78,7 +91,11 @@ Version: 1.05
   SuccessTip: "&f你使用了&9&l物理伤害蓝宝石&f, 装备物理伤害&9&l+10"
   Embed: 8
   Rewards:
-    - LoreReplace{old=&7&l⬛;lore=&9&l⬛;mode=line;locator=&f&l[&9蓝宝石&f&l]}
+    - action: LoreReplace
+      old: "&7&l⬛"
+      lore: "&9&l⬛"
+      mode: "line"
+      locator: "&f&l[&9蓝宝石&f&l]"
     - "LoreVar{lore=&7&l■ 物理伤害: +&a&l;locator=宝石属性;mode=after;var=v+10;inv=v-10;format=%.2f}"
 
 内置-多行槽位开槽粉尘:
@@ -97,7 +114,11 @@ Version: 1.05
   Glow: true
   SuccessTip: "&f您为装备开启了一个&c&l红宝石槽"
   Rewards:
-    - LoreAdd{lore=&c<----红宝石槽---->;locator=宝石槽;mode=after;limit=3}
+    - action: LoreAdd
+      lore: "&c<----红宝石槽---->"
+      locator: "宝石槽"
+      mode: "after"
+      limit: "3"
 
 内置-槽内物理伤害红宝石:
   Name: 槽内物理伤害红宝石
@@ -110,7 +131,6 @@ Version: 1.05
     - "&7需要槽位&c红宝石槽"
     - "&7在镶嵌台内镶嵌此宝石"
     - "&7即可为武器物理伤害+10"
-    - "&7拆卸需花费1000点券"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTcwZjZjNDBjYzdiNTZhNWU3MDFjZmNjZDMxYzE0MzVhYmFiZmM0NWViMzNkODE1YTViNDEyMDNmMjExNWEwYiJ9fX0=
   SuccessTip: "&f你使用了&c&l槽内物理伤害宝石&f, 武器物理伤害&c&l+10"
   Embed: 5
@@ -128,10 +148,11 @@ Version: 1.05
     - "&7需要槽位&c红宝石槽"
     - "&7在镶嵌台内镶嵌此宝石"
     - "&7即可为武器物理伤害+10"
-    - "&7拆卸需花费1000点券"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTcwZjZjNDBjYzdiNTZhNWU3MDFjZmNjZDMxYzE0MzVhYmFiZmM0NWViMzNkODE1YTViNDEyMDNmMjExNWEwYiJ9fX0=
   SuccessTip: "&f你使用了&c&l槽外物理伤害宝石&f, 武器物理伤害&c&l+10"
   Embed: 5
   Rewards:
-    - LoreReplace{old=&c<----红宝石槽---->;new=&c<&8&l&k||&c&l物理伤害宝石&8&l&k||&c>}
+    - action: LoreReplace
+      old: "&c<----红宝石槽---->"
+      new: "&c<&8&l&k||&c&l物理伤害宝石&8&l&k||&c>"
     - "LoreVar{lore=&7&l■ 物理伤害: +&a&l;var=v+10;inv=v-10;format=%.2f;mode=last}"

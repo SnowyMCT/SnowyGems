@@ -4,9 +4,11 @@ import mc233.`fun`.snowygems.Permissions
 import mc233.`fun`.snowygems.SnowyGems
 import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
+import mc233.`fun`.snowygems.config.ConfigMigration
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
+import mc233.`fun`.snowygems.gui.InGameEditor
 import mc233.`fun`.snowygems.gui.RuneForgeGui
 import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
@@ -169,24 +171,29 @@ object GemCommand {
     val debug = subCommand {
         dynamic("tags") {
             suggestion<CommandSender>(uncheck = true) { _, _ ->
-                listOf("all", "Registry", "Command", "Menu", "Workbench", "Embed", "GUI", "GemUse", "Protect", "GemManager", "ItemFactory", "Reward", "Skill", "SkillExec", "Buff", "Points", "Money")
+                listOf("all", "off", "Registry", "Compat", "Command", "Menu", "Workbench", "Embed", "GUI", "Editor", "GemUse", "Protect", "GemManager", "ItemFactory", "Reward", "Skill", "SkillExec", "Buff", "Points", "Money", "PlayerPoints", "Rune", "Dismantle", "Update")
             }
             execute<CommandSender> { sender, context, _ ->
                 val raw = context["tags"]
-                if (raw.equals("all", true)) {
-                    DebugUtil.setTags(emptyList())
-                    Lang.sendCommand(sender, "command.debug-scope-all")
+                if (raw.equals("off", true)) {
+                    if (DebugUtil.enabled) DebugUtil.toggle()
+                    Lang.sendCommand(sender, "command.debug-off")
                 } else {
-                    val list = raw.split(",", " ").filter { it.isNotBlank() }
-                    DebugUtil.setTags(list)
-                    Lang.sendCommand(sender, "command.debug-scope", "scope" to list.joinToString(","))
+                    val list = if (raw.equals("all", true)) emptyList() else raw.split(",", " ").filter { it.isNotBlank() }
+                    DebugUtil.enable(list)
+                    val scope = if (list.isEmpty()) Lang.get("common.scope-all") else DebugUtil.tags().joinToString(",")
+                    Lang.sendCommand(sender, "command.debug-active", "scope" to scope)
+                    DebugUtil.log("${sender.name} 使用 /sgem debug ${raw}；控制台调试输出已开启，范围=$scope")
                 }
             }
         }
         execute<CommandSender> { sender, _, _ ->
             val now = DebugUtil.toggle()
             val scope = if (DebugUtil.tags().isEmpty()) Lang.get("common.scope-all") else DebugUtil.tags().joinToString(",")
-            if (now) Lang.sendCommand(sender, "command.debug-on", "scope" to scope)
+            if (now) {
+                Lang.sendCommand(sender, "command.debug-active", "scope" to scope)
+                DebugUtil.log("${sender.name} 使用 /sgem debug；控制台调试输出已开启，范围=$scope")
+            }
             else Lang.sendCommand(sender, "command.debug-off")
         }
     }
@@ -248,6 +255,23 @@ object GemCommand {
             DebugUtil.log("Command", "重载完成, 耗时 ${cost}ms")
             Lang.sendCommand(sender, "command.reload", "time" to cost)
         }
+    }
+
+    @CommandBody(permission = Permissions.MIGRATE)
+    val migrate = subCommand {
+        execute<CommandSender> { sender, _, _ ->
+            runCatching { ConfigMigration.migrate() }
+                .onSuccess { result ->
+                    sender.sendMessage("§a已转换 ${result.files} 个文件、${result.actions} 条动作" +
+                        (result.backup?.let { "；原文件备份：${it.absolutePath}" } ?: "；无需转换"))
+                }
+                .onFailure { sender.sendMessage("§c配置转换失败：${it.message}") }
+        }
+    }
+
+    @CommandBody(permission = Permissions.EDIT)
+    val editor = subCommand {
+        execute<Player> { sender, _, _ -> InGameEditor.open(sender) }
     }
 
     private fun showSkillFunctions(sender: CommandSender, keyword: String?) {

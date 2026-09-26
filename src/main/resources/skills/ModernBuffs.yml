@@ -31,32 +31,43 @@
 渗浆:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l渗浆"
   Skills:
-    - Potion{type=oozing} ~onTimer
+    - action: "Potion"
+      type: "oozing"
+      trigger: "onTimer"
 
 # 盘丝: 死亡时在周围生成蜘蛛网
 盘丝:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l盘丝"
   Skills:
-    - Potion{type=weaving} ~onTimer
+    - action: "Potion"
+      type: "weaving"
+      trigger: "onTimer"
 
 # 寄生: 受伤时生成蠹虫
 寄生:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l寄生"
   Skills:
-    - Potion{type=infested} ~onTimer
+    - action: "Potion"
+      type: "infested"
+      trigger: "onTimer"
 
 # 蓄风: 跳跃更高, 落地时产生风爆
 蓄风:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l蓄风"
   Skills:
-    - Potion{type=wind_charged} ~onTimer
+    - action: "Potion"
+      type: "wind_charged"
+      trigger: "onTimer"
 
 # 蓄风(可叠加等级版) —— 配合 gems 里的「蓄风药水·强化」
 # lore 上写的是 "[BUFF] 蓄风等级 2" 这种形式, 这里把 2 读出来当等级
 蓄风等级:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l蓄风等级 "
   Skills:
-    - Potion{type=wind_charged;level=$LORE:[BUFF] 蓄风等级?1$} ~onTimer
+    - action: "Potion"
+      type: "wind_charged"
+      level: "$LORE:[BUFF] 蓄风等级?1$"
+      trigger: "onTimer"
 
 
 # ── 1.21+ 不祥之兆系列 ─────────────────────────────────────
@@ -68,13 +79,17 @@
 试炼之兆:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l试炼之兆"
   Skills:
-    - Potion{type=trial_omen} ~onTimer
+    - action: "Potion"
+      type: "trial_omen"
+      trigger: "onTimer"
 
 # 袭击之兆: 进入村庄时直接触发袭击
 袭击之兆:
   Lore: "&6&l[&c&lBUFF&6&l] &b&l袭击之兆"
   Skills:
-    - Potion{type=raid_omen} ~onTimer
+    - action: "Potion"
+      type: "raid_omen"
+      trigger: "onTimer"
 
 
 # ════════════════════════════════════════════════════════════
@@ -91,7 +106,18 @@
 濒死爆发:
   Lore: "&6&l[&c&lBUFF&6&l] &c&l濒死爆发"
   Skills:
-    - If{c=health<0.3;All{Potion{type=resistance;level=2};Potion{type=regeneration;level=2}}} ~onTimer
+    - action: "If"
+      c: "health<0.3"
+      then:
+        action: "All"
+        then:
+          - action: "Potion"
+            type: "resistance"
+            level: "2"
+          - action: "Potion"
+            type: "regeneration"
+            level: "2"
+      trigger: "onTimer"
 
 # 深海之子: 只在水下才给水下呼吸和挖掘加成
 # 说明: 这里用 y<62 近似判断"在海平面以下", 引擎没有 in_water 变量
@@ -99,26 +125,77 @@
 深海之子:
   Lore: "&6&l[&c&lBUFF&6&l] &3&l深海之子"
   Skills:
-    - If{c=y<62;All{Potion{type=water_breathing};Potion{type=conduit_power}}} ~onTimer
+    - action: "If"
+      c: "y<62"
+      then:
+        action: "All"
+        then:
+          - action: "Potion"
+            type: "water_breathing"
+          - action: "Potion"
+            type: "conduit_power"
+      trigger: "onTimer"
 
 # 矿工直觉: 在 y<0(深板岩层/深暗之域)时给夜视和急迫
 矿工直觉:
   Lore: "&6&l[&c&lBUFF&6&l] &e&l矿工直觉"
   Skills:
-    - If{c=y<0;All{Potion{type=night_vision;duration=15};Potion{type=haste;level=2}}} ~onTimer
+    - action: "If"
+      c: "y<0"
+      then:
+        action: "All"
+        then:
+          - action: "Potion"
+            type: "night_vision"
+            duration: "15"
+          - action: "Potion"
+            type: "haste"
+            level: "2"
+      trigger: "onTimer"
 
 # 饥饿转化: 饱食度满时把多余的转成再生
 饱食再生:
   Lore: "&6&l[&c&lBUFF&6&l] &a&l饱食再生"
   Skills:
-    - If{c=food>=18;Potion{type=regeneration}} ~onTimer
+    - action: "If"
+      c: "food>=18"
+      then:
+        action: "Potion"
+        type: "regeneration"
+      trigger: "onTimer"
 
 # 不稳定祝福: 每秒 10% 概率随机给一个正面效果
 # Chance 的 p 是 0~1 的概率, 嵌套里可以再套 All
 不稳定祝福:
   Lore: "&6&l[&c&lBUFF&6&l] &d&l不稳定祝福"
   Skills:
-    - Chance{p=0.1;Potion{type=speed;level=2;duration=5}} ~onTimer
-    - Chance{p=0.1;Potion{type=strength;duration=5}} ~onTimer
-    - Chance{p=0.1;Potion{type=absorption;level=2;duration=5}} ~onTimer
-    - Chance{p=0.02;Potion{type=wind_charged;duration=5}} ~onTimer
+    - action: "Chance"
+      p: "0.1"
+      then:
+        action: "Potion"
+        type: "speed"
+        level: "2"
+        duration: "5"
+      trigger: "onTimer"
+    - action: "Chance"
+      p: "0.1"
+      then:
+        action: "Potion"
+        type: "strength"
+        duration: "5"
+      trigger: "onTimer"
+    - action: "Chance"
+      p: "0.1"
+      then:
+        action: "Potion"
+        type: "absorption"
+        level: "2"
+        duration: "5"
+      trigger: "onTimer"
+    - action: "Chance"
+      p: "0.02"
+      then:
+        action: "Potion"
+        type: "wind_charged"
+        duration: "5"
+      trigger: "onTimer"

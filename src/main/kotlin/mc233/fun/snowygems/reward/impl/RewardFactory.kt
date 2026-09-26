@@ -54,6 +54,13 @@ object RewardFactory {
             }
             "point" -> PointReward(call.arg("amount", "0"))
             "money" -> MoneyReward(call.arg("amount", "0"))
+            "command" -> CommandReward(
+                command = call.argOrNull("command") ?: call.argOrNull("commands") ?: return null,
+                asConsole = call.argOrNull("as")?.equals("console", true)
+                    ?: call.arg("console", "false").toBoolean(),
+                requireEffect = call.argOrNull("requireEffect")?.toBoolean()
+                    ?: (call.argOrNull("commands") != null)
+            )
             "maxhealth" -> MaxHealthReward(
                 amount = call.arg("amount", "0").toDoubleOrNull() ?: 0.0,
                 limit = call.argOrNull("limit")?.toDoubleOrNull()
