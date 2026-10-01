@@ -238,6 +238,7 @@ dismantle-cost-free: '무료'
 dismantle-cost-summary: '&7분해 가격: &e{cost}'
 dismantle-success-rate: '&7보석 반환 성공률: &a{chance}%'
 dismantle-plan-error: '&c분해 계획을 계산할 수 없습니다. 관리자에게 설정을 확인해 달라고 요청하세요.'
+dismantle-protected: '&c이 보석이나 아이템은 분해할 수 없으며 장착만 가능합니다.'
 dismantle-click-hint: '&a클릭하여 이 보석을 분해'
 # 결과   플레이스홀더: {gem} 보석 이름
 dismantle-success: '&a{gem}&a 을(를) 분해했고 보석은 인벤토리로 돌아왔습니다'

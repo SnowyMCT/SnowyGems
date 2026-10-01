@@ -21,7 +21,7 @@ import mc233.`fun`.snowygems.util.getItemTag
 import org.bukkit.Bukkit
 
 /** Enchant{name=DURABILITY;limit=7} 或 Enchant{name=RIPTIDE;level=0} */
-class EnchantReward(private val name: String, private val level: Int?, private val limit: Int?) : Reward {
+class EnchantReward(private val name: String, private val level: Int?, private val limit: Int?, private val varExpr: String? = null) : Reward {
     override val reversible = true
     override fun apply(ctx: RewardContext): Boolean {
         val item = ctx.item ?: run {
@@ -43,7 +43,7 @@ class EnchantReward(private val name: String, private val level: Int?, private v
             return false
         }
         val curLevel = item.getEnchantmentLevel(enchant)
-        DebugUtil.log("Reward", "    Enchant(${enchant.key.key}): 当前等级=$curLevel 指定level=$level limit=$limit")
+        DebugUtil.log("Reward", "    Enchant(${enchant.key.key}): 当前等级=$curLevel 指定level=$level var=$varExpr limit=$limit")
         if (level != null) {
             if (level <= 0) {
                 if (curLevel <= 0) {
@@ -59,12 +59,17 @@ class EnchantReward(private val name: String, private val level: Int?, private v
                 item.addUnsafeEnchantment(enchant, level)
             }
         } else {
-            // 未指定 level: 在当前基础上 +1, 但不超过 limit; 已达上限则不再消耗
+            // var 表达式计算目标等级；未配置时兼容原有每次 +1 行为。
             if (limit != null && curLevel >= limit) {
                 DebugUtil.log("Reward", "    Enchant: 当前等级 $curLevel 已达上限 $limit, 无法继续提升, 视为未生效")
                 return false
             }
-            var next = curLevel + 1
+            val raw = varExpr?.let { ExprUtil.eval(it, curLevel.toDouble()) } ?: (curLevel + 1).toDouble()
+            if (!raw.isFinite() || raw !in 0.0..Int.MAX_VALUE.toDouble() || raw % 1.0 != 0.0) {
+                DebugUtil.log("Reward", "    Enchant: var=$varExpr 必须计算为有效的非负整数等级")
+                return false
+            }
+            var next = raw.toInt()
             if (limit != null) next = next.coerceAtMost(limit)
             if (next == curLevel) {
                 DebugUtil.log("Reward", "    Enchant: 计算后等级无变化($curLevel), 视为未生效")
@@ -77,7 +82,7 @@ class EnchantReward(private val name: String, private val level: Int?, private v
         return true
     }
 
-    /** 拆卸撤销: 未指定 level 的累加式附魔按"降 1 级"处理; 指定了 level 的直接移除该附魔 */
+    /** 拆卸按镶嵌时记录的实际等级差回退，兼容多级提升。 */
     override fun revert(ctx: RewardContext): Boolean {
         val item = ctx.item ?: return false
         val enchant = resolveEnchant(name) ?: error("Cannot resolve enchantment for removal: $name")

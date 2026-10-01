@@ -1,6 +1,8 @@
 # SnowyGems
 
-基于 TabooLib 的宝石与符文插件。源码构建版本为 `0.0.7`。
+基于 TabooLib 的宝石与符文插件。源码构建版本为 `0.0.8`。
+
+0.0.8 支持附魔宝石用 `var=v+2` 一次提升多级；新增宝石和装备的不可拆卸标记，并在游戏内编辑器中为字段和动作参数显示用途说明。
 
 0.0.7 修复随机点券兑换券对接 PlayerPoints 时因小数被拒绝的问题，并修复极小随机数的科学计数法解析。`Point` 表达式只求值一次，发放或扣除前向零取整，提示显示实际交易整数；Internal 与 PlayerPoints 使用相同奖励数额。旧配置 `100+2900*$RANDOM()` 可直接继续使用，实际发放 100～2999 点券。取整为 0、非有限数或绝对值超过 2147483647 的结果不生效。
 
@@ -21,6 +23,10 @@
 - `/sgem open 符文镶嵌台`：按颜色放入符文，确认后每个非空槽尝试一颗。
 - `/sgem open 符文分解台`：将未镶嵌的示例一级符文分解为 10 个碎片。
 - `/sgem inspect`：查看主手装备上的宝石；`/sgem dismantle`：打开拆卸台，放入装备后逐颗选择拆卸。
+
+附魔奖励可写 `Enchant{name=DURABILITY;var=v+2;limit=15}`，或在对象式 `Rewards` 中写 `action: Enchant`、`name: DURABILITY`、`var: "v+2"`、`limit: 15`。`v` 是装备当前附魔等级；省略 `var` 时仍每次 +1；`level` 是固定目标等级，设置后优先于 `var`。拆卸时按本次实际增加的等级回退。
+
+要让某颗宝石只能镶嵌，在该宝石节点设置 `Removable: false`，游戏内编辑器的“基础信息”也可切换。要保护整件装备，可在 `config.yml` 的 `DismantleProtection.Lore` 配置要匹配的说明文字（默认 `&c不可拆卸`）；匹配任一行便禁止拆卸该装备上的所有宝石。其他插件也可以给装备写入 `snowygems:no_dismantle` 的 PDC BYTE 值 `1`。上述保护不妨碍镶嵌，修改配置后执行 `/sgem reload`。
 
 旧颜色符文在 `src/main/resources/gems/RuneGem.yml`，保留其原有 Lore 材料用途。已有服务器的 `gui/gui.yml` 和 `gui/rune.yml` 不会自动覆盖，更新布局时需要合并新确认按钮；旧菜单可空光标 Shift+右键装备进行镶嵌。
 

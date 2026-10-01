@@ -136,7 +136,7 @@ object EditorStore {
         val value: Any = when {
             key in setOf("Require", "Tips", "Gui", "Slot") -> input.split('|').map { it.trim() }.filter { it.isNotBlank() }
             key in setOf("Success", "Embed", "Amount") -> input.toIntOrNull() ?: error("请输入整数")
-            key in setOf("Glow", "Eat", "GiveItem", "RandomGiveItem", "TrackApplied", "Enabled") -> input.toBooleanStrictOrNull() ?: error("请输入 true 或 false")
+            key in setOf("Glow", "Eat", "GiveItem", "RandomGiveItem", "TrackApplied", "Removable", "Enabled") -> input.toBooleanStrictOrNull() ?: error("请输入 true 或 false")
             key == "Cooldown" -> input.toDoubleOrNull() ?: error("请输入数字")
             else -> input
         }

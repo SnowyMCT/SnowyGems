@@ -43,6 +43,8 @@ data class GemConfig(
     val embed: Int = 0,
     val exclusiveGroup: String = "",
     val trackApplied: Boolean = true,
+    /** false 时只允许镶嵌，不允许从装备拆卸这颗宝石。 */
+    val removable: Boolean = true,
     val color: String? = null,
     val eat: Boolean = false,
     val successTip: String? = null,

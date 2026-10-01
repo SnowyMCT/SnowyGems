@@ -238,6 +238,7 @@ dismantle-cost-free: 'free'
 dismantle-cost-summary: '&7Removal price: &e{cost}'
 dismantle-success-rate: '&7Gem return chance: &a{chance}%'
 dismantle-plan-error: '&cCould not calculate the removal plan. Ask an admin to check the configuration.'
+dismantle-protected: '&cThis gem or item cannot be removed; it can only be embedded.'
 dismantle-click-hint: '&aClick to remove this gem'
 # Result   Placeholder: {gem} gem name
 dismantle-success: '&aRemoved {gem}&a, gem returned to your inventory'

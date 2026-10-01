@@ -99,14 +99,15 @@ object DismantleGui {
     }
 
     private fun icon(style: Style, fallback: XMaterial, defaultName: String,
-                     values: Map<String, String> = emptyMap(), extraLore: List<String> = emptyList(), texture: String? = null): ItemStack {
+                     values: Map<String, String> = emptyMap(), extraLore: List<String> = emptyList(), texture: String? = null,
+                     showStyleTips: Boolean = true): ItemStack {
         val material = style.material?.takeUnless { it.equals("AUTO", true) }
             ?.let { XMaterial.matchXMaterial(it).orElse(fallback) } ?: fallback
         return buildItem(material) {
             if (material == XMaterial.PLAYER_HEAD && !texture.isNullOrBlank()) skullTexture = SkullTexture(texture)
             name = render(style.display ?: defaultName, values)
             lore.addAll(extraLore)
-            lore.addAll(style.tips.map { render(it, values) })
+            if (showStyleTips) lore.addAll(style.tips.map { render(it, values) })
             if (style.glow) shiny()
         }
     }
@@ -139,8 +140,9 @@ object DismantleGui {
             val id = ids.getOrNull(index)
             if (id == null) { inv.setItem(slot, null); return@forEachIndexed }
             val gem = GemRegistry.get(id)
-            val quote = gem?.let { runCatching { DismantleService.quote(it, item!!) }.getOrNull() }
-            val cost = quote?.let { DismantleService.describe(it.cost) } ?: Lang.get("dismantle.plan-error")
+            val protected = gem?.let { DismantleService.isProtected(it, item!!) } == true
+            val quote = gem?.takeUnless { protected }?.let { runCatching { DismantleService.quote(it, item!!) }.getOrNull() }
+            val cost = if (protected) Lang.get("dismantle.protected") else quote?.let { DismantleService.describe(it.cost) } ?: Lang.get("dismantle.plan-error")
             val chance = quote?.let { DismantleService.format(it.success) } ?: "?"
             val gemName = gem?.let { ColorUtil.colorize(it.display.ifBlank { it.name }) } ?: id
             val material = if (gem == null) XMaterial.BARRIER else if (!gem.texture.isNullOrBlank()) XMaterial.PLAYER_HEAD
@@ -148,7 +150,8 @@ object DismantleGui {
             inv.setItem(slot, icon(gemStyle, material, gemName,
                 mapOf("gem" to gemName, "id" to id, "cost" to cost, "chance" to chance,
                     "index" to (index + 1).toString(), "page" to (holder.page + 1).toString(), "pages" to pages.toString()),
-                texture = gem?.texture))
+                extraLore = if (protected) listOf(Lang.get("dismantle.protected")) else emptyList(),
+                texture = gem?.texture, showStyleTips = !protected))
         }
         for (type in listOf("PAGE_PREV", "PAGE_NEXT")) {
             val slot = holder.layout.slot(type)
@@ -270,6 +273,9 @@ object DismantleGui {
             Lang.send(player, "dismantle.item-changed"); refresh(holder); return
         }
         val gem = GemRegistry.get(gemId) ?: run { Lang.send(player, "gem.config-missing"); return }
+        if (DismantleService.isProtected(gem, item)) {
+            Lang.send(player, "dismantle.protected"); refresh(holder); return
+        }
         val quote = runCatching { DismantleService.quote(gem, item) }.getOrElse {
             DebugUtil.err("Dismantle", "计算 $gemId 拆卸方案失败", it)
             Lang.send(player, "dismantle.plan-error"); return

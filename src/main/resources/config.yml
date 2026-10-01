@@ -37,6 +37,13 @@ DebugTags: []
 #    en_US.yml - English
 Lang: zh_CN
 
+# 装备说明中包含以下任一文字时，装备上的所有宝石都不能拆卸（仍可镶嵌）。
+# 也可在装备的 PersistentDataContainer 中写入 BYTE=1，键为 snowygems:no_dismantle。
+# 单颗宝石不可拆卸请在该宝石配置下设置 Removable: false。
+DismantleProtection:
+  Lore:
+    - '&c不可拆卸'
+
 # 点券系统使用的后端:
 #   Internal    - 使用本插件内置的 data/points.yml 简易账户系统 (默认) 不推荐在正式服务器中使用
 #   PlayerPoints - 对接 PlayerPoints 插件；不可用时暂停交易，不切换内置账户

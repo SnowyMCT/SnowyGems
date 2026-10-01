@@ -92,6 +92,7 @@ object GemRegistry {
             embed = sec.getInt("Embed", 0),
             exclusiveGroup = sec.getString("ExclusiveGroup", "")?.trim() ?: "",
             trackApplied = sec.getBoolean("TrackApplied", true),
+            removable = sec.getBoolean("Removable", true),
             color = sec.getString("Color"),
             eat = sec.getBoolean("Eat", false),
             successTip = sec.getString("SuccessTip"),

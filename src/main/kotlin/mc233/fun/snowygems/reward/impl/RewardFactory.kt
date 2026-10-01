@@ -38,7 +38,8 @@ object RewardFactory {
             "enchant" -> EnchantReward(
                 name = call.arg("name"),
                 level = call.argOrNull("level")?.toIntOrNull(),
-                limit = call.argOrNull("limit")?.toIntOrNull()
+                limit = call.argOrNull("limit")?.toIntOrNull(),
+                varExpr = call.argOrNull("var")
             )
             "itemgive" -> ItemGiveReward(
                 gemId = call.argOrNull("gem") ?: call.argOrNull("Gem") ?: return null,
