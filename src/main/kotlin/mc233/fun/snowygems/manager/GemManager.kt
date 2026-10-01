@@ -260,6 +260,9 @@ object GemManager {
         val historyIndex = appliedIds.take(selectedIndex + 1).count { it == gemId } - 1
         DebugUtil.log("GemManager", "removeFromItem: 从 ${targetStack.type} 拆除 $gemId, 拆除前已镶嵌=${getAppliedGems(targetStack)}")
         val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
+        if (DismantleService.isProtected(cfg, targetStack)) {
+            return ApplyResult(false, Lang.get("dismantle.protected"), false)
+        }
         val target = targetStack.clone()
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
         val history = target.getItemTag()[historyKey(gemId)]?.value as? ItemTagList

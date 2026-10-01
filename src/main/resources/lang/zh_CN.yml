@@ -241,6 +241,7 @@ dismantle-cost-free: '免费'
 dismantle-cost-summary: '&7拆卸价格: &e{cost}'
 dismantle-success-rate: '&7宝石返还成功率: &a{chance}%'
 dismantle-plan-error: '&c拆卸方案计算失败，请联系管理员检查配置'
+dismantle-protected: '&c此宝石或装备设置为不可拆卸，只能镶嵌。'
 dismantle-click-hint: '&a点击拆卸此宝石'
 # 拆卸结果  占位符: {gem} 宝石名
 dismantle-success: '&a已拆卸 {gem}&a, 宝石已返还背包'

@@ -242,6 +242,7 @@ dismantle-cost-free: '免費'
 dismantle-cost-summary: '&7拆卸價格: &e{cost}'
 dismantle-success-rate: '&7寶石返還成功率: &a{chance}%'
 dismantle-plan-error: '&c拆卸方案計算失敗，請聯絡管理員檢查設定'
+dismantle-protected: '&c此寶石或裝備設定為不可拆卸，只能鑲嵌。'
 dismantle-click-hint: '&a點選拆卸此寶石'
 # 拆卸結果  佔位符: {gem} 寶石名
 dismantle-success: '&a已拆卸 {gem}&a, 寶石已返還背包'

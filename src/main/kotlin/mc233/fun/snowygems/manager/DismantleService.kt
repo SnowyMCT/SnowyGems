@@ -7,8 +7,11 @@ import mc233.`fun`.snowygems.util.ItemRequireMatcher
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
 import org.bukkit.entity.Player
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.persistence.PersistentDataType
+import mc233.`fun`.snowygems.util.ColorUtil
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
 import taboolib.common.platform.function.warning
@@ -20,20 +23,37 @@ import kotlin.random.Random
 /** Independent dismantle plans. Gems contain only their application effects. */
 object DismantleService {
     @Volatile private var pricing: DismantlePricing? = null
+    @Volatile private var blockedLore: List<String> = emptyList()
+    private val blockedKey = NamespacedKey("snowygems", "no_dismantle")
 
     internal fun snapshot() = pricing
     internal fun restore(value: DismantlePricing?) { pricing = value }
 
     fun resolve() {
         val oldGlobal = File(getDataFolder(), "config.yml")
-        if (oldGlobal.isFile && Configuration.loadFromFile(oldGlobal).contains("Dismantle")) {
+        val global = if (oldGlobal.isFile) Configuration.loadFromFile(oldGlobal) else null
+        if (global?.contains("Dismantle") == true) {
             warning("config.yml 的旧 Dismantle 节点已忽略；请将价格与返还成功率配置在 dismantle/ 目录")
         }
+        blockedLore = global?.getStringList("DismantleProtection.Lore")
+            ?.map { ColorUtil.colorize(it) }?.filter { it.isNotBlank() } ?: emptyList()
         releaseResourceFolder("dismantle/", replace = false)
         val folder = File(getDataFolder(), "dismantle")
         val files = folder.listFiles { f -> f.isFile && f.extension.lowercase() in setOf("yml", "yaml") }
             ?.toList() ?: emptyList()
         pricing = DismantlePlanFiles.load(files)
+    }
+
+    /** 宝石级开关、装备 NBT 标记或 Lore 标记任一命中即禁止拆卸。 */
+    fun isProtected(gem: GemConfig, item: ItemStack): Boolean {
+        if (!gem.removable) return true
+        val meta = item.itemMeta ?: return false
+        if (meta.persistentDataContainer.get(blockedKey, PersistentDataType.BYTE) == 1.toByte()) return true
+        val lines = (meta.lore ?: emptyList()).map(ColorUtil::stripColor)
+        return blockedLore.any { marker ->
+            val text = ColorUtil.stripColor(marker)
+            lines.any { it.contains(text) }
+        }
     }
 
     fun quote(gem: GemConfig, item: ItemStack): DismantleQuote {

@@ -19,7 +19,7 @@ import taboolib.platform.util.buildItem
 object InGameEditor {
     private val contents get() = EditorTheme.contentSlots()
     private val fieldGroups = linkedMapOf(
-        "基础" to listOf("Name", "Type", "Enabled", "Success", "Embed", "TrackApplied", "RandomGiveItem"),
+        "基础" to listOf("Name", "Type", "Enabled", "Success", "Embed", "TrackApplied", "Removable", "RandomGiveItem"),
         "外观" to listOf("Display", "Material", "Texture", "Color", "Glow", "Tips", "Gui", "SuccessTip", "FailTip"),
         "限制" to listOf("Require", "Slot", "ExclusiveGroup", "Cooldown", "Eat", "GiveItem")
     )
@@ -32,6 +32,28 @@ object InGameEditor {
         "点券" to "Point amount=0",
         "金币" to "Money amount=0",
         "经验等级" to "ExpLevel amount=0"
+    )
+    private val fieldDescriptions = mapOf(
+        "Name" to "内部名称，用于辨认宝石", "Type" to "使用类型：普通、玩家或随机宝石",
+        "Enabled" to "是否启用这条配方", "Success" to "镶嵌成功率，范围 0 至 100",
+        "Embed" to "镶嵌需要的孔位数量", "TrackApplied" to "记录到装备的已镶嵌列表",
+        "Removable" to "关闭后该宝石只能镶嵌，不能拆卸", "RandomGiveItem" to "随机宝石直接发放抽中的物品",
+        "Display" to "物品在游戏中显示的名称", "Material" to "物品图标材质",
+        "Texture" to "玩家头颅的纹理数据", "Color" to "显示颜色",
+        "Glow" to "物品是否显示附魔光效", "Tips" to "物品说明，多个条目用 | 分隔",
+        "Gui" to "允许使用的界面，多个名称用 | 分隔", "SuccessTip" to "使用成功时显示的提示",
+        "FailTip" to "使用失败时显示的提示", "Require" to "可镶嵌的装备类型或条件",
+        "Slot" to "允许使用的装备栏位", "ExclusiveGroup" to "同组宝石互斥",
+        "Cooldown" to "再次使用前的冷却时间", "Eat" to "是否通过食用触发",
+        "GiveItem" to "随机结果是否作为物品发放", "Result" to "配方产出的宝石 ID",
+        "Amount" to "每次合成的产出数量"
+    )
+    private val actionDescriptions = mapOf(
+        "action" to "执行的动作类型", "name" to "目标属性、附魔或名称",
+        "level" to "附魔固定目标等级；设置后优先于 var", "var" to "根据当前值 v 计算新值，如 v+2",
+        "limit" to "允许达到的最高等级或数值", "operation" to "属性计算方式：0 加法、1 乘基数、2 乘总值",
+        "slot" to "属性生效的装备栏位", "lore" to "要添加或匹配的物品说明",
+        "amount" to "数量或数值", "gem" to "目标宝石 ID"
     )
 
     private fun icon(role: String, material: XMaterial, name: String, vararg lines: String) =
@@ -186,7 +208,7 @@ object InGameEditor {
             rows(6); frame(6); slots(contents); elements { visible }
             onGenerate { _, key, _, _ ->
                 val value = current[key]?.toString() ?: "未设置"
-                icon("Field", fieldIcon(key), "§e$key", "§7当前 §f${value.take(60)}", "§e左键 §7编辑",
+                icon("Field", fieldIcon(key), "§e$key", "§8${fieldDescriptions[key] ?: "自定义字段，请参阅对应功能配置"}", "§7当前 §f${value.take(60)}", "§e左键 §7编辑",
                     "§c右键 §7清空可选字段")
             }
             onClick { event, key ->
@@ -195,7 +217,7 @@ object InGameEditor {
                     confirm(player, "清空 $key", { fields(player, entry, group) }) {
                         EditorStore.clearField(entry, key); fields(player, entry, group)
                     }
-                } else if (key in setOf("Glow", "Eat", "GiveItem", "RandomGiveItem", "TrackApplied", "Enabled")) next(player) {
+                } else if (key in setOf("Glow", "Eat", "GiveItem", "RandomGiveItem", "TrackApplied", "Removable", "Enabled")) next(player) {
                     EditorStore.setField(entry, key, (!(current[key]?.toString()?.toBoolean() ?: false)).toString())
                     fields(player, entry, group)
                 } else input(player, "设置 $key", current[key]?.let(::displayValue) ?: "", { fields(player, entry, group) }) {
@@ -295,7 +317,7 @@ object InGameEditor {
         val values = EditorStore.actionFields(raw)
         player.openMenu<Linked<String>>(EditorTheme.title("ActionDetail", "§8◆ 动作 #${index + 1}", mapOf("index" to (index + 1).toString()))) {
             rows(6); frame(6); slots(contents); elements { values.keys.toList() }
-            onGenerate { _, key, _, _ -> icon("ActionField", XMaterial.PAPER, "§e$key", "§f${values[key]?.take(65)}",
+            onGenerate { _, key, _, _ -> icon("ActionField", XMaterial.PAPER, "§e$key", "§8${actionDescriptions[key] ?: "动作参数，请参阅该动作的配置说明"}", "§f${values[key]?.take(65)}",
                 "§e左键 §7修改", "§c右键 §7删除参数") }
             onClick { event, key -> event.isCancelled = true
                 if (event.clickEventOrNull()?.click == ClickType.RIGHT && key != "action") next(player) {
