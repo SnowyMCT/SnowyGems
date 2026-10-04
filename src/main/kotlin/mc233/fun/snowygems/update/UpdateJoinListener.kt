@@ -1,9 +1,9 @@
 package mc233.`fun`.snowygems.update
 
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.EntityTasks
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.submit
 
 /**
  * 管理员上线时推送\"有新版本 / 公告\"提示
@@ -18,7 +18,7 @@ object UpdateJoinListener {
     fun onJoin(e: PlayerJoinEvent) {
         val player = e.player
         DebugUtil.log("Update", "玩家 ${player.name} 上线, 2 秒后尝试推送更新/公告提示")
-        submit(delay = 40) {
+        EntityTasks.later(player, 40) {
             if (player.isOnline) UpdateChecker.notifyOnJoin(player)
         }
     }

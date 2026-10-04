@@ -4,9 +4,9 @@ import mc233.`fun`.snowygems.compat.Registries
 import mc233.`fun`.snowygems.skill.SkillContext
 import mc233.`fun`.snowygems.skill.SkillFunctions
 import mc233.`fun`.snowygems.skill.skillFunction
+import mc233.`fun`.snowygems.util.EntityTasks
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
-import taboolib.common.platform.function.submit
 
 /**
  * 药水效果类技能函数
@@ -87,7 +87,7 @@ object PotionFunctions {
                 player.allowFlight = false
                 player.isFlying = false
                 ctx.log("禁止 ${player.name} 飞行 ${seconds}s")
-                submit(delay = seconds * 20L) { player.allowFlight = original }
+                EntityTasks.later(player, seconds * 20L) { if (player.isOnline) player.allowFlight = original }
                 true
             }
             else -> applyPotion(ctx)

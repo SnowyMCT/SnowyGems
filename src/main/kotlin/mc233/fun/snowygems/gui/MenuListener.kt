@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.submit
+import mc233.`fun`.snowygems.util.EntityTasks
 import taboolib.platform.util.giveItem
 
 object MenuListener {
@@ -42,14 +42,14 @@ object MenuListener {
             if (e.click != ClickType.LEFT && e.click != ClickType.RIGHT) return
             when (def.type.uppercase()) {
                 "CONFIRM_EMBED" -> applyGemSlots(player, holder)
-                "RUNE_FORGE" -> submit(delay = 1) {
+                "RUNE_FORGE" -> EntityTasks.later(player) {
                     if (!holder.returned && player.openInventory.topInventory === holder.inv) RuneForgeGui.open(player)
                 }
                 "USE_GEM" -> useButton(player, holder, def.gem)
                 "PAGE_JUMP" -> def.gui?.let { menu ->
-                    submit { if (player.openInventory.topInventory === holder.inv) WorkbenchMenu.open(player, menu) }
+                    EntityTasks.later(player) { if (player.openInventory.topInventory === holder.inv) WorkbenchMenu.open(player, menu) }
                 }
-                "CLOSE" -> submit { if (player.openInventory.topInventory === holder.inv) player.closeInventory() }
+                "CLOSE" -> EntityTasks.later(player) { if (player.openInventory.topInventory === holder.inv) player.closeInventory() }
             }
             return
         }
@@ -290,7 +290,7 @@ object MenuListener {
     }
 
     private fun refreshLater(player: Player, holder: MenuHolder) {
-        submit(delay = 1) {
+        EntityTasks.later(player) {
             if (!holder.returned && player.openInventory.topInventory === holder.inv) refreshNow(player, holder)
         }
     }

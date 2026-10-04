@@ -26,14 +26,14 @@ data class SkillContext(
     val generation: Long = SkillRuntime.generation
 ) {
 
+    val requiresEntity: Boolean
+        get() = line.target.equals("entity", true) || line.target.equals("victim", true) || line.target.equals("target", true)
+
     val target: LivingEntity
-        get() = when (line.target.lowercase()) {
-            "entity", "victim", "target" -> victim ?: player
-            else -> player
-        }
+        get() = if (requiresEntity) requireNotNull(victim) { "@Entity requires a living target" } else player
 
     val location: Location
-        get() = hitLocation ?: player.location
+        get() = if (requiresEntity) target.location else hitLocation ?: player.location
 
     // ── 参数读取(统一入口, 支持 $LORE:标签?默认值$ 动态取值与算术表达式) ──
 

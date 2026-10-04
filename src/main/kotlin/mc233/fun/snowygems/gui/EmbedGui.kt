@@ -19,7 +19,7 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.submit
+import mc233.`fun`.snowygems.util.EntityTasks
 import taboolib.library.xseries.XMaterial
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.giveItem
@@ -278,9 +278,9 @@ object EmbedGui {
         val holder = inv.holder as? EmbedHolder ?: return
         if (holder.refreshPending) return
         holder.refreshPending = true
-        submit(delay = 1) {
+        EntityTasks.later(player) {
             holder.refreshPending = false
-            if (!player.isOnline || player.openInventory.topInventory !== inv) return@submit
+            if (!player.isOnline || player.openInventory.topInventory !== inv) return@later
             refreshConfirm(inv)
         }
     }

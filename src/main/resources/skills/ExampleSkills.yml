@@ -74,6 +74,7 @@
         damage: "true"
       trigger: "onAttack"
       target: "Entity"
+      # 子动作未指定 target，继承 Entity；闪电落在本次被击中的生物处。
     - action: "Chance"
       p: "0.3"
       then:

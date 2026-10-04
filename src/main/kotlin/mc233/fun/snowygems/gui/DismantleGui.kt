@@ -22,7 +22,7 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.getDataFolder
-import taboolib.common.platform.function.submit
+import mc233.`fun`.snowygems.util.EntityTasks
 import taboolib.library.xseries.XMaterial
 import taboolib.module.configuration.Configuration
 import taboolib.platform.util.SkullTexture
@@ -166,7 +166,7 @@ object DismantleGui {
     private fun scheduleRefresh(player: Player, holder: Holder) {
         if (holder.refreshPending) return
         holder.refreshPending = true
-        submit(delay = 1) {
+        EntityTasks.later(player) {
             holder.refreshPending = false
             if (player.isOnline && player.openInventory.topInventory === holder.inv && !holder.returned) refresh(holder)
         }

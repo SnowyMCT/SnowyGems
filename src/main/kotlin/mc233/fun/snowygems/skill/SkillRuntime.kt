@@ -3,11 +3,13 @@ package mc233.`fun`.snowygems.skill
 import mc233.`fun`.snowygems.config.SkillDef
 import org.bukkit.entity.Player
 import taboolib.platform.util.PlayerSessionMap
+import java.util.concurrent.ConcurrentHashMap
 
 /** Shared by active skills and equipment timers; successful casts own the cooldown. */
 object SkillRuntime {
     private val cooldowns = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
-    private val running = mutableSetOf<Pair<java.util.UUID, String>>()
+    private val running = ConcurrentHashMap.newKeySet<Pair<java.util.UUID, String>>()
+    @Volatile
     var generation = 0L
         private set
     fun invalidate() { generation++ }

@@ -20,6 +20,7 @@ import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicLong
 import taboolib.common.platform.Schedule
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common5.cint
@@ -53,13 +54,14 @@ object SkillTriggerListener {
 
     /** Action deduplication is scoped to player sessions and a single server tick. */
     private val actions = PlayerSessionMap<MutableMap<String, Long>>({ mutableMapOf() })
-    private var tick = 0L
+    private val tick = AtomicLong()
     @Schedule(period = 1)
-    fun advanceTick() { tick++ }
+    fun advanceTick() { tick.incrementAndGet() }
 
     private fun duplicateSwing(player: Player, trigger: String): Boolean {
         val map = actions.getOrCreate(player) ?: return false
-        return map.put(trigger, tick) == tick
+        val current = tick.get()
+        return map.put(trigger, current) == current
     }
 
     private val projectileItems = ConcurrentHashMap<UUID, Pair<ItemStack, Long>>()

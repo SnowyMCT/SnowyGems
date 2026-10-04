@@ -68,7 +68,8 @@ object ActionSyntax {
                 null -> ""
                 else -> onValue.toString()
             }
-            val target = take(map, "target") ?: "Self"
+            val targetValue = take(map, "target")
+            val target = targetValue ?: "Self"
             val children = takeValue(map, "then")
             val switchFrom = if (action.equals("Switch", true)) take(map, "from") else null
             val switchTo = if (action.equals("Switch", true)) take(map, "to") else null
@@ -93,7 +94,7 @@ object ActionSyntax {
                     args[raw] = raw
                 }
             }
-            SkillLine(action, args, triggers, target.removePrefix("@"))
+            SkillLine(action, args, triggers, target.removePrefix("@"), targetValue != null)
             }
         }
     }
@@ -128,16 +129,16 @@ object ActionSyntax {
         }
         if (children.isNotEmpty()) put("then", if (children.size == 1) children.first() else children)
         if (line.triggers.isNotEmpty()) put("trigger", line.triggers.joinToString(", "))
-        if (!line.target.equals("Self", true)) put("target", line.target)
+        if (line.explicitTarget || !line.target.equals("Self", true)) put("target", line.target)
     }
 
-    private fun looksLikeNestedSkill(raw: String): Boolean = raw.indexOf('{') > 0 && raw.endsWith('}')
+    private fun looksLikeNestedSkill(raw: String): Boolean = raw.indexOf('{').let { it > 0 && RewardTokenParser.findMatchingBrace(raw, it) >= 0 }
 
     private fun renderSkill(line: SkillLine): String {
         val args = line.args.entries.joinToString(";") { (key, value) -> if (key == value) key else "$key=$value" }
         return line.name + (if (args.isEmpty()) "" else "{$args}") +
             (if (line.triggers.isEmpty()) "" else " " + line.triggers.joinToString(" ") { "~$it" }) +
-            (if (line.target.equals("Self", true)) "" else " @${line.target}")
+            (if (line.explicitTarget || !line.target.equals("Self", true)) " @${line.target}" else "")
     }
 
     private fun renderReward(line: ParsedReward): String {
