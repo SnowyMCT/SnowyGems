@@ -3,9 +3,29 @@ package mc233.`fun`.snowygems
 import mc233.`fun`.snowygems.config.ActionSyntax
 import mc233.`fun`.snowygems.reward.RewardPhase
 import mc233.`fun`.snowygems.reward.impl.RewardFactory
+import mc233.`fun`.snowygems.skill.SkillExecutor
+import mc233.`fun`.snowygems.skill.SkillLineParser
 import kotlin.test.*
 
 class ActionSyntaxTest {
+    @Test fun `nested skills inherit entity target unless explicitly self`() {
+        val parent = SkillLineParser.parse("Chance{p=1;Fire{ticks=20}} ~onAttack @Entity")
+        val implicit = SkillLineParser.parse("Fire{ticks=20}")
+        val explicitSelf = SkillLineParser.parse("Heal{amount=2} @Self")
+        assertEquals("Entity", SkillExecutor.inheritTarget(parent, implicit).target)
+        assertEquals("Self", SkillExecutor.inheritTarget(parent, explicitSelf).target)
+
+        val yaml = ActionSyntax.skill(mapOf(
+            "action" to "Chance", "p" to "1", "target" to "Entity", "trigger" to "onAttack",
+            "then" to mapOf("action" to "Fire", "ticks" to "20", "target" to "Self")
+        ))
+        val child = SkillLineParser.parse(yaml.args.keys.first { it.startsWith("Fire{") })
+        assertTrue(child.explicitTarget)
+        assertEquals("Self", SkillExecutor.inheritTarget(yaml, child).target)
+        assertEquals(yaml, ActionSyntax.skill(ActionSyntax.skillMap(yaml)))
+    }
+
+
     @Test fun `command reward accepts readable and existing potion gem keys`() {
         val modern = ActionSyntax.reward(mapOf(
             "action" to "Command", "command" to "bc 恭喜 %player_name%", "as" to "console"

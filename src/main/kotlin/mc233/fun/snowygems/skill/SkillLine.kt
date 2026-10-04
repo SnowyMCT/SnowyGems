@@ -6,7 +6,14 @@ import mc233.`fun`.snowygems.util.ExprUtil
 import org.bukkit.inventory.ItemStack
 
 /** 一条被解析后的技能行, 例如: Blink{distance=120} ~onHit:EGG @Location */
-data class SkillLine(val name: String, val args: LinkedHashMap<String, String>, val triggers: Set<String>, val target: String)
+data class SkillLine(
+    val name: String,
+    val args: LinkedHashMap<String, String>,
+    val triggers: Set<String>,
+    val target: String,
+    /** 区分未指定目标和显式 @Self，供嵌套动作继承外层目标。 */
+    val explicitTarget: Boolean = false
+)
 
 object SkillLineParser {
 
@@ -31,7 +38,8 @@ object SkillLineParser {
             else { argsStr = s.substring(braceStart + 1, close); remainder = s.substring(close + 1) }
         }
         val triggers = triggerRegex.findAll(remainder).map { it.groupValues[1] }.toSet()
-        val target = targetRegex.find(remainder)?.groupValues?.get(1) ?: "Self"
+        val targetMatch = targetRegex.find(remainder)
+        val target = targetMatch?.groupValues?.get(1) ?: "Self"
         val args = LinkedHashMap<String, String>()
         for (tok in splitTopLevel(argsStr)) {
             val t = tok.trim()
@@ -39,7 +47,7 @@ object SkillLineParser {
             val eq = indexOfTopLevelEquals(t)
             if (eq < 0) args[t] = t else args[t.substring(0, eq).trim()] = t.substring(eq + 1).trim()
         }
-        return SkillLine(name.trim(), args, triggers, target)
+        return SkillLine(name.trim(), args, triggers, target, targetMatch != null)
     }
 
     /** 触发标记是否命中(支持 onHit:MATERIAL 精确匹配, 以及不带材质的通用 onHit) */

@@ -7,11 +7,11 @@ import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.Lang
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.EntityTasks
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Linked
@@ -34,7 +34,7 @@ object GemGui {
 
     /** Bukkit 禁止在背包点击事件中直接重开界面；下一 tick 且原界面仍打开时才执行。 */
     private fun afterClick(player: Player, inventory: Inventory, generation: Long, action: () -> Unit) {
-        submit(delay = 1) {
+        EntityTasks.later(player) {
             if (player.isOnline && player.openInventory.topInventory === inventory && generation == sessionGeneration) {
                 action()
             }

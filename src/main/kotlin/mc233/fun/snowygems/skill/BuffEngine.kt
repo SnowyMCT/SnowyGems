@@ -3,6 +3,7 @@ package mc233.`fun`.snowygems.skill
 import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.EntityTasks
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -21,15 +22,17 @@ import taboolib.common.platform.Schedule
  */
 object BuffEngine {
 
-    /** 每 20 tick(1 秒) 扫描一次. 同步执行: 药水效果和物品读写都必须在主线程 */
+    /** 每 20 tick(1 秒) 扫描一次；每位玩家的装备和状态只在其所属区域读取。 */
     @Schedule(period = 20, async = false)
     fun run() {
         for (player in Bukkit.getOnlinePlayers()) {
-            try {
-                tick(player)
-            } catch (e: Exception) {
-                // 忽略单个玩家 tick 出错, 不影响其他玩家
-                DebugUtil.err("Buff", "为 ${player.name} 执行 BUFF tick 时出错", e)
+            EntityTasks.later(player) {
+                if (!player.isOnline) return@later
+                try {
+                    tick(player)
+                } catch (e: Exception) {
+                    DebugUtil.err("Buff", "为 ${player.name} 执行 BUFF tick 时出错", e)
+                }
             }
         }
     }

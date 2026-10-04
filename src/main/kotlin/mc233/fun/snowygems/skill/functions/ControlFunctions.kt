@@ -4,7 +4,7 @@ import mc233.`fun`.snowygems.skill.SkillContext
 import mc233.`fun`.snowygems.skill.SkillExecutor
 import mc233.`fun`.snowygems.skill.SkillFunctions
 import mc233.`fun`.snowygems.skill.skillFunction
-import taboolib.common.platform.function.submit
+import mc233.`fun`.snowygems.util.EntityTasks
 import taboolib.common.util.random
 
 /**
@@ -77,8 +77,9 @@ object ControlFunctions {
             withNested(ctx) { nested ->
                 ctx.log("延迟 $ticks tick 后执行")
                 if (!ctx.budget.reserveTask()) return@withNested false
-                submit(delay = ticks) { runIfOnline(ctx, nested) }
-                true
+                EntityTasks.later(if (ctx.requiresEntity) ctx.target else ctx.player, ticks) {
+                    runIfOnline(ctx, nested)
+                }
             }
         })
 
@@ -99,8 +100,9 @@ object ControlFunctions {
                     var scheduled = 0
                     repeat(times) { i ->
                         if (ctx.budget.reserveTask()) {
-                            submit(delay = interval * i) { runIfOnline(ctx, nested) }
-                            scheduled++
+                            if (EntityTasks.later(if (ctx.requiresEntity) ctx.target else ctx.player, interval * i) {
+                                runIfOnline(ctx, nested)
+                            }) scheduled++
                         }
                     }
                     if (scheduled == 0) return@withNested false
@@ -116,6 +118,9 @@ object ControlFunctions {
     }
 
     private fun runIfOnline(ctx: SkillContext, nested: String) {
+        // A delayed victim may have moved away from the caster's region. Never read or mutate
+        // either entity from a thread that no longer owns it.
+        if (!EntityTasks.owns(ctx.player) || (ctx.victim != null && !EntityTasks.owns(ctx.victim))) return
         if (ctx.player.isOnline && !ctx.player.isDead && ctx.victim?.isValid != false) SkillExecutor.runNested(ctx, nested)
     }
 

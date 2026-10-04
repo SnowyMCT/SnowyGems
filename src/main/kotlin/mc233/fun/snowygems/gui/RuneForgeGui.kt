@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.function.submit
+import mc233.`fun`.snowygems.util.EntityTasks
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Linked
@@ -99,8 +99,8 @@ object RuneForgeGui {
     }
 
     private fun later(player: Player, inventory: Inventory, generation: Long, action: () -> Unit) {
-        submit(delay = 1) {
-            if (!player.isOnline || player.openInventory.topInventory !== inventory) return@submit
+        EntityTasks.later(player) {
+            if (!player.isOnline || player.openInventory.topInventory !== inventory) return@later
             if (generation != RuneRecipeRegistry.generation) {
                 Lang.send(player, "rune.stale")
                 player.closeInventory()

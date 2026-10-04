@@ -62,10 +62,19 @@ object SkillExecutor {
      * 统一放这里, 免得每个函数域各写一份
      */
     fun runNested(ctx: SkillContext, nestedRaw: String): Boolean =
-        dispatch(ctx.copy(line = nestedCache.computeIfAbsent(nestedRaw, SkillLineParser::parse), depth = ctx.depth + 1))
+        dispatch(ctx.copy(line = inheritTarget(ctx.line, nestedCache.computeIfAbsent(nestedRaw, SkillLineParser::parse)), depth = ctx.depth + 1))
+
+    /** 没写 @目标 的子动作继承外层目标；显式 @Self 仍可切回施法玩家。 */
+    internal fun inheritTarget(parent: SkillLine, child: SkillLine): SkillLine =
+        if (child.explicitTarget) child else child.copy(target = parent.target)
 
     private fun dispatch(ctx: SkillContext): Boolean {
-        if (ctx.generation != SkillRuntime.generation || !ctx.budget.consume(ctx.depth)) return false
+        if (ctx.generation != SkillRuntime.generation) return false
+        if (ctx.requiresEntity && ctx.victim == null) {
+            DebugUtil.log("SkillExec", "跳过 ${ctx.line.name}: @Entity 没有命中的生物，不能回退到玩家自身")
+            return false
+        }
+        if (!ctx.budget.consume(ctx.depth)) return false
         val line = ctx.line
         val function = SkillFunctions.find(line.name) ?: run {
             val suggestion = SkillFunctions.suggest(line.name)

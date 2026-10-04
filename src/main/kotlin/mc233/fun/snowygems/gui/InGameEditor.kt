@@ -7,7 +7,7 @@ import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import taboolib.common.platform.function.submit
+import mc233.`fun`.snowygems.util.EntityTasks
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.openMenu
@@ -85,7 +85,7 @@ object InGameEditor {
         }
     }
 
-    private fun next(player: Player, action: () -> Unit) = submit(delay = 1) {
+    private fun next(player: Player, action: () -> Unit) = EntityTasks.later(player) {
         if (player.isOnline && player.hasPermission(Permissions.EDIT)) safe(player, action)
     }
 
