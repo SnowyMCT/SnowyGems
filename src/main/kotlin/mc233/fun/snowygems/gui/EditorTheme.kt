@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.getDataFolder
 import taboolib.library.xseries.XMaterial
 import taboolib.module.configuration.Configuration
+import taboolib.platform.util.SkullTexture
 import taboolib.platform.util.buildItem
 import java.io.File
 
@@ -56,12 +57,17 @@ object EditorTheme {
     fun title(key: String, fallback: String, vars: Map<String, String> = emptyMap()): String =
         ColorUtil.colorize(render(config?.getString("Titles.$key") ?: fallback, vars))
 
+    /**
+     * @param texture 玩家头颅纹理(宝石的 Texture 字段), 仅在最终材质是 PLAYER_HEAD 时生效
+     */
     fun icon(role: String, material: XMaterial, name: String, lines: List<String> = emptyList(),
-             vars: Map<String, String> = emptyMap()): ItemStack {
+             vars: Map<String, String> = emptyMap(), texture: String? = null): ItemStack {
         val section = config?.getConfigurationSection("Icons.$role")
         val selected = section?.getString("Material")?.let { XMaterial.matchXMaterial(it).orElse(material) } ?: material
         val values = vars + ("name" to name)
         return buildItem(selected) {
+            // 服务端只在 SkullMeta 上应用 skullTexture, 其它材质会静默忽略 —— 与 ItemFactory 的处理一致
+            if (selected == XMaterial.PLAYER_HEAD && !texture.isNullOrBlank()) skullTexture = SkullTexture(texture)
             this.name = ColorUtil.colorize(render(section?.getString("Display") ?: name, values))
             val tips = section?.getStringList("Tips")?.takeIf { it.isNotEmpty() } ?: lines
             lore.addAll(tips.map { ColorUtil.colorize(render(it, values)) })
