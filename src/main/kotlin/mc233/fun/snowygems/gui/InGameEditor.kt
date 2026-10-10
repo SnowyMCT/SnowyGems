@@ -12,6 +12,7 @@ import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Anvil
+import taboolib.module.ui.type.Chest
 import taboolib.module.ui.type.Linked
 import taboolib.platform.util.buildItem
 
@@ -60,11 +61,27 @@ object InGameEditor {
         EditorTheme.icon(role, material, name, lines.toList())
 
     private fun gemIcon(entry: EditorStore.Entry) = EditorStore.fields(entry).let { fields ->
-        val material = XMaterial.matchXMaterial(fields["Material"]?.toString() ?: "PAPER").orElse(XMaterial.PAPER)
-        EditorTheme.icon("EntryGem", material, ColorUtil.colorize(fields["Display"]?.toString() ?: "&f${entry.id}"),
+        EditorTheme.icon("EntryGem", gemIconMaterial(fields), ColorUtil.colorize(fields["Display"]?.toString() ?: "&f${entry.id}"),
             listOf("§8${entry.id}", "§7分类 §f${entry.file.nameWithoutExtension}", "§e左键 §7编辑"),
-            mapOf("id" to entry.id, "category" to entry.file.nameWithoutExtension))
+            mapOf("id" to entry.id, "category" to entry.file.nameWithoutExtension), gemIconTexture(fields))
     }
+
+    /**
+     * 编辑器预览用的纹理/材质.
+     *
+     * 宝石外观有两种写法: 只写 Material(原版材质), 或只写 Texture(玩家头颅纹理, 新版默认内容大多如此).
+     * 配了 Texture 就必须用 PLAYER_HEAD, 否则服务端会忽略纹理串, 预览退化成一张纸 ——
+     * 判定与 ItemFactory.build / GemGui / DismantleGui 保持一致.
+     */
+    internal fun gemIconTexture(fields: Map<String, Any?>): String? =
+        fields["Texture"]?.toString()?.takeIf { it.isNotBlank() }
+
+    internal fun gemIconMaterialName(fields: Map<String, Any?>): String =
+        if (gemIconTexture(fields) != null) "PLAYER_HEAD"
+        else fields["Material"]?.toString()?.takeIf { it.isNotBlank() } ?: "PAPER"
+
+    internal fun gemIconMaterial(fields: Map<String, Any?>): XMaterial =
+        XMaterial.matchXMaterial(gemIconMaterialName(fields)).orElse(XMaterial.PAPER)
 
     private fun pageIcon(enabled: Boolean, next: Boolean) = icon(
         if (next) { if (enabled) "Next" else "NextDisabled" } else { if (enabled) "Previous" else "PreviousDisabled" },
@@ -72,7 +89,7 @@ object InGameEditor {
         if (next) "§e下一页" else "§e上一页"
     )
 
-    private fun <T> Linked<T>.frame(rows: Int) {
+    private fun Chest.frame(rows: Int) {
         onClick(lock = true) { it.isCancelled = true }
         val border = (0..8) + ((rows - 1) * 9 until rows * 9) +
             (1 until rows - 1).flatMap { listOf(it * 9, it * 9 + 8) }
@@ -424,8 +441,8 @@ object InGameEditor {
     }
 
     private fun confirm(player: Player, title: String, cancel: () -> Unit, apply: () -> Unit) {
-        player.openMenu<Linked<Int>>(EditorTheme.title("Confirm", "§8◆ 确认操作")) {
-            rows(3); frame(3); slots(emptyList()); elements { emptyList() }
+        player.openMenu<Chest>(EditorTheme.title("Confirm", "§8◆ 确认操作")) {
+            rows(3); frame(3)
             set(EditorTheme.slot("ConfirmYes", 11), icon("ConfirmYes", XMaterial.LIME_CONCRETE, "§a确认", "§7$title")) { isCancelled = true; next(player) { apply() } }
             set(EditorTheme.slot("ConfirmInfo", 13), icon("ConfirmInfo", XMaterial.PAPER, "§f$title", "§7请确认此次修改")) { isCancelled = true }
             set(EditorTheme.slot("ConfirmNo", 15), icon("ConfirmNo", XMaterial.RED_CONCRETE, "§c取消", "§7返回上一步")) { isCancelled = true; next(player, cancel) }
