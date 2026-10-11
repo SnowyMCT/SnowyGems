@@ -14,6 +14,7 @@ import mc233.`fun`.snowygems.gui.WorkbenchMenu
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.manager.MarkBlockManager
 import mc233.`fun`.snowygems.skill.SkillFunctions
+import mc233.`fun`.snowygems.util.ChatHint
 import mc233.`fun`.snowygems.util.DebugUtil
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
@@ -66,7 +67,14 @@ object GemCommand {
 
     @CommandBody(permission = Permissions.HISTORY)
     val history = subCommand {
+        // 漏掉玩家名时给一条可点击的用法提示, 而不是只让命令框架报错
+        execute<CommandSender> { sender, _, _ ->
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem history 但缺少玩家名, 已提示用法")
+            ChatHint.sendHistoryUsage(sender)
+        }
         dynamic("player") {
+            // 参数提示: 在线玩家名(不校验, 允许查离线玩家的历史)
+            suggestion<CommandSender>(uncheck = true) { _, _ -> Bukkit.getOnlinePlayers().map { it.name }.sorted() }
             execute<CommandSender> { sender, context, _ ->
                 val lines = mc233.`fun`.snowygems.manager.OperationAudit.recent(context["player"])
                 if (lines.isEmpty()) {
