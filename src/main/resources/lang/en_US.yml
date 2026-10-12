@@ -246,7 +246,112 @@ dismantle-broke: '&cSorry, {gem} &cbroke during removal and was lost'
 # Not enough money   Placeholders: {amount} {type}
 dismantle-not-afford-multi: '&cRemoval requires &e{cost}&c; balance is insufficient or payment failed'
 # Held item changed after opening the GUI
-dismantle-item-changed: '&cThe held item changed, reopen the removal GUI'
+dismantle-item-changed: '&cThe held item changed, reopen the removal GUI'
+# ── Removal bench GUI (gui/dis.yml) ───────────────────────
+# Write lang:<key> in dis.yml to use the text here, so the GUI follows config.yml Lang
+dismantle-gui-title: '&8◆ Gem Removal Bench'
+dismantle-gui-equip-slot: '&bEquipment slot'
+dismantle-gui-equip-slot-tips:
+  - '&7Put a gemmed item into the empty slot in the middle'
+  - '&7The right side lists every gem with its price and return chance'
+dismantle-gui-gem-tips:
+  - '&7Removal price: &f{cost}'
+  - '&7Return chance: &f{chance}%'
+  - '&8Gem #{index}'
+  - '&eLeft-click to remove this one'
+dismantle-gui-page-prev: '&ePrevious page'
+dismantle-gui-page-next: '&eNext page'
+dismantle-gui-page-tips:
+  - '&7Page {page}/{pages}'
+dismantle-gui-close: '&cClose and take back the item'
+
+# ── 工作台 / 符文界面 (gui/gui.yml, gui/rune.yml) ────────
+# 与 dis.yml 同款写法: yml 里写 lang:键名 就用这里的文本, 换语言界面跟着变
+gui-bench-title: '&8Gem Workbench'
+gui-bench-equip-display: '&a↓ Place an item (left-click to take back, right-click to confirm)'
+gui-bench-equip-tips: '&7Click to take it out; Shift-click to place one quickly'
+gui-bench-gem-display: '&b↓ Place a gem'
+gui-bench-preview-display: '&e↓ Check the preview and confirm'
+gui-bench-confirm-tips: '&7Check the materials and success chance below, then click to run once'
+gui-bench-close-display: '&cClose and take back the items'
+gui-rune-title: '&8Rune Embedding Bench'
+gui-rune-hint-display: '&7Place the item in the top middle; click to take it back'
+gui-rune-hint-tips:
+  - '&7Place runes by colour, at most one per slot'
+  - '&7Shift-click an inventory item to place one quickly'
+  - '&7With a rune on your cursor, click the item to park it in a matching slot'
+  - '&eCheck the preview below, then click the anvil or right-click the item to confirm'
+gui-rune-blue-display: '&9↓ Blue rune'
+gui-rune-green-display: '&a↓ Green rune'
+gui-rune-red-display: '&c↓ Red rune'
+gui-rune-skill-display: '&e↓ Skill rune'
+gui-rune-confirm-tips:
+  - '&7One click: tries one gem for each filled rune slot'
+  - '&7You do not need to fill all four slots; it will not start if a material mismatches'
+gui-rune-jump-display: '&6Open the rune dismantle bench'
+gui-rune-jump-tips: '&7Switching returns all current items automatically'
+gui-rune-forge-display: '&dRune forging and upgrade'
+gui-rune-forge-tips: '&7Forge runes from fragments in your inventory, or upgrade to tier II'
+gui-rune-close-display: '&cClose and take back the items'
+gui-runedsm-title: '&8Rune Dismantle Bench'
+gui-runedsm-info-display: '&dRune Dismantle Bench'
+gui-runedsm-info-tips:
+  - '&7Put an unused tier-I rune on the left'
+  - '&7Click the anvil below to confirm the dismantle'
+  - '&8Tier-I rune → 10 rune fragments'
+gui-runedsm-use-display: '&cConfirm dismantle'
+gui-runedsm-use-tips: '&7Consumes 1 rune and gives 10 rune fragments'
+gui-runedsm-back-display: '&bBack to the rune embedding bench'
+gui-runedsm-close-display: '&cClose and take back the items'
+gui-runedsm-forge-display: '&dForge runes from fragments'
+gui-slot-label-any: 'Gem slot'
+gui-slot-label-blue: 'Blue rune slot'
+gui-slot-label-green: 'Green rune slot'
+gui-slot-label-red: 'Red rune slot'
+gui-slot-label-skill: 'Skill rune slot'
+# ── 游戏内编辑器 (gui/editor.yml) ────────────────────────
+editor-title-home: '&8◆ SnowyGems Editor'
+editor-title-categories-gem: '&8◆ Gem categories'
+editor-title-categories-rune: '&8◆ Recipe categories'
+editor-title-entries: '&8◆ {category}'
+editor-title-detail: '&8◆ {id}'
+editor-title-fields: '&8◆ {id} · {group}'
+editor-title-move: '&8◆ Move {id}'
+editor-title-actions: '&8◆ {id} · Rewards'
+editor-title-choose-action: '&8◆ Choose a reward action'
+editor-title-action-detail: '&8◆ Action #{index}'
+editor-title-pool: '&8◆ {id} · Pool'
+editor-title-choose-pool: '&8◆ Choose a pool gem'
+editor-title-ingredients: '&8◆ {id} · Ingredients'
+editor-title-choose-ingredient: '&8◆ Choose an ingredient gem'
+editor-title-confirm: '&8◆ Confirm'
+editor-title-input: '&8◆ {name}'
+editor-icon-previous: '&ePrevious page'
+editor-icon-previous-disabled: '&8Already on the first page'
+editor-icon-next: '&eNext page'
+editor-icon-next-disabled: '&8Already on the last page'
+editor-icon-home-gem: '&b◆ Gem management'
+editor-icon-home-gem-tips:
+  - '&7Browse gems by category'
+  - '&eClick to enter'
+editor-icon-home-rune: '&d◆ Rune recipes'
+editor-icon-home-rune-tips:
+  - '&7Browse by recipe pack'
+  - '&eClick to enter'
+editor-icon-home-help: '&eHow to use'
+editor-icon-home-help-tips:
+  - '&7All text input happens in the anvil screen'
+  - '&7Red buttons open a confirmation screen'
+editor-icon-category-gem: '&b◆ {category}'
+editor-icon-category-gem-tips:
+  - '&7Entries &f{count}'
+  - '&eLeft-click &7to open'
+  - '&cRight-click &7to delete an empty category'
+editor-icon-category-rune: '&b◆ {category}'
+editor-icon-category-rune-tips:
+  - '&7Entries &f{count}'
+  - '&eLeft-click &7to open'
+  - '&cRight-click &7to delete an empty category'
 
 # ── Skills / BUFF ──────────────────────────────────────────
 # Fallback when the skill has no CooldownTip   Placeholder: {time} seconds left
@@ -258,13 +363,14 @@ skill-cooldown-title: '&cOn cooldown'
 skill-switch: '&7Mode switched: &f{mode}'
 
 # ── Update check & announcement ────────────────────────────
-# Checked silently after startup; admins get it on join too
 # Console: local version differs from remote (any inequality)   Placeholders: {current} {latest} {date}
 update-console-available: '&e[SnowyGems] &fCurrent version &7{current} &fdiffers from official &a{latest} &7({date})&f, please update~'
 # Console: matches official   placeholder: {current}
 update-console-latest: '&8[SnowyGems] &7Current version &f{current} &7is up to date'
 # Console: failed to fetch official version (network/proxy issue, e.g. no JVM proxy for GitHub); NOT necessarily up to date
 update-console-failed: '&c[SnowyGems] &fFailed to fetch official version, check network/proxy (not necessarily up to date)'
+# Announcement: fetched OK but there is no content (this is not your network problem)
+update-announce-empty: '&e[SnowyGems] &fNo announcement content, the announcement file is empty &7(not a network problem on your side)'
 # Admin on join   Placeholders: {current} {latest} {date}
 update-player-available: '&e[SnowyGems] &fCurrent version &7{current} &fdiffers from official &a{latest} &7({date})&f, please update~'
 # Announcement decorations (body comes from the remote ann.txt)

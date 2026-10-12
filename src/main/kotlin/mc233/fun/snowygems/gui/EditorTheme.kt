@@ -1,6 +1,6 @@
 package mc233.`fun`.snowygems.gui
 
-import mc233.`fun`.snowygems.util.ColorUtil
+import mc233.`fun`.snowygems.util.GuiText
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.getDataFolder
 import taboolib.library.xseries.XMaterial
@@ -55,7 +55,7 @@ object EditorTheme {
     fun slot(key: String, fallback: Int): Int = config?.getInt("Slots.$key", fallback) ?: fallback
 
     fun title(key: String, fallback: String, vars: Map<String, String> = emptyMap()): String =
-        ColorUtil.colorize(render(config?.getString("Titles.$key") ?: fallback, vars))
+        GuiText.line(config?.getString("Titles.$key") ?: fallback, vars)
 
     /**
      * @param texture 玩家头颅纹理(宝石的 Texture 字段), 仅在最终材质是 PLAYER_HEAD 时生效
@@ -68,16 +68,11 @@ object EditorTheme {
         return buildItem(selected) {
             // 服务端只在 SkullMeta 上应用 skullTexture, 其它材质会静默忽略 —— 与 ItemFactory 的处理一致
             if (selected == XMaterial.PLAYER_HEAD && !texture.isNullOrBlank()) skullTexture = SkullTexture(texture)
-            this.name = ColorUtil.colorize(render(section?.getString("Display") ?: name, values))
+            this.name = GuiText.line(section?.getString("Display") ?: name, values)
             val tips = section?.getStringList("Tips")?.takeIf { it.isNotEmpty() } ?: lines
-            lore.addAll(tips.map { ColorUtil.colorize(render(it, values)) })
+            tips.forEach { lore.addAll(GuiText.lines(it, values)) }
             if (section?.getBoolean("Glow", false) == true) shiny()
         }
     }
 
-    private fun render(raw: String, vars: Map<String, String>): String {
-        var result = raw
-        vars.forEach { (key, value) -> result = result.replace("{$key}", value) }
-        return result
-    }
 }

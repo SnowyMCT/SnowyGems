@@ -7,6 +7,7 @@ import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.GuiText
 import mc233.`fun`.snowygems.util.ItemFactory
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
@@ -26,7 +27,7 @@ object WorkbenchMenu {
             return
         }
         val holder = MenuHolder(layout)
-        val inv = Bukkit.createInventory(holder, layout.size, ColorUtil.colorize(layout.title))
+        val inv = Bukkit.createInventory(holder, layout.size, GuiText.line(layout.title, emptyMap()))
         holder.inv = inv
         DebugUtil.log("Workbench", "为 ${player.name} 打开菜单 $menuName 容量=${inv.size} 标题=${layout.title}")
         renderStatic(inv, layout)
@@ -133,7 +134,7 @@ object WorkbenchMenu {
             val meta = icon.itemMeta ?: continue
             meta.setDisplayName(Lang.get(if (ready) "embed.button-ready-name" else "embed.button-locked-name"))
             meta.lore = buildList {
-                addAll(ColorUtil.colorize(def.tips))
+                def.tips.forEach { addAll(GuiText.lines(it, emptyMap())) }
                 if (target == null) add(Lang.get("embed.need-equip"))
                 else add(Lang.get("embed.button-equip", "equip" to displayName(target)))
                 if (gems.isEmpty()) add(Lang.get("embed.need-gem"))
@@ -141,7 +142,7 @@ object WorkbenchMenu {
                     val cfg = ItemFactory.getGemId(item)?.let(GemRegistry::get)
                     if (cfg != null) addAll(mc233.`fun`.snowygems.util.GemDescription.lines(cfg))
                     val slotDef = holder.slots[gemSlot]
-                    val slotLabel = slotDef?.let { runeSlotLabel(it.require) } ?: "槽位"
+                    val slotLabel = slotDef?.let { runeSlotLabel(it.require) } ?: Lang.get("gui-slot-label-any")
                     add(Lang.get("menu.preview-slot", "slot" to slotLabel, "gem" to displayName(item),
                         "chance" to (cfg?.success ?: 0)))
                 }
@@ -162,11 +163,11 @@ object WorkbenchMenu {
     private fun runeSlotLabel(require: List<String>): String {
         val text = require.joinToString(" ")
         return when {
-            text.contains("蓝色") -> "蓝色符文槽"
-            text.contains("绿色") -> "绿色符文槽"
-            text.contains("红色") -> "红色符文槽"
-            text.contains("技能") -> "技能符文槽"
-            else -> "宝石槽"
+            text.contains("蓝色") -> Lang.get("gui-slot-label-blue")
+            text.contains("绿色") -> Lang.get("gui-slot-label-green")
+            text.contains("红色") -> Lang.get("gui-slot-label-red")
+            text.contains("技能") -> Lang.get("gui-slot-label-skill")
+            else -> Lang.get("gui-slot-label-any")
         }
     }
 
@@ -176,8 +177,8 @@ object WorkbenchMenu {
         else XMaterial.matchXMaterial(def.material ?: "STONE").orElse(XMaterial.STONE)
         return buildItem(mat) {
             if (hasTexture) skullTexture = taboolib.platform.util.SkullTexture(def.texture!!)
-            name = ColorUtil.colorize(def.display ?: "")
-            lore.addAll(ColorUtil.colorize(def.tips))
+            name = GuiText.line(def.display ?: "", emptyMap())
+            def.tips.forEach { lore.addAll(GuiText.lines(it, emptyMap())) }
             amount = def.amount.coerceIn(1, 64)
             if (def.glow) shiny()
         }

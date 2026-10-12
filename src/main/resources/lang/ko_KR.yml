@@ -246,7 +246,112 @@ dismantle-broke: '&c죄송합니다. {gem} &c이(가) 분해 중 파괴되어 �
 # 잔액 부족   플레이스홀더: {amount} {type}
 dismantle-not-afford-multi: '&c분해에는 &e{cost}&c 이(가) 필요합니다. 잔액 부족 또는 결제 실패'
 # GUI 를 연 뒤 손에 든 아이템이 변경됨
-dismantle-item-changed: '&c손에 든 아이템이 변경되었습니다. 분해 GUI 를 다시 열어주세요'
+dismantle-item-changed: '&c손에 든 아이템이 변경되었습니다. 분해 GUI 를 다시 열어주세요'
+# ── 분해대 GUI (gui/dis.yml) ──────────────────────────────
+# dis.yml 에 lang:<키> 를 쓰면 여기 텍스트가 사용되며, config.yml 의 Lang 에 따라 바뀝니다
+dismantle-gui-title: '&8◆ 보석 분해대'
+dismantle-gui-equip-slot: '&b장비 슬롯'
+dismantle-gui-equip-slot-tips:
+  - '&7보석이 장착된 아이템을 가운데 빈 칸에 넣으세요'
+  - '&7오른쪽에 각 보석의 분해 가격과 반환 확률이 표시됩니다'
+dismantle-gui-gem-tips:
+  - '&7분해 가격: &f{cost}'
+  - '&7반환 확률: &f{chance}%'
+  - '&8{index}번째 보석'
+  - '&e좌클릭으로 이 보석을 분해'
+dismantle-gui-page-prev: '&e이전 페이지'
+dismantle-gui-page-next: '&e다음 페이지'
+dismantle-gui-page-tips:
+  - '&7{page}/{pages} 페이지'
+dismantle-gui-close: '&c닫고 아이템 되찾기'
+
+# ── 工作台 / 符文界面 (gui/gui.yml, gui/rune.yml) ────────
+# 与 dis.yml 同款写法: yml 里写 lang:键名 就用这里的文本, 换语言界面跟着变
+gui-bench-title: '&8보석 작업대'
+gui-bench-equip-display: '&a↓ 아이템을 넣으세요 (좌클릭 회수, 우클릭 확인)'
+gui-bench-equip-tips: '&7클릭하면 꺼내고, Shift 클릭하면 한 개를 빠르게 넣습니다'
+gui-bench-gem-display: '&b↓ 보석을 넣으세요'
+gui-bench-preview-display: '&e↓ 미리보기를 확인하고 확정하세요'
+gui-bench-confirm-tips: '&7아래 재료와 성공률을 확인한 뒤 클릭하여 한 번 실행하세요'
+gui-bench-close-display: '&c닫고 아이템 되찾기'
+gui-rune-title: '&8룬 장착대'
+gui-rune-hint-display: '&7장비를 맨 위 가운데에 넣으세요. 클릭하면 되찾습니다'
+gui-rune-hint-tips:
+  - '&7색깔별로 룬을 넣으세요. 한 칸에 최대 한 개'
+  - '&7인벤토리 아이템을 Shift 클릭하면 한 개를 빠르게 넣습니다'
+  - '&7커서에 룬을 든 채 장비를 클릭하면 맞는 룬 칸에 임시 보관됩니다'
+  - '&e아래 미리보기를 확인한 뒤 모루를 클릭하거나 장비를 우클릭하여 확정하세요'
+gui-rune-blue-display: '&9↓ 파란 룬'
+gui-rune-green-display: '&a↓ 초록 룬'
+gui-rune-red-display: '&c↓ 빨간 룬'
+gui-rune-skill-display: '&e↓ 스킬 룬'
+gui-rune-confirm-tips:
+  - '&7한 번 클릭: 룬이 들어간 각 칸마다 하나씩 시도합니다'
+  - '&7네 칸을 모두 채울 필요는 없습니다. 맞지 않는 재료가 있으면 시작하지 않습니다'
+gui-rune-jump-display: '&6룬 분해대 열기'
+gui-rune-jump-tips: '&7전환하면 현재 아이템이 모두 자동 반환됩니다'
+gui-rune-forge-display: '&d룬 제작과 업그레이드'
+gui-rune-forge-tips: '&7인벤토리의 조각으로 룬을 제작하거나 II 등급으로 업그레이드합니다'
+gui-rune-close-display: '&c닫고 아이템 되찾기'
+gui-runedsm-title: '&8룬 분해대'
+gui-runedsm-info-display: '&d룬 분해대'
+gui-runedsm-info-tips:
+  - '&7왼쪽에 장착되지 않은 1등급 룬을 넣으세요'
+  - '&7아래 모루를 클릭하여 분해를 확정하세요'
+  - '&81등급 룬 → 룬 조각 10개'
+gui-runedsm-use-display: '&c분해 확정'
+gui-runedsm-use-tips: '&7룬 1개를 소모하고 룬 조각 10개를 얻습니다'
+gui-runedsm-back-display: '&b룬 장착대로 돌아가기'
+gui-runedsm-close-display: '&c닫고 아이템 되찾기'
+gui-runedsm-forge-display: '&d조각으로 룬 제작'
+gui-slot-label-any: '보석 칸'
+gui-slot-label-blue: '파란 룬 칸'
+gui-slot-label-green: '초록 룬 칸'
+gui-slot-label-red: '빨간 룬 칸'
+gui-slot-label-skill: '스킬 룬 칸'
+# ── 游戏内编辑器 (gui/editor.yml) ────────────────────────
+editor-title-home: '&8◆ SnowyGems 편집대'
+editor-title-categories-gem: '&8◆ 보석 분류'
+editor-title-categories-rune: '&8◆ 레시피 분류'
+editor-title-entries: '&8◆ {category}'
+editor-title-detail: '&8◆ {id}'
+editor-title-fields: '&8◆ {id} · {group}'
+editor-title-move: '&8◆ {id} 이동'
+editor-title-actions: '&8◆ {id} · 보상'
+editor-title-choose-action: '&8◆ 보상 동작 선택'
+editor-title-action-detail: '&8◆ 동작 #{index}'
+editor-title-pool: '&8◆ {id} · 보상 풀'
+editor-title-choose-pool: '&8◆ 풀 보석 선택'
+editor-title-ingredients: '&8◆ {id} · 재료'
+editor-title-choose-ingredient: '&8◆ 재료 보석 선택'
+editor-title-confirm: '&8◆ 작업 확인'
+editor-title-input: '&8◆ {name}'
+editor-icon-previous: '&e이전 페이지'
+editor-icon-previous-disabled: '&8이미 첫 페이지입니다'
+editor-icon-next: '&e다음 페이지'
+editor-icon-next-disabled: '&8이미 마지막 페이지입니다'
+editor-icon-home-gem: '&b◆ 보석 관리'
+editor-icon-home-gem-tips:
+  - '&7분류별로 보석을 둘러봅니다'
+  - '&e클릭하여 들어가기'
+editor-icon-home-rune: '&d◆ 룬 레시피'
+editor-icon-home-rune-tips:
+  - '&7레시피 묶음별로 둘러봅니다'
+  - '&e클릭하여 들어가기'
+editor-icon-home-help: '&e사용 안내'
+editor-icon-home-help-tips:
+  - '&7모든 입력은 모루 화면에서 합니다'
+  - '&7빨간 버튼은 확인 화면으로 넘어갑니다'
+editor-icon-category-gem: '&b◆ {category}'
+editor-icon-category-gem-tips:
+  - '&7항목 &f{count}'
+  - '&e좌클릭 &7분류 열기'
+  - '&c우클릭 &7빈 분류 삭제'
+editor-icon-category-rune: '&b◆ {category}'
+editor-icon-category-rune-tips:
+  - '&7항목 &f{count}'
+  - '&e좌클릭 &7분류 열기'
+  - '&c우클릭 &7빈 분류 삭제'
 
 # ── 스킬 / BUFF ────────────────────────────────────────────
 # 스킬에 CooldownTip 이 없을 때의 기본 문구   플레이스홀더: {time} 남은 초
@@ -258,13 +363,14 @@ skill-cooldown-title: '&c재사용 대기 중'
 skill-switch: '&7모드 전환: &f{mode}'
 
 # ── 업데이트 확인 및 공지 ──────────────────────────────────
-# 시작 후 조용히 확인하며, 관리자는 접속할 때도 안내를 받습니다
 # 콘솔: 로컬 버전이 원격과 다름 (모든 불일치)   플레이스홀더: {current} {latest} {date}
 update-console-available: '&e[SnowyGems] &f현재 버전 &7{current} &f이(가) 공식 버전 &a{latest} &7({date})&f 과(와) 다릅니다. 업데이트해 주세요~'
 # 콘솔: 공식 버전과 일치   플레이스홀더: {current}
 update-console-latest: '&8[SnowyGems] &7현재 버전 &f{current} &7은(는) 최신입니다'
 # 콘솔: 공식 버전 조회 실패 (네트워크/프록시 문제, 예: GitHub 용 JVM 프록시 미설정). 최신이라는 뜻은 아님
 update-console-failed: '&c[SnowyGems] &f공식 버전을 가져오지 못했습니다. 네트워크/프록시를 확인하세요 (최신 버전이라는 뜻은 아닙니다)'
+# 공지: 가져오기는 성공했지만 내용이 없음 (네트워크 문제가 아님)
+update-announce-empty: '&e[SnowyGems] &f공지 내용이 없습니다. 공지 파일이 비어 있습니다 &7(네트워크 문제가 아닙니다)'
 # 관리자 접속 시   플레이스홀더: {current} {latest} {date}
 update-player-available: '&e[SnowyGems] &f현재 버전 &7{current} &f이(가) 공식 버전 &a{latest} &7({date})&f 과(와) 다릅니다. 업데이트해 주세요~'
 # 공지 장식 (본문은 원격 ann.txt 에서 가져옴)

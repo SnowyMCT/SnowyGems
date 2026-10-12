@@ -1,7 +1,8 @@
 # Dismantles an unused example rune, not a rune already embedded in equipment.
 # Use /sgem dismantle to remove an embedded gem from equipment.
+# 界面文字写 lang:键名 就随语言变化(见 lang/*.yml)。
 符文分解台:
-  Title: '&8符文分解台'
+  Title: 'lang:gui-runedsm-title'
   Slots:
     - TTTTTTTTT
     - TGTTBTTIT
@@ -14,17 +15,14 @@
     I:
       Type: TIP
       Material: ENCHANTED_BOOK
-      Display: '&d符文分解台'
-      Tips:
-        - '&7左侧放入一颗未镶嵌的一级符文'
-        - '&7点击下方铁砧确认分解'
-        - '&8一级符文 → 10 个符文碎片'
+      Display: 'lang:gui-runedsm-info-display'
+      Tips: ['lang:gui-runedsm-info-tips']
     B:
       Type: USE_GEM
       Material: GRINDSTONE
       Glow: true
-      Display: '&c确认分解'
-      Tips: ['&7消耗 1 颗符文，获得 10 个符文碎片']
+      Display: 'lang:gui-runedsm-use-display'
+      Tips: ['lang:gui-runedsm-use-tips']
       Gem: 符文分解券
     G:
       Type: EQUIP_SLOT
@@ -36,13 +34,13 @@
     Q:
       Type: PAGE_JUMP
       Material: ENCHANTING_TABLE
-      Display: '&b返回符文镶嵌台'
+      Display: 'lang:gui-runedsm-back-display'
       Gui: 符文镶嵌台
     X:
       Type: CLOSE
       Material: BARRIER
-      Display: '&c关闭并取回物品'
+      Display: 'lang:gui-runedsm-close-display'
     F:
       Type: RUNE_FORGE
       Material: SMITHING_TABLE
-      Display: '&d使用碎片锻造符文'
+      Display: 'lang:gui-runedsm-forge-display'

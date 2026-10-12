@@ -250,7 +250,112 @@ dismantle-broke: '&c很遺憾, {gem} &c在拆卸時損壞了, 未能返還'
 # 費用不足  佔位符: {amount} {type}
 dismantle-not-afford-multi: '&c拆卸需要 &e{cost}&c，餘額不足或付款失敗'
 # 手持物品在開啟介面後發生了變化
-dismantle-item-changed: '&c手持的裝備已改變, 請重新開啟拆卸介面'
+dismantle-item-changed: '&c手持的裝備已改變, 請重新開啟拆卸介面'
+# ── 拆卸台介面 (gui/dis.yml) ──────────────────────────────
+# dis.yml 裡的文字寫成 lang:鍵名 就會用這裡的文字, 介面隨 config.yml 的 Lang 換語言
+dismantle-gui-title: '&8◆ 寶石拆卸台'
+dismantle-gui-equip-slot: '&b裝備槽'
+dismantle-gui-equip-slot-tips:
+  - '&7把一件已鑲嵌寶石的裝備放入中間空格'
+  - '&7右側逐顆顯示拆卸價格與返還機率'
+dismantle-gui-gem-tips:
+  - '&7拆卸價格：&f{cost}'
+  - '&7返還機率：&f{chance}%'
+  - '&8第 {index} 顆寶石'
+  - '&e左鍵拆卸這一顆'
+dismantle-gui-page-prev: '&e上一頁'
+dismantle-gui-page-next: '&e下一頁'
+dismantle-gui-page-tips:
+  - '&7目前第 {page}/{pages} 頁'
+dismantle-gui-close: '&c關閉並取回裝備'
+
+# ── 工作台 / 符文界面 (gui/gui.yml, gui/rune.yml) ────────
+# 与 dis.yml 同款写法: yml 里写 lang:键名 就用这里的文本, 换语言界面跟着变
+gui-bench-title: '&8寶石工作台'
+gui-bench-equip-display: '&a↓ 放入一件裝備（左鍵取回，右鍵確認）'
+gui-bench-equip-tips: '&7普通點擊取出；Shift 點擊快速放入一件'
+gui-bench-gem-display: '&b↓ 放入一顆寶石'
+gui-bench-preview-display: '&e↓ 查看預覽並確認'
+gui-bench-confirm-tips: '&7檢查下方材料與成功率後，點擊執行一次'
+gui-bench-close-display: '&c關閉並取回物品'
+gui-rune-title: '&8符文鑲嵌台'
+gui-rune-hint-display: '&7裝備放入頂部中央；點擊可取回'
+gui-rune-hint-tips:
+  - '&7依顏色放入符文，每格最多一顆'
+  - '&7Shift 點擊背包物品可快速放入一件'
+  - '&7游標上的符文點擊裝備可暫存至相符符文槽'
+  - '&e檢查底部預覽後點擊鐵砧確認，也可右鍵裝備確認'
+gui-rune-blue-display: '&9↓ 藍色符文'
+gui-rune-green-display: '&a↓ 綠色符文'
+gui-rune-red-display: '&c↓ 紅色符文'
+gui-rune-skill-display: '&e↓ 技能符文'
+gui-rune-confirm-tips:
+  - '&7一次點擊：每個已放入符文的槽位各嘗試一顆'
+  - '&7不必填滿四個槽位；有不匹配材料時不會開始'
+gui-rune-jump-display: '&6開啟符文分解台'
+gui-rune-jump-tips: '&7切換時自動歸還目前所有物品'
+gui-rune-forge-display: '&d符文鍛造與升級'
+gui-rune-forge-tips: '&7使用背包中的碎片合成符文或升級至 II 級'
+gui-rune-close-display: '&c關閉並取回物品'
+gui-runedsm-title: '&8符文分解台'
+gui-runedsm-info-display: '&d符文分解台'
+gui-runedsm-info-tips:
+  - '&7左側放入一顆未鑲嵌的一級符文'
+  - '&7點擊下方鐵砧確認分解'
+  - '&8一級符文 → 10 個符文碎片'
+gui-runedsm-use-display: '&c確認分解'
+gui-runedsm-use-tips: '&7消耗 1 顆符文，獲得 10 個符文碎片'
+gui-runedsm-back-display: '&b返回符文鑲嵌台'
+gui-runedsm-close-display: '&c關閉並取回物品'
+gui-runedsm-forge-display: '&d使用碎片鍛造符文'
+gui-slot-label-any: '寶石槽'
+gui-slot-label-blue: '藍色符文槽'
+gui-slot-label-green: '綠色符文槽'
+gui-slot-label-red: '紅色符文槽'
+gui-slot-label-skill: '技能符文槽'
+# ── 游戏内编辑器 (gui/editor.yml) ────────────────────────
+editor-title-home: '&8◆ SnowyGems 編輯台'
+editor-title-categories-gem: '&8◆ 寶石分類'
+editor-title-categories-rune: '&8◆ 配方分類'
+editor-title-entries: '&8◆ {category}'
+editor-title-detail: '&8◆ {id}'
+editor-title-fields: '&8◆ {id} · {group}'
+editor-title-move: '&8◆ 移動 {id}'
+editor-title-actions: '&8◆ {id} · 獎勵'
+editor-title-choose-action: '&8◆ 選擇獎勵動作'
+editor-title-action-detail: '&8◆ 動作 #{index}'
+editor-title-pool: '&8◆ {id} · 獎池'
+editor-title-choose-pool: '&8◆ 選擇獎池寶石'
+editor-title-ingredients: '&8◆ {id} · 材料'
+editor-title-choose-ingredient: '&8◆ 選擇材料寶石'
+editor-title-confirm: '&8◆ 確認操作'
+editor-title-input: '&8◆ {name}'
+editor-icon-previous: '&e上一頁'
+editor-icon-previous-disabled: '&8已經是第一頁'
+editor-icon-next: '&e下一頁'
+editor-icon-next-disabled: '&8已經是最後一頁'
+editor-icon-home-gem: '&b◆ 寶石管理'
+editor-icon-home-gem-tips:
+  - '&7依分類瀏覽寶石'
+  - '&e點擊進入'
+editor-icon-home-rune: '&d◆ 符文配方'
+editor-icon-home-rune-tips:
+  - '&7依配方包瀏覽'
+  - '&e點擊進入'
+editor-icon-home-help: '&e操作提示'
+editor-icon-home-help-tips:
+  - '&7所有輸入都在鐵砧介面完成'
+  - '&7紅色按鈕會進入確認介面'
+editor-icon-category-gem: '&b◆ {category}'
+editor-icon-category-gem-tips:
+  - '&7條目 &f{count}'
+  - '&e左鍵 &7開啟分類'
+  - '&c右鍵 &7刪除空分類'
+editor-icon-category-rune: '&b◆ {category}'
+editor-icon-category-rune-tips:
+  - '&7條目 &f{count}'
+  - '&e左鍵 &7開啟分類'
+  - '&c右鍵 &7刪除空分類'
 
 # ── 技能 / BUFF ───────────────────────────────────────────
 # 技能定義裡沒寫 CooldownTip 時用的兜底提示  佔位符: {time} 剩餘秒數
@@ -262,7 +367,6 @@ skill-cooldown-title: '&c冷卻中'
 skill-switch: '&7已切換形態: &f{mode}'
 
 # ── 版本更新檢測 & 公告 ────────────────────────────────────
-# 伺服器啟動後靜默檢測一次, 結果列印到控制台; 管理員上線也會收到
 # 想改顏色/措辭改這裡即可, 全部支援 &顏色碼 與 title:/actionbar:/none: 前綴
 # 控制台: 本地版本與官方不一致(不做大小比較, 只要 ≠ 遠端就提示)  佔位符: {current} 當前版本  {latest} 官方版本  {date} 發布日期
 update-console-available: '&e[SnowyGems] &f當前版本 &7{current} &f與官方 &a{latest} &7({date})&f 不一致, 請前往更新~'
@@ -270,6 +374,8 @@ update-console-available: '&e[SnowyGems] &f當前版本 &7{current} &f與官方 
 update-console-latest: '&8[SnowyGems] &7當前版本 &f{current} &7已是官方最新'
 # 控制台: 無法獲取官方版本(網路/代理問題, 常見於伺服器直連 GitHub 超時; 此時不代表已是最新)
 update-console-failed: '&c[SnowyGems] &f無法獲取官方版本號, 請檢查網路/代理(不代表已是最新)'
+# 公告: 取得成功但沒有內容(這不是你的網路問題)
+update-announce-empty: '&e[SnowyGems] &f未取得公告內容, 公告檔案是空的 &7(這不是你的網路問題)'
 # 管理員上線: 本地版本與官方不一致  佔位符: {current} {latest} {date}
 update-player-available: '&e[SnowyGems] &f當前版本 &7{current} &f與官方 &a{latest} &7({date})&f 不一致, 請前往更新~'
 # 公告展示的頭尾裝飾(公告正文來自遠端 ann.txt, 每行原樣顯示)
