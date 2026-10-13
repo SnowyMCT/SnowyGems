@@ -35,7 +35,6 @@ DebugTags: []
 #    zh_CN.yml - 简体中文 (默认)
 #    zh_TW.yml - 繁體中文
 #    en_US.yml - English
-#    ko_KR.yml - 한국어
 Lang: zh_CN
 
 # 装备说明中包含以下任一文字时，装备上的所有宝石都不能拆卸（仍可镶嵌）。
@@ -73,24 +72,22 @@ tagged-blocks:
 #  版本更新检测 & 公告
 # ============================================================
 #  服务器完全启动后(控制台出现 Done 之后)会静默联网检测一次:
-#    - 联网读取最新版本号, 与当前插件版本比较, 不一致就在控制台提示
-#    - 联网读取公告文本, 发送到控制台
-#  拥有管理员权限(AdminPermission)或 OP 的玩家上线时, 也会单独收到同样的提示;
-#  其中公告会在管理员上线时异步重新拉取一次
+#    - 从 VersionUrl 读取最新版本号, 与当前插件版本比较, 有新版本就在控制台提示
+#    - 从 AnnouncementUrl 读取公告文本, 逐行打印到控制台
+#  拥有管理员权限(AdminPermission)或 OP 的玩家上线时, 也会单独收到同样的提示
+#
+#  联网走 JDK 自带 HTTP, 会自动遵循服务端启动参数里的系统代理(-Dhttp.proxyHost 等),
+#  插件不写死任何代理检测失败(超时/无网络)只在开启 Debug 时记一条日志, 不影响启动
 # ============================================================
 UpdateChecker:
   Enabled: true
   Announcement: true
   AdminPermission: snowygems.admin
   NotifyAdminOnJoin: true
-  # 管理员上线拉取公告的节流时间, 单位: min
-  #   填 0 = 不节流(每个管理员上线都重新拉一次)
-  AnnouncementThrottleMinutes: 5
   # 请不要修改下面的两个链接
   VersionUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/version.txt"
   AnnouncementUrl: "https://raw.githubusercontent.com/SnowyMCT/SnowyGems-VersionCheck/main/ann.txt"
-  # 单次联网的超时时间, 单位: s（如果你不知道这是什么，请不要修改）
-  Timeout: 5
+  Timeout: 8
 
 # ============================================================
 #  多版本兼容
