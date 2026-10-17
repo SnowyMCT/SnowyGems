@@ -1,23 +1,24 @@
 # /sgem editor 的独立外观配置；/sgem reload 后生效。
 # Material 使用 Bukkit/XMaterial 名称；未知材质会回退到内置图标。
 # Display 与 Tips 可用 {name} 引用图标原文；标题可用 {id}、{category}、{group}、{index}。
+# 界面文字写 lang:键名 就随语言变化(见 lang/*.yml); 也可以直接写文本, 两种都支持。
 Titles:
-  Home: '&8◆ SnowyGems 编辑台'
-  CategoriesGem: '&8◆ 宝石分类'
-  CategoriesRune: '&8◆ 配方分类'
-  Entries: '&8◆ {category}'
-  Detail: '&8◆ {id}'
-  Fields: '&8◆ {id} · {group}'
-  Move: '&8◆ 移动 {id}'
-  Actions: '&8◆ {id} · 奖励'
-  ChooseAction: '&8◆ 选择奖励动作'
-  ActionDetail: '&8◆ 动作 #{index}'
-  Pool: '&8◆ {id} · 奖池'
-  ChoosePool: '&8◆ 选择奖池宝石'
-  Ingredients: '&8◆ {id} · 材料'
-  ChooseIngredient: '&8◆ 选择材料宝石'
-  Confirm: '&8◆ 确认操作'
-  Input: '&8◆ {name}'
+  Home: 'lang:editor-title-home'
+  CategoriesGem: 'lang:editor-title-categories-gem'
+  CategoriesRune: 'lang:editor-title-categories-rune'
+  Entries: 'lang:editor-title-entries'
+  Detail: 'lang:editor-title-detail'
+  Fields: 'lang:editor-title-fields'
+  Move: 'lang:editor-title-move'
+  Actions: 'lang:editor-title-actions'
+  ChooseAction: 'lang:editor-title-choose-action'
+  ActionDetail: 'lang:editor-title-action-detail'
+  Pool: 'lang:editor-title-pool'
+  ChoosePool: 'lang:editor-title-choose-pool'
+  Ingredients: 'lang:editor-title-ingredients'
+  ChooseIngredient: 'lang:editor-title-choose-ingredient'
+  Confirm: 'lang:editor-title-confirm'
+  Input: 'lang:editor-title-input'
 
 # 六行列表页的位置。不要与下面四个导航按钮重叠。
 ContentSlots: [10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43]
@@ -50,36 +51,36 @@ Icons:
     Display: '{name}'
   Previous:
     Material: ARROW
-    Display: '&e上一页'
+    Display: 'lang:editor-icon-previous'
   PreviousDisabled:
     Material: GRAY_STAINED_GLASS_PANE
-    Display: '&8已经是第一页'
+    Display: 'lang:editor-icon-previous-disabled'
   Next:
     Material: ARROW
-    Display: '&e下一页'
+    Display: 'lang:editor-icon-next'
   NextDisabled:
     Material: GRAY_STAINED_GLASS_PANE
-    Display: '&8已经是最后一页'
+    Display: 'lang:editor-icon-next-disabled'
   HomeGem:
     Material: DIAMOND
-    Display: '&b◆ 宝石管理'
-    Tips: ['&7按分类浏览宝石', '&e点击进入']
+    Display: 'lang:editor-icon-home-gem'
+    Tips: ['lang:editor-icon-home-gem-tips']
   HomeRune:
     Material: SMITHING_TABLE
-    Display: '&d◆ 符文配方'
-    Tips: ['&7按配方包浏览', '&e点击进入']
+    Display: 'lang:editor-icon-home-rune'
+    Tips: ['lang:editor-icon-home-rune-tips']
   HomeHelp:
     Material: BOOK
-    Display: '&e操作提示'
-    Tips: ['&7所有输入都在铁砧界面完成', '&7红色按钮会进入确认界面']
+    Display: 'lang:editor-icon-home-help'
+    Tips: ['lang:editor-icon-home-help-tips']
   CategoryGem:
     Material: CHEST
-    Display: '&b◆ {category}'
-    Tips: ['&7条目 &f{count}', '&e左键 &7打开分类', '&c右键 &7删除空分类']
+    Display: 'lang:editor-icon-category-gem'
+    Tips: ['lang:editor-icon-category-gem-tips']
   CategoryRune:
     Material: BOOKSHELF
-    Display: '&b◆ {category}'
-    Tips: ['&7条目 &f{count}', '&e左键 &7打开分类', '&c右键 &7删除空分类']
+    Display: 'lang:editor-icon-category-rune'
+    Tips: ['lang:editor-icon-category-rune-tips']
   EntryGem:
     Display: '{name}'
   EntryRune:

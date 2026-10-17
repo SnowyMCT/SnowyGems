@@ -251,6 +251,112 @@ dismantle-not-afford-multi: '&c拆卸需要 &e{cost}&c，余额不足或支付�
 # 手持物品在打开界面后发生了变化
 dismantle-item-changed: '&c手持的装备已改变, 请重新打开拆卸界面'
 
+# ── 拆卸台界面 (gui/dis.yml) ──────────────────────────────
+dismantle-gui-title: '&8◆ 宝石拆卸台'
+dismantle-gui-equip-slot: '&b装备槽'
+dismantle-gui-equip-slot-tips:
+  - '&7把一件已镶嵌宝石的装备放入中间空格'
+  - '&7右侧逐颗显示拆卸价格与返还概率'
+dismantle-gui-gem-tips:
+  - '&7拆卸价格：&f{cost}'
+  - '&7返还概率：&f{chance}%'
+  - '&8第 {index} 颗宝石'
+  - '&e左键拆卸这一颗'
+dismantle-gui-page-prev: '&e上一页'
+dismantle-gui-page-next: '&e下一页'
+dismantle-gui-page-tips:
+  - '&7当前第 {page}/{pages} 页'
+dismantle-gui-close: '&c关闭并取回装备'
+
+
+# ── 工作台 / 符文界面 (gui/gui.yml, gui/rune.yml) ────────
+gui-bench-title: '&8宝石工作台'
+gui-bench-equip-display: '&a↓ 放入一件装备（左键取回，右键确认）'
+gui-bench-equip-tips: '&7普通点击取出；Shift 点击快速放入一件'
+gui-bench-gem-display: '&b↓ 放入一颗宝石'
+gui-bench-preview-display: '&e↓ 查看预览并确认'
+gui-bench-confirm-tips: '&7检查下方材料与成功率后，点击执行一次'
+gui-bench-close-display: '&c关闭并取回物品'
+gui-rune-title: '&8符文镶嵌台'
+gui-rune-hint-display: '&7装备放入顶部中央；点击可取回'
+gui-rune-hint-tips:
+  - '&7按颜色放入符文，每格最多一颗'
+  - '&7Shift 点击背包物品可快速放入一件'
+  - '&7光标符文点击装备可暂存至匹配符文槽'
+  - '&e检查底部预览后点击铁砧确认，也可右键装备确认'
+gui-rune-blue-display: '&9↓ 蓝色符文'
+gui-rune-green-display: '&a↓ 绿色符文'
+gui-rune-red-display: '&c↓ 红色符文'
+gui-rune-skill-display: '&e↓ 技能符文'
+gui-rune-confirm-tips:
+  - '&7一次点击：每个已放入符文的槽位各尝试一颗'
+  - '&7不必填满四个槽位；有不匹配材料时不会开始'
+gui-rune-jump-display: '&6打开符文分解台'
+gui-rune-jump-tips: '&7切换时自动归还当前所有物品'
+gui-rune-forge-display: '&d符文锻造与升级'
+gui-rune-forge-tips: '&7使用背包中的碎片合成符文或升级至 II 级'
+gui-rune-close-display: '&c关闭并取回物品'
+gui-runedsm-title: '&8符文分解台'
+gui-runedsm-info-display: '&d符文分解台'
+gui-runedsm-info-tips:
+  - '&7左侧放入一颗未镶嵌的一级符文'
+  - '&7点击下方铁砧确认分解'
+  - '&8一级符文 → 10 个符文碎片'
+gui-runedsm-use-display: '&c确认分解'
+gui-runedsm-use-tips: '&7消耗 1 颗符文，获得 10 个符文碎片'
+gui-runedsm-back-display: '&b返回符文镶嵌台'
+gui-runedsm-close-display: '&c关闭并取回物品'
+gui-runedsm-forge-display: '&d使用碎片锻造符文'
+gui-slot-label-any: '宝石槽'
+gui-slot-label-blue: '蓝色符文槽'
+gui-slot-label-green: '绿色符文槽'
+gui-slot-label-red: '红色符文槽'
+gui-slot-label-skill: '技能符文槽'
+
+# ── 游戏内编辑器 (gui/editor.yml) ────────────────────────
+editor-title-home: '&8◆ SnowyGems 编辑台'
+editor-title-categories-gem: '&8◆ 宝石分类'
+editor-title-categories-rune: '&8◆ 配方分类'
+editor-title-entries: '&8◆ {category}'
+editor-title-detail: '&8◆ {id}'
+editor-title-fields: '&8◆ {id} · {group}'
+editor-title-move: '&8◆ 移动 {id}'
+editor-title-actions: '&8◆ {id} · 奖励'
+editor-title-choose-action: '&8◆ 选择奖励动作'
+editor-title-action-detail: '&8◆ 动作 #{index}'
+editor-title-pool: '&8◆ {id} · 奖池'
+editor-title-choose-pool: '&8◆ 选择奖池宝石'
+editor-title-ingredients: '&8◆ {id} · 材料'
+editor-title-choose-ingredient: '&8◆ 选择材料宝石'
+editor-title-confirm: '&8◆ 确认操作'
+editor-title-input: '&8◆ {name}'
+editor-icon-previous: '&e上一页'
+editor-icon-previous-disabled: '&8已经是第一页'
+editor-icon-next: '&e下一页'
+editor-icon-next-disabled: '&8已经是最后一页'
+editor-icon-home-gem: '&b◆ 宝石管理'
+editor-icon-home-gem-tips:
+  - '&7按分类浏览宝石'
+  - '&e点击进入'
+editor-icon-home-rune: '&d◆ 符文配方'
+editor-icon-home-rune-tips:
+  - '&7按配方包浏览'
+  - '&e点击进入'
+editor-icon-home-help: '&e操作提示'
+editor-icon-home-help-tips:
+  - '&7所有输入都在铁砧界面完成'
+  - '&7红色按钮会进入确认界面'
+editor-icon-category-gem: '&b◆ {category}'
+editor-icon-category-gem-tips:
+  - '&7条目 &f{count}'
+  - '&e左键 &7打开分类'
+  - '&c右键 &7删除空分类'
+editor-icon-category-rune: '&b◆ {category}'
+editor-icon-category-rune-tips:
+  - '&7条目 &f{count}'
+  - '&e左键 &7打开分类'
+  - '&c右键 &7删除空分类'
+
 # ── 技能 / BUFF ───────────────────────────────────────────
 # 技能定义里没写 CooldownTip 时用的兜底提示  占位符: {time} 剩余秒数
 skill-cooldown: '&c技能冷却中: &f{time}s'
@@ -261,14 +367,15 @@ skill-cooldown-title: '&c冷却中'
 skill-switch: '&7已切换形态: &f{mode}'
 
 # ── 版本更新检测 & 公告 ────────────────────────────────────
-# 服务器启动后静默检测一次, 结果打印到控制台; 管理员上线也会收到
 # 想改颜色/措辞改这里即可, 全部支持 &颜色码 与 title:/actionbar:/none: 前缀
-# 控制台: 本地版本与官方不一致(不做大小比较, 只要 ≠ 远端就提示)  占位符: {current} 当前版本  {latest} 官方版本  {date} 发布日期
+# 控制台: 本地版本与官方不一致  占位符: {current} 当前版本  {latest} 官方版本  {date} 发布日期
 update-console-available: '&e[SnowyGems] &f当前版本 &7{current} &f与官方 &a{latest} &7({date})&f 不一致, 请前往更新~'
 # 控制台: 与官方一致  占位符: {current}
 update-console-latest: '&8[SnowyGems] &7当前版本 &f{current} &7已是官方最新'
 # 控制台: 无法获取官方版本(网络/代理问题, 常见于服务器直连 GitHub 超时; 此时不代表已是最新)
 update-console-failed: '&c[SnowyGems] &f无法获取官方版本号, 请检查网络/代理(不代表已是最新)'
+# 公告: 获取成功但没有内容(这不是你的网络问题)
+update-announce-empty: '&e[SnowyGems] &f未获取到公告内容, 公告文件是空的 &7(这不是你的网络问题)'
 # 管理员上线: 本地版本与官方不一致  占位符: {current} {latest} {date}
 update-player-available: '&e[SnowyGems] &f当前版本 &7{current} &f与官方 &a{latest} &7({date})&f 不一致, 请前往更新~'
 # 公告展示的头尾装饰(公告正文来自远端 ann.txt, 每行原样显示)

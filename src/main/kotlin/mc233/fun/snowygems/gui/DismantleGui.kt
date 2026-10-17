@@ -7,9 +7,9 @@ import mc233.`fun`.snowygems.manager.GemManager
 import mc233.`fun`.snowygems.manager.OperationAudit
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.DebugUtil
+import mc233.`fun`.snowygems.util.GuiText
 import mc233.`fun`.snowygems.util.Lang
 import org.bukkit.Bukkit
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryAction
@@ -32,6 +32,7 @@ import java.io.File
 
 /** Dedicated dismantle workbench. The equipped item lives in its single input slot. */
 object DismantleGui {
+
     data class Style(val type: String, val material: String?, val display: String?, val tips: List<String>, val glow: Boolean)
     data class Layout(val title: String, val rows: List<String>, val styles: Map<Char, Style>) {
         val size get() = rows.size * 9
@@ -71,7 +72,7 @@ object DismantleGui {
                 item.getBoolean("Glow", false))
         }
         require(rows.flatMap { it.toList() }.all { it in styles }) { "gui/dis.yml: Slots 中有未定义的 Items 字符" }
-        val parsed = Layout(sec.getString("Title", "&8宝石拆卸台") ?: "&8宝石拆卸台", rows, styles)
+        val parsed = Layout(sec.getString("Title", "lang:dismantle-gui-title") ?: "lang:dismantle-gui-title", rows, styles)
         for (type in listOf("EQUIP_SLOT", "PAGE_PREV", "PAGE_NEXT", "CLOSE")) {
             require(parsed.slots(type).size == 1) { "gui/dis.yml: $type 必须恰好有一个槽位" }
         }
@@ -83,7 +84,7 @@ object DismantleGui {
         if (!player.hasPermission(Permissions.DISMANTLE)) return
         val current = layout ?: run { Lang.send(player, "dismantle.plan-error"); return }
         val holder = Holder(current)
-        val inv = Bukkit.createInventory(holder, current.size, ColorUtil.colorize(current.title))
+        val inv = Bukkit.createInventory(holder, current.size, render(current.title, emptyMap()))
         holder.inv = inv
         draw(holder)
         DebugUtil.log("Dismantle", "${player.name} 打开拆卸台，装备槽=${current.slot("EQUIP_SLOT")} 宝石格=${current.slots("GEM_LIST").size}")
@@ -92,11 +93,10 @@ object DismantleGui {
 
     private fun empty(item: ItemStack?) = item == null || item.type.isAir || item.amount <= 0
 
-    private fun render(raw: String?, values: Map<String, String>): String {
-        var result = raw ?: ""
-        for ((key, value) in values) result = result.replace("{$key}", value)
-        return ColorUtil.colorize(result)
-    }
+    /** 界面文本统一走 [GuiText]: 值写 `lang:键名` 取语言文件, 否则按 dis.yml 原文渲染 */
+    private fun render(raw: String?, values: Map<String, String>): String = GuiText.line(raw, values)
+
+    private fun renderLines(raw: String?, values: Map<String, String>): List<String> = GuiText.lines(raw, values)
 
     private fun icon(style: Style, fallback: XMaterial, defaultName: String,
                      values: Map<String, String> = emptyMap(), extraLore: List<String> = emptyList(), texture: String? = null,
@@ -107,7 +107,7 @@ object DismantleGui {
             if (material == XMaterial.PLAYER_HEAD && !texture.isNullOrBlank()) skullTexture = SkullTexture(texture)
             name = render(style.display ?: defaultName, values)
             lore.addAll(extraLore)
-            if (showStyleTips) lore.addAll(style.tips.map { render(it, values) })
+            if (showStyleTips) style.tips.forEach { lore.addAll(renderLines(it, values)) }
             if (style.glow) shiny()
         }
     }
@@ -158,7 +158,8 @@ object DismantleGui {
             val style = holder.layout.styles.values.first { it.type == type }
             val available = if (type == "PAGE_PREV") holder.page > 0 else holder.page + 1 < pages
             val fallback = if (available) XMaterial.ARROW else XMaterial.GRAY_STAINED_GLASS_PANE
-            inv.setItem(slot, icon(style, fallback, if (type == "PAGE_PREV") "&e上一页" else "&e下一页",
+            inv.setItem(slot, icon(style, fallback,
+                if (type == "PAGE_PREV") "lang:dismantle-gui-page-prev" else "lang:dismantle-gui-page-next",
                 mapOf("page" to (holder.page + 1).toString(), "pages" to pages.toString())))
         }
     }
