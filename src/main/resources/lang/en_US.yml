@@ -163,7 +163,7 @@ reward-point-gain: '&aYou received &9{amount} &apoints'
 # Money gained   Placeholder: {amount}
 reward-money-gain: '&aYou received &e{amount} &agold'
 
-# ── Gem workbench /sgem embed ──────────────────────────────
+# ── Gem workbench /sgem open 宝石镶嵌台 ──────────────────────────────
 # GUI title
 embed-title: '&8&l&k||&b&lGem Workbench&8&l&k||'
 # Slot labels
@@ -197,6 +197,7 @@ embed-info-may-fail: '&cOn failure the gem is consumed with no effect'
 # ── Workbench menus (gui.yml / rune.yml) ───────────────────
 # Wrong menu name   Placeholder: {menu}
 menu-not-found: '&cMenu not found: &f{menu}'
+menu-no-permission: '&cYou do not have permission to use &f{menu} &7(&f{permission}&7)'
 # Shift move with no free slot
 menu-no-slot: '&cNo free slot to put this item into'
 # Item slot occupied but all gem slots empty
@@ -229,10 +230,10 @@ view-no-gem: '&cNo gem configs loaded, check the gems/ folder'
 inspect-title: '&bEmbedded gems &7- &f{item}'
 inspect-need-held: '&cHold the item you want to inspect first'
 inspect-no-embed: '&7This item has no gems embedded'
-# Read-only: clicking does nothing; use /sgem dismantle
-inspect-readonly-hint: '&7View only &8· &7to remove gems use &f/sgem dismantle'
+# Read-only: clicking does nothing; use /sgem open 宝石拆卸台
+inspect-readonly-hint: '&7View only &8· &7to remove gems use &f/sgem open 宝石拆卸台'
 
-# ── /sgem dismantle ────────────────────────────────────────
+# ── /sgem open 宝石拆卸台 ────────────────────────────────────────
 # Costs money and may break gems; rules in config.yml under Dismantle.
 dismantle-title: '&cRemove gems &7- &f{item}'
 dismantle-need-held: '&cHold the item to remove gems from first'

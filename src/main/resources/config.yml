@@ -11,7 +11,7 @@ Debug: false
 #   Command    - /sgem 各子命令
 #   Menu       - 工作台菜单的点击/拖拽/关闭/镶嵌
 #   Workbench  - 工作台菜单的打开与图标渲染
-#   Embed      - 宝石镶嵌台(/sgem embed)的放入/校验/镶嵌
+#   Embed      - 宝石镶嵌台(/sgem open 宝石镶嵌台)的放入/校验/镶嵌
 #   GUI        - /sgem view 与 /sgem inspect 面板
 #   Editor     - 游戏内编辑器保存与回滚
 #   GemUse     - 右键/食用直接使用宝石

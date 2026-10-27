@@ -13,7 +13,7 @@
   Display: "&8&l&k||&9&l无限宝石&8&l&k||"
   Tips:
     - "&9&l无限宝石 &7品质: &b&l史诗"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入装备与此宝石, 点击中间确认"
     - "&7即可为您的装备添加无限耐久"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTExNWRjODhlMzIxNGMzODI0M2Q3ODJkNjNlZGIwYTZlMDYyOTFlYjZkYThlNjAwYzdlMmVhMzZlN2Y2MWIzMSJ9fX0=
@@ -34,7 +34,7 @@
   Display: "&8&l&k||&a&l修复宝石&8&l&k||"
   Tips:
     - "&c&l修复宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入装备与此宝石, 点击中间确认"
     - "&7即可使装备耐久恢复1000点"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg5MDFmNzE0MzRkNTM5MjA3NDc2OTRmNjgyZjVlNTNiOGY3NDQ4M2YyNjljMzg0YzY5MzZiN2Q4NjU4MiJ9fX0=
@@ -56,7 +56,7 @@
   Display: "&8&l&k||&c&l败者宝石&8&l&k||"
   Tips:
     - "&c&l败者宝石 &7品质: &a&l励志"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入装备与此宝石, 点击中间确认"
     - "&7即可以99%的概率感受强化失败的滋味"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTc3NWQzZWM4MmJhNjE5NjQ5YTIzYjg1MDg3NTI3NWY1NTliNjRlNTNjYjgxNmM0NDhiZWVjNzkyYjQ5YzAifX19
@@ -74,7 +74,7 @@
   Display: "&8&l&k||&a&l精准/时运切换宝石&8&l&k||"
   Tips:
     - "&a&l精准时运切换宝石 &7品质: &b&l史诗"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入镐子/斧头/铲子与此宝石, 点击中间确认"
     - "&7即可为其加上精准/时运切换功能"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzEyZDJmOTMxMDQ0NDFjYTU2NmY3YjcxOGMzZGQwMzgyY2IzOGY5Njc4YjVjYjE4MWVhMjQ4N2EyZjdmODI2YiJ9fX0=
@@ -91,7 +91,7 @@
   Display: "&8&l&k||&a&l忠诚/激流切换宝石&8&l&k||"
   Tips:
     - "&a&l忠诚/激流切换宝石 &7品质: &b&l史诗"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入三叉戟与此宝石, 点击中间确认"
     - "&7即可为其加上忠诚/激流切换功能"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzEyZDJmOTMxMDQ0NDFjYTU2NmY3YjcxOGMzZGQwMzgyY2IzOGY5Njc4YjVjYjE4MWVhMjQ4N2EyZjdmODI2YiJ9fX0=

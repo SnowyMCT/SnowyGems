@@ -162,7 +162,7 @@ reward-point-gain: '&a你获得了 &9{amount} &a点券'
 # 获得金币  占位符: {amount} 数额
 reward-money-gain: '&a你获得了 &e{amount} &a金币'
 
-# ── 宝石镶嵌台 /sgem embed ────────────────────────────────
+# ── 宝石镶嵌台 /sgem open 宝石镶嵌台 ────────────────────────────────
 # 界面标题
 embed-title: '&8&l&k||&b&l宝石镶嵌台&8&l&k||'
 # 两个槽位的指示标签
@@ -196,6 +196,7 @@ embed-info-may-fail: '&c失败会消耗宝石且不产生效果'
 # ── 工作台菜单 (gui.yml / rune.yml 定义的界面) ────────────
 # 菜单名字写错了  占位符: {menu}
 menu-not-found: '&c菜单不存在: &f{menu}'
+menu-no-permission: '&c你没有权限使用 &f{menu} &7(需要 &f{permission}&7)'
 # Shift 移入时没有能接收该物品的空槽
 menu-no-slot: '&c没有可以放入该物品的空槽位'
 # 装备槽里有装备, 但所有宝石槽都是空的
@@ -228,10 +229,10 @@ view-no-gem: '&c当前没有加载任何宝石配置, 请检查 gems/ 目录'
 inspect-title: '&b已镶嵌宝石 &7- &f{item}'
 inspect-need-held: '&c请先手持你想查看的装备'
 inspect-no-embed: '&7这件装备上还没有镶嵌任何宝石'
-# 只读界面: 点击不做任何事, 拆卸请用 /sgem dismantle
-inspect-readonly-hint: '&7仅供查看 &8· &7拆卸请用 &f/sgem dismantle'
+# 只读界面: 点击不做任何事, 拆卸请用 /sgem open 宝石拆卸台
+inspect-readonly-hint: '&7仅供查看 &8· &7拆卸请用 &f/sgem open 宝石拆卸台'
 
-# ── /sgem dismantle 拆卸装备上的宝石 ──────────────────────
+# ── /sgem open 宝石拆卸台 拆卸装备上的宝石 ──────────────────────
 # 价格与返还成功率由 dismantle/ 目录下的方案分别计算。
 dismantle-title: '&c拆卸宝石 &7- &f{item}'
 dismantle-need-held: '&c请先手持要拆卸宝石的装备'

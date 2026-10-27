@@ -163,7 +163,7 @@ reward-point-gain: '&a포인트 &9{amount} &a을(를) 획득했습니다'
 # 골드 획득   플레이스홀더: {amount}
 reward-money-gain: '&a골드 &e{amount} &a을(를) 획득했습니다'
 
-# ── 보석 작업대 /sgem embed ────────────────────────────────
+# ── 보석 작업대 /sgem open 宝石镶嵌台 ────────────────────────────────
 # GUI 제목
 embed-title: '&8&l&k||&b&l보석 작업대&8&l&k||'
 # 슬롯 라벨
@@ -197,6 +197,7 @@ embed-info-may-fail: '&c실패하면 보석이 소모되고 아무 효과도 없
 # ── 작업대 메뉴 (gui.yml / rune.yml) ───────────────────────
 # 잘못된 메뉴 이름   플레이스홀더: {menu}
 menu-not-found: '&c메뉴를 찾을 수 없습니다: &f{menu}'
+menu-no-permission: '&c사용 권한이 없습니다: &f{menu} &7(필요: &f{permission}&7)'
 # 빈 슬롯이 없을 때의 시프트 이동
 menu-no-slot: '&c이 아이템을 넣을 빈 슬롯이 없습니다'
 # 아이템 슬롯은 점유되었지만 모든 보석 슬롯이 비어 있음
@@ -229,10 +230,10 @@ view-no-gem: '&c로드된 보석 설정이 없습니다. gems/ 폴더를 확인�
 inspect-title: '&b장착된 보석 &7- &f{item}'
 inspect-need-held: '&c먼저 확인할 아이템을 손에 들어주세요'
 inspect-no-embed: '&7이 아이템에는 장착된 보석이 없습니다'
-# 읽기 전용: 클릭해도 아무 동작도 하지 않음. 분해하려면 /sgem dismantle 사용
-inspect-readonly-hint: '&7보기 전용 &8· &7보석 분해는 &f/sgem dismantle'
+# 읽기 전용: 클릭해도 아무 동작도 하지 않음. 분해하려면 /sgem open 宝石拆卸台 사용
+inspect-readonly-hint: '&7보기 전용 &8· &7보석 분해는 &f/sgem open 宝石拆卸台'
 
-# ── /sgem dismantle ────────────────────────────────────────
+# ── /sgem open 宝石拆卸台 ────────────────────────────────────────
 # 비용을 지불하며 보석이 파괴될 수 있습니다. 규칙은 config.yml 의 Dismantle 참고.
 dismantle-title: '&c보석 분해 &7- &f{item}'
 dismantle-need-held: '&c먼저 보석을 분해할 아이템을 손에 들어주세요'

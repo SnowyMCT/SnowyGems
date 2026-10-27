@@ -6,7 +6,6 @@ import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.config.ConfigurationHealth
-import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.MenuHolder
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.rune.RuneRecipeRegistry
@@ -95,7 +94,7 @@ object Bootstrap {
             // Broken references are never safe to publish, regardless of version compatibility policy.
             GemRegistry.all().forEach { gem ->
                 require(gem.randomPool.keys.all { GemRegistry.get(it) != null }) { "${gem.id}: 奖池引用不存在" }
-                require(gem.gui.all { it == EmbedGui.GUI_NAME || MenuRegistry.get(it) != null }) { "${gem.id}: 菜单引用不存在" }
+                require(gem.gui.all { it == MenuRegistry.EMBED || MenuRegistry.get(it) != null }) { "${gem.id}: 菜单引用不存在" }
             }
             ConfigValidator.validate()
             DismantleService.resolve()
@@ -121,7 +120,7 @@ object Bootstrap {
         RuneRecipeRegistry.invalidate()
         Bukkit.getOnlinePlayers().forEach { player ->
             when (player.openInventory.topInventory.holder) {
-                is MenuHolder, is EmbedGui.EmbedHolder, is mc233.`fun`.snowygems.gui.DismantleGui.Holder -> player.closeInventory()
+                is MenuHolder, is mc233.`fun`.snowygems.gui.DismantleGui.Holder -> player.closeInventory()
             }
         }
     }

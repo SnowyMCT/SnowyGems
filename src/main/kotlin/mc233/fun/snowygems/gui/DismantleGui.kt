@@ -1,6 +1,7 @@
 package mc233.`fun`.snowygems.gui
 
 import mc233.`fun`.snowygems.Permissions
+import mc233.`fun`.snowygems.config.MenuRegistry
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.manager.DismantleService
 import mc233.`fun`.snowygems.manager.GemManager
@@ -33,6 +34,9 @@ import java.io.File
 /** Dedicated dismantle workbench. The equipped item lives in its single input slot. */
 object DismantleGui {
 
+    /** gui/dis.yml 的顶层键, 同时也是 /sgem open 里要输入的名字 */
+    const val MENU_NAME = "宝石拆卸台"
+
     data class Style(val type: String, val material: String?, val display: String?, val tips: List<String>, val glow: Boolean)
     data class Layout(val title: String, val rows: List<String>, val styles: Map<Char, Style>) {
         val size get() = rows.size * 9
@@ -57,7 +61,7 @@ object DismantleGui {
         val file = File(getDataFolder(), "gui/dis.yml")
         require(file.isFile) { "缺少 gui/dis.yml" }
         val cfg = Configuration.loadFromFile(file)
-        val sec = cfg.getConfigurationSection("拆卸台") ?: error("gui/dis.yml 缺少 拆卸台 节点")
+        val sec = cfg.getConfigurationSection(MENU_NAME) ?: error("gui/dis.yml 缺少 $MENU_NAME 节点")
         val rows = sec.getStringList("Slots")
         require(rows.size in 1..6 && rows.all { it.length == 9 }) { "gui/dis.yml: Slots 需要 1 到 6 行，每行 9 个字符" }
         val items = sec.getConfigurationSection("Items") ?: error("gui/dis.yml 缺少 Items")
@@ -78,6 +82,14 @@ object DismantleGui {
         }
         require(parsed.slots("GEM_LIST").isNotEmpty()) { "gui/dis.yml: 至少需要一个 GEM_LIST 槽位" }
         layout = parsed
+        // 登记进菜单表, 与其它菜单共用 /sgem open 入口和同一套权限判定
+        MenuRegistry.registerExternal(
+            MenuRegistry.ExternalMenu(
+                MENU_NAME,
+                sec.getString("Permission")?.trim()?.takeIf { it.isNotEmpty() },
+                ::open
+            )
+        )
     }
 
     fun open(player: Player) {

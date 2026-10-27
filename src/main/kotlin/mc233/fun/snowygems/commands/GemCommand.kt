@@ -6,7 +6,6 @@ import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.ConfigMigration
 import mc233.`fun`.snowygems.config.MenuRegistry
-import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.gui.InGameEditor
 import mc233.`fun`.snowygems.gui.RuneForgeGui
@@ -44,14 +43,6 @@ object GemCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem view")
             GemGui.open(sender)
-        }
-    }
-
-    @CommandBody(permission = Permissions.EMBED)
-    val embed = subCommand {
-        execute<Player> { sender, _, _ ->
-            DebugUtil.log("Command", "${sender.name} 执行 /sgem embed")
-            EmbedGui.open(sender)
         }
     }
 
@@ -124,14 +115,6 @@ object GemCommand {
     }
 
     /** /sgem dismantle - 打开拆卸界面(按 config.yml 收费 + 损坏概率拆卸已镶嵌宝石) */
-    @CommandBody(permission = Permissions.DISMANTLE)
-    val dismantle = subCommand {
-        execute<Player> { sender, _, _ ->
-            DebugUtil.log("Command", "${sender.name} 执行 /sgem dismantle, 手持=${sender.inventory.itemInMainHand.type}")
-            GemGui.openDismantle(sender)
-        }
-    }
-
     @CommandBody(permission = Permissions.USE)
     val use = subCommand {
         execute<Player> { sender, _, _ ->

@@ -22,7 +22,7 @@ import taboolib.platform.util.buildItem
  *
  *   [open]         /sgem view      —— 管理员按分类浏览并领取宝石(第一层分类, 第二层宝石列表, 带返回按钮)
  *   [openInspect]  /sgem inspect   —— 只读: 查看手持装备上已镶嵌的宝石信息, 不做任何修改
- *   [openDismantle]/sgem dismantle —— 拆卸: 按独立拆卸方案展示每颗宝石的价格与返还成功率
+ *   [openDismantle] 已移除 —— 拆卸台改由 /sgem open 拆卸台 打开(见 DismantleGui 的菜单登记)
  *
  * 拆卸和查看拆成两个指令两个界面: inspect 是纯查看不误触, dismantle 才真正扣费拆卸。
  */
@@ -186,12 +186,6 @@ object GemGui {
             setPreviousPage(38) { _, hasPrev -> pageIcon(hasPrev, false) }
         }
     }
-
-    // ══════════════════════════════════════════════════════════
-    //  /sgem dismantle —— 拆卸(扣费 + 损坏概率)
-    // ══════════════════════════════════════════════════════════
-
-    fun openDismantle(player: Player) = DismantleGui.open(player)
 
     /** 翻页按钮外观统一走语言文件, 有页则箭头, 无页则屏障 */
     private fun pageIcon(has: Boolean, next: Boolean) =

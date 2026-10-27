@@ -1,7 +1,9 @@
 # Existing server files are preserved on upgrade. Copy the desired menu below into
 # plugins/SnowyGems/gui/gui.yml to adopt the new preview and navigation buttons.
+# 菜单名就是 /sgem open <名字> 里要输入的名字, 也是 Gem 配置里 Gui: 引用的名字。
 # 界面文字写 lang:键名 就随语言变化(见 lang/*.yml); 也可以直接写文本, 两种都支持。
-default:
+宝石镶嵌台:
+  Permission: snowygems.embed
   Title: 'lang:gui-bench-title'
   Slots:
     - TETBTATTT
@@ -40,6 +42,7 @@ default:
       Display: 'lang:gui-bench-close-display'
 
 符文镶嵌台:
+  Permission: snowygems.rune
   Title: 'lang:gui-rune-title'
   Slots:
     - TTTTITTTT
