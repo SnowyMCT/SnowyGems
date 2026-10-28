@@ -6,7 +6,6 @@ import mc233.`fun`.snowygems.compat.CompatReport
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.ConfigMigration
 import mc233.`fun`.snowygems.config.MenuRegistry
-import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.gui.GemGui
 import mc233.`fun`.snowygems.gui.InGameEditor
 import mc233.`fun`.snowygems.gui.RuneForgeGui
@@ -44,14 +43,6 @@ object GemCommand {
         execute<Player> { sender, _, _ ->
             DebugUtil.log("Command", "${sender.name} 执行 /sgem view")
             GemGui.open(sender)
-        }
-    }
-
-    @CommandBody(permission = Permissions.EMBED)
-    val embed = subCommand {
-        execute<Player> { sender, _, _ ->
-            DebugUtil.log("Command", "${sender.name} 执行 /sgem embed")
-            EmbedGui.open(sender)
         }
     }
 
@@ -124,14 +115,6 @@ object GemCommand {
     }
 
     /** /sgem dismantle - 打开拆卸界面(按 config.yml 收费 + 损坏概率拆卸已镶嵌宝石) */
-    @CommandBody(permission = Permissions.DISMANTLE)
-    val dismantle = subCommand {
-        execute<Player> { sender, _, _ ->
-            DebugUtil.log("Command", "${sender.name} 执行 /sgem dismantle, 手持=${sender.inventory.itemInMainHand.type}")
-            GemGui.openDismantle(sender)
-        }
-    }
-
     @CommandBody(permission = Permissions.USE)
     val use = subCommand {
         execute<Player> { sender, _, _ ->
@@ -274,6 +257,30 @@ object GemCommand {
                         (result.backup?.let { "；原文件备份：${it.absolutePath}" } ?: "；无需转换"))
                 }
                 .onFailure { sender.sendMessage("§c配置转换失败：${it.message}") }
+        }
+    }
+
+    /**
+     * /sgem repair —— 把手持装备上"生效了但没登记"的宝石补回已镶嵌列表。
+     * 旧版本只登记含可撤销奖励的宝石, LoreVar 类 BUFF(幸运/速度/抗性等药水)因此不可见也拆不掉;
+     * 这条指令按装备 NBT 里的数值把账补平, 之后 inspect 与拆卸台都能正常看到/拆卸。
+     */
+    @CommandBody(permission = Permissions.REPAIR)
+    val repair = subCommand {
+        execute<Player> { sender, _, _ ->
+            val held = sender.inventory.itemInMainHand
+            if (held.type == Material.AIR) {
+                Lang.sendCommand(sender, "command-repair-no-item")
+                return@execute
+            }
+            val outcome = GemManager.repairAppliedGems(held)
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem repair: 补登记 ${outcome.added} 条 -> ${outcome.gems}")
+            if (outcome.added <= 0) {
+                Lang.sendCommand(sender, "command-repair-nothing")
+                return@execute
+            }
+            Lang.sendCommand(sender, "command-repair-done",
+                "count" to outcome.added, "gems" to outcome.gems.joinToString(", "))
         }
     }
 

@@ -14,7 +14,7 @@
   TrackApplied: false
   Tips:
   - '&7修复最多 300 点已损失耐久；一次性消耗'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Durability{amount=300}
 匠心隐技粉尘:
@@ -32,7 +32,7 @@
   TrackApplied: true
   Tips:
   - '&7隐藏 [技能]/[BUFF] 文字但保留效果；拆其他宝石前先拆粉尘'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - SkillToNBT
 匠心恒久宝石:
@@ -49,7 +49,7 @@
   Embed: 1
   TrackApplied: true
   Tips:
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Unbreakable
 匠心隐纹宝石:
@@ -67,7 +67,7 @@
   TrackApplied: true
   Tips:
   - '&7隐藏原版附魔说明，不移除附魔效果'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - ItemFlag{HIDE_ENCHANTS}
 匠心韧性宝石:
@@ -82,7 +82,7 @@
   TrackApplied: true
   Tips:
   - '&7穿戴对应盔甲时护甲韧性 +1；每件最多两颗'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Attribute{name=toughness;operation=0;slot=auto;var=v+1;limit=2}
 匠心轻落宝石:
@@ -98,7 +98,7 @@
   Tips:
   - '&7穿戴靴子时安全落地距离 +2；不是完全免疫摔落'
   - '&8需要服务端支持对应属性；/sgem compat all 查看'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Attribute{name=safe_fall;operation=0;slot=auto;var=v+2;limit=6}
 匠心延伸宝石:
@@ -114,7 +114,7 @@
   Tips:
   - '&7主手持镐时方块交互距离 +0.5，不改变实体攻击距离'
   - '&8需要服务端支持对应属性；/sgem compat all 查看'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Attribute{name=block_reach;operation=0;slot=auto;var=v+0.5;limit=1.5}
 匠心精工宝石:
@@ -130,7 +130,7 @@
   Tips:
   - '&7主手持镐时挖掘效率属性 +1，不是固定百分比加速'
   - '&8需要服务端支持对应属性；/sgem compat all 查看'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Attribute{name=mining_efficiency;operation=0;slot=auto;var=v+1;limit=3}
 匠心微缩宝石:
@@ -146,6 +146,6 @@
   Tips:
   - '&7穿戴胸甲时体型属性减少 0.1；每件最多两颗'
   - '&8需要服务端支持对应属性；/sgem compat all 查看'
-  - '&7使用 /sgem embed 镶嵌'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌'
   Rewards:
   - Attribute{name=scale;operation=0;slot=auto;var=v-0.1;limit=-0.2}

@@ -110,6 +110,12 @@ command-no-player: '&c玩家不在線: &f{player}'
 command-no-gem: '&c未知的寶石配置: &f{gem}'
 # 給予成功  佔位符: {player} {gem} {amount}
 command-give: '&a已給予 &f{player} &7×&f{amount} &a個 &f{gem}'
+# /sgem repair: 手上沒有裝備
+command-repair-no-item: '&c請先手持要修復的裝備'
+# /sgem repair: 登記已經是完整的
+command-repair-nothing: '&7這件裝備的寶石登記已經完整，無需補登記'
+# /sgem repair: 補登記成功  佔位符: {count} {gems}
+command-repair-done: '&a已為手持裝備補登記 &f{count} &a筆寶石紀錄: &f{gems}'
 # 除錯開關
 command-debug-on: '&a除錯已開啟，範圍: &f{scope} &7(輸出在伺服器主控台；本次執行期間重新載入仍有效)'
 command-debug-active: '&a除錯已開啟，範圍: &f{scope} &7(輸出在伺服器主控台；本次執行期間重新載入仍有效)'
@@ -142,6 +148,7 @@ gem-button-fail: '&c操作失敗'
 # 直接右鍵使用類寶石
 gem-use-success: '&a使用成功!'
 gem-use-fail: '&c使用失敗!'
+gem-use-no-permission: '&c你沒有使用寶石的權限'
 gem-need-workbench: '&c該寶石需要在工作台中鑲嵌到裝備上使用'
 # 隨機獎池  佔位符: {gem} 抽中的寶石名
 gem-random-get: '&a獲得了 &f{gem}'
@@ -163,7 +170,7 @@ reward-point-gain: '&a你獲得了 &9{amount} &a點券'
 # 獲得金幣  佔位符: {amount} 數額
 reward-money-gain: '&a你獲得了 &e{amount} &a金幣'
 
-# ── 寶石鑲嵌台 /sgem embed ────────────────────────────────
+# ── 寶石鑲嵌台 /sgem open 宝石镶嵌台 ────────────────────────────────
 # 介面標題
 embed-title: '&8&l&k||&b&l寶石鑲嵌台&8&l&k||'
 # 兩個槽位的指示標籤
@@ -197,6 +204,7 @@ embed-info-may-fail: '&c失敗會消耗寶石且不產生效果'
 # ── 工作台選單 (gui.yml / rune.yml 定義的介面) ────────────
 # 選單名字寫錯了  佔位符: {menu}
 menu-not-found: '&c選單不存在: &f{menu}'
+menu-no-permission: '&c你沒有權限使用 &f{menu} &7(需要 &f{permission}&7)'
 # Shift 移入時沒有能接收該物品的空槽
 menu-no-slot: '&c沒有可以放入該物品的空槽位'
 # 裝備槽裡有裝備, 但所有寶石槽都是空的
@@ -229,10 +237,12 @@ view-no-gem: '&c當前沒有載入任何寶石配置, 請檢查 gems/ 目錄'
 inspect-title: '&b已鑲嵌寶石 &7- &f{item}'
 inspect-need-held: '&c請先手持你想檢視的裝備'
 inspect-no-embed: '&7這件裝備上還沒有鑲嵌任何寶石'
-# 只讀介面: 點選不做任何事, 拆卸請用 /sgem dismantle
-inspect-readonly-hint: '&7僅供檢視 &8· &7拆卸請用 &f/sgem dismantle'
+# 只讀介面: 點選不做任何事, 拆卸請用 /sgem open 宝石拆卸台
+inspect-readonly-hint: '&7僅供檢視 &8· &7拆卸請用 &f/sgem open 宝石拆卸台'
+# inspect 裡每個條目的序號  佔位符: {index} {count}
+inspect-entry-index: '&8第 &7{index}&8/&7{count} &8顆'
 
-# ── /sgem dismantle 拆卸裝備上的寶石 ──────────────────────
+# ── /sgem open 宝石拆卸台 拆卸裝備上的寶石 ──────────────────────
 # 拆卸需要費用且有機率損壞寶石, 規則在 config.yml 的 Dismantle 一節配置。
 dismantle-title: '&c拆卸寶石 &7- &f{item}'
 dismantle-need-held: '&c請先手持要拆卸寶石的裝備'

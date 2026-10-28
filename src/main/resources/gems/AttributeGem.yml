@@ -5,7 +5,7 @@
   Display: "&8&l&k||&c&l生命宝石&8&l&k||"
   Tips:
     - "&c生命宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入盔甲与此宝石, 点击中间确认"
     - "&7即可为其最大生命上限+1(上限5)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFhNmE0MTFiODAyYjIyZTUzMjQ3OTVjZTM0ZTNjYWU0YTgzNzk2YTE4ZDkyMzMyNjY2Y2JmMjE0ODhjMCJ9fX0=
@@ -25,7 +25,7 @@
   Display: "&8&l&k||&c&l真·生命宝石&8&l&k||"
   Tips:
     - "&c&l真生命宝石 &7品质: &a&l传说"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入盔甲与此宝石, 点击中间确认"
     - "&7即可为其最大生命上限+1(上限10)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFhNmE0MTFiODAyYjIyZTUzMjQ3OTVjZTM0ZTNjYWU0YTgzNzk2YTE4ZDkyMzMyNjY2Y2JmMjE0ODhjMCJ9fX0=
@@ -46,7 +46,7 @@
   Success: 50
   Tips:
     - "&c&l神·生命宝石 &7品质: &b&l史诗"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入盔甲与此宝石, 点击中间确认"
     - "&7即可为其最大生命上限+2(上限20)"
     - "&7成功率: &a50%"
@@ -67,7 +67,7 @@
   Display: "&8&l&k||&a&l速度宝石&8&l&k||"
   Tips:
     - "&a速度宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入靴子与此宝石, 点击中间确认"
     - "&7即可为其速度属性+1%(上限6%)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1OGQwODBiZDYyMTU2ZTVmNmU1ZThkZmZhYTI4OTI2YmQ4MzM5MWRjMjZmZTc4MDY3M2VmNTJmMjZlYjA4YiJ9fX0=
@@ -87,7 +87,7 @@
   Display: "&8&l&k||&a&l真·速度宝石&8&l&k||"
   Tips:
     - "&a&l真速度宝石 &7品质: &a&l传说"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入靴子与此宝石, 点击中间确认"
     - "&7即可为其速度属性+1%(上限15%)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1OGQwODBiZDYyMTU2ZTVmNmU1ZThkZmZhYTI4OTI2YmQ4MzM5MWRjMjZmZTc4MDY3M2VmNTJmMjZlYjA4YiJ9fX0=
@@ -108,7 +108,7 @@
   Success: 50
   Tips:
     - "&a&l神·速度宝石 &7品质: &b&l史诗"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入靴子与此宝石, 点击中间确认"
     - "&7即可为其速度属性+2%(上限30%)"
     - "&7成功率: &a50%"
@@ -129,7 +129,7 @@
   Display: "&8&l&k||&c&l攻击伤害宝石&8&l&k||"
   Tips:
     - "&c攻击伤害宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入武器与此宝石, 点击中间确认"
     - "&7即可为其攻击伤害属性+1(上限20)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzODc0ZTgyYmM0NjZhOWM5Zjc5YWFmYmE3MTUxN2UyZWNjMjk0MWM2YmM5Njc5MDYyYTk3YjkxYjJkYWUzOSJ9fX0=
@@ -149,7 +149,7 @@
   Display: "&8&l&k||&c&l真·攻击伤害宝石&8&l&k||"
   Tips:
     - "&c&l真·攻击伤害宝石 &7品质: &a&l传说"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入武器与此宝石, 点击中间确认"
     - "&7即可为其攻击伤害属性+1(上限80)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzODc0ZTgyYmM0NjZhOWM5Zjc5YWFmYmE3MTUxN2UyZWNjMjk0MWM2YmM5Njc5MDYyYTk3YjkxYjJkYWUzOSJ9fX0=
@@ -169,7 +169,7 @@
   Display: "&8&l&k||&c&l攻速宝石&8&l&k||"
   Tips:
     - "&c攻速宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入武器与此宝石, 点击中间确认"
     - "&7即可为其攻击速度属性+5%(上限80%)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg1YzE5YmVhMWUwYWExYjNmOGY5ODUzYzc1NGI1MzQ2NzcxOGNlMGY5MGRlODg2ZmQ0ZWYyYjQyMDk5NTVjNSJ9fX0=
@@ -189,7 +189,7 @@
   Display: "&8&l&k||&c&l真·攻速宝石&8&l&k||"
   Tips:
     - "&c&l真·攻速宝石 &7品质: &a&l传说"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入武器与此宝石, 点击中间确认"
     - "&7即可为其攻击速度属性+10%(上限300%)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg1YzE5YmVhMWUwYWExYjNmOGY5ODUzYzc1NGI1MzQ2NzcxOGNlMGY5MGRlODg2ZmQ0ZWYyYjQyMDk5NTVjNSJ9fX0=
@@ -209,7 +209,7 @@
   Display: "&8&l&k||&8&l攻击击退宝石&8&l&k||"
   Tips:
     - "&8攻击击退宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入武器与此宝石, 点击中间确认"
     - "&7即可为其击退属性+1(上限10)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ZjI4MzMyYmNjMzQ5ZjQyMDIzYzI5ZTZlNjQxZjRiMTBhNmIxZTQ4NzE4Y2FlNTU3NDY2ZDUxZWI5MjIifX19
@@ -231,7 +231,7 @@
   Display: "&8&l&k||&2&l幸运宝石&8&l&k||"
   Tips:
     - "&2幸运宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入装备与此宝石, 点击中间确认"
     - "&7即可为其幸运属性+1(上限10)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWEwZWYyMDNhM2MzODM3ZmQ0YTEwZTFjM2YxOWNjNDBlNjQ5N2NiOWI5NzgwNzRkNDcyYzY1ZDQ4MmY2YjY3MyJ9fX0=
@@ -251,7 +251,7 @@
   Display: "&8&l&k||&7&l护甲宝石&8&l&k||"
   Tips:
     - "&7护甲宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入盔甲与此宝石, 点击中间确认"
     - "&7即可为其护甲属性+1(上限10)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmJkMzFhZDFlOTNmMTY2Zjk3ODU5Y2Q5ZjJiODBkYTUyYTgyOTQ0MDA5N2Y1ZDY3YThjMjEwZDEyMmI5ZDVlNSJ9fX0=
@@ -271,7 +271,7 @@
   Display: "&8&l&k||&7&l盔甲韧性宝石&8&l&k||"
   Tips:
     - "&7盔甲韧性宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入盔甲与此宝石, 点击中间确认"
     - "&7即可为其盔甲韧性属性+1(上限10)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I5MjRiMzdmZTMyOTQyNzNhNzQzODZjODc4Y2EyMTBmYzg5ZjQ3ODcwMjk0M2EwMjcyZTcxMzk1NjMwYmVkYSJ9fX0=
@@ -291,7 +291,7 @@
   Display: "&8&l&k||&8&l击退抗性宝石&8&l&k||"
   Tips:
     - "&8击退抗性宝石 &7品质: &f普通"
-    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem embed&8)"
+    - "&7在 &b宝石镶嵌台 &7中镶嵌 &8(&f/sgem open 宝石镶嵌台&8)"
     - "&7放入盔甲与此宝石, 点击中间确认"
     - "&7即可为其击退抗性属性+1(上限10)"
   Texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiNzdhOWNlYmUxYzE5NjIxMDUyN2EwNjk4OTNiOGY2Mzk1NGIzNDc1NzIwZjgwNDBmZTEyMzNhYWY4OWYwZiJ9fX0=

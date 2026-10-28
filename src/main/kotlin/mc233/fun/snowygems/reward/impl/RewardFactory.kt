@@ -32,7 +32,9 @@ object RewardFactory {
                 mode = call.argOrNull("mode"),
                 varExpr = call.arg("var", "v"),
                 invExpr = call.argOrNull("inv"),
-                format = call.arg("format", "%.2f")
+                format = call.arg("format", "%.2f"),
+                // limit 以前被丢掉了, 药水类 BUFF 因此能无限叠; 现在按"新值"求值当上限用
+                limitExpr = call.argOrNull("limit")
             )
             "name" -> NameReward(call.arg("name"))
             "enchant" -> EnchantReward(

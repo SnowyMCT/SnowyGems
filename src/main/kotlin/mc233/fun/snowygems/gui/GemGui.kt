@@ -22,7 +22,7 @@ import taboolib.platform.util.buildItem
  *
  *   [open]         /sgem view      —— 管理员按分类浏览并领取宝石(第一层分类, 第二层宝石列表, 带返回按钮)
  *   [openInspect]  /sgem inspect   —— 只读: 查看手持装备上已镶嵌的宝石信息, 不做任何修改
- *   [openDismantle]/sgem dismantle —— 拆卸: 按独立拆卸方案展示每颗宝石的价格与返还成功率
+ *   [openDismantle] 已移除 —— 拆卸台改由 /sgem open 拆卸台 打开(见 DismantleGui 的菜单登记)
  *
  * 拆卸和查看拆成两个指令两个界面: inspect 是纯查看不误触, dismantle 才真正扣费拆卸。
  */
@@ -157,41 +157,44 @@ object GemGui {
             Lang.send(player, "inspect.need-held")
             return
         }
-        val gems = GemManager.getAppliedGemConfigs(held)
-        DebugUtil.log("GUI", "${player.name} inspect ${held.type}: 已镶嵌=${gems.map { it.id }}")
-        if (gems.isEmpty()) {
+        // 直接读"已镶嵌"里的 ID 列表: 配置被删/改名的宝石也要显示出来, 否则玩家会以为它不在装备上
+        val ids = GemManager.getAppliedGems(held)
+        DebugUtil.log("GUI", "${player.name} inspect ${held.type}: 已镶嵌=$ids")
+        if (ids.isEmpty()) {
             Lang.send(player, "inspect.no-embed")
             return
         }
-        player.openMenu<Linked<GemConfig>>(Lang.get("inspect.title", "item" to (held.itemMeta?.displayName ?: held.type.name))) {
+        player.openMenu<Linked<String>>(Lang.get("inspect.title", "item" to (held.itemMeta?.displayName ?: held.type.name))) {
             rows(6)
             slots(listOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34))
-            elements { gems }
-            onGenerate { _, gem, _, _ ->
-                val mat = if (!gem.texture.isNullOrBlank()) XMaterial.PLAYER_HEAD
-                else XMaterial.matchXMaterial(gem.material ?: "PAPER").orElse(XMaterial.PAPER)
-                buildItem(mat) {
-                    if (!gem.texture.isNullOrBlank()) {
-                        skullTexture = taboolib.platform.util.SkullTexture(gem.texture)
-                    }
-                    name = ColorUtil.colorize(gem.display.ifBlank { gem.name })
-                    lore.addAll(ColorUtil.colorize(gem.tips))
-                    lore.add(" ")
-                    lore.add(Lang.get("inspect.readonly-hint"))
-                    if (gem.glow) shiny()
-                }
-            }
+            elements { ids }
+            onGenerate { _, id, index, _ -> inspectIcon(id, index + 1, ids.size) }
             onClick { event, _ -> event.isCancelled = true } // 纯查看, 点击不做任何事
             setNextPage(40) { _, hasNext -> pageIcon(hasNext, true) }
             setPreviousPage(38) { _, hasPrev -> pageIcon(hasPrev, false) }
         }
     }
 
-    // ══════════════════════════════════════════════════════════
-    //  /sgem dismantle —— 拆卸(扣费 + 损坏概率)
-    // ══════════════════════════════════════════════════════════
-
-    fun openDismantle(player: Player) = DismantleGui.open(player)
+    /** 单个已镶嵌条目的图标; [id] 在配置里找不到时也要显示(用屏障 + 原 ID), 不能静默丢掉 */
+    private fun inspectIcon(id: String, index: Int, total: Int): ItemStack {
+        val gem = GemRegistry.get(id)
+        val material = when {
+            gem == null -> XMaterial.BARRIER
+            !gem.texture.isNullOrBlank() -> XMaterial.PLAYER_HEAD
+            else -> XMaterial.matchXMaterial(gem.material ?: "PAPER").orElse(XMaterial.PAPER)
+        }
+        return buildItem(material) {
+            if (gem != null && !gem.texture.isNullOrBlank()) {
+                skullTexture = taboolib.platform.util.SkullTexture(gem.texture)
+            }
+            name = if (gem == null) "§c$id" else ColorUtil.colorize(gem.display.ifBlank { gem.name })
+            if (gem == null) lore.add(Lang.get("gem.config-missing")) else lore.addAll(ColorUtil.colorize(gem.tips))
+            lore.add(" ")
+            lore.add(Lang.get("inspect-entry-index", "index" to index, "count" to total))
+            lore.add(Lang.get("inspect.readonly-hint"))
+            if (gem?.glow == true) shiny()
+        }
+    }
 
     /** 翻页按钮外观统一走语言文件, 有页则箭头, 无页则屏障 */
     private fun pageIcon(has: Boolean, next: Boolean) =

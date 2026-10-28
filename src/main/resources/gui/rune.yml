@@ -1,7 +1,8 @@
 # Dismantles an unused example rune, not a rune already embedded in equipment.
-# Use /sgem dismantle to remove an embedded gem from equipment.
+# Use /sgem open 宝石拆卸台 to remove an embedded gem from equipment.
 # 界面文字写 lang:键名 就随语言变化(见 lang/*.yml)。
 符文分解台:
+  Permission: snowygems.rune
   Title: 'lang:gui-runedsm-title'
   Slots:
     - TTTTTTTTT

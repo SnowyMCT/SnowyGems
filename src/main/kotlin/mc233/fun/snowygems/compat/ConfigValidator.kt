@@ -4,7 +4,6 @@ import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.SkillRegistry
 import mc233.`fun`.snowygems.config.GemType
 import mc233.`fun`.snowygems.config.MenuRegistry
-import mc233.`fun`.snowygems.gui.EmbedGui
 import mc233.`fun`.snowygems.reward.impl.RewardFactory
 import mc233.`fun`.snowygems.reward.RewardTokenParser
 import mc233.`fun`.snowygems.skill.SkillFunctions
@@ -77,7 +76,7 @@ object ConfigValidator {
             val where = "${gem.category}.yml -> ${gem.id}"
             if (gem.success !in 0..100) mistake(where, "Success", "成功率必须在 0 到 100 之间")
             for (menu in gem.gui) {
-                if (menu != EmbedGui.GUI_NAME && MenuRegistry.get(menu) == null) {
+                if (menu != MenuRegistry.EMBED && MenuRegistry.get(menu) == null) {
                     mistake(where, "Gui: $menu", "菜单不存在，请检查 gui/ 中的顶层菜单名")
                 }
             }

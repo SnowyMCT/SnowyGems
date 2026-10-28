@@ -85,7 +85,9 @@ data class MenuLayout(
     val title: String,
     val page: Int = 1,
     val rows: List<String>,
-    val items: Map<Char, MenuItemDef>
+    val items: Map<Char, MenuItemDef>,
+    /** 打开这个菜单需要的权限节点; 为空表示只受 /sgem open 自身的权限约束 */
+    val permission: String? = null
 ) {
     val size get() = rows.size * 9
 }

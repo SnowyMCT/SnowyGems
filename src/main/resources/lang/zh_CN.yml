@@ -109,6 +109,12 @@ command-no-player: '&c玩家不在线: &f{player}'
 command-no-gem: '&c未知的宝石配置: &f{gem}'
 # 给予成功  占位符: {player} {gem} {amount}
 command-give: '&a已给予 &f{player} &7×&f{amount} &a个 &f{gem}'
+# /sgem repair: 手上没有装备
+command-repair-no-item: '&c请先手持要修复的装备'
+# /sgem repair: 登记已经是完整的
+command-repair-nothing: '&7这件装备的宝石登记已经完整，无需补登记'
+# /sgem repair: 补登记成功  占位符: {count} {gems}
+command-repair-done: '&a已为手持装备补登记 &f{count} &a条宝石记录: &f{gems}'
 # 调试开关
 command-debug-on: '&a调试已开启，范围: &f{scope} &7(输出在服务器控制台；本次运行期间重载仍有效)'
 command-debug-active: '&a调试已开启，范围: &f{scope} &7(输出在服务器控制台；本次运行期间重载仍有效)'
@@ -141,6 +147,7 @@ gem-button-fail: '&c操作失败'
 # 直接右键使用类宝石
 gem-use-success: '&a使用成功!'
 gem-use-fail: '&c使用失败!'
+gem-use-no-permission: '&c你没有使用宝石的权限'
 gem-need-workbench: '&c该宝石需要在工作台中镶嵌到装备上使用'
 # 随机奖池  占位符: {gem} 抽中的宝石名
 gem-random-get: '&a获得了 &f{gem}'
@@ -162,7 +169,7 @@ reward-point-gain: '&a你获得了 &9{amount} &a点券'
 # 获得金币  占位符: {amount} 数额
 reward-money-gain: '&a你获得了 &e{amount} &a金币'
 
-# ── 宝石镶嵌台 /sgem embed ────────────────────────────────
+# ── 宝石镶嵌台 /sgem open 宝石镶嵌台 ────────────────────────────────
 # 界面标题
 embed-title: '&8&l&k||&b&l宝石镶嵌台&8&l&k||'
 # 两个槽位的指示标签
@@ -196,6 +203,7 @@ embed-info-may-fail: '&c失败会消耗宝石且不产生效果'
 # ── 工作台菜单 (gui.yml / rune.yml 定义的界面) ────────────
 # 菜单名字写错了  占位符: {menu}
 menu-not-found: '&c菜单不存在: &f{menu}'
+menu-no-permission: '&c你没有权限使用 &f{menu} &7(需要 &f{permission}&7)'
 # Shift 移入时没有能接收该物品的空槽
 menu-no-slot: '&c没有可以放入该物品的空槽位'
 # 装备槽里有装备, 但所有宝石槽都是空的
@@ -228,10 +236,12 @@ view-no-gem: '&c当前没有加载任何宝石配置, 请检查 gems/ 目录'
 inspect-title: '&b已镶嵌宝石 &7- &f{item}'
 inspect-need-held: '&c请先手持你想查看的装备'
 inspect-no-embed: '&7这件装备上还没有镶嵌任何宝石'
-# 只读界面: 点击不做任何事, 拆卸请用 /sgem dismantle
-inspect-readonly-hint: '&7仅供查看 &8· &7拆卸请用 &f/sgem dismantle'
+# 只读界面: 点击不做任何事, 拆卸请用 /sgem open 宝石拆卸台
+inspect-readonly-hint: '&7仅供查看 &8· &7拆卸请用 &f/sgem open 宝石拆卸台'
+# inspect 里每个条目的序号  占位符: {index} {count}
+inspect-entry-index: '&8第 &7{index}&8/&7{count} &8颗'
 
-# ── /sgem dismantle 拆卸装备上的宝石 ──────────────────────
+# ── /sgem open 宝石拆卸台 拆卸装备上的宝石 ──────────────────────
 # 价格与返还成功率由 dismantle/ 目录下的方案分别计算。
 dismantle-title: '&c拆卸宝石 &7- &f{item}'
 dismantle-need-held: '&c请先手持要拆卸宝石的装备'

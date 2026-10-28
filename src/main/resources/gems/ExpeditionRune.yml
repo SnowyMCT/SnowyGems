@@ -1,6 +1,6 @@
 # 0.0.6 新默认内容：独立 ID，不替换旧配置；已有同名文件不会覆盖。
 # 不要改动已发放物品对应的 ID。修改数值不会回写既有装备的属性。
-# 新符文使用 /sgem embed；旧颜色符文台的分类槽位可能不接受这些新符文。
+# 新符文使用 /sgem open 宝石镶嵌台；旧颜色符文台的分类槽位可能不接受这些新符文。
 # I/II 同系互斥；主动符文共用互斥组；升级消耗未镶嵌物品，不就地升级装备。
 远征星锋符文I:
   Name: 远征星锋符文I
@@ -14,7 +14,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，攻击力 +1；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=damage;operation=0;slot=auto;var=v+1;limit=2}
   ExclusiveGroup: expedition-星锋
@@ -29,7 +29,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，攻击力 +2；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=damage;operation=0;slot=auto;var=v+2;limit=2}
   ExclusiveGroup: expedition-星锋
@@ -45,7 +45,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，护甲 +1；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=armor;operation=0;slot=auto;var=v+1;limit=2}
   ExclusiveGroup: expedition-磐岩
@@ -60,7 +60,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，护甲 +2；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=armor;operation=0;slot=auto;var=v+2;limit=2}
   ExclusiveGroup: expedition-磐岩
@@ -76,7 +76,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，生命上限 +2；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=health;operation=0;slot=auto;var=v+2;limit=4}
   ExclusiveGroup: expedition-生息
@@ -91,7 +91,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，生命上限 +4；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=health;operation=0;slot=auto;var=v+4;limit=4}
   ExclusiveGroup: expedition-生息
@@ -107,7 +107,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，移动速度数值 +0.01；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=move;operation=0;slot=auto;var=v+0.01;limit=0.02}
   ExclusiveGroup: expedition-轻捷
@@ -122,7 +122,7 @@
   TrackApplied: true
   Tips:
   - '&7装备于对应槽位时，移动速度数值 +0.02；同系只能选一个等级'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - Attribute{name=move;operation=0;slot=auto;var=v+0.02;limit=0.02}
   ExclusiveGroup: expedition-轻捷
@@ -138,7 +138,7 @@
   TrackApplied: true
   Tips:
   - '&7主手持镐持续获得急迫 I'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[BUFF] 远征/矿脉 1;limit=1}
   ExclusiveGroup: expedition-矿脉
@@ -153,7 +153,7 @@
   TrackApplied: true
   Tips:
   - '&7主手持镐持续获得急迫 II'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[BUFF] 远征/矿脉 2;limit=1}
   ExclusiveGroup: expedition-矿脉
@@ -169,7 +169,7 @@
   TrackApplied: true
   Tips:
   - '&7主手持剑潜行右键获得速度 I，持续 5 秒，冷却 12 秒'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[技能] 远征/疾行 1;limit=1}
   ExclusiveGroup: expedition-active
@@ -184,7 +184,7 @@
   TrackApplied: true
   Tips:
   - '&7主手持剑潜行右键获得速度 II，持续 5 秒，冷却 12 秒'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[技能] 远征/疾行 2;limit=1}
   ExclusiveGroup: expedition-active
@@ -200,7 +200,7 @@
   TrackApplied: true
   Tips:
   - '&7戴在头上时持续获得夜视'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[BUFF] 远征/夜航;limit=1}
   ExclusiveGroup: expedition-夜航
@@ -216,7 +216,7 @@
   TrackApplied: true
   Tips:
   - '&7戴在头上时持续获得水下呼吸'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[BUFF] 远征/潮息;limit=1}
   ExclusiveGroup: expedition-潮息
@@ -232,7 +232,7 @@
   TrackApplied: true
   Tips:
   - '&7主手持剑潜行右键清除中毒；成功后冷却 10 秒'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[技能] 远征/净毒;limit=1}
   ExclusiveGroup: expedition-active
@@ -248,7 +248,7 @@
   TrackApplied: true
   Tips:
   - '&7主手持剑潜行右键获得 6 秒缓降；冷却 16 秒'
-  - '&7使用 /sgem embed 镶嵌；/sgem rune 锻造'
+  - '&7使用 /sgem open 宝石镶嵌台 镶嵌；/sgem rune 锻造'
   Rewards:
   - LoreAdd{lore=&b[技能] 远征/轻羽;limit=1}
   ExclusiveGroup: expedition-active

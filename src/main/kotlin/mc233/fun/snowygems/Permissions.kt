@@ -9,7 +9,7 @@ import org.bukkit.permissions.PermissionDefault
  * 权限节点集中定义与伞节点注册.
  *
  * 设计:
- *   - 每个子命令有独立的细粒度权限(如 snowygems.embed)。
+ *   - 每个子命令有独立的细粒度权限(如 snowygems.inspect)。
  *   - 两个\"伞节点\"通过 Bukkit 的权限父子关系一次性授予一组子权限:
  *       snowygems.user   普通玩家常用指令(镶嵌台/查看/拆卸/使用/打开菜单) —— 默认所有人可用
  *       snowygems.admin  管理指令(领取/给予/调试/重载/兼容报告等) + 同时包含全部 user 权限 —— 默认 OP
@@ -25,7 +25,8 @@ object Permissions {
     const val USER = "snowygems.user"
     const val ADMIN = "snowygems.admin"
 
-    // 普通玩家指令
+    /* 普通玩家指令 / 菜单权限
+       USE = 使用宝石(兑换券/礼包/饮品)的总开关, 见 canUseGem */
     const val EMBED = "snowygems.embed"
     const val INSPECT = "snowygems.inspect"
     const val DISMANTLE = "snowygems.dismantle"
@@ -45,10 +46,20 @@ object Permissions {
     const val TRIGGERS = "snowygems.triggers"
     const val MARK = "snowygems.mark"
     const val MIGRATE = "snowygems.migrate"
+    const val REPAIR = "snowygems.repair"
     const val EDIT = "snowygems.edit"
 
     private val USER_NODES = listOf(BASE, EMBED, INSPECT, DISMANTLE, USE, OPEN, RUNE, CATALOG)
-    private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS, MARK, HISTORY, MIGRATE, EDIT)
+    private val ADMIN_NODES = listOf(VIEW, GIVE, DEBUG, RELOAD, COMPAT, SKILLS, TRIGGERS, MARK, HISTORY, MIGRATE, EDIT, REPAIR)
+
+    /**
+     * 使用宝石的门禁判断(纯函数, 便于测试)。
+     *
+     * [USE] 是"玩家能不能动用宝石"的唯一开关, 覆盖全部使用通道:
+     *   /sgem use、右键使用、吃/喝触发的消耗型宝石、工作台菜单里的 USE_GEM 按钮。
+     * 这里只做一次 hasPermission, 伞节点与负权限由 Bukkit 权限系统解析。
+     */
+    fun canUseGem(hasPermission: (String) -> Boolean): Boolean = hasPermission(USE)
 
     /**
      * 在 ENABLE 阶段注册权限父子关系. 重复注册(reload)会先移除旧的再重建, 保持幂等。

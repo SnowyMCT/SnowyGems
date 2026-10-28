@@ -20,12 +20,21 @@ import taboolib.platform.util.buildItem
 object WorkbenchMenu {
 
     fun open(player: Player, menuName: String) {
+        // 外部菜单(拆卸台)没有布局, 先转发; 权限同样在菜单层判定, 不再由页面自己静默拦截
+        val external = MenuRegistry.external(menuName)
+        if (external != null) {
+            if (!allowed(player, menuName, external.permission)) return
+            DebugUtil.log("Workbench", "为 ${player.name} 打开外部菜单 $menuName")
+            external.opener(player)
+            return
+        }
         val layout = MenuRegistry.get(menuName)
         if (layout == null) {
             DebugUtil.log("Workbench", "打开菜单失败: 不存在名为 $menuName 的菜单 (已加载: ${MenuRegistry.names()})")
             Lang.send(player, "menu.not-found", "menu" to menuName)
             return
         }
+        if (!allowed(player, menuName, layout.permission)) return
         val holder = MenuHolder(layout)
         val inv = Bukkit.createInventory(holder, layout.size, GuiText.line(layout.title, emptyMap()))
         holder.inv = inv
@@ -37,6 +46,14 @@ object WorkbenchMenu {
             "  菜单 $menuName 活动槽位: EQUIP_SLOT=${findEquipSlot(inv, layout)} GEM_SLOT=${gemSlots(inv, layout)}"
         )
         player.openInventory(inv)
+    }
+
+    /** 菜单级权限: 配置里写了 Permission 就必须有, 缺权限时给明确提示而不是静默关掉 */
+    private fun allowed(player: Player, menuName: String, permission: String?): Boolean {
+        if (MenuRegistry.allows(permission) { player.hasPermission(it) }) return true
+        DebugUtil.log("Workbench", "${player.name} 无权限打开菜单 $menuName (需要 $permission)")
+        Lang.send(player, "menu.no-permission", "menu" to menuName, "permission" to (permission ?: ""))
+        return false
     }
 
     /** 根据行列字符网格反查 rawSlot 对应的字符, 找不到返回 null */

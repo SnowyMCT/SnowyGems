@@ -21,6 +21,9 @@ class ItemData(private val values: MutableMap<String, ItemTagData>) {
     operator fun set(key: String, value: ItemTagList) { values[key] = ItemTagData(value) }
     fun remove(key: String) { values.remove(key) }
 
+    /** 当前保存的全部键(补登记时要枚举 SnowyGemsLoreVar_* 这类指纹键) */
+    fun keys(): Set<String> = values.keys.toSet()
+
     fun saveTo(item: ItemStack) {
         val meta = item.itemMeta ?: error("Item has no metadata")
         saveTo(meta)

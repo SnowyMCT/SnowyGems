@@ -4,12 +4,39 @@ import mc233.`fun`.snowygems.util.DebugUtil
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
 import taboolib.common.platform.function.info
+import org.bukkit.entity.Player
 import taboolib.common.platform.function.severe
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Configuration
 import java.io.File
 
 object MenuRegistry {
+
+    /** 通用镶嵌台菜单名。gem 配置的 Gui: 写它表示"任意镶嵌台可用"，因此校验时允许它暂未释放。 */
+    const val EMBED = "宝石镶嵌台"
+
+    /**
+     * 配置菜单之外的"外部菜单"(目前是拆卸台): 只登记名字、权限与打开函数,
+     * 布局仍由各自的加载器负责。这样 /sgem open 能用同一个名字入口打开它。
+     */
+    data class ExternalMenu(val name: String, val permission: String?, val opener: (Player) -> Unit)
+
+    /**
+     * 刻意不在 reload 时清空: 外部菜单由各自的加载器在解析成功后覆盖登记,
+     * 解析失败时保留上一次成功的结果, 与 [restore] 回滚菜单表的行为保持一致。
+     */
+    private val external = LinkedHashMap<String, ExternalMenu>()
+
+    fun registerExternal(menu: ExternalMenu) {
+        external[menu.name] = menu
+        DebugUtil.log("Registry", "外部菜单已登记: ${menu.name} 权限=${menu.permission ?: "无"}")
+    }
+
+    fun external(name: String): ExternalMenu? = external[name]
+
+    /** 菜单权限判定。纯函数, 便于测试; permission 为空表示不额外限制。 */
+    fun allows(permission: String?, hasPermission: (String) -> Boolean): Boolean =
+        permission.isNullOrBlank() || hasPermission(permission)
 
     @Volatile
     private var menus: Map<String, MenuLayout> = emptyMap()
@@ -91,7 +118,8 @@ object MenuRegistry {
             title = sec.getString("Title", name) ?: name,
             page = sec.getInt("Page", 1),
             rows = rows,
-            items = items
+            items = items,
+            permission = sec.getString("Permission")?.trim()?.takeIf { it.isNotEmpty() }
         )
         DebugUtil.log(
             "Registry",
@@ -121,5 +149,6 @@ object MenuRegistry {
 
     fun get(name: String): MenuLayout? = menus[name]
 
-    fun names(): Set<String> = menus.keys.toSet()
+    /** /sgem open 的可用名字 = 配置菜单 + 外部菜单 */
+    fun names(): Set<String> = menus.keys + external.keys
 }

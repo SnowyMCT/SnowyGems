@@ -15,7 +15,7 @@ import java.util.Date
  * 方块标记管理器
  *
  * 方块可以标记成两种功能方块, 类型记录在 MarkedBlocks.yml 每条记录的 type 字段里:
- *   - [MarkType.EMBEDDER]   镶嵌台: 右键执行 /sgem embed
+ *   - [MarkType.EMBEDDER]   镶嵌台: 右键执行 /sgem open 宝石镶嵌台
  *   - [MarkType.RUNE_FORGE] 锻造台: 右键执行 /sgem open 符文镶嵌台
  *
  * 两种类型共用 config.yml 的 tagged-blocks 白名单, 方块被挖掉时标记自动取消。
@@ -43,7 +43,7 @@ object MarkBlockManager {
         val deniedKey: String
     ) {
         EMBEDDER(
-            "embedder", "sgem embed",
+            "embedder", "sgem open 宝石镶嵌台",
             "command-block-success", "command-block-hint", "command-block-not-allowed"
         ),
         RUNE_FORGE(

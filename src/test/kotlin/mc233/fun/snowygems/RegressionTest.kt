@@ -14,6 +14,24 @@ import java.util.Base64
 import kotlin.test.*
 
 class RegressionTest {
+    @Test fun `menu permission gate treats blank as unrestricted and checks the rest`() {
+        assertTrue(MenuRegistry.allows(null) { false }, "空权限表示不额外限制")
+        assertTrue(MenuRegistry.allows("") { false }, "空字符串等同于未配置")
+        assertTrue(MenuRegistry.allows("  ") { false }, "纯空白等同于未配置")
+        assertTrue(MenuRegistry.allows("snowygems.embed") { it == "snowygems.embed" }, "有权限时放行")
+        assertFalse(MenuRegistry.allows("snowygems.embed") { false }, "缺权限必须拒绝")
+        assertFalse(MenuRegistry.allows("snowygems.rune") { it == "snowygems.embed" }, "不能串用其它菜单的权限")
+    }
+
+    @Test fun `gem usage gate only accepts snowygems use`() {
+        // snowygems.use 是使用宝石(兑换券/礼包/饮品/菜单按钮)的唯一开关
+        assertTrue(Permissions.canUseGem { it == Permissions.USE }, "有 snowygems.use 应放行")
+        assertFalse(Permissions.canUseGem { false }, "没有权限必须拒绝")
+        assertFalse(Permissions.canUseGem { it == Permissions.USER }, "伞节点由 Bukkit 展开, 门禁只认 use 本身")
+        assertFalse(Permissions.canUseGem { it == Permissions.EMBED }, "镶嵌权限不能顶替使用权限")
+        assertFalse(Permissions.canUseGem { it == Permissions.OPEN }, "打开菜单不等于能用宝石")
+    }
+
     @Test fun `invalid layouts never reach Bukkit inventory creation`() {
         MenuRegistry.validateRows(listOf("TTTIGTTTT"))
         MenuRegistry.validateRows(List(6) { "TTTTTTTTT" })
@@ -93,7 +111,7 @@ class RegressionTest {
         assertEquals(MarkBlockManager.MarkType.RUNE_FORGE, MarkBlockManager.MarkType.fromId("rune-forge"))
         assertEquals(MarkBlockManager.MarkType.RUNE_FORGE, MarkBlockManager.MarkType.fromId("RUNE-FORGE"))
         // 右键动作挂在类型上
-        assertEquals("sgem embed", MarkBlockManager.MarkType.EMBEDDER.openCommand)
+        assertEquals("sgem open 宝石镶嵌台", MarkBlockManager.MarkType.EMBEDDER.openCommand)
         assertEquals("sgem open 符文镶嵌台", MarkBlockManager.MarkType.RUNE_FORGE.openCommand)
         // 只认类型名本身, 别名一概不接受
         for (bad in listOf(null, "", "   ", "forge", "rune_forge", "rune forge", "emoji", "石头")) {
