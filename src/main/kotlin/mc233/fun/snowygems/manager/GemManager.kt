@@ -1,5 +1,6 @@
 package mc233.`fun`.snowygems.manager
 
+import mc233.`fun`.snowygems.Permissions
 import mc233.`fun`.snowygems.config.GemConfig
 import mc233.`fun`.snowygems.config.GemRegistry
 import mc233.`fun`.snowygems.config.GemType
@@ -8,6 +9,7 @@ import mc233.`fun`.snowygems.reward.RewardPhase
 import mc233.`fun`.snowygems.reward.ParsedReward
 import mc233.`fun`.snowygems.reward.AppliedReward
 import mc233.`fun`.snowygems.reward.RewardHistory
+import mc233.`fun`.snowygems.reward.impl.LoreVarReward
 import mc233.`fun`.snowygems.reward.impl.RewardFactory
 import mc233.`fun`.snowygems.util.ColorUtil
 import mc233.`fun`.snowygems.util.ItemFactory
@@ -34,12 +36,16 @@ data class ApplyResult(
     val resultItem: ItemStack? = null
 )
 
+/** 补登记结果: 条数 + 涉及的宝石 ID(供 /sgem repair 回显) */
+data class RepairOutcome(val added: Int, val gems: List<String>)
+
 object GemManager {
 
     private const val APPLIED_LIST_KEY = "SnowyGemsAppliedGems"
 
     /** GUI 中 USE_GEM 按钮点击: 无视宝石声明的 Type, 直接以 [target](可为空) 为上下文执行一次 Rewards */
     fun executeButton(player: Player, cfg: GemConfig, target: ItemStack?): ApplyResult {
+        denyUse(player)?.let { return it }
         if (target != null && !target.type.isAir && target.amount != 1) {
             return ApplyResult(false, Lang.get("gem.single-target"), false)
         }
@@ -133,8 +139,12 @@ object GemManager {
                 DebugUtil.log("GemManager", "applyToItem: 奖励未生效, exceptions=${execution.errors}")
                 return ApplyResult(false, Lang.get("gem.no-effect"), execution.errors > 0, targetStack.clone())
             }
-            // Pure consumables (repair, currency, etc.) cannot become reusable dismantle rewards.
-            if (cfg.trackApplied && execution.applied.any { RewardFactory.create(it.call)?.reversible == true }) {
+            // 登记标准是"这次镶嵌真的改动了装备"(属性/附魔/lore/NBT 任何一处), 不是"奖励可撤销"。
+            // 以前的写法要求至少一条 reversible 奖励, 结果 LoreVar 这类 BUFF 宝石改了装备却不进列表 ——
+            // /sgem inspect、拆卸台、Embed 上限、互斥组全都看不到它(2026-10 实测的 bug)。
+            // 纯消耗品(金币/点券/经验/命令/修复)不改装备, 自然不会出现在"已镶嵌"里。
+            val itemChanged = ctx.item != null && ctx.item != targetStack
+            if (cfg.trackApplied && itemChanged) {
                 markApplied(ctx.item ?: target, cfg.id, execution.applied)
             }
             DebugUtil.log("GemManager", "applyToItem: 镶嵌完成, 该装备现有宝石=${getAppliedGems(ctx.item ?: target)}")
@@ -147,9 +157,21 @@ object GemManager {
         }
     }
 
+    /**
+     * 使用宝石的统一门禁: /sgem use、右键使用、吃/喝、菜单里的使用按钮都从这里过。
+     * 缺 snowygems.use 时只提示、不消耗任何物品(返回 consumedGem=false)。
+     */
+    private fun denyUse(player: Player): ApplyResult? {
+        if (Permissions.canUseGem(player::hasPermission)) return null
+        DebugUtil.log("GemManager", "${player.name} 缺少 ${Permissions.USE}, 拒绝使用宝石")
+        // 服务器上已释放的旧 lang 文件里没有这条 key 时也不能把裸 key 发给玩家
+        return ApplyResult(false, Lang.getOrNull("gem.use-no-permission") ?: "§c你没有使用宝石的权限", false)
+    }
+
     /** 先预留使用的那一颗，再发奖，避免礼包抽中自身时覆盖新发放的物品。调用方不得再次扣减。 */
     fun useHeld(player: Player, hand: EquipmentSlot = EquipmentSlot.HAND): ApplyResult {
         require(hand == EquipmentSlot.HAND || hand == EquipmentSlot.OFF_HAND) { "Only hand slots can use gems" }
+        denyUse(player)?.let { return it }
         val inventory = player.inventory
         val slot = if (hand == EquipmentSlot.HAND) inventory.heldItemSlot else 40
         val held = inventory.getItem(slot)?.clone()
@@ -257,7 +279,6 @@ object GemManager {
         val appliedIds = getAppliedGems(targetStack)
         val selectedIndex = occurrenceIndex ?: appliedIds.indexOfLast { it == gemId }
         if (appliedIds.getOrNull(selectedIndex) != gemId) return ApplyResult(false, Lang.get("gem.not-applied"), false)
-        val historyIndex = appliedIds.take(selectedIndex + 1).count { it == gemId } - 1
         DebugUtil.log("GemManager", "removeFromItem: 从 ${targetStack.type} 拆除 $gemId, 拆除前已镶嵌=${getAppliedGems(targetStack)}")
         val cfg = GemRegistry.get(gemId) ?: return ApplyResult(false, Lang.get("gem.config-missing"), false)
         if (DismantleService.isProtected(cfg, targetStack)) {
@@ -265,17 +286,9 @@ object GemManager {
         }
         val target = targetStack.clone()
         val ctx = RewardContext(player, target, cfg, RewardPhase.REMOVE, true)
-        val history = target.getItemTag()[historyKey(gemId)]?.value as? ItemTagList
-        val encoded = history?.getOrNull(historyIndex)?.asString()
-        val applied = if (!encoded.isNullOrEmpty()) {
-            runCatching { RewardHistory.decode(encoded) }.getOrElse {
-                DebugUtil.err("GemManager", "宝石 $gemId 的撤销记录损坏，拒绝拆卸", it)
-                return ApplyResult(false, Lang.get("gem.no-effect"), false)
-            }
-        } else {
-            // 老物品没有执行历史，只兼容撤销 APPLY 奖励。
-            cfg.parsedRewards.filter { it.matchesPhase(RewardPhase.APPLY) && it.reward != null }
-                .map { AppliedReward(it.call, emptyMap()) }
+        val applied = resolveAppliedRewards(target, cfg, gemId, selectedIndex) ?: run {
+            DebugUtil.err("GemManager", "宝石 $gemId 的撤销记录损坏，拒绝拆卸", IllegalStateException("corrupt history"))
+            return ApplyResult(false, Lang.get("gem.no-effect"), false)
         }
         if (applied.isEmpty() || applied.any { RewardFactory.create(it.call)?.reversible != true }) {
             return ApplyResult(false, Lang.get("gem.not-reversible"), false)
@@ -299,10 +312,92 @@ object GemManager {
             }
         }
         // 2) 从 NBT 已镶嵌列表里摘掉。旧配置的 onRemove 奖励不再执行，避免重复收费。
-        unmarkApplied(ctx.item ?: target, gemId, selectedIndex, historyIndex)
+        unmarkApplied(ctx.item ?: target, gemId, selectedIndex, appliedIds.take(selectedIndex + 1).count { it == gemId } - 1)
         DebugUtil.log("GemManager", "removeFromItem: 撤销了 $reverted 条奖励效果, 拆除后已镶嵌=${getAppliedGems(ctx.item ?: target)}")
         val msg = Lang.get("gem.remove-success")
         return ApplyResult(true, msg, false, ctx.item ?: target)
+    }
+
+    /**
+     * 取出这件装备上第 [selectedIndex] 颗宝石当时真正生效的奖励(含撤销凭据)。
+     * null 表示存档里的撤销记录损坏, 调用方必须拒绝拆卸。
+     */
+    private fun resolveAppliedRewards(
+        target: ItemStack,
+        cfg: GemConfig,
+        gemId: String,
+        selectedIndex: Int
+    ): List<AppliedReward>? {
+        val appliedIds = getAppliedGems(target)
+        val historyIndex = appliedIds.take(selectedIndex + 1).count { it == gemId } - 1
+        val history = target.getItemTag()[historyKey(gemId)]?.value as? ItemTagList
+        val encoded = history?.getOrNull(historyIndex)?.asString()
+        if (encoded.isNullOrEmpty()) {
+            // 老物品没有执行历史，只兼容撤销 APPLY 奖励。
+            return cfg.parsedRewards.filter { it.matchesPhase(RewardPhase.APPLY) && it.reward != null }
+                .map { AppliedReward(it.call, emptyMap()) }
+        }
+        return runCatching { RewardHistory.decode(encoded) }.getOrNull()
+    }
+
+    /**
+     * 这件装备上这颗宝石为什么不能拆; null 表示可以拆。
+     *
+     * 拆卸台用它提前标注"看得见但拆不掉"的宝石, 不让它们从列表里消失。判定顺序与
+     * [removeFromItem] 完全一致(配置保护 / 装备保护 / 记录损坏 / 奖励不可撤销 / 隐藏 lore)。
+     */
+    fun dismantleBlockReason(targetStack: ItemStack, gemId: String, occurrenceIndex: Int): String? {
+        val cfg = GemRegistry.get(gemId) ?: return "gem.config-missing"
+        if (targetStack.type.isAir || targetStack.amount != 1) return "gem.single-target"
+        if (getAppliedGems(targetStack).getOrNull(occurrenceIndex) != gemId) return "gem.not-applied"
+        if (DismantleService.isProtected(cfg, targetStack)) return "dismantle.protected"
+        val applied = resolveAppliedRewards(targetStack, cfg, gemId, occurrenceIndex) ?: return "gem.no-effect"
+        if (applied.isEmpty() || applied.any { RewardFactory.create(it.call)?.reversible != true }) {
+            return "gem.not-reversible"
+        }
+        if (targetStack.getItemTag()[mc233.`fun`.snowygems.util.SkillLore.KEY] != null &&
+            applied.none { it.undoData.containsKey("hiddenLore") }) {
+            return "gem.remove-hiding-first"
+        }
+        return null
+    }
+
+    /**
+     * 补登记: 旧版本因为"奖励必须可撤销"才登记, 漏掉了 LoreVar 类 BUFF 宝石 ——
+     * 装备上已经写了 lore 与数值, 列表里却没有它。这里按 NBT 里的数值反推用了几颗补回去。
+     * 只处理能算清代价的情形(每颗 +1 的 LoreVar), 补回来的记录不带历史, 拆卸时按配置回退。
+     */
+    fun repairAppliedGems(item: ItemStack): RepairOutcome {
+        if (item.type.isAir || item.amount != 1) return RepairOutcome(0, emptyList())
+        val tag = item.getItemTag()
+        val loreVars = tag.keys()
+            .filter { it.startsWith(LoreVarReward.KEY_PREFIX) }
+            .mapNotNull { key -> tag[key]?.let { key to it.asDouble() } }
+            .toMap()
+        if (loreVars.isEmpty()) return RepairOutcome(0, emptyList())
+        val additions = planAppliedRepair(loreVars, getAppliedGems(item), GemRegistry.all().toList())
+        if (additions.isEmpty()) return RepairOutcome(0, emptyList())
+        var added = 0
+        for ((gemId, count) in additions) {
+            recordLegacyApplied(item, gemId, count)
+            added += count
+        }
+        DebugUtil.log("GemManager", "补登记: 为 ${item.type} 补回 $added 条 -> $additions")
+        return RepairOutcome(added, additions.keys.toList())
+    }
+
+    /** 只写"已镶嵌"和一条空历史: 空历史会让拆卸走配置回退, 不需要当初的撤销凭据 */
+    private fun recordLegacyApplied(item: ItemStack, gemId: String, count: Int) {
+        val tag = item.getItemTag()
+        val list = (tag[APPLIED_LIST_KEY]?.value as? ItemTagList) ?: ItemTagList()
+        val history = (tag[historyKey(gemId)]?.value as? ItemTagList) ?: ItemTagList()
+        repeat(count) {
+            list.add(ItemTagData(gemId))
+            history.add(ItemTagData(""))
+        }
+        tag[historyKey(gemId)] = history
+        tag[APPLIED_LIST_KEY] = list
+        tag.saveTo(item)
     }
 
     /** 读取一件装备上已记录的所有宝石ID */

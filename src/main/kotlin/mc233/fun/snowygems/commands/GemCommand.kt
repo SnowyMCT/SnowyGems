@@ -260,6 +260,30 @@ object GemCommand {
         }
     }
 
+    /**
+     * /sgem repair —— 把手持装备上"生效了但没登记"的宝石补回已镶嵌列表。
+     * 旧版本只登记含可撤销奖励的宝石, LoreVar 类 BUFF(幸运/速度/抗性等药水)因此不可见也拆不掉;
+     * 这条指令按装备 NBT 里的数值把账补平, 之后 inspect 与拆卸台都能正常看到/拆卸。
+     */
+    @CommandBody(permission = Permissions.REPAIR)
+    val repair = subCommand {
+        execute<Player> { sender, _, _ ->
+            val held = sender.inventory.itemInMainHand
+            if (held.type == Material.AIR) {
+                Lang.sendCommand(sender, "command-repair-no-item")
+                return@execute
+            }
+            val outcome = GemManager.repairAppliedGems(held)
+            DebugUtil.log("Command", "${sender.name} 执行 /sgem repair: 补登记 ${outcome.added} 条 -> ${outcome.gems}")
+            if (outcome.added <= 0) {
+                Lang.sendCommand(sender, "command-repair-nothing")
+                return@execute
+            }
+            Lang.sendCommand(sender, "command-repair-done",
+                "count" to outcome.added, "gems" to outcome.gems.joinToString(", "))
+        }
+    }
+
     @CommandBody(permission = Permissions.EDIT)
     val editor = subCommand {
         execute<Player> { sender, _, _ -> InGameEditor.open(sender) }

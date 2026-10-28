@@ -110,6 +110,12 @@ command-no-player: '&c玩家不在線: &f{player}'
 command-no-gem: '&c未知的寶石配置: &f{gem}'
 # 給予成功  佔位符: {player} {gem} {amount}
 command-give: '&a已給予 &f{player} &7×&f{amount} &a個 &f{gem}'
+# /sgem repair: 手上沒有裝備
+command-repair-no-item: '&c請先手持要修復的裝備'
+# /sgem repair: 登記已經是完整的
+command-repair-nothing: '&7這件裝備的寶石登記已經完整，無需補登記'
+# /sgem repair: 補登記成功  佔位符: {count} {gems}
+command-repair-done: '&a已為手持裝備補登記 &f{count} &a筆寶石紀錄: &f{gems}'
 # 除錯開關
 command-debug-on: '&a除錯已開啟，範圍: &f{scope} &7(輸出在伺服器主控台；本次執行期間重新載入仍有效)'
 command-debug-active: '&a除錯已開啟，範圍: &f{scope} &7(輸出在伺服器主控台；本次執行期間重新載入仍有效)'
@@ -142,6 +148,7 @@ gem-button-fail: '&c操作失敗'
 # 直接右鍵使用類寶石
 gem-use-success: '&a使用成功!'
 gem-use-fail: '&c使用失敗!'
+gem-use-no-permission: '&c你沒有使用寶石的權限'
 gem-need-workbench: '&c該寶石需要在工作台中鑲嵌到裝備上使用'
 # 隨機獎池  佔位符: {gem} 抽中的寶石名
 gem-random-get: '&a獲得了 &f{gem}'
@@ -232,6 +239,8 @@ inspect-need-held: '&c請先手持你想檢視的裝備'
 inspect-no-embed: '&7這件裝備上還沒有鑲嵌任何寶石'
 # 只讀介面: 點選不做任何事, 拆卸請用 /sgem open 宝石拆卸台
 inspect-readonly-hint: '&7僅供檢視 &8· &7拆卸請用 &f/sgem open 宝石拆卸台'
+# inspect 裡每個條目的序號  佔位符: {index} {count}
+inspect-entry-index: '&8第 &7{index}&8/&7{count} &8顆'
 
 # ── /sgem open 宝石拆卸台 拆卸裝備上的寶石 ──────────────────────
 # 拆卸需要費用且有機率損壞寶石, 規則在 config.yml 的 Dismantle 一節配置。

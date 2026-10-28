@@ -152,9 +152,12 @@ object DismantleGui {
             val id = ids.getOrNull(index)
             if (id == null) { inv.setItem(slot, null); return@forEachIndexed }
             val gem = GemRegistry.get(id)
-            val protected = gem?.let { DismantleService.isProtected(it, item!!) } == true
-            val quote = gem?.takeUnless { protected }?.let { runCatching { DismantleService.quote(it, item!!) }.getOrNull() }
-            val cost = if (protected) Lang.get("dismantle.protected") else quote?.let { DismantleService.describe(it.cost) } ?: Lang.get("dismantle.plan-error")
+            // 不能拆的原因在界面里直接标出来: 配置/装备保护、记录损坏、奖励没有撤销实现
+            // —— 这些宝石也必须占位显示, 否则玩家会以为它不在装备上
+            val block = GemManager.dismantleBlockReason(item!!, id, index)
+            val quote = if (block == null && gem != null) runCatching { DismantleService.quote(gem, item) }.getOrNull() else null
+            val cost = block?.let { Lang.get(it) }
+                ?: quote?.let { DismantleService.describe(it.cost) } ?: Lang.get("dismantle.plan-error")
             val chance = quote?.let { DismantleService.format(it.success) } ?: "?"
             val gemName = gem?.let { ColorUtil.colorize(it.display.ifBlank { it.name }) } ?: id
             val material = if (gem == null) XMaterial.BARRIER else if (!gem.texture.isNullOrBlank()) XMaterial.PLAYER_HEAD
@@ -162,8 +165,8 @@ object DismantleGui {
             inv.setItem(slot, icon(gemStyle, material, gemName,
                 mapOf("gem" to gemName, "id" to id, "cost" to cost, "chance" to chance,
                     "index" to (index + 1).toString(), "page" to (holder.page + 1).toString(), "pages" to pages.toString()),
-                extraLore = if (protected) listOf(Lang.get("dismantle.protected")) else emptyList(),
-                texture = gem?.texture, showStyleTips = !protected))
+                extraLore = if (block != null) listOf(Lang.get(block)) else emptyList(),
+                texture = gem?.texture, showStyleTips = block == null))
         }
         for (type in listOf("PAGE_PREV", "PAGE_NEXT")) {
             val slot = holder.layout.slot(type)
@@ -281,14 +284,17 @@ object DismantleGui {
     private fun doDismantle(player: Player, holder: Holder, gemId: String, occurrenceIndex: Int) {
         val inv = holder.inv
         val slot = holder.layout.slot("EQUIP_SLOT")
-        val item = inv.getItem(slot)
-        if (empty(item) || item!!.amount != 1 || GemManager.getAppliedGems(item).getOrNull(occurrenceIndex) != gemId) {
+        val item = inv.getItem(slot)?.takeUnless { empty(it) }
+        if (item == null || item.amount != 1) {
             Lang.send(player, "dismantle.item-changed"); refresh(holder); return
         }
-        val gem = GemRegistry.get(gemId) ?: run { Lang.send(player, "gem.config-missing"); return }
-        if (DismantleService.isProtected(gem, item)) {
-            Lang.send(player, "dismantle.protected"); refresh(holder); return
+        // 与 removeFromItem 用同一套判定: 装备变了 / 配置或装备保护 / 奖励不可撤销 / 需要先拆隐藏
+        val block = GemManager.dismantleBlockReason(item, gemId, occurrenceIndex)
+        if (block != null) {
+            Lang.send(player, if (block == "gem.not-applied") "dismantle.item-changed" else block)
+            refresh(holder); return
         }
+        val gem = GemRegistry.get(gemId) ?: run { Lang.send(player, "gem.config-missing"); return }
         val quote = runCatching { DismantleService.quote(gem, item) }.getOrElse {
             DebugUtil.err("Dismantle", "计算 $gemId 拆卸方案失败", it)
             Lang.send(player, "dismantle.plan-error"); return
